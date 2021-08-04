@@ -1,0 +1,19 @@
+[
+  {
+    "name": "ETDStatus Server",
+    "script": "dist/server/app.js",
+    "log_date_format": "YYYY-MM-DD HH:mm Z",
+    "merge_logs": false,
+    "watch": true,
+    "max_restarts": 100,
+    "min_uptime": 5000,
+    "exec_interpreter": "node",
+    "exec_mode": "fork_mode",
+    "env": {
+      "NODE_ENV": "production",
+      "rpc": "http://165.22.104.44:8545",
+      "password": "password",
+      "port": 3000
+    }
+  }
+]

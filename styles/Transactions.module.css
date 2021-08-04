@@ -1,0 +1,27 @@
+.senderBox {
+  display: flex;
+  align-items: stretch;
+  justify-content: space-between;
+}
+
+.senderText {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 100%;
+}
+
+.receiverText {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: flex-end;
+  align-content: flex-end;
+  width: 100%;
+}
+
+.sendIconContainer {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}

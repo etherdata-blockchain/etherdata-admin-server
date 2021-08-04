@@ -1,0 +1,35 @@
+.centerTitle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 3vw;
+  margin-right: 3vw;
+  margin-top: 30px;
+  margin-bottom: 30px;
+}
+
+.dataCard {
+  height: 150px;
+  padding: 20px;
+}
+
+.largeDataCard {
+  height: 400px;
+  padding: 20px;
+}
+
+.superLargeDataCard {
+  padding: 20px;
+  overflow-y: scroll;
+  min-height: 300px;
+}
+
+.tableCellText {
+  color: white;
+  font-size: 15px;
+}
+
+.tableHeaderText {
+  color: white;
+  font-size: 15px;
+}
