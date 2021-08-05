@@ -1,47 +1,66 @@
-import type { AppProps } from 'next/app';
-import Layout, { Menu } from '../components/layout';
-import { GetStaticProps, GetServerSideProps } from 'next';
-import HomeIcon from '@material-ui/icons/Home';
-import ETDProvider from './model/ETDProvider';
-import { createTheme, CssBaseline, ThemeProvider } from '@material-ui/core';
-import ReceiptIcon from '@material-ui/icons/Receipt';
-import '../styles/globals.css';
-import UIProviderProvider from './model/UIProvider';
-import React from 'react';
+import type { AppProps } from "next/app";
+import Layout, { Menu } from "../components/layout";
+import HomeIcon from "@material-ui/icons/Home";
+import { createTheme, CssBaseline, ThemeProvider } from "@material-ui/core";
+import ReceiptIcon from "@material-ui/icons/Receipt";
+import "../styles/globals.css";
+import UIProviderProvider from "./model/UIProvider";
+import DevicesOtherIcon from "@material-ui/icons/DevicesOther";
+import React from "react";
 
 const darkTheme = createTheme({
   components: {
+    MuiAppBar: {
+      styleOverrides: {
+        root: {
+          backgroundColor: "white",
+        },
+      },
+    },
+
+    MuiListItemIcon: {
+      styleOverrides: {
+        root: {
+          color: "white",
+        },
+      },
+    },
     MuiCard: {
       styleOverrides: {
         root: {
-          borderRadius: 20,
-          backgroundColor: '#222b36',
+          borderRadius: 10,
+          backgroundColor: "white",
+          boxShadow:
+            "rgb(50 50 93 / 3%) 0px 2px 5px -1px, rgb(0 0 0 / 5%) 0px 1px 3px -1px",
         },
       },
     },
     MuiPaper: {
       styleOverrides: {
         root: {
-          backgroundColor: '#222b36',
+          backgroundColor: "white" + "",
         },
       },
     },
     MuiDrawer: {
       styleOverrides: {
+        paper: {
+          backgroundColor: "#354d57",
+        },
         root: {
-          backgroundColor: '#222b36',
-          overflow: 'hidden',
+          backgroundColor: "#667880",
+          overflow: "hidden",
         },
       },
     },
   },
   palette: {
-    mode: 'dark',
+    mode: "light",
     background: {
-      default: '#171c24',
+      default: "#F7F9FC",
     },
     primary: {
-      main: '#b3e5fc',
+      main: "#c7007e",
     },
   },
 });
@@ -51,26 +70,29 @@ function MyApp(props: AppProps) {
 
   const menus = [
     {
-      title: 'Home',
+      title: "Home",
       icon: <HomeIcon />,
-      link: '/',
+      link: "/home",
     },
     {
-      title: 'Transactions',
+      title: "Device",
+      icon: <DevicesOtherIcon />,
+      link: "/device",
+    },
+    {
+      title: "Transactions",
       icon: <ReceiptIcon />,
-      link: '/transactions',
+      link: "/transactions",
     },
   ];
 
   return (
     <ThemeProvider theme={darkTheme}>
       <UIProviderProvider>
-        <ETDProvider>
-          <Layout menus={menus}>
-            <CssBaseline />
-            <Component {...pageProps} />
-          </Layout>
-        </ETDProvider>
+        <Layout menus={menus}>
+          <CssBaseline />
+          <Component {...pageProps} />
+        </Layout>
       </UIProviderProvider>
     </ThemeProvider>
   );

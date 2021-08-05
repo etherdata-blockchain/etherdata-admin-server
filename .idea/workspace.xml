@@ -2,10 +2,38 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e1a3988a-0525-413b-a551-8dd5e1c5f215" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/components/home/DurationSelectorBtn.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pages/home/index.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pages/model/ETDProvider.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/history/history.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/plugin/basePlugin.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/plugin/pluginName.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/plugin/plugins/deviceRegistrationPlugin.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/schema/device.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/tests/dbPlugin.test.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/styles/Device.module.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/utils/configurations.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/PageHeader.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/PageHeader.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/ResponsiveCard.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/ResponsiveCard.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/SearchBar.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/SearchBar.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/layout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/layout.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/globalConfig.json" beforeDir="false" afterPath="$PROJECT_DIR$/globalConfig.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/_app.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/pages/_app.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/api/v1/transactions/tx/[id].ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/api/v1/transactions/user/[id].ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/api/v1/transactions/user/index.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/pages/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/model/UIProvider.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/pages/model/UIProvider.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/app.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/app.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/index.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/server.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/server.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/server/server.test.ts" beforeDir="false" afterPath="$PROJECT_DIR$/tests/server/server.test.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/styles/Home.module.css" beforeDir="false" afterPath="$PROJECT_DIR$/styles/Home.module.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/styles/globals.css" beforeDir="false" afterPath="$PROJECT_DIR$/styles/globals.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/yarn.lock" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -32,6 +60,7 @@
     </file-type-list>
   </component>
   <component name="ProjectId" id="1vAYqrXe79WnCw0LI9t8sBuBWyy" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -40,19 +69,22 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/tests/pages/transactions/user" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/styles" />
     <property name="node.js.detected.package.eslint" value="true" />
+    <property name="node.js.detected.package.standard" value="true" />
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
+    <property name="node.js.selected.package.standard" value="" />
     <property name="nodejs.jest.jest_package" value="$PROJECT_DIR$/node_modules/jest" />
     <property name="nodejs_package_manager_path" value="yarn" />
     <property name="prettierjs.PrettierConfiguration.Package" value="$PROJECT_DIR$/node_modules/prettier" />
     <property name="restartRequiresConfirmation" value="false" />
-    <property name="settings.editor.selected.configurable" value="settings.javascript.prettier" />
+    <property name="settings.editor.selected.configurable" value="Errors" />
     <property name="ts.external.directory.path" value="$PROJECT_DIR$/node_modules/typescript/lib" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/styles" />
       <recent name="$PROJECT_DIR$/tests/pages/transactions/user" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
@@ -63,18 +95,32 @@
       <recent name="$PROJECT_DIR$/pages/api/transactions/tx" />
     </key>
   </component>
-  <component name="RunManager" selected="npm.test">
-    <configuration name="Simple node server test.When new block arrives, 1 peer" type="JavaScriptTestRunnerJest" temporary="true" nameIsGenerated="true">
+  <component name="RunManager" selected="npm.dev">
+    <configuration name="DB Plugin Tests.Get Data By ID" type="JavaScriptTestRunnerJest" temporary="true" nameIsGenerated="true">
       <node-interpreter value="project" />
       <node-options value="" />
       <jest-package value="$PROJECT_DIR$/node_modules/jest" />
       <working-dir value="$PROJECT_DIR$" />
       <envs />
       <scope-kind value="TEST" />
-      <test-file value="$PROJECT_DIR$/tests/server/server.test.ts" />
+      <test-file value="$PROJECT_DIR$/server/tests/dbPlugin.test.ts" />
       <test-names>
-        <test-name value="Simple node server test" />
-        <test-name value="When new block arrives, 1 peer" />
+        <test-name value="DB Plugin Tests" />
+        <test-name value="Get Data By ID" />
+      </test-names>
+      <method v="2" />
+    </configuration>
+    <configuration name="DB Plugin Tests.List All Items" type="JavaScriptTestRunnerJest" temporary="true" nameIsGenerated="true">
+      <node-interpreter value="project" />
+      <node-options value="" />
+      <jest-package value="$PROJECT_DIR$/node_modules/jest" />
+      <working-dir value="$PROJECT_DIR$" />
+      <envs />
+      <scope-kind value="TEST" />
+      <test-file value="$PROJECT_DIR$/server/tests/dbPlugin.test.ts" />
+      <test-names>
+        <test-name value="DB Plugin Tests" />
+        <test-name value="List All Items" />
       </test-names>
       <method v="2" />
     </configuration>
@@ -92,33 +138,6 @@
       </test-names>
       <method v="2" />
     </configuration>
-    <configuration name="Transaction details (1)" type="JavaScriptTestRunnerJest" temporary="true" nameIsGenerated="true">
-      <node-interpreter value="project" />
-      <node-options value="" />
-      <jest-package value="$PROJECT_DIR$/node_modules/jest" />
-      <working-dir value="$PROJECT_DIR$" />
-      <envs />
-      <scope-kind value="SUITE" />
-      <test-file value="$PROJECT_DIR$/tests/pages/transactions/user/user.test.tsx" />
-      <test-names>
-        <test-name value="Transaction details" />
-      </test-names>
-      <method v="2" />
-    </configuration>
-    <configuration name="Transaction details.renders without crashing (1)" type="JavaScriptTestRunnerJest" temporary="true" nameIsGenerated="true">
-      <node-interpreter value="project" />
-      <node-options value="" />
-      <jest-package value="$PROJECT_DIR$/node_modules/jest" />
-      <working-dir value="$PROJECT_DIR$" />
-      <envs />
-      <scope-kind value="TEST" />
-      <test-file value="$PROJECT_DIR$/tests/pages/transactions/user/user.test.tsx" />
-      <test-names>
-        <test-name value="Transaction details" />
-        <test-name value="renders without crashing" />
-      </test-names>
-      <method v="2" />
-    </configuration>
     <configuration name="User details" type="JavaScriptTestRunnerJest" temporary="true" nameIsGenerated="true">
       <node-interpreter value="project" />
       <node-options value="" />
@@ -133,6 +152,16 @@
       </test-names>
       <method v="2" />
     </configuration>
+    <configuration name="dev" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
+      <package-json value="$PROJECT_DIR$/package.json" />
+      <command value="run" />
+      <scripts>
+        <script value="dev" />
+      </scripts>
+      <node-interpreter value="project" />
+      <envs />
+      <method v="2" />
+    </configuration>
     <configuration name="test" type="js.build_tools.npm">
       <package-json value="$PROJECT_DIR$/package.json" />
       <command value="test" />
@@ -141,20 +170,20 @@
       <method v="2" />
     </configuration>
     <list>
-      <item itemvalue="Jest.Simple node server test.When new block arrives, 1 peer" />
-      <item itemvalue="Jest.Transaction details.renders without crashing (1)" />
-      <item itemvalue="Jest.Transaction details (1)" />
       <item itemvalue="Jest.User details" />
       <item itemvalue="Jest.Simple server test.When new block arrives, 1 peer" />
+      <item itemvalue="Jest.DB Plugin Tests.Get Data By ID" />
+      <item itemvalue="Jest.DB Plugin Tests.List All Items" />
       <item itemvalue="npm.test" />
+      <item itemvalue="npm.dev" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="npm.dev" />
+        <item itemvalue="Jest.DB Plugin Tests.List All Items" />
+        <item itemvalue="Jest.DB Plugin Tests.Get Data By ID" />
         <item itemvalue="Jest.Simple server test.When new block arrives, 1 peer" />
         <item itemvalue="Jest.User details" />
-        <item itemvalue="Jest.Transaction details (1)" />
-        <item itemvalue="Jest.Transaction details.renders without crashing (1)" />
-        <item itemvalue="Jest.Simple node server test.When new block arrives, 1 peer" />
       </list>
     </recent_temporary>
   </component>
@@ -178,6 +207,10 @@
       <workItem from="1627527622233" duration="7622000" />
       <workItem from="1627538031502" duration="739000" />
       <workItem from="1627745967591" duration="5211000" />
+      <workItem from="1628064340316" duration="11269000" />
+      <workItem from="1628091176798" duration="1061000" />
+      <workItem from="1628092351883" duration="10176000" />
+      <workItem from="1628151460072" duration="7602000" />
     </task>
     <servers />
   </component>

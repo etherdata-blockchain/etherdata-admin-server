@@ -1,4 +1,15 @@
-import { ListItemText } from "@material-ui/core";
+import {
+  Badge,
+  Box,
+  Card,
+  Collapse,
+  Divider,
+  Fade,
+  Icon,
+  ListItemText,
+  Slide,
+  Stack,
+} from "@material-ui/core";
 import {
   AppBar,
   Toolbar,
@@ -14,10 +25,13 @@ import {
 } from "@material-ui/core";
 import { useRouter } from "next/dist/client/router";
 import Link from "next/link";
-import MenuIcon from "@material-ui/icons/Menu";
+import AddIcon from "@material-ui/icons/Add";
 import React from "react";
 import Spacer from "./Spacer";
 import { UIProviderContext } from "../pages/model/UIProvider";
+import ErrorIcon from "@material-ui/icons/Error";
+import SearchBar from "./SearchBar";
+import { Configurations } from "../utils/configurations";
 
 export interface Menu {
   title: string;
@@ -37,7 +51,8 @@ export default function Layout(props: Props) {
   const router = useRouter();
 
   const [selectedIndex, setSelectedIndex] = React.useState(0);
-  const { drawerOpen, setDrawerOpen } = React.useContext(UIProviderContext);
+  const { drawerOpen, setDrawerOpen, appBarTitle, appBarTitleShow } =
+    React.useContext(UIProviderContext);
 
   React.useEffect(() => {
     if (router.pathname !== "/") {
@@ -69,10 +84,66 @@ export default function Layout(props: Props) {
     </div>
   );
 
+  const tools = (
+    <Stack direction={"row"}>
+      <Tooltip title={"Bind Device"}>
+        <IconButton>
+          <AddIcon />
+        </IconButton>
+      </Tooltip>
+      <Tooltip title={"errors"}>
+        <IconButton>
+          <Badge badgeContent={4} color={"error"}>
+            <ErrorIcon />
+          </Badge>
+        </IconButton>
+      </Tooltip>
+    </Stack>
+  );
+
+  const appbar = (
+    <AppBar elevation={0} position={"fixed"}>
+      <Toolbar style={{ marginLeft: drawerWidth }}>
+        <div style={{ width: 200 }}>
+          <Collapse
+            in={appBarTitleShow}
+            timeout={150}
+            mountOnEnter
+            unmountOnExit
+          >
+            <Typography style={{ color: "black" }} variant={"h6"}>
+              {appBarTitle}
+            </Typography>
+          </Collapse>
+          <Fade in={!appBarTitleShow}>
+            <Typography
+              style={{ color: "black", position: "absolute", top: 15 }}
+              variant={"h6"}
+            >
+              {Configurations.title}
+            </Typography>
+          </Fade>
+        </div>
+        <Divider
+          orientation={"vertical"}
+          style={{ marginRight: 10, height: 35 }}
+        />
+        <SearchBar />
+        <Box sx={{ flexGrow: 1 }} />
+        {tools}
+      </Toolbar>
+    </AppBar>
+  );
+
+  if (router.pathname === "/") {
+    return <div>{children}</div>;
+  }
+
   return (
     <div>
       <Hidden only={["xs"]}>
         {/**Desktop**/}
+        {appbar}
         <Drawer variant="permanent">
           <List style={{ width: drawerWidth, overflowX: "hidden" }}>
             {listContent}
@@ -90,9 +161,12 @@ export default function Layout(props: Props) {
           <List style={{ overflowX: "hidden", width: 200 }}>{listContent}</List>
         </Drawer>
       </Hidden>
+
       <Hidden only={["xs"]}>
         {/**Desktop**/}
-        <main style={{ marginLeft: drawerWidth, padding: 30 }}>{children}</main>
+        <main style={{ marginLeft: drawerWidth, padding: 30, marginTop: 50 }}>
+          {children}
+        </main>
       </Hidden>
       <Hidden smUp>
         {/**Mobile**/}

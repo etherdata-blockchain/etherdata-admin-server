@@ -1,5 +1,6 @@
 import {
   AppBar,
+  Divider,
   Hidden,
   IconButton,
   Toolbar,
@@ -7,8 +8,10 @@ import {
 } from "@material-ui/core";
 import React from "react";
 import Head from "next/head";
-import MenuIcon from "@material-ui/icons/Menu";
+import useScrollTrigger from "@material-ui/core/useScrollTrigger";
 import { UIProviderContext } from "../pages/model/UIProvider";
+// @ts-ignore
+import ReactDOM from "react-dom";
 
 interface Props {
   title: string;
@@ -16,7 +19,21 @@ interface Props {
 }
 
 export default function PageHeader({ title, description }: Props) {
-  const { setDrawerOpen } = React.useContext(UIProviderContext);
+  const ref = React.useRef();
+  const { setDrawerOpen, showAppBarTitle, hideAppBarTitle, appBarTitleShow } =
+    React.useContext(UIProviderContext);
+  const trigger = useScrollTrigger({
+    disableHysteresis: true,
+    threshold: 20,
+  });
+
+  React.useEffect(() => {
+    if (trigger) {
+      showAppBarTitle(title);
+    } else {
+      hideAppBarTitle();
+    }
+  }, [trigger]);
 
   return (
     <div>
@@ -30,43 +47,27 @@ export default function PageHeader({ title, description }: Props) {
         />
         <meta property="og:image" content="/images/logo/LOGO.JPG" />
       </Head>
-      <Hidden smUp>
-        <AppBar>
-          <Toolbar>
-            <IconButton onClick={() => setDrawerOpen(true)}>
-              <MenuIcon />
-            </IconButton>
-            <Typography
-              id={"subtitle"}
-              variant="caption"
-              style={{ fontSize: 20, fontWeight: "bold" }}
-            >
-              {title}
-            </Typography>
-          </Toolbar>
-        </AppBar>
-        <Typography variant="h6" noWrap style={{ maxWidth: "100vw" }}>
+
+      <div
+        //@ts-ignore
+        ref={ref}
+      >
+        <Typography
+          variant="caption"
+          style={{ fontSize: 20, fontWeight: "bold" }}
+        >
+          {title}
+        </Typography>
+        <Typography
+          id={"subtitle"}
+          variant="subtitle1"
+          noWrap
+          style={{ maxWidth: "100vw" }}
+        >
           {description}
         </Typography>
-      </Hidden>
-      <Hidden smDown>
-        <div>
-          <Typography
-            variant="caption"
-            style={{ fontSize: 20, fontWeight: "bold" }}
-          >
-            {title}
-          </Typography>
-          <Typography
-            id={"subtitle"}
-            variant="h6"
-            noWrap
-            style={{ maxWidth: "100vw" }}
-          >
-            {description}
-          </Typography>
-        </div>
-      </Hidden>
+        <Divider />
+      </div>
     </div>
   );
 }
