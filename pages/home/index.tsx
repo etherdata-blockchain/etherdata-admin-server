@@ -77,7 +77,7 @@ export default function Index(props: Props) {
 
         <Grid item md={4}>
           <ResponsiveCard
-            title={"Transactions"}
+            title={"Index"}
             subtitle={"History Block Time"}
             action={<DurationSelectorBtn />}
             className={styles.graphCard}

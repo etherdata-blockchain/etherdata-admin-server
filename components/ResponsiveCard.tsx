@@ -29,11 +29,15 @@ export default function ResponsiveCard({
       <Hidden mdUp>{children}</Hidden>
       <Hidden only={["xs"]}>
         <Card className={className} style={style}>
-          <CardHeader
-            title={<Typography variant={"subtitle1"}>{title}</Typography>}
-            subheader={<Typography variant={"caption"}>{subtitle}</Typography>}
-            action={action}
-          />
+          {title && (
+            <CardHeader
+              title={<Typography variant={"subtitle1"}>{title}</Typography>}
+              subheader={
+                <Typography variant={"caption"}>{subtitle}</Typography>
+              }
+              action={action}
+            />
+          )}
 
           <CardContent>{children}</CardContent>
         </Card>

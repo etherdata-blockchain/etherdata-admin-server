@@ -7,6 +7,7 @@ import "../styles/globals.css";
 import UIProviderProvider from "./model/UIProvider";
 import DevicesOtherIcon from "@material-ui/icons/DevicesOther";
 import React from "react";
+import PersonIcon from "@material-ui/icons/Person";
 
 const darkTheme = createTheme({
   components: {
@@ -80,9 +81,14 @@ function MyApp(props: AppProps) {
       link: "/device",
     },
     {
-      title: "Transactions",
+      title: "Transaction",
       icon: <ReceiptIcon />,
-      link: "/transactions",
+      link: "/transaction",
+    },
+    {
+      title: "User",
+      icon: <PersonIcon />,
+      link: "/user",
     },
   ];
 

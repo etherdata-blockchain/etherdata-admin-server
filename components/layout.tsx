@@ -55,15 +55,9 @@ export default function Layout(props: Props) {
     React.useContext(UIProviderContext);
 
   React.useEffect(() => {
-    if (router.pathname !== "/") {
-      let found = menus.findIndex(
-        (m) => router.pathname.includes(m.link) && m.link !== "/"
-      );
-      if (found) {
-        setSelectedIndex(found);
-      }
-    } else {
-      setSelectedIndex(0);
+    let found = menus.findIndex((m) => router.pathname.includes(m.link));
+    if (found >= 0) {
+      setSelectedIndex(found);
     }
   }, [router.pathname]);
 

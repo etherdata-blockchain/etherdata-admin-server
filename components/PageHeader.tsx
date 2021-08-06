@@ -1,8 +1,10 @@
 import {
   AppBar,
+  Button,
   Divider,
   Hidden,
   IconButton,
+  Stack,
   Toolbar,
   Typography,
 } from "@material-ui/core";
@@ -16,10 +18,10 @@ import ReactDOM from "react-dom";
 interface Props {
   title: string;
   description: string;
+  action?: JSX.Element;
 }
 
-export default function PageHeader({ title, description }: Props) {
-  const ref = React.useRef();
+export default function PageHeader({ title, description, action }: Props) {
   const { setDrawerOpen, showAppBarTitle, hideAppBarTitle, appBarTitleShow } =
     React.useContext(UIProviderContext);
   const trigger = useScrollTrigger({
@@ -48,26 +50,29 @@ export default function PageHeader({ title, description }: Props) {
         <meta property="og:image" content="/images/logo/LOGO.JPG" />
       </Head>
 
-      <div
-        //@ts-ignore
-        ref={ref}
-      >
-        <Typography
-          variant="caption"
-          style={{ fontSize: 20, fontWeight: "bold" }}
-        >
-          {title}
-        </Typography>
-        <Typography
-          id={"subtitle"}
-          variant="subtitle1"
-          noWrap
-          style={{ maxWidth: "100vw" }}
-        >
-          {description}
-        </Typography>
-        <Divider />
-      </div>
+      <Stack>
+        <Stack direction={"row"} alignItems={"center"}>
+          <div>
+            <Typography
+              variant="caption"
+              style={{ fontSize: 20, fontWeight: "bold" }}
+            >
+              {title}
+            </Typography>
+            <Typography
+              id={"subtitle"}
+              variant="subtitle1"
+              noWrap
+              style={{ maxWidth: "100vw" }}
+            >
+              {description}
+            </Typography>
+          </div>
+          <div style={{ flexGrow: 1 }} />
+          {action}
+        </Stack>
+        <Divider style={{ width: "100%" }} />
+      </Stack>
     </div>
   );
 }
