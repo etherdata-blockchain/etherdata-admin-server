@@ -2,21 +2,28 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e1a3988a-0525-413b-a551-8dd5e1c5f215" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/components/transaction/sendTransactionBtn.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/components/transaction/transactionTable.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/components/user/addUserBtn.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/components/user/userTable.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pages/device/[id].tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pages/transaction/[id].tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pages/user/[id].tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pages/user/index.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/components/cards/gridDataCard.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/components/cards/largeDataCard.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/components/device/deviceTable.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/components/device/panelSelector.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/components/home/blockMinerDisplay.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/components/home/blockTimeHistoryDisplay.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/components/home/difficultyHistoryDisplay.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/components/home/transactionDisplay.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pages/device/edit/[id].tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/PageHeader.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/PageHeader.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/components/ResponsiveCard.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/ResponsiveCard.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/components/layout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/layout.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/user/addUserBtn.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/user/addUserBtn.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/user/userTable.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/user/userTable.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pages/_app.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/pages/_app.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/device/[id].tsx" beforeDir="false" afterPath="$PROJECT_DIR$/pages/device/[id].tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/device/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/pages/device/index.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pages/home/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/pages/home/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/styles/Transactions.module.css" beforeDir="false" afterPath="$PROJECT_DIR$/styles/Transactions.module.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/pages/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/model/ETDProvider.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/pages/model/ETDProvider.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/user/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/pages/user/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/styles/Device.module.css" beforeDir="false" afterPath="$PROJECT_DIR$/styles/Device.module.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -52,7 +59,7 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/components" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/components/home" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.standard" value="true" />
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
@@ -67,6 +74,8 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/components/home" />
+      <recent name="$PROJECT_DIR$/components/device" />
       <recent name="$PROJECT_DIR$/components" />
       <recent name="$PROJECT_DIR$/styles" />
       <recent name="$PROJECT_DIR$/tests/pages/transactions/user" />
@@ -194,7 +203,8 @@
       <workItem from="1628064340316" duration="11269000" />
       <workItem from="1628091176798" duration="1061000" />
       <workItem from="1628092351883" duration="10176000" />
-      <workItem from="1628151460072" duration="17790000" />
+      <workItem from="1628151460072" duration="17905000" />
+      <workItem from="1628240991285" duration="15204000" />
     </task>
     <servers />
   </component>

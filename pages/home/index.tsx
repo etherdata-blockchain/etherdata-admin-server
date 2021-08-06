@@ -7,6 +7,10 @@ import Spacer from "../../components/Spacer";
 import styles from "../../styles/Home.module.css";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 import { DurationSelectorBtn } from "../../components/home/DurationSelectorBtn";
+import { BlockTimeHistoryDisplay } from "../../components/home/blockTimeHistoryDisplay";
+import { BlockMinerDisplay } from "../../components/home/blockMinerDisplay";
+import { TransactionDisplay } from "../../components/home/transactionDisplay";
+import { DifficultyHistoryDisplay } from "../../components/home/difficultyHistoryDisplay";
 type Props = {};
 
 export default function Index(props: Props) {
@@ -60,7 +64,7 @@ export default function Index(props: Props) {
             action={<DurationSelectorBtn />}
             className={styles.graphCard}
           >
-            <Typography variant={"h5"}>500</Typography>
+            <BlockTimeHistoryDisplay />
           </ResponsiveCard>
         </Grid>
 
@@ -71,18 +75,18 @@ export default function Index(props: Props) {
             action={<DurationSelectorBtn />}
             className={styles.graphCard}
           >
-            <Typography variant={"h5"}>500</Typography>
+            <BlockMinerDisplay />
           </ResponsiveCard>
         </Grid>
 
         <Grid item md={4}>
           <ResponsiveCard
-            title={"Index"}
-            subtitle={"History Block Time"}
+            title={"Transaction"}
+            subtitle={"Transaction"}
             action={<DurationSelectorBtn />}
             className={styles.graphCard}
           >
-            <Typography variant={"h5"}>500</Typography>
+            <TransactionDisplay />
           </ResponsiveCard>
         </Grid>
 
@@ -92,7 +96,7 @@ export default function Index(props: Props) {
             subtitle={"Block Miners"}
             className={styles.graphCard}
           >
-            <Typography variant={"h5"}>500</Typography>
+            <DifficultyHistoryDisplay />
           </ResponsiveCard>
         </Grid>
       </Grid>

@@ -5,3 +5,12 @@
 .deviceTable{
   height: 800px;
 }
+
+.detailDataCard{
+  height: 190px;
+  overflow-y: scroll;
+}
+
+.white{
+  color: white;
+}

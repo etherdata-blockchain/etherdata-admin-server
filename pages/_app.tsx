@@ -8,7 +8,10 @@ import UIProviderProvider from "./model/UIProvider";
 import DevicesOtherIcon from "@material-ui/icons/DevicesOther";
 import React from "react";
 import PersonIcon from "@material-ui/icons/Person";
+import ETDProvider from "./model/ETDProvider";
+import * as Realm from "realm-web";
 
+export const realmApp = new Realm.App({ id: process.env.NEXT_PUBLIC_APP_ID! });
 const darkTheme = createTheme({
   components: {
     MuiAppBar: {
@@ -94,12 +97,14 @@ function MyApp(props: AppProps) {
 
   return (
     <ThemeProvider theme={darkTheme}>
-      <UIProviderProvider>
-        <Layout menus={menus}>
-          <CssBaseline />
-          <Component {...pageProps} />
-        </Layout>
-      </UIProviderProvider>
+      <ETDProvider>
+        <UIProviderProvider>
+          <Layout menus={menus}>
+            <CssBaseline />
+            <Component {...pageProps} />
+          </Layout>
+        </UIProviderProvider>
+      </ETDProvider>
     </ThemeProvider>
   );
 }

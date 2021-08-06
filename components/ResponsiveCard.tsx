@@ -19,7 +19,7 @@ export default function ResponsiveCard({
 }: {
   children: any;
   className?: any;
-  title?: string;
+  title?: string | JSX.Element;
   subtitle?: string;
   style?: React.CSSProperties;
   action?: JSX.Element;
@@ -39,7 +39,7 @@ export default function ResponsiveCard({
             />
           )}
 
-          <CardContent>{children}</CardContent>
+          <CardContent style={{ height: "100%" }}>{children}</CardContent>
         </Card>
       </Hidden>
     </div>

@@ -32,6 +32,8 @@ import { UIProviderContext } from "../pages/model/UIProvider";
 import ErrorIcon from "@material-ui/icons/Error";
 import SearchBar from "./SearchBar";
 import { Configurations } from "../utils/configurations";
+import ExitToAppIcon from "@material-ui/icons/ExitToApp";
+import { realmApp } from "../pages/_app";
 
 export interface Menu {
   title: string;
@@ -49,6 +51,12 @@ const drawerWidth = 60;
 export default function Layout(props: Props) {
   const { children, menus } = props;
   const router = useRouter();
+
+  React.useEffect(() => {
+    if (realmApp.currentUser === null) {
+      router.replace("/");
+    }
+  }, []);
 
   const [selectedIndex, setSelectedIndex] = React.useState(0);
   const { drawerOpen, setDrawerOpen, appBarTitle, appBarTitleShow } =
@@ -92,6 +100,16 @@ export default function Layout(props: Props) {
           </Badge>
         </IconButton>
       </Tooltip>
+      <Tooltip title={"Sign Out"}>
+        <IconButton
+          onClick={async () => {
+            await realmApp.currentUser?.logOut();
+            await router.replace("/");
+          }}
+        >
+          <ExitToAppIcon />
+        </IconButton>
+      </Tooltip>
     </Stack>
   );
 
@@ -131,6 +149,10 @@ export default function Layout(props: Props) {
 
   if (router.pathname === "/") {
     return <div>{children}</div>;
+  }
+
+  if (realmApp.currentUser === null) {
+    return <div />;
   }
 
   return (

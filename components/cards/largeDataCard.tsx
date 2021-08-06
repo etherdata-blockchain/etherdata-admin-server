@@ -1,0 +1,77 @@
+// @flow
+import * as React from "react";
+import {
+  Avatar,
+  Button,
+  Card,
+  CardContent,
+  Stack,
+  Typography,
+} from "@material-ui/core";
+import Spacer from "../Spacer";
+
+type Props = {
+  icon: JSX.Element;
+  title: string;
+  color: string;
+  iconColor: string;
+  iconBackgroundColor?: string;
+  subtitleColor?: string;
+  subtitle: string;
+  action?: JSX.Element;
+  className?: string;
+  style?: JSX.Element;
+};
+
+export function LargeDataCard({
+  title,
+  subtitle,
+  action,
+  icon,
+  color,
+  iconColor,
+  subtitleColor,
+  iconBackgroundColor,
+  style,
+  className,
+}: Props) {
+  return (
+    <Card style={{ backgroundColor: color }} className={className}>
+      <CardContent>
+        <Stack direction={"row"} justifyContent={"space-between"}>
+          <Avatar
+            style={{
+              color: iconColor,
+              backgroundColor: iconBackgroundColor ?? "#1565c0",
+              borderRadius: 10,
+              width: 44,
+              height: 44,
+              fontSize: "1.3rem",
+              marginTop: 10,
+              marginBottom: 10,
+            }}
+          >
+            {icon}
+          </Avatar>
+
+          {action}
+        </Stack>
+        <Typography
+          style={{
+            fontSize: "30px",
+            color: iconColor,
+            fontWeight: "bold",
+          }}
+        >
+          {title}
+        </Typography>
+
+        <Typography
+          style={{ color: subtitleColor ?? "#90caf9", fontWeight: "bold" }}
+        >
+          {subtitle}
+        </Typography>
+      </CardContent>
+    </Card>
+  );
+}

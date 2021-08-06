@@ -25,13 +25,13 @@ export function AddUserBtn(props: Props) {
         className={styles.sendBtn}
         onClick={() => setShow(true)}
       >
-        Send Transaction
+        Add User
       </Button>
       <Dialog open={show} fullWidth onClose={() => setShow(false)}>
-        <DialogTitle>Send Transaction</DialogTitle>
+        <DialogTitle>Add New User</DialogTitle>
 
         <Formik
-          initialValues={{ to: "", amount: 0 }}
+          initialValues={{ id: "0" }}
           onSubmit={(v) => {}}
           validate={(values) => {
             return {
@@ -52,25 +52,16 @@ export function AddUserBtn(props: Props) {
                     ))}
                   <TextField
                     variant={"filled"}
-                    label={"To"}
-                    value={values.to}
-                    name={"to"}
+                    label={"UserID"}
+                    value={values.id}
+                    name={"id"}
                     onChange={handleChange}
-                  />
-
-                  <TextField
-                    variant={"filled"}
-                    label={"Amount"}
-                    value={values.amount}
-                    name={"amount"}
-                    onChange={handleChange}
-                    type={"number"}
                   />
                 </Stack>
               </DialogContent>
               <DialogActions>
-                <Button>Cancel</Button>
-                <Button type={"submit"}>Send</Button>
+                <Button onClick={() => setShow(false)}>Cancel</Button>
+                <Button type={"submit"}>Add</Button>
               </DialogActions>
             </form>
           )}

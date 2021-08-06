@@ -10,19 +10,21 @@ import { useRouter } from "next/dist/client/router";
 
 type Props = {};
 
-export function UserTable(props: Props) {
+export function DeviceTable(props: Props) {
   const router = useRouter();
 
   const columns: GridColDef[] = [
-    { field: "id", headerName: "User ID", width: 200 },
-    { field: "deviceAmount", headerName: "Device Amount", width: 200 },
+    { field: "id", headerName: "Device ID", width: 200 },
+    { field: "node_info", headerName: "Node Info", width: 200 },
+    { field: "num_block", headerName: "#Blocks", width: 200 },
+    { field: "peer_count", headerName: "Peer Count", width: 200 },
     {
       field: "detail",
       headerName: "Detail",
       width: 200,
       renderCell: (params) => {
         return (
-          <Button onClick={() => router.push(`/user/${params.value}`)}>
+          <Button onClick={() => router.push(`/device/${params.value}`)}>
             Details
           </Button>
         );
@@ -30,7 +32,7 @@ export function UserTable(props: Props) {
     },
   ];
 
-  const rows = [{ id: 1, deviceAmount: 200, detail: 1 }];
+  const rows = [{ id: 1, time: "abc", amount: 200, detail: 1 }];
 
   return (
     <DataGrid
