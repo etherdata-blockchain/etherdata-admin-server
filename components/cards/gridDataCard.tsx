@@ -40,7 +40,7 @@ export function GridDataCard({
         padding={1}
       >
         {items.map((item) => (
-          <Grid key={item.title} item xs={6}>
+          <Grid key={item.subtitle} item xs={6}>
             <div>
               <Stack
                 direction={"row"}

@@ -1,13 +1,27 @@
-import { Server } from "socket.io";
+import { Namespace, Server, Socket } from "socket.io";
 import { Document, Model, Query } from "mongoose";
 import { PluginName } from "./pluginName";
 import { Express } from "express";
+import Logger from "../logger";
+
+export type SocketHandler = (socket: Socket) => void;
 
 export abstract class BasePlugin<N> {
   protected abstract pluginName: N;
 }
 
 export abstract class BaseSocketIOPlugin extends BasePlugin<string> {
+  protected otherPlugins: { [key: string]: BaseSocketIOPlugin } = {};
+  /**
+   * List of socket handlers
+   */
+  handlers: SocketHandler[] = [];
+
+  /**
+   * Socket IO Server
+   */
+  server?: Namespace;
+
   /**
    * Start a SocketIO server.
    * @param server
@@ -15,7 +29,51 @@ export abstract class BaseSocketIOPlugin extends BasePlugin<string> {
    * @return an indicator indicates the status of the socket io.
    * If return undefined, then this plugin doesn't have websocket functionality
    */
-  abstract startSocketIOServer(server: Express): Promise<boolean | undefined>;
+  abstract startSocketIOServer(server: Server): Promise<boolean | undefined>;
+
+  connectPlugins(plugins: BaseSocketIOPlugin[]) {
+    for (let plugin of plugins) {
+      if (plugin.pluginName !== this.pluginName) {
+        this.otherPlugins[plugin.pluginName] = plugin;
+      }
+    }
+  }
+
+  /**
+   * Authenticate with configuration's password
+   * @param password
+   */
+  abstract auth(password: string): boolean;
+
+  connectServer() {
+    if (this.server === undefined) {
+      throw new Error("You should initialize your server");
+    } else {
+      this.server.on("connection", (socket) => {
+        const token = socket.handshake.auth.token;
+        let authenticated = this.auth(token);
+        if (authenticated) {
+          Logger.info(
+            `[${this.pluginName}]: Client ${socket.id} is authenticated!`
+          );
+          this.onAuthenticated(socket);
+        } else {
+          Logger.error(
+            `[${this.pluginName}]: Client ${socket.id} is not authenticated, drop connection`
+          );
+          this.onUnAuthenticated(socket);
+        }
+
+        for (let handle of this.handlers) {
+          handle(socket);
+        }
+      });
+    }
+  }
+
+  protected abstract onAuthenticated(socket: Socket): void;
+
+  protected abstract onUnAuthenticated(socket: Socket): void;
 }
 
 export abstract class DatabasePlugin<

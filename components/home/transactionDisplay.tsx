@@ -1,30 +1,35 @@
 // @flow
 import * as React from "react";
 import {
+  Divider,
   List,
   ListItem,
+  ListItemAvatar,
   ListItemButton,
   ListItemText,
   Typography,
 } from "@material-ui/core";
+import { ETDContext } from "../../pages/model/ETDProvider";
 
 type Props = {};
 
 export function TransactionDisplay(props: Props) {
+  const { transactions } = React.useContext(ETDContext);
+
   return (
-    <List>
-      <ListItemButton>
-        <ListItemText
-          primary={<Typography noWrap>abcd</Typography>}
-          secondary={<Typography noWrap={true}>200 ETD</Typography>}
-        />
-      </ListItemButton>
-      <ListItemButton>
-        <ListItemText
-          primary={<Typography noWrap>abcd</Typography>}
-          secondary={<Typography noWrap={true}>200 ETD</Typography>}
-        />
-      </ListItemButton>
+    <List style={{ height: "80%", overflowY: "scroll" }}>
+      {transactions.map((t, i) => (
+        <div key={`transaction-${i}`}>
+          <ListItemButton>
+            <ListItemAvatar>{i + 1}</ListItemAvatar>
+            <ListItemText
+              primary={<Typography noWrap>{t.hash}</Typography>}
+              secondary={<Typography noWrap={true}>{t.value}</Typography>}
+            />
+          </ListItemButton>
+          <Divider />
+        </div>
+      ))}
     </List>
   );
 }

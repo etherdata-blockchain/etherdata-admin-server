@@ -34,6 +34,8 @@ import SearchBar from "./SearchBar";
 import { Configurations } from "../utils/configurations";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import { realmApp } from "../pages/_app";
+import ETDProvider from "../pages/model/ETDProvider";
+import DeviceProvider from "../pages/model/DeviceProvider";
 
 export interface Menu {
   title: string;
@@ -53,7 +55,7 @@ export default function Layout(props: Props) {
   const router = useRouter();
 
   React.useEffect(() => {
-    if (realmApp.currentUser === null) {
+    if (realmApp.currentUser === null || !realmApp.currentUser.isLoggedIn) {
       router.replace("/");
     }
   }, []);
@@ -156,41 +158,51 @@ export default function Layout(props: Props) {
   }
 
   return (
-    <div>
-      <Hidden only={["xs"]}>
-        {/**Desktop**/}
-        {appbar}
-        <Drawer variant="permanent">
-          <List style={{ width: drawerWidth, overflowX: "hidden" }}>
-            {listContent}
-          </List>
-        </Drawer>
-      </Hidden>
-      <Hidden mdUp>
-        {/**mobile**/}
-        <Drawer
-          open={drawerOpen}
-          onClose={() => {
-            setDrawerOpen(false);
-          }}
-        >
-          <List style={{ overflowX: "hidden", width: 200 }}>{listContent}</List>
-        </Drawer>
-      </Hidden>
+    <DeviceProvider>
+      <ETDProvider>
+        <div>
+          <Hidden only={["xs"]}>
+            {/**Desktop**/}
+            {appbar}
+            <Drawer variant="permanent">
+              <List style={{ width: drawerWidth, overflowX: "hidden" }}>
+                {listContent}
+              </List>
+            </Drawer>
+          </Hidden>
+          <Hidden mdUp>
+            {/**mobile**/}
+            <Drawer
+              open={drawerOpen}
+              onClose={() => {
+                setDrawerOpen(false);
+              }}
+            >
+              <List style={{ overflowX: "hidden", width: 200 }}>
+                {listContent}
+              </List>
+            </Drawer>
+          </Hidden>
 
-      <Hidden only={["xs"]}>
-        {/**Desktop**/}
-        <main style={{ marginLeft: drawerWidth, padding: 30, marginTop: 50 }}>
-          {children}
-        </main>
-      </Hidden>
-      <Hidden smUp>
-        {/**Mobile**/}
-        <Spacer height={70} />
-        <main style={{ paddingLeft: 30, paddingRight: 30, paddingBottom: 30 }}>
-          {children}
-        </main>
-      </Hidden>
-    </div>
+          <Hidden only={["xs"]}>
+            {/**Desktop**/}
+            <main
+              style={{ marginLeft: drawerWidth, padding: 30, marginTop: 50 }}
+            >
+              {children}
+            </main>
+          </Hidden>
+          <Hidden smUp>
+            {/**Mobile**/}
+            <Spacer height={70} />
+            <main
+              style={{ paddingLeft: 30, paddingRight: 30, paddingBottom: 30 }}
+            >
+              {children}
+            </main>
+          </Hidden>
+        </div>
+      </ETDProvider>
+    </DeviceProvider>
   );
 }

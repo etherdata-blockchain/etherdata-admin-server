@@ -10,6 +10,7 @@ import React from "react";
 import PersonIcon from "@material-ui/icons/Person";
 import ETDProvider from "./model/ETDProvider";
 import * as Realm from "realm-web";
+import DeviceProvider from "./model/DeviceProvider";
 
 export const realmApp = new Realm.App({ id: process.env.NEXT_PUBLIC_APP_ID! });
 const darkTheme = createTheme({
@@ -97,14 +98,12 @@ function MyApp(props: AppProps) {
 
   return (
     <ThemeProvider theme={darkTheme}>
-      <ETDProvider>
-        <UIProviderProvider>
-          <Layout menus={menus}>
-            <CssBaseline />
-            <Component {...pageProps} />
-          </Layout>
-        </UIProviderProvider>
-      </ETDProvider>
+      <UIProviderProvider>
+        <Layout menus={menus}>
+          <CssBaseline />
+          <Component {...pageProps} />
+        </Layout>
+      </UIProviderProvider>
     </ThemeProvider>
   );
 }

@@ -63,6 +63,7 @@ export default function UIProviderProvider(props: any) {
         open={snackBarShow}
         message={snackBarMessage}
         onClose={() => closeSnackBar()}
+        autoHideDuration={5000}
       />
     </UIProviderContext.Provider>
   );

@@ -1,5 +1,6 @@
 import { BasePlugin, BaseSocketIOPlugin } from "./plugin/basePlugin";
 import { Express } from "express";
+import { Server as SocketServer } from "socket.io";
 
 export class Server {
   plugins: BaseSocketIOPlugin[];
@@ -8,8 +9,11 @@ export class Server {
     this.plugins = plugins;
   }
 
-  async start(server: Express) {
+  async start(httpServer: any) {
+    const server = new SocketServer(httpServer);
+
     for (let plugin of this.plugins) {
+      plugin.connectPlugins(this.plugins);
       await plugin.startSocketIOServer(server);
     }
   }

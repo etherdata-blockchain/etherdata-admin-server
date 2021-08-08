@@ -7,37 +7,52 @@ import {
 } from "@material-ui/data-grid";
 import { Button } from "@material-ui/core";
 import { useRouter } from "next/dist/client/router";
+import { IDevice } from "../../server/schema/device";
 
-type Props = {};
+type Props = {
+  devices: IDevice[];
+  loading?: boolean;
+};
 
-export function DeviceTable(props: Props) {
+export function DeviceTable({ devices, loading }: Props) {
   const router = useRouter();
 
   const columns: GridColDef[] = [
     { field: "id", headerName: "Device ID", width: 200 },
+    { field: "name", headerName: "Device Name", width: 200 },
     { field: "node_info", headerName: "Node Info", width: 200 },
-    { field: "num_block", headerName: "#Blocks", width: 200 },
-    { field: "peer_count", headerName: "Peer Count", width: 200 },
+    { field: "blockNumber", headerName: "#Blocks", width: 200 },
+    { field: "peerCount", headerName: "Peer Count", width: 200 },
+    { field: "difficulty", headerName: "Difficulty", width: 200 },
     {
       field: "detail",
       headerName: "Detail",
       width: 200,
       renderCell: (params) => {
         return (
-          <Button onClick={() => router.push(`/device/${params.value}`)}>
+          <Button onClick={() => router.push(`/device/${params.id}`)}>
             Details
           </Button>
         );
       },
     },
   ];
-
-  const rows = [{ id: 1, time: "abc", amount: 200, detail: 1 }];
+  const data = devices.map((d) => {
+    return {
+      id: d.id,
+      blockNumber: d.data.blockNumber,
+      name: d.data.systemInfo.name,
+      peerCount: d.data.systemInfo.peerCount,
+      difficulty: d.data.difficulty,
+      nodeInfo: d.data.systemInfo.nodeVersion,
+    };
+  });
 
   return (
     <DataGrid
+      loading={loading}
       columns={columns}
-      rows={rows}
+      rows={data}
       autoHeight
       disableSelectionOnClick
     />

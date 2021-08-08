@@ -15,11 +15,13 @@ import * as Realm from "realm-web";
 import { router } from "next/client";
 import { useRouter } from "next/dist/client/router";
 import React from "react";
+import { UIProviderContext } from "./model/UIProvider";
 
 interface Props {}
 
 export default function Home(props: Props) {
   const router = useRouter();
+  const { showSnackBarMessage } = React.useContext(UIProviderContext);
 
   React.useEffect(() => {
     if (realmApp.currentUser !== null) {
@@ -58,7 +60,9 @@ export default function Home(props: Props) {
                 await realmApp.logIn(credentials);
                 await router.push("/home");
               } catch (e) {
-                window.alert("Cannot login. Check your password and username");
+                showSnackBarMessage(
+                  "Cannot login. Check your password and username"
+                );
               }
             }}
           >

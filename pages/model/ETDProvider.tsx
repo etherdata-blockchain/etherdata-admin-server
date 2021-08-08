@@ -4,12 +4,17 @@ import io, { Socket } from "socket.io-client";
 import { ETDHistoryInterface } from "../../server";
 import moment from "moment";
 import * as Realm from "realm-web";
+import { realmApp } from "../_app";
+import { TransactionSummary } from "../../server/interfaces/transaction";
+import { set } from "mongoose";
+import { UIProviderContext } from "./UIProvider";
 
 interface ETDInterface {
   clients: any[];
-  history: any | undefined;
+  history: ETDHistoryInterface | undefined;
   isLoadingDetail: boolean;
   detail: any | undefined;
+  transactions: TransactionSummary[];
   fetchDetail(id: string): void;
 }
 
@@ -21,29 +26,22 @@ let socket: Socket | undefined = undefined;
 export default function ETDProvider(props: any) {
   const { children } = props;
   const [clients, setClients] = React.useState<any[]>([]);
-  const [history, setHistory] = React.useState<ETDHistoryInterface>({
-    difficultyHistory: [
-      { difficulty: 10, time: moment() },
-      { difficulty: 10, time: moment() },
-    ],
-    lastBlockAt: undefined,
-    latestAvgBlockTime: 0,
-    latestBlockNumber: 0,
-    latestDifficulty: 0,
-    blockTimeHistory: [
-      { blockTime: 3, blockNumber: 1, avgBlockTime: 3, time: moment() },
-      { blockTime: 3, blockNumber: 2, avgBlockTime: 3, time: moment() },
-      { blockTime: 3, blockNumber: 3, avgBlockTime: 3, time: moment() },
-    ],
-  });
+  const [transactions, setTransactions] = React.useState<TransactionSummary[]>(
+    []
+  );
+  const [history, setHistory] = React.useState<ETDHistoryInterface>();
   const [detail, setDetail] = React.useState<any>();
   const [isLoadingDetail, setIsLoadingDetail] = React.useState(false);
+  const { showSnackBarMessage } = React.useContext(UIProviderContext);
 
   React.useEffect(() => {
-    // socket = io("/clients");
-    //
+    let url = process.env.NEXT_PUBLIC_STATS_SERVER + "/clients";
+    showSnackBarMessage("Loading Data");
+    console.log(url);
+    socket = io(url);
+
     // socket.off("realtime-info");
-    // socket.off("history");
+    socket.off("history");
     //
     // socket.on("detail-info", (detail: any) => {
     //   if (detail !== undefined) {
@@ -57,9 +55,29 @@ export default function ETDProvider(props: any) {
     //   setClients(data);
     // });
     //
-    // socket.on("history", (data: ETDHistoryInterface) => {
-    //   setHistory(data);
-    // });
+    socket.on("history", (data: ETDHistoryInterface) => {
+      setHistory(data);
+    });
+
+    const mongodb = realmApp.currentUser?.mongoClient("mongodb-atlas");
+    const transactionCol = mongodb?.db("etd").collection("transactions");
+    if (transactionCol) {
+      transactionCol
+        .count()
+        .then(async (count) => {
+          let tx = await transactionCol.aggregate([
+            {
+              $skip: count - 20,
+            },
+            {
+              $limit: 20,
+            },
+          ]);
+
+          setTransactions(tx);
+        })
+        .catch((err) => showSnackBarMessage(err.toString()));
+    }
   }, []);
 
   const fetchDetail = React.useCallback((id: string) => {
@@ -73,6 +91,7 @@ export default function ETDProvider(props: any) {
     fetchDetail,
     detail,
     isLoadingDetail,
+    transactions,
   };
 
   return <ETDContext.Provider value={value}>{children}</ETDContext.Provider>;

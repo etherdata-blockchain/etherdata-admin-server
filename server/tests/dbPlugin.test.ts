@@ -27,7 +27,7 @@ describe("DB Plugin Tests", () => {
     expect(device._id).toBeDefined();
 
     let plugin = new DeviceRegistrationPlugin();
-    let pluginResult = await plugin.get(device._id);
+    let pluginResult = await plugin.get("a");
     expect(pluginResult?.name).toBe("a");
     expect(pluginResult?.id).toBe("a");
     expect(pluginResult?.online).toBeTruthy();

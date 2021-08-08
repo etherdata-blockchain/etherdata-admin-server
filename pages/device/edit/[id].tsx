@@ -5,6 +5,12 @@ import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
 import PageHeader from "../../../components/PageHeader";
 import Spacer from "../../../components/Spacer";
+import { GeneralPanel } from "../../../components/device/generalPanel";
+import { GetServerSideProps } from "next";
+import { DeviceRegistrationPlugin } from "../../../server/plugin/plugins/deviceRegistrationPlugin";
+interface Props {
+  user: string | null;
+}
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -21,6 +27,7 @@ function TabPanel(props: TabPanelProps) {
       hidden={value !== index}
       id={`vertical-tabpanel-${index}`}
       aria-labelledby={`vertical-tab-${index}`}
+      style={{ width: "60%" }}
       {...other}
     >
       {value === index && (
@@ -39,7 +46,7 @@ function a11yProps(index: number) {
   };
 }
 
-export default function DeviceDetail() {
+export default function DeviceDetail({ user }: Props) {
   const [value, setValue] = React.useState(0);
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
@@ -72,7 +79,7 @@ export default function DeviceDetail() {
           <Tab label="Address" {...a11yProps(4)} />
         </Tabs>
         <TabPanel value={value} index={0}>
-          Item One
+          <GeneralPanel user={user ?? ""} />
         </TabPanel>
         <TabPanel value={value} index={1}>
           Item Two
@@ -90,3 +97,25 @@ export default function DeviceDetail() {
     </div>
   );
 }
+
+export const getServerSideProps: GetServerSideProps<Props> = async (
+  context
+) => {
+  const deviceId = context.query.deviceId as string;
+  if (deviceId === undefined || deviceId === "") {
+    return {
+      props: {
+        user: null,
+      },
+    };
+  }
+
+  const plugin = new DeviceRegistrationPlugin();
+  let device = await plugin.get(deviceId);
+  console.log(device?.user);
+  return {
+    props: {
+      user: device?.user ?? null,
+    },
+  };
+};

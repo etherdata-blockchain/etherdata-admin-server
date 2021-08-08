@@ -19,7 +19,7 @@ export function DifficultyHistoryDisplay(props: Props) {
 
   return (
     <ResponsiveContainer width="100%" height="80%">
-      <BarChart width={150} height={40} data={history.difficultyHistory}>
+      <BarChart width={150} height={40} data={history?.difficultyHistory}>
         <XAxis domain={[50, 50]} axisLine={false} />
         <YAxis domain={["dataMin - 1", "dataMax + 1"]} axisLine={false} />
         <Tooltip />

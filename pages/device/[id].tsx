@@ -24,11 +24,29 @@ import { DurationSelectorBtn } from "../../components/home/DurationSelectorBtn";
 import { GridDataCard } from "../../components/cards/gridDataCard";
 import { PanelSelector } from "../../components/device/panelSelector";
 import { useRouter } from "next/dist/client/router";
+import DeviceProvider, { DeviceContext } from "../model/DeviceProvider";
+import { abbreviateNumber } from "../../utils/valueFormatter";
+import { UIProviderContext } from "../model/UIProvider";
 
 type Props = {};
 
 export default function TransactionDetail(props: Props) {
   const router = useRouter();
+  const { devices, joinDetail, leaveDetail } = React.useContext(DeviceContext);
+  const { showSnackBarMessage } = React.useContext(UIProviderContext);
+
+  const device = devices.find((d) => d.id === router.query.id);
+
+  React.useEffect(() => {
+    const deviceId = router.query.id!;
+    //@ts-ignore
+    joinDetail(deviceId);
+
+    return () => {
+      //@ts-ignore
+      leaveDetail(deviceId);
+    };
+  }, []);
 
   return (
     <div>
@@ -37,7 +55,14 @@ export default function TransactionDetail(props: Props) {
         description={"a"}
         action={
           <Button
-            onClick={() => router.push("/device/edit/" + router.query.id)}
+            onClick={() =>
+              router.push(
+                "/device/edit/" +
+                  router.query.id +
+                  "?deviceId=" +
+                  device?.data?.systemInfo.nodeId
+              )
+            }
             variant={"outlined"}
           >
             Edit
@@ -49,7 +74,8 @@ export default function TransactionDetail(props: Props) {
         <Grid item md={3}>
           <LargeDataCard
             icon={<ComputerIcon />}
-            title={"12345"}
+            //@ts-ignore
+            title={`${abbreviateNumber(device?.data?.difficulty ?? 0)}`}
             color={"#ba03fc"}
             subtitleColor={"white"}
             iconColor={"white"}
@@ -61,7 +87,7 @@ export default function TransactionDetail(props: Props) {
         <Grid item md={3}>
           <LargeDataCard
             icon={<ComputerIcon />}
-            title={"12345"}
+            title={`${device?.data?.blockNumber}`}
             color={"#ba03fc"}
             subtitleColor={"white"}
             iconColor={"white"}
@@ -80,8 +106,12 @@ export default function TransactionDetail(props: Props) {
             items={[
               { title: "100%", subtitle: "CPU", icon: <ComputerIcon /> },
               { title: "100%", subtitle: "Memory", icon: <ComputerIcon /> },
-              { title: "100%", subtitle: "CPU", icon: <ComputerIcon /> },
-              { title: "100%", subtitle: "CPU", icon: <ComputerIcon /> },
+              { title: "100%", subtitle: "Hard Disk", icon: <ComputerIcon /> },
+              {
+                title: "100%",
+                subtitle: "Update Time",
+                icon: <ComputerIcon />,
+              },
             ]}
           />
         </Grid>
@@ -97,10 +127,12 @@ export default function TransactionDetail(props: Props) {
               </ListItem>
 
               <ListSubheader>Peers</ListSubheader>
-              <ListItem>
-                <ListItemAvatar>1</ListItemAvatar>
-                <ListItemText primary={"Device IP"} secondary={"abcde"} />
-              </ListItem>
+              {device?.data?.peers.map((p, i) => (
+                <ListItem key={i}>
+                  <ListItemAvatar>{i + 1}</ListItemAvatar>
+                  <ListItemText primary={"Device IP"} secondary={"abcde"} />
+                </ListItem>
+              ))}
             </List>
           </ResponsiveCard>
         </Grid>

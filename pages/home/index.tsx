@@ -11,50 +11,83 @@ import { BlockTimeHistoryDisplay } from "../../components/home/blockTimeHistoryD
 import { BlockMinerDisplay } from "../../components/home/blockMinerDisplay";
 import { TransactionDisplay } from "../../components/home/transactionDisplay";
 import { DifficultyHistoryDisplay } from "../../components/home/difficultyHistoryDisplay";
+import { ETDContext } from "../model/ETDProvider";
+import { abbreviateNumber } from "../../utils/valueFormatter";
+import { LargeDataCard } from "../../components/cards/largeDataCard";
+import style from "../../styles/Device.module.css";
+
+import StorageIcon from "@material-ui/icons/Storage";
+import ComputerIcon from "@material-ui/icons/Computer";
+import AppsIcon from "@material-ui/icons/Apps";
+import HourglassEmptyIcon from "@material-ui/icons/HourglassEmpty";
+import FunctionsIcon from "@material-ui/icons/Functions";
+import { DeviceContext } from "../model/DeviceProvider";
+
 type Props = {};
 
 export default function Index(props: Props) {
+  const { history } = React.useContext(ETDContext);
+  const { devices } = React.useContext(DeviceContext);
+  const blockNumber = history?.latestBlockNumber;
+
+  const difficulty = history?.latestDifficulty;
+  const blockTime = history?.latestAvgBlockTime;
+  const networkHashRate = difficulty && blockTime ? difficulty / blockTime : 0;
   return (
     <div>
       <PageHeader title={"Dashboard"} description={"Default Message"} />
       <Spacer height={10} />
       <Grid container spacing={3}>
         <Grid item md={3}>
-          <ResponsiveCard
-            title={"Active miners"}
-            subtitle={"Online Workers"}
-            className={styles.dataCard}
-          >
-            <Typography variant={"h5"}>10/10</Typography>
-          </ResponsiveCard>
+          <LargeDataCard
+            icon={<StorageIcon />}
+            title={`${devices.filter((d) => d.isOnline).length}/${
+              devices.length
+            }`}
+            color={"#ba03fc"}
+            subtitleColor={"white"}
+            iconColor={"white"}
+            iconBackgroundColor={"#9704cc"}
+            subtitle={"Active Nodes"}
+            className={style.dataCard}
+          />
         </Grid>
         <Grid item md={3}>
-          <ResponsiveCard
-            title={"# Blocks"}
-            subtitle={"Total number of blocks"}
-            className={styles.dataCard}
-          >
-            <Typography variant={"h5"}>10/10</Typography>
-          </ResponsiveCard>
+          <LargeDataCard
+            icon={<AppsIcon />}
+            title={`${blockNumber}`}
+            color={"#ba03fc"}
+            subtitleColor={"white"}
+            iconColor={"white"}
+            iconBackgroundColor={"#9704cc"}
+            subtitle={"Number of blocks"}
+            className={style.dataCard}
+          />
         </Grid>
         <Grid item md={3}>
-          <ResponsiveCard
-            title={"Difficulty"}
-            subtitle={"Current difficulty"}
-            className={styles.dataCard}
-          >
-            <Typography variant={"h5"}>10/10</Typography>
-          </ResponsiveCard>
+          <LargeDataCard
+            icon={<HourglassEmptyIcon />}
+            title={`${abbreviateNumber(difficulty ?? 0)}`}
+            color={"#03cafc"}
+            subtitleColor={"white"}
+            iconColor={"white"}
+            iconBackgroundColor={"#05b6e3"}
+            subtitle={"Difficulty"}
+            className={style.dataCard}
+          />
         </Grid>
 
         <Grid item md={3}>
-          <ResponsiveCard
-            title={"HashRate"}
+          <LargeDataCard
+            icon={<FunctionsIcon />}
+            title={`${abbreviateNumber(networkHashRate)}`}
+            color={"#03cafc"}
+            subtitleColor={"white"}
+            iconColor={"white"}
+            iconBackgroundColor={"#05b6e3"}
             subtitle={"Network HashRate"}
-            className={styles.dataCard}
-          >
-            <Typography variant={"h5"}>500</Typography>
-          </ResponsiveCard>
+            className={style.dataCard}
+          />
         </Grid>
         {/*Second Row*/}
         <Grid item md={8}>
