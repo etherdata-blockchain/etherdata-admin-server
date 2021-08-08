@@ -40,11 +40,11 @@ export function DeviceTable({ devices, loading }: Props) {
   const data = devices.map((d) => {
     return {
       id: d.id,
-      blockNumber: d.data.blockNumber,
-      name: d.data.systemInfo.name,
-      peerCount: d.data.systemInfo.peerCount,
-      difficulty: d.data.difficulty,
-      nodeInfo: d.data.systemInfo.nodeVersion,
+      blockNumber: d.data?.blockNumber,
+      name: d.data?.systemInfo.name,
+      peerCount: d.data?.systemInfo.peerCount,
+      difficulty: d.data?.difficulty,
+      nodeInfo: d.data?.systemInfo.nodeVersion,
     };
   });
 
