@@ -30,7 +30,6 @@ describe("DB Plugin Tests", () => {
     let pluginResult = await plugin.get("a");
     expect(pluginResult?.name).toBe("a");
     expect(pluginResult?.id).toBe("a");
-    expect(pluginResult?.isOnline).toBeTruthy();
   });
 
   test("List All Items", async () => {

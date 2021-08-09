@@ -27,15 +27,21 @@ import { useRouter } from "next/dist/client/router";
 import DeviceProvider, { DeviceContext } from "../model/DeviceProvider";
 import { abbreviateNumber } from "../../utils/valueFormatter";
 import { UIProviderContext } from "../model/UIProvider";
+import { GetServerSideProps } from "next";
+import { DeviceRegistrationPlugin } from "../../server/plugin/plugins/deviceRegistrationPlugin";
+import { IDevice } from "../../server/schema/device";
+import { objectExpand } from "../../utils/objectExpander";
 
-type Props = {};
+type Props = {
+  device: IDevice | null;
+};
 
-export default function TransactionDetail(props: Props) {
+export default function TransactionDetail({ device }: Props) {
   const router = useRouter();
   const { devices, joinDetail, leaveDetail } = React.useContext(DeviceContext);
   const { showSnackBarMessage } = React.useContext(UIProviderContext);
 
-  const device = devices.find((d) => d.id === router.query.id);
+  const foundDevice = devices.find((d) => d.id === router.query.id);
 
   React.useEffect(() => {
     const deviceId = router.query.id!;
@@ -52,7 +58,7 @@ export default function TransactionDetail(props: Props) {
     <div>
       <PageHeader
         title={"Device"}
-        description={"a"}
+        description={`${device?.name}`}
         action={
           <Button
             onClick={() =>
@@ -60,7 +66,7 @@ export default function TransactionDetail(props: Props) {
                 "/device/edit/" +
                   router.query.id +
                   "?deviceId=" +
-                  device?.data?.systemInfo.nodeId
+                  foundDevice?.data?.systemInfo.nodeId
               )
             }
             variant={"outlined"}
@@ -75,7 +81,7 @@ export default function TransactionDetail(props: Props) {
           <LargeDataCard
             icon={<ComputerIcon />}
             //@ts-ignore
-            title={`${abbreviateNumber(device?.data?.difficulty ?? 0)}`}
+            title={`${abbreviateNumber(foundDevice?.data?.difficulty ?? 0)}`}
             color={"#ba03fc"}
             subtitleColor={"white"}
             iconColor={"white"}
@@ -87,7 +93,7 @@ export default function TransactionDetail(props: Props) {
         <Grid item md={3}>
           <LargeDataCard
             icon={<ComputerIcon />}
-            title={`${device?.data?.blockNumber}`}
+            title={`${foundDevice?.data?.blockNumber}`}
             color={"#ba03fc"}
             subtitleColor={"white"}
             iconColor={"white"}
@@ -118,16 +124,16 @@ export default function TransactionDetail(props: Props) {
         <Grid item xs={12}>
           <ResponsiveCard>
             <List>
-              <ListItem>
-                <ListItemText primary={"Device ID"} secondary={"abc"} />
-              </ListItem>
-
-              <ListItem>
-                <ListItemText primary={"Device Name"} secondary={"abcde"} />
-              </ListItem>
+              {objectExpand(device ?? {}, ["__v", "_id"]).map(
+                ({ key, value }, index) => (
+                  <ListItem key={index}>
+                    <ListItemText primary={key} secondary={`${value}`} />
+                  </ListItem>
+                )
+              )}
 
               <ListSubheader>Peers</ListSubheader>
-              {device?.data?.peers.map((p, i) => (
+              {foundDevice?.data?.peers.map((p, i) => (
                 <ListItem key={i}>
                   <ListItemAvatar>{i + 1}</ListItemAvatar>
                   <ListItemText primary={"Device IP"} secondary={"abcde"} />
@@ -140,3 +146,24 @@ export default function TransactionDetail(props: Props) {
     </div>
   );
 }
+
+export const getServerSideProps: GetServerSideProps<Props> = async (
+  context
+) => {
+  const deviceId = context.query.deviceId as string;
+  if (deviceId === undefined || deviceId === "") {
+    return {
+      props: {
+        device: null,
+      },
+    };
+  }
+
+  const plugin = new DeviceRegistrationPlugin();
+  let device = await plugin.get(deviceId);
+  return {
+    props: {
+      device: JSON.parse(JSON.stringify(device)),
+    },
+  };
+};

@@ -1,1 +1,1 @@
-export type PluginName = "deviceRegistration";
+export type PluginName = "deviceRegistration" | "transaction";

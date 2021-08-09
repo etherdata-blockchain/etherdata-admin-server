@@ -48,6 +48,7 @@ describe("Node Plugin Test", () => {
   let browserClient: Socket;
   let nodeClient: Socket;
   let socket: Server;
+  const port = 3000;
 
   beforeEach((done) => {
     httpServer = createServer();
@@ -55,7 +56,7 @@ describe("Node Plugin Test", () => {
     nodePlugin = new NodePlugin();
     clientPlugin = new ClientPlugin();
 
-    socket.listen(3000);
+    socket.listen(port);
 
     clientPlugin.connectPlugins([nodePlugin]);
     nodePlugin.connectPlugins([clientPlugin]);
@@ -64,10 +65,10 @@ describe("Node Plugin Test", () => {
     nodePlugin.startSocketIOServer(socket);
 
     browserClient = Client(
-      "http://localhost:3000/clients"
+      `http://localhost:${port}/clients`
     ) as unknown as Socket;
 
-    nodeClient = Client("http://localhost:3000/nodes") as unknown as Socket;
+    nodeClient = Client(`http://localhost:${port}/nodes`) as unknown as Socket;
 
     nodePlugin.server?.on("connect", () => {
       done();

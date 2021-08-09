@@ -29,8 +29,15 @@ export function DeviceTable({ devices, loading }: Props) {
       headerName: "Detail",
       width: 200,
       renderCell: (params) => {
+        const device = devices.find((d) => d.id === params.id)!;
         return (
-          <Button onClick={() => router.push(`/device/${params.id}`)}>
+          <Button
+            onClick={() =>
+              router.push(
+                `/device/${params.id}?deviceId=${device.data?.systemInfo.nodeId}`
+              )
+            }
+          >
             Details
           </Button>
         );

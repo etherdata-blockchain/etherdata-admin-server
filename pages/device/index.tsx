@@ -15,6 +15,7 @@ import { UIProviderContext } from "../model/UIProvider";
 import { DeviceAction } from "../../components/device/deviceAction";
 import { DeviceContext } from "../model/DeviceProvider";
 import ETDProvider, { ETDContext } from "../model/ETDProvider";
+import StorageIcon from "@material-ui/icons/Storage";
 
 type Props = {};
 
@@ -26,14 +27,17 @@ export default function Index(props: Props) {
 
   return (
     <div>
-      <PageHeader title={"Devices"} description={"Default message"} />
+      <PageHeader
+        title={"Devices"}
+        description={"Manage all online devices here"}
+      />
       <Divider />
       <Spacer height={20} />
 
       <Grid container spacing={4}>
         <Grid item md={4}>
           <LargeDataCard
-            icon={<ComputerIcon />}
+            icon={<StorageIcon />}
             title={`${history?.latestBlockNumber ?? 0}`}
             color={"#ba03fc"}
             subtitleColor={"white"}

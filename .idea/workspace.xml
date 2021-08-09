@@ -2,11 +2,22 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e1a3988a-0525-413b-a551-8dd5e1c5f215" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/server/plugin/plugins/transactionPlugin.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/schema/transaction.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/device/deviceTable.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/device/deviceTable.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/transaction/transactionTable.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/transaction/transactionTable.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/globalConfig.json" beforeDir="false" afterPath="$PROJECT_DIR$/globalConfig.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jest.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/jest.config.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/device/[id].tsx" beforeDir="false" afterPath="$PROJECT_DIR$/pages/device/[id].tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/device/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/pages/device/index.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pages/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/pages/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/transaction/[id].tsx" beforeDir="false" afterPath="$PROJECT_DIR$/pages/transaction/[id].tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/schema/device.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/schema/device.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/transaction/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/pages/transaction/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/plugin/pluginName.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/plugin/pluginName.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/tests/dbPlugin.test.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/tests/dbPlugin.test.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/tests/nodePlugin.test.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/tests/nodePlugin.test.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/styles/Device.module.css" beforeDir="false" afterPath="$PROJECT_DIR$/styles/Device.module.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/styles/Transactions.module.css" beforeDir="false" afterPath="$PROJECT_DIR$/styles/Transactions.module.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -42,7 +53,7 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/pages/model" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/server/schema" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.standard" value="true" />
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
@@ -57,18 +68,18 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/server/schema" />
       <recent name="$PROJECT_DIR$/pages/model" />
       <recent name="$PROJECT_DIR$/components/home" />
       <recent name="$PROJECT_DIR$/components/device" />
       <recent name="$PROJECT_DIR$/components" />
-      <recent name="$PROJECT_DIR$/styles" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/server/plugin/plugins" />
       <recent name="$PROJECT_DIR$/pages/transaction" />
       <recent name="$PROJECT_DIR$/tests/pages/transactions" />
       <recent name="$PROJECT_DIR$/tests/server" />
       <recent name="$PROJECT_DIR$/server/tests" />
-      <recent name="$PROJECT_DIR$/pages/api/v1" />
     </key>
   </component>
   <component name="RunManager" selected="npm.dev">
@@ -186,7 +197,7 @@
       <workItem from="1628092351883" duration="10176000" />
       <workItem from="1628151460072" duration="17905000" />
       <workItem from="1628240991285" duration="58743000" />
-      <workItem from="1628443581257" duration="1125000" />
+      <workItem from="1628443581257" duration="8751000" />
     </task>
     <servers />
   </component>

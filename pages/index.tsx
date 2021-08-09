@@ -32,6 +32,7 @@ export default function Home(props: Props) {
   return (
     <Grid container>
       <Grid
+        item
         xs={8}
         style={{
           backgroundColor: "white",
@@ -42,7 +43,7 @@ export default function Home(props: Props) {
           backgroundPosition: "center",
         }}
       />
-      <Grid xs={4}>
+      <Grid item xs={4}>
         <Stack
           justifyContent={"center"}
           alignContent={"center"}
