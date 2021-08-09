@@ -39,6 +39,7 @@ export default function Home(props: Props) {
           background: "url(https://source.unsplash.com/random)",
           backgroundRepeat: "no-repeat",
           backgroundSize: "cover",
+          backgroundPosition: "center",
         }}
       />
       <Grid xs={4}>
@@ -73,13 +74,7 @@ export default function Home(props: Props) {
               isSubmitting,
               setSubmitting,
             }) => (
-              <form
-                onSubmit={async (e) => {
-                  setSubmitting(true);
-                  await handleSubmit(e);
-                  setSubmitting(false);
-                }}
-              >
+              <form onSubmit={handleSubmit}>
                 <Stack spacing={3}>
                   {isSubmitting && <LinearProgress />}
                   <TextField

@@ -2,13 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e1a3988a-0525-413b-a551-8dd5e1c5f215" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/utils/nextHandler/jwtVerificationHandler.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/device/deviceTable.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/device/deviceTable.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/device/generalPanel.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/device/generalPanel.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/api/v1/device/register.ts" beforeDir="false" afterPath="$PROJECT_DIR$/pages/api/v1/device/register.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/yarn.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/pages/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/transaction/[id].tsx" beforeDir="false" afterPath="$PROJECT_DIR$/pages/transaction/[id].tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/schema/device.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/schema/device.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/tests/dbPlugin.test.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/tests/dbPlugin.test.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -146,12 +144,12 @@
       <method v="2" />
     </configuration>
     <list>
-      <item itemvalue="npm.test" />
-      <item itemvalue="npm.dev" />
       <item itemvalue="Jest.Device Register tests.Register device" />
       <item itemvalue="Jest.Device Register tests" />
       <item itemvalue="Jest.Node Plugin Test.Send realtime data" />
       <item itemvalue="Jest.Node Plugin Test" />
+      <item itemvalue="npm.test" />
+      <item itemvalue="npm.dev" />
     </list>
     <recent_temporary>
       <list>
@@ -187,7 +185,8 @@
       <workItem from="1628091176798" duration="1061000" />
       <workItem from="1628092351883" duration="10176000" />
       <workItem from="1628151460072" duration="17905000" />
-      <workItem from="1628240991285" duration="58678000" />
+      <workItem from="1628240991285" duration="58743000" />
+      <workItem from="1628443581257" duration="1125000" />
     </task>
     <servers />
   </component>

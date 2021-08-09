@@ -8,6 +8,7 @@ import { Web3DataInfo } from "../client/node_data";
 import mongoose from "mongoose";
 
 export interface IDevice extends Document {
+  isOnline: boolean;
   id: string;
   name: string;
   user: string | null;
