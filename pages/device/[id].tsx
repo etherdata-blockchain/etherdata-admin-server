@@ -31,6 +31,7 @@ import { GetServerSideProps } from "next";
 import { DeviceRegistrationPlugin } from "../../server/plugin/plugins/deviceRegistrationPlugin";
 import { IDevice } from "../../server/schema/device";
 import { objectExpand } from "../../utils/objectExpander";
+import Logger from "../../server/logger";
 
 type Props = {
   device: IDevice | null;
@@ -158,12 +159,20 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
       },
     };
   }
-
-  const plugin = new DeviceRegistrationPlugin();
-  let device = await plugin.get(deviceId);
-  return {
-    props: {
-      device: JSON.parse(JSON.stringify(device)),
-    },
-  };
+  try {
+    const plugin = new DeviceRegistrationPlugin();
+    let device = await plugin.get(deviceId);
+    return {
+      props: {
+        device: JSON.parse(JSON.stringify(device)),
+      },
+    };
+  } catch (e) {
+    Logger.error("Cannot read details: " + e);
+    return {
+      props: {
+        device: null,
+      },
+    };
+  }
 };
