@@ -125,13 +125,14 @@ export default function TransactionDetail({ device }: Props) {
         <Grid item xs={12}>
           <ResponsiveCard>
             <List>
-              {objectExpand(device ?? {}, ["__v", "_id"]).map(
-                ({ key, value }, index) => (
-                  <ListItem key={index}>
-                    <ListItemText primary={key} secondary={`${value}`} />
-                  </ListItem>
-                )
-              )}
+              {objectExpand(device ?? { error: "no details" }, [
+                "__v",
+                "_id",
+              ]).map(({ key, value }, index) => (
+                <ListItem key={index}>
+                  <ListItemText primary={key} secondary={`${value}`} />
+                </ListItem>
+              ))}
 
               <ListSubheader>Peers</ListSubheader>
               {foundDevice?.data?.peers.map((p, i) => (
