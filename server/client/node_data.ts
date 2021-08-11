@@ -22,6 +22,7 @@ export interface Web3DataInfo {
   systemInfo: {
     name: string;
     nodeId?: string;
+    user?: string;
     nodeVersion: string;
     peerCount: number;
     isSyncing: boolean;

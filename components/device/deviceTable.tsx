@@ -20,7 +20,7 @@ export function DeviceTable({ devices, loading }: Props) {
   const columns: GridColDef[] = [
     { field: "id", headerName: "Device ID", width: 200 },
     { field: "name", headerName: "Device Name", width: 200 },
-    { field: "node_info", headerName: "Node Info", width: 200 },
+    { field: "nodeInfo", headerName: "Node Info", width: 400 },
     { field: "blockNumber", headerName: "#Blocks", width: 200 },
     { field: "peerCount", headerName: "Peer Count", width: 200 },
     { field: "difficulty", headerName: "Difficulty", width: 200 },
