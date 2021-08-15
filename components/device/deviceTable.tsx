@@ -18,8 +18,9 @@ export function DeviceTable({ devices, loading }: Props) {
   const router = useRouter();
 
   const columns: GridColDef[] = [
-    { field: "id", headerName: "Device ID", width: 200 },
+    { field: "id", headerName: "Socket ID", width: 200 },
     { field: "name", headerName: "Device Name", width: 200 },
+    { field: "deviceId", headerName: "Device ID", width: 200 },
     { field: "nodeInfo", headerName: "Node Info", width: 400 },
     { field: "blockNumber", headerName: "#Blocks", width: 200 },
     { field: "peerCount", headerName: "Peer Count", width: 200 },
@@ -47,6 +48,7 @@ export function DeviceTable({ devices, loading }: Props) {
   const data = devices.map((d) => {
     return {
       id: d.id,
+      deviceId: d.data?.systemInfo.nodeId,
       blockNumber: d.data?.blockNumber,
       name: d.data?.systemInfo.name,
       peerCount: d.data?.systemInfo.peerCount,

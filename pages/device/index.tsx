@@ -70,7 +70,9 @@ export default function Index(props: Props) {
             <DeviceTable
               devices={
                 filterKeyword.length > 0
-                  ? devices.filter((d) => d.id.includes(filterKeyword))
+                  ? devices.filter((d) =>
+                      d.data?.systemInfo.nodeId?.includes(filterKeyword)
+                    )
                   : devices
               }
               loading={loadingData}
