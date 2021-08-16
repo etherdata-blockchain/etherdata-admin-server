@@ -29,11 +29,7 @@ export class AppPlugin extends BaseSocketIOPlugin {
 
   protected onAuthenticated(socket: Socket): void {}
 
-  protected onUnAuthenticated(socket: Socket): void {
-    Logger.error(
-      `[${this.pluginName}] ${socket.id} is not authorized. Dropping connection`
-    );
-  }
+  protected onUnAuthenticated(socket: Socket): void {}
 
   async startSocketIOServer(server: Server): Promise<boolean | undefined> {
     this.server = server.of("/apps");

@@ -57,15 +57,14 @@ export abstract class BaseSocketIOPlugin extends BasePlugin<string> {
             `[${this.pluginName}]: Client ${socket.id} is authenticated!`
           );
           this.onAuthenticated(socket);
+          for (let handle of this.handlers) {
+            handle(socket);
+          }
         } else {
           Logger.error(
             `[${this.pluginName}]: Client ${socket.id} is not authenticated, drop connection`
           );
           this.onUnAuthenticated(socket);
-        }
-
-        for (let handle of this.handlers) {
-          handle(socket);
         }
       });
     }

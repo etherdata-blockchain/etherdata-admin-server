@@ -2,10 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e1a3988a-0525-413b-a551-8dd5e1c5f215" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/server/plugin/plugins/socketIOPlugins/appPlugin.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/app.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/app.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/plugin/plugins/socketIOPlugins/nodePlugin.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/plugin/plugins/socketIOPlugins/nodePlugin.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/plugin/basePlugin.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/plugin/basePlugin.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/plugin/plugins/socketIOPlugins/appPlugin.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/plugin/plugins/socketIOPlugins/appPlugin.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/server.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/server.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -190,7 +190,8 @@
       <workItem from="1628655591499" duration="692000" />
       <workItem from="1628663376412" duration="277000" />
       <workItem from="1628993166293" duration="2160000" />
-      <workItem from="1629122405537" duration="4141000" />
+      <workItem from="1629122405537" duration="4201000" />
+      <workItem from="1629135600353" duration="1723000" />
     </task>
     <servers />
   </component>
@@ -208,6 +209,18 @@
       </map>
     </option>
     <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/server/plugin/basePlugin.ts</url>
+          <line>53</line>
+          <properties lambdaOrdinal="-1" />
+          <option name="timeStamp" value="2" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
