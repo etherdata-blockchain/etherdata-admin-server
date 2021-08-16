@@ -71,6 +71,7 @@ export class NodePlugin extends BaseSocketIOPlugin {
   protected onAuthenticated(socket: Socket): void {
     let found = this.clients[socket.id];
     let clientPlugin = this.otherPlugins["client"];
+    let appPlugin = this.otherPlugins["app"];
     // If the client back online again, we will update its status
     if (found) {
       found.isOnline = true;
@@ -88,6 +89,14 @@ export class NodePlugin extends BaseSocketIOPlugin {
         type: "insert",
         data: client.toJSON(),
       });
+
+      // Send device data to app clients
+      appPlugin.server
+        ?.in(client.web3Data?.systemInfo.nodeId!)
+        .emit("realtime-info", {
+          type: "update",
+          data: client.toJSON(),
+        });
     }
   }
 
@@ -103,9 +112,11 @@ export class NodePlugin extends BaseSocketIOPlugin {
     let dbPlugin = new DeviceRegistrationPlugin();
     socket.on("node-info", async (data: Web3DataInfo) => {
       let clientPlugin = this.otherPlugins["client"];
+      let appPlugin = this.otherPlugins["app"];
       let foundClient = this.clients[socket.id];
       if (foundClient) {
         foundClient.updateData(data);
+        // Send data to admin browser
         clientPlugin.server?.emit("realtime-info", {
           type: "update",
           data: foundClient.toJSON(),
@@ -120,6 +131,14 @@ export class NodePlugin extends BaseSocketIOPlugin {
             this.registeredDevices.push(data.systemInfo.nodeId!);
           }
         }
+
+        // Send device data to app clients
+        appPlugin.server
+          ?.in(foundClient.web3Data?.systemInfo.nodeId!)
+          .emit("realtime-info", {
+            type: "update",
+            data: foundClient.toJSON(),
+          });
       }
     });
   };

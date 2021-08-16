@@ -2,9 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e1a3988a-0525-413b-a551-8dd5e1c5f215" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/server/plugin/plugins/socketIOPlugins/appPlugin.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/device/deviceTable.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/device/deviceTable.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/device/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/pages/device/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/app.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/app.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/plugin/plugins/socketIOPlugins/nodePlugin.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/plugin/plugins/socketIOPlugins/nodePlugin.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -188,7 +189,8 @@
       <workItem from="1628650595217" duration="2559000" />
       <workItem from="1628655591499" duration="692000" />
       <workItem from="1628663376412" duration="277000" />
-      <workItem from="1628993166293" duration="1537000" />
+      <workItem from="1628993166293" duration="2160000" />
+      <workItem from="1629122405537" duration="4141000" />
     </task>
     <servers />
   </component>
