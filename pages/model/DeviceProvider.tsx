@@ -6,8 +6,8 @@ import { UIProviderContext } from "./UIProvider";
 import { realmApp } from "../_app";
 import { IDevice } from "../../server/schema/device";
 import { Web3DataInfo } from "../../server/client/node_data";
-import { PaginationResult } from "../../server/client/browserClient";
 import { ClientInterface } from "../../server/client/nodeClient";
+import { PaginationResult } from "../../server/client/browserClient";
 
 interface DeviceInterface {
   loadingData: boolean;
@@ -17,6 +17,7 @@ interface DeviceInterface {
   totalNumDevices: number;
   totalNumOnlineDevices: number;
   filterKeyword: string;
+  numPerPage: number;
   setFilterKeyword(v: string): void;
   joinDetail(deviceId: string): void;
   leaveDetail(deviceId: string): void;
@@ -39,9 +40,10 @@ export default function DeviceProvider(props: any) {
   const [totalPageNumber, setTotalPageNumber] = React.useState(0);
   const [totalNumDevices, setTotalNumberDevices] = React.useState(0);
   const [totalNumOnlineDevices, setTotalOnlineDevices] = React.useState(0);
+  const [numPerPage, setNumPerPage] = React.useState(0);
 
   React.useEffect(() => {
-    socket = io("/clients", {
+    socket = io("wss://etd.admin.sirileepage.com/clients", {
       auth: { token: process.env.NEXT_PUBLIC_CLIENT_PASSWORD },
     });
 
@@ -57,13 +59,14 @@ export default function DeviceProvider(props: any) {
         devices,
         totalNumberDevices,
         totalOnlineDevices,
+        numPerPage,
       }: PaginationResult) => {
-        setLoadingData(false);
         setDevices(devices);
         setCurrentPageNumber(currentPageNumber);
         setTotalPageNumber(totalPageNumber);
         setTotalOnlineDevices(totalOnlineDevices);
         setTotalNumberDevices(totalNumberDevices);
+        setNumPerPage(numPerPage);
       }
     );
   }, []);
@@ -78,6 +81,9 @@ export default function DeviceProvider(props: any) {
 
   const handlePageChange = React.useCallback((pageNumber: number) => {
     socket?.emit("page-change", pageNumber);
+    socket?.once("page-changed", () => {
+      setLoadingData(false);
+    });
     setCurrentPageNumber(pageNumber);
     setLoadingData(true);
   }, []);
@@ -114,6 +120,7 @@ export default function DeviceProvider(props: any) {
     handlePageChange,
     totalNumDevices,
     totalNumOnlineDevices,
+    numPerPage,
   };
 
   return (

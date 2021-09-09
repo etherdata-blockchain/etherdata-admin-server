@@ -15,6 +15,8 @@ type Props = {
   loading?: boolean;
   currentPageNumber: number;
   totalPageNumber: number;
+  totalNumRows: number;
+  numPerPage: number;
   onPageChanged(num: number): void;
 };
 
@@ -24,6 +26,8 @@ export function DeviceTable({
   currentPageNumber,
   totalPageNumber,
   onPageChanged,
+  totalNumRows,
+  numPerPage,
 }: Props) {
   const router = useRouter();
 
@@ -73,12 +77,16 @@ export function DeviceTable({
       columns={columns}
       rows={data}
       paginationMode={"server"}
-      rowCount={totalPageNumber}
+      rowCount={totalNumRows}
       onPageChange={(page) => {
+        console.log(currentPageNumber, page);
         onPageChanged(page.page);
       }}
       autoHeight
+      pageSize={numPerPage}
       disableSelectionOnClick
+      pagination
+      page={currentPageNumber}
     />
   );
 }

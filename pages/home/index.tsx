@@ -27,7 +27,8 @@ type Props = {};
 
 export default function Index(props: Props) {
   const { history } = React.useContext(ETDContext);
-  const { devices } = React.useContext(DeviceContext);
+  const { devices, totalNumOnlineDevices, totalNumDevices } =
+    React.useContext(DeviceContext);
   const blockNumber = history?.latestBlockNumber;
 
   const difficulty = history?.latestDifficulty;
@@ -41,9 +42,7 @@ export default function Index(props: Props) {
         <Grid item md={3}>
           <LargeDataCard
             icon={<StorageIcon />}
-            title={`${devices.filter((d) => d.isOnline).length}/${
-              devices.length
-            }`}
+            title={`${totalNumOnlineDevices}/${totalNumDevices}`}
             color={"#ba03fc"}
             subtitleColor={"white"}
             iconColor={"white"}

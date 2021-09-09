@@ -72,6 +72,7 @@ export class ClientPlugin extends AppPlugin {
           socket.id,
           Object.values(plugin.nodeClients).map((c) => c.toJSON())
         );
+        socket.emit("page-changed", true);
       }
     });
   };

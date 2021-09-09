@@ -7,10 +7,11 @@ export interface PaginationResult {
   currentPageNumber: number;
   totalNumberDevices: number;
   totalOnlineDevices: number;
+  numPerPage: number;
 }
 
 export class BrowserClient {
-  numPerPage: number = 30;
+  numPerPage: number = 15;
   currentPage: number = 0;
 
   /**
@@ -31,6 +32,7 @@ export class BrowserClient {
       currentPageNumber: this.currentPage,
       totalNumberDevices: devices.length,
       totalOnlineDevices: onlineDevices.length,
+      numPerPage: this.numPerPage,
     };
   }
 }

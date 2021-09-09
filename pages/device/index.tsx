@@ -29,6 +29,7 @@ export default function Index(props: Props) {
     totalNumDevices,
     totalNumOnlineDevices,
     handlePageChange,
+    numPerPage,
   } = React.useContext(DeviceContext);
 
   const { history } = React.useContext(ETDContext);
@@ -74,9 +75,11 @@ export default function Index(props: Props) {
             action={<DeviceAction />}
           >
             <DeviceTable
+              numPerPage={numPerPage}
               currentPageNumber={currentPageNumber}
               totalPageNumber={totalPageNumber}
               onPageChanged={handlePageChange}
+              totalNumRows={totalNumDevices}
               devices={
                 filterKeyword.length > 0
                   ? devices.filter((d) =>
