@@ -1,23 +1,30 @@
 import { BaseSocketIOPlugin, SocketHandler } from "../../basePlugin";
 import { Express } from "express";
-import { Client } from "../../../client/client";
+import { NodeClient } from "../../../client/nodeClient";
 import Logger from "../../../logger";
 import { Server, Socket } from "socket.io";
 import { Web3DataInfo } from "../../../client/node_data";
 import { DeviceRegistrationPlugin } from "../deviceRegistrationPlugin";
+import { ClientPlugin } from "./clientPlugin";
+import { AppPlugin } from "./appPlugin";
+import { BrowserClient } from "../../../client/browserClient";
 
 export class NodePlugin extends BaseSocketIOPlugin {
   protected pluginName: string = "node";
   private checkClientInterval: number = 1000 * 10;
-  clients: {
-    [key: string]: Client;
+  nodeClients: {
+    [key: string]: NodeClient;
   } = {};
-
   private registeredDevices: string[] = [];
 
   constructor() {
     super();
-    this.handlers = [this.handleNodeInfo, this.handleOnDisConnect];
+    this.handlers = [
+      this.handleNodeInfo,
+      this.handleOnDisConnect,
+      this.handleOnRpcResult,
+      this.handleRPCError,
+    ];
   }
 
   async startSocketIOServer(server: Server): Promise<boolean | undefined> {
@@ -41,18 +48,19 @@ export class NodePlugin extends BaseSocketIOPlugin {
    */
   private periodicRemoveClient() {
     setInterval(() => {
-      let clientPlugin = this.otherPlugins["client"];
-      let shouldDeleteClients = Object.values(this.clients).filter((c) =>
+      let clientPlugin = this.findPlugin<ClientPlugin>("client");
+      let shouldDeleteClients = Object.values(this.nodeClients).filter((c) =>
         c.shouldBeRemoved()
       );
       shouldDeleteClients.forEach((c) => {
         this.removeClient(c.id);
-        clientPlugin.server?.emit("realtime-info", {
-          type: "delete",
-          data: c.toJSON(),
-        });
+        //TODO: Send data back to client
+        clientPlugin.sendDataToAllClients(
+          Object.values(this.nodeClients).map((n) => n.toJSON())
+        );
+
         Logger.info(
-          `Remove node client ${c.id} due to long time offline. Current number of clients: ${this.clients.length}`
+          `Remove node client ${c.id} due to long time offline. Current number of clients: ${this.nodeClients.length}`
         );
       });
     }, this.checkClientInterval);
@@ -65,31 +73,28 @@ export class NodePlugin extends BaseSocketIOPlugin {
    */
   private removeClient(id: string) {
     let i = 0;
-    delete this.clients[id];
+    delete this.nodeClients[id];
   }
 
   protected onAuthenticated(socket: Socket): void {
-    let found = this.clients[socket.id];
-    let clientPlugin = this.otherPlugins["client"];
-    let appPlugin = this.otherPlugins["app"];
+    let found = this.nodeClients[socket.id];
+    let clientPlugin = this.findPlugin<ClientPlugin>("client");
+    let appPlugin = this.findPlugin<AppPlugin>("app");
     // If the client back online again, we will update its status
+
+    //TODO: Send pagination results
+    clientPlugin.sendDataToAllClients(
+      Object.values(this.nodeClients).map((n) => n.toJSON())
+    );
+
     if (found) {
       found.isOnline = true;
       found.update();
       Logger.info(`Node Client ${socket.id} back online again.`);
-      clientPlugin.server?.emit("realtime-info", {
-        type: "update",
-        data: found.toJSON(),
-      });
     } else {
       // Otherwise, we add new client
-      let client = new Client(socket.id);
-      this.clients[socket.id] = client;
-      clientPlugin.server?.emit("realtime-info", {
-        type: "insert",
-        data: client.toJSON(),
-      });
-
+      let client = new NodeClient(socket.id);
+      this.nodeClients[socket.id] = client;
       // Send device data to app clients
       appPlugin.server
         ?.in(client.web3Data?.systemInfo.nodeId!)
@@ -105,24 +110,39 @@ export class NodePlugin extends BaseSocketIOPlugin {
   }
 
   /**
+   * Find client by node ID
+   * @param nodeId
+   */
+  findClient(nodeId: string): NodeClient | undefined {
+    let found = Object.entries(this.nodeClients).find(
+      ([id, client], index) =>
+        client.web3Data?.systemInfo.nodeId === nodeId && client.isOnline
+    );
+    if (found) {
+      return found[1];
+    }
+    return undefined;
+  }
+
+  /**
    * Send all nodes data back to client
    * @param socket
    */
   handleNodeInfo: SocketHandler = (socket) => {
     let dbPlugin = new DeviceRegistrationPlugin();
     socket.on("node-info", async (data: Web3DataInfo) => {
-      let clientPlugin = this.otherPlugins["client"];
-      let appPlugin = this.otherPlugins["app"];
-      let foundClient = this.clients[socket.id];
+      let clientPlugin = this.findPlugin<ClientPlugin>("client");
+      let appPlugin = this.findPlugin<AppPlugin>("app");
+      let foundClient = this.nodeClients[socket.id];
       if (foundClient) {
         foundClient.updateData(data);
-        // Send data to admin browser
-        clientPlugin.server?.emit("realtime-info", {
-          type: "update",
-          data: foundClient.toJSON(),
-        });
+        //TODO: Send data to browser
+        clientPlugin.sendDataToAllClients(
+          Object.values(this.nodeClients).map((n) => n.toJSON())
+        );
+
         // register device
-        if (!this.registeredDevices.includes(data.systemInfo.nodeId!)) {
+        if (!this.registeredDevices.includes(data.systemInfo?.nodeId ?? "")) {
           let success = await dbPlugin.addDevice({
             id: data.systemInfo.nodeId ?? "NONAME",
             name: data.systemInfo.name,
@@ -145,8 +165,10 @@ export class NodePlugin extends BaseSocketIOPlugin {
 
   handleOnDisConnect: SocketHandler = (socket) => {
     socket.on("disconnect", () => {
-      let foundClient = this.clients[socket.id];
-      let clientPlugin = this.otherPlugins["client"];
+      let foundClient = this.nodeClients[socket.id];
+      let clientPlugin = this.findPlugin<ClientPlugin>("client");
+      let appPlugin = this.findPlugin("app");
+
       if (foundClient) {
         foundClient.isOnline = false;
         Logger.info(
@@ -154,14 +176,53 @@ export class NodePlugin extends BaseSocketIOPlugin {
             foundClient.id
           } is offline. Will be remove at ${foundClient.out_time.format()}`
         );
-        clientPlugin.server?.to(foundClient.id).emit("realtime-info", {
-          type: "update",
-          data: foundClient.toJSON(false),
-        });
-        clientPlugin.server?.emit("realtime-info", {
+        //TODO: Send data back to browser
+        clientPlugin.sendDataToAllClients(
+          Object.values(this.nodeClients).map((n) => n.toJSON())
+        );
+
+        appPlugin.server?.emit("realtime-info", {
           type: "update",
           data: foundClient.toJSON(),
         });
+      }
+    });
+  };
+
+  handleOnRpcResult: SocketHandler = (socket) => {
+    socket.on("rpc-result", (data: any) => {
+      let clientPlugin = this.findPlugin<ClientPlugin>("client");
+      let appPlugin = this.findPlugin<AppPlugin>("app");
+      let foundClient = this.nodeClients[socket.id];
+      if (foundClient) {
+        // Send data to app
+        appPlugin.server
+          ?.in(foundClient.web3Data?.systemInfo.nodeId!)
+          .emit("rpc-result", data);
+
+        // Send data to browser
+        clientPlugin.server
+          ?.in(foundClient.web3Data?.systemInfo.nodeId!)
+          .emit("rpc-result", data);
+      }
+    });
+  };
+
+  handleRPCError: SocketHandler = (socket) => {
+    socket.on("rpc-error", (data) => {
+      let clientPlugin = this.findPlugin<ClientPlugin>("client");
+      let appPlugin = this.findPlugin<AppPlugin>("app");
+      let foundClient = this.nodeClients[socket.id];
+      if (foundClient) {
+        // Send data to app
+        appPlugin.server
+          ?.in(foundClient.web3Data?.systemInfo.nodeId!)
+          .emit("rpc-command-error", data);
+
+        // Send data to browser
+        clientPlugin.server
+          ?.in(foundClient.web3Data?.systemInfo.nodeId!)
+          .emit("rpc-command-error", data);
       }
     });
   };

@@ -3,6 +3,7 @@ import { Document, Model, Query } from "mongoose";
 import { PluginName } from "./pluginName";
 import { Express } from "express";
 import Logger from "../logger";
+import { RegisteredPlugins } from "./plugins/socketIOPlugins/registeredPlugins";
 
 export type SocketHandler = (socket: Socket) => void;
 
@@ -73,6 +74,17 @@ export abstract class BaseSocketIOPlugin extends BasePlugin<string> {
   protected abstract onAuthenticated(socket: Socket): void;
 
   protected abstract onUnAuthenticated(socket: Socket): void;
+
+  protected findPlugin<T extends BaseSocketIOPlugin>(
+    pluginName: RegisteredPlugins
+  ): T {
+    try {
+      //@ts-ignore
+      return this.otherPlugins[pluginName];
+    } catch (err) {
+      throw new Error("Cannot find this plugin with name " + pluginName);
+    }
+  }
 }
 
 export abstract class DatabasePlugin<

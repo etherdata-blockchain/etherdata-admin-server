@@ -39,22 +39,7 @@ export default function ETDProvider(props: any) {
     showSnackBarMessage("Loading Data");
     console.log(url);
     socket = io(url);
-
-    // socket.off("realtime-info");
     socket.off("history");
-    //
-    // socket.on("detail-info", (detail: any) => {
-    //   if (detail !== undefined) {
-    //     console.log("Get details", detail);
-    //     setDetail(detail);
-    //   }
-    //   setIsLoadingDetail(false);
-    // });
-    //
-    // socket.on("realtime-info", (data: any[]) => {
-    //   setClients(data);
-    // });
-    //
     socket.on("history", (data: ETDHistoryInterface) => {
       setHistory(data);
     });

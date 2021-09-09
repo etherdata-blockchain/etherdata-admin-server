@@ -3,7 +3,8 @@
 }
 
 .deviceTable{
-
+  max-height: 90vh;
+  overflow: scroll;
 }
 
 .detailDataCard{

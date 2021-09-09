@@ -8,7 +8,7 @@ export interface ClientInterface {
   data: Web3DataInfo | undefined;
 }
 
-export class Client {
+export class NodeClient {
   in_time: Moment;
   // When will we delete the client from memory
   out_time: Moment;

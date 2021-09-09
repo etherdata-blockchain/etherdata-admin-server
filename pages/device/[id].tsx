@@ -37,7 +37,7 @@ type Props = {
   device: IDevice | null;
 };
 
-export default function TransactionDetail({ device }: Props) {
+export default function DeviceDetail({ device }: Props) {
   const router = useRouter();
   const { devices, joinDetail, leaveDetail } = React.useContext(DeviceContext);
   const { showSnackBarMessage } = React.useContext(UIProviderContext);
@@ -125,7 +125,7 @@ export default function TransactionDetail({ device }: Props) {
         <Grid item xs={12}>
           <ResponsiveCard>
             <List>
-              {objectExpand(device ?? { error: "no details" }, [
+              {objectExpand(foundDevice ?? { error: "no details" }, [
                 "__v",
                 "_id",
               ]).map(({ key, value }, index) => (

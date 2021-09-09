@@ -14,6 +14,7 @@ interface DeviceInterface {
   setFilterKeyword(v: string): void;
   joinDetail(deviceId: string): void;
   leaveDetail(deviceId: string): void;
+  sendCommand(methodName: string, params: any[]): Promise<any>;
 }
 
 //@ts-ignore
@@ -84,12 +85,31 @@ export default function DeviceProvider(props: any) {
   }, []);
 
   const joinDetail = React.useCallback((deviceId: string) => {
-    socket?.emit("detail", deviceId);
+    socket?.emit("join-room", deviceId);
   }, []);
 
   const leaveDetail = React.useCallback((deviceId: string) => {
-    socket?.emit("leave-detail", deviceId);
+    socket?.emit("leave-room", deviceId);
   }, []);
+
+  const sendCommand = React.useCallback(
+    async (methodName: string, params: any[]) => {
+      return new Promise((resolve, reject) => {
+        socket?.emit("rpc-command", { methodName, params });
+        socket?.once("rpc-result", (data) => {
+          console.log(data);
+          resolve(data);
+          socket?.off("rpc-command-error");
+        });
+        socket?.once("rpc-command-error", (data) => {
+          console.log(data);
+          reject(data);
+          socket?.off("rpc-result");
+        });
+      });
+    },
+    [socket]
+  );
 
   const value: DeviceInterface = {
     devices,
@@ -98,6 +118,7 @@ export default function DeviceProvider(props: any) {
     setFilterKeyword,
     joinDetail,
     leaveDetail,
+    sendCommand,
   };
 
   return (

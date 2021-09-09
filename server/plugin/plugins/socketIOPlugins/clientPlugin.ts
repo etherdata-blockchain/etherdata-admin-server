@@ -2,24 +2,41 @@ import { BaseSocketIOPlugin, SocketHandler } from "../../basePlugin";
 import { Server, Socket } from "socket.io";
 import { NodePlugin } from "./nodePlugin";
 import Logger from "../../../logger";
+import { AppPlugin } from "./appPlugin";
+import { BrowserClient } from "../../../client/browserClient";
+import { ClientInterface } from "../../../client/nodeClient";
 
-export class ClientPlugin extends BaseSocketIOPlugin {
+/**
+ * Web Browser socket io plugin
+ */
+export class ClientPlugin extends AppPlugin {
   protected pluginName: string = "client";
+
+  browserClients: {
+    [key: string]: BrowserClient;
+  } = {};
 
   constructor() {
     super();
-    this.handlers = [this.handleJoinRoom, this.handleLeaveRoom];
+    this.handlers = [
+      this.joinRoomHandler,
+      this.leaveRoomHandler,
+      this.rpcCommandHandler,
+      this.handleDisconnect,
+      this.handlePageChange,
+    ];
   }
 
   auth(password: string): boolean {
-    return process.env.NEXT_PUBLIC_CLIENT_PASSWORD === password;
+    // return process.env.NEXT_PUBLIC_CLIENT_PASSWORD === password;
+    return true;
   }
 
   protected onAuthenticated(socket: Socket): void {
     let plugin = this.otherPlugins["node"] as NodePlugin;
     this.server!.emit("realtime-info", {
       type: "init",
-      data: Object.values(plugin.clients).map((c) => c.toJSON()),
+      data: Object.values(plugin.nodeClients).map((c) => c.toJSON()),
     });
   }
 
@@ -31,17 +48,31 @@ export class ClientPlugin extends BaseSocketIOPlugin {
     return true;
   }
 
-  handleJoinRoom: SocketHandler = (socket) => {
-    socket.on("detail", (deviceId: string) => {
-      Logger.warning(`Client ${socket.id} joined room ${deviceId}`);
-      socket.join(deviceId);
+  handleDisconnect: SocketHandler = (socket) => {
+    socket.on("disconnect", () => {
+      delete this.browserClients[socket.id];
     });
   };
 
-  handleLeaveRoom: SocketHandler = (socket) => {
-    socket.on("leave-detail", (deviceId: string) => {
-      Logger.warning(`Client ${socket.id} left room ${deviceId}`);
-      socket.leave(deviceId);
+  handlePageChange: SocketHandler = (socket) => {
+    socket.on("page-change", (pageNum: number) => {
+      let client = this.browserClients[socket.id];
+      if (client) {
+        client.currentPage = pageNum;
+      }
     });
+  };
+
+  /**
+   * Send data to all browser clients
+   * @param devices
+   */
+  sendDataToAllClients = (devices: ClientInterface[]) => {
+    for (let [socketID, client] of Object.entries(this.browserClients)) {
+      // Send pagination data to all browser clients
+      this.server
+        ?.to(socketID)
+        .emit("realtime-info", client.generatePaginationResult(devices));
+    }
   };
 }
