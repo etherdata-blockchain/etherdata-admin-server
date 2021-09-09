@@ -66,7 +66,6 @@ export class ClientPlugin extends AppPlugin {
     socket.on("page-change", (pageNum: number) => {
       let client = this.browserClients[socket.id];
       if (client) {
-        console.log("Change page", pageNum);
         client.currentPage = pageNum;
         this.sendDataToClient(
           client,

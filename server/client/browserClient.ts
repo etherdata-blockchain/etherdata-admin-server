@@ -1,7 +1,7 @@
 import { Web3DataInfo } from "./node_data";
 import { ClientInterface } from "./nodeClient";
 
-interface PaginationResult {
+export interface PaginationResult {
   devices: ClientInterface[];
   total: number;
   current: number;

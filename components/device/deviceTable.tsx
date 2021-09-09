@@ -8,13 +8,23 @@ import {
 import { Button } from "@material-ui/core";
 import { useRouter } from "next/dist/client/router";
 import { IDevice } from "../../server/schema/device";
+import { ClientInterface } from "../../server/client/nodeClient";
 
 type Props = {
-  devices: IDevice[];
+  devices: ClientInterface[];
   loading?: boolean;
+  currentPageNumber: number;
+  totalPageNumber: number;
+  onPageChanged(num: number): void;
 };
 
-export function DeviceTable({ devices, loading }: Props) {
+export function DeviceTable({
+  devices,
+  loading,
+  currentPageNumber,
+  totalPageNumber,
+  onPageChanged,
+}: Props) {
   const router = useRouter();
 
   const columns: GridColDef[] = [
@@ -62,6 +72,11 @@ export function DeviceTable({ devices, loading }: Props) {
       loading={loading}
       columns={columns}
       rows={data}
+      paginationMode={"server"}
+      rowCount={totalPageNumber}
+      onPageChange={(page) => {
+        onPageChanged(page.page);
+      }}
       autoHeight
       disableSelectionOnClick
     />

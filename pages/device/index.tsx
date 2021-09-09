@@ -20,8 +20,14 @@ import StorageIcon from "@material-ui/icons/Storage";
 type Props = {};
 
 export default function Index(props: Props) {
-  const { loadingData, devices, filterKeyword } =
-    React.useContext(DeviceContext);
+  const {
+    loadingData,
+    devices,
+    filterKeyword,
+    currentPageNumber,
+    totalPageNumber,
+    handlePageChange,
+  } = React.useContext(DeviceContext);
 
   const { history } = React.useContext(ETDContext);
 
@@ -68,6 +74,9 @@ export default function Index(props: Props) {
             action={<DeviceAction />}
           >
             <DeviceTable
+              currentPageNumber={currentPageNumber}
+              totalPageNumber={totalPageNumber}
+              onPageChanged={handlePageChange}
               devices={
                 filterKeyword.length > 0
                   ? devices.filter((d) =>
