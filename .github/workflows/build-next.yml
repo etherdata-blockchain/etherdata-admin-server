@@ -61,4 +61,4 @@ jobs:
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache-new
           build-args: |
-            NEXT_PUBLIC_APP_ID=${{ secrets.APP_ID }}
+            APP_ID=${{ secrets.APP_ID }}
