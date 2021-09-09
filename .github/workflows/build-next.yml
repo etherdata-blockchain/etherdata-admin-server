@@ -60,4 +60,5 @@ jobs:
           tags: ${{ steps.prep.outputs.tags }}
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache-new
-          secrets: "NEXT_PUBLIC_APP_ID=${{ secrets.APP_ID }}"
+          build-args: |
+            NEXT_PUBLIC_APP_ID=${{ secrets.APP_ID }}
