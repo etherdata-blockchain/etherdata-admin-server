@@ -14,6 +14,8 @@ interface DeviceInterface {
   devices: ClientInterface[];
   currentPageNumber: number;
   totalPageNumber: number;
+  totalNumDevices: number;
+  totalNumOnlineDevices: number;
   filterKeyword: string;
   setFilterKeyword(v: string): void;
   joinDetail(deviceId: string): void;
@@ -35,6 +37,8 @@ export default function DeviceProvider(props: any) {
   const [filterKeyword, setFilterKeyword] = React.useState<string>("");
   const [currentPageNumber, setCurrentPageNumber] = React.useState(0);
   const [totalPageNumber, setTotalPageNumber] = React.useState(0);
+  const [totalNumDevices, setTotalNumberDevices] = React.useState(0);
+  const [totalNumOnlineDevices, setTotalOnlineDevices] = React.useState(0);
 
   React.useEffect(() => {
     socket = io("/clients", {
@@ -47,11 +51,19 @@ export default function DeviceProvider(props: any) {
 
     socket.on(
       "realtime-info",
-      ({ total, current, devices }: PaginationResult) => {
+      ({
+        totalPageNumber,
+        currentPageNumber,
+        devices,
+        totalNumberDevices,
+        totalOnlineDevices,
+      }: PaginationResult) => {
         setLoadingData(false);
         setDevices(devices);
-        setCurrentPageNumber(current);
-        setTotalPageNumber(total);
+        setCurrentPageNumber(currentPageNumber);
+        setTotalPageNumber(totalPageNumber);
+        setTotalOnlineDevices(totalOnlineDevices);
+        setTotalNumberDevices(totalNumberDevices);
       }
     );
   }, []);
@@ -100,6 +112,8 @@ export default function DeviceProvider(props: any) {
     currentPageNumber,
     totalPageNumber,
     handlePageChange,
+    totalNumDevices,
+    totalNumOnlineDevices,
   };
 
   return (

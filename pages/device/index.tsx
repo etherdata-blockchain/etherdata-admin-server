@@ -26,6 +26,8 @@ export default function Index(props: Props) {
     filterKeyword,
     currentPageNumber,
     totalPageNumber,
+    totalNumDevices,
+    totalNumOnlineDevices,
     handlePageChange,
   } = React.useContext(DeviceContext);
 
@@ -56,9 +58,7 @@ export default function Index(props: Props) {
         <Grid item md={8}>
           <LargeDataCard
             icon={<ComputerIcon />}
-            title={`${devices.filter((d) => d.isOnline).length} / ${
-              devices.length
-            }`}
+            title={`${totalNumDevices} / ${totalNumOnlineDevices}`}
             color={"#ba03fc"}
             subtitleColor={"white"}
             iconColor={"white"}

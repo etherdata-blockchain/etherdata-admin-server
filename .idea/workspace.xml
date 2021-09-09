@@ -3,11 +3,10 @@
   <component name="ChangeListManager">
     <list default="true" id="e1a3988a-0525-413b-a551-8dd5e1c5f215" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/device/deviceTable.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/device/deviceTable.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pages/device/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/pages/device/index.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pages/model/DeviceProvider.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/pages/model/DeviceProvider.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/client/browserClient.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/client/browserClient.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/plugin/plugins/socketIOPlugins/clientPlugin.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/plugin/plugins/socketIOPlugins/clientPlugin.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/plugin/plugins/socketIOPlugins/nodePlugin.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/plugin/plugins/socketIOPlugins/nodePlugin.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -195,7 +194,7 @@
       <workItem from="1629122405537" duration="4201000" />
       <workItem from="1629135600353" duration="2394000" />
       <workItem from="1629783648512" duration="20355000" />
-      <workItem from="1631168154277" duration="5730000" />
+      <workItem from="1631168154277" duration="6667000" />
     </task>
     <servers />
   </component>

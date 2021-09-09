@@ -3,8 +3,10 @@ import { ClientInterface } from "./nodeClient";
 
 export interface PaginationResult {
   devices: ClientInterface[];
-  total: number;
-  current: number;
+  totalPageNumber: number;
+  currentPageNumber: number;
+  totalNumberDevices: number;
+  totalOnlineDevices: number;
 }
 
 export class BrowserClient {
@@ -18,13 +20,17 @@ export class BrowserClient {
   generatePaginationResult(devices: ClientInterface[]): PaginationResult {
     let start = this.currentPage * this.numPerPage;
     let end = (this.currentPage + 1) * this.numPerPage;
+    let totalNumberPages = Math.ceil(devices.length / this.numPerPage);
+    let onlineDevices = devices.filter((d) => d.isOnline);
 
     let newDevices = devices.slice(start, end);
 
     return {
       devices: newDevices,
-      total: devices.length,
-      current: this.currentPage,
+      totalPageNumber: totalNumberPages,
+      currentPageNumber: this.currentPage,
+      totalNumberDevices: devices.length,
+      totalOnlineDevices: onlineDevices.length,
     };
   }
 }
