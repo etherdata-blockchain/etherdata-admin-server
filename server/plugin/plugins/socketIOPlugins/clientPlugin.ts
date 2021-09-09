@@ -34,10 +34,13 @@ export class ClientPlugin extends AppPlugin {
 
   protected onAuthenticated(socket: Socket): void {
     let plugin = this.otherPlugins["node"] as NodePlugin;
-    this.server!.emit("realtime-info", {
-      type: "init",
-      data: Object.values(plugin.nodeClients).map((c) => c.toJSON()),
-    });
+    let client = new BrowserClient();
+    this.browserClients[socket.id] = client;
+    this.sendDataToClient(
+      client,
+      socket.id,
+      Object.values(plugin.nodeClients).map((c) => c.toJSON())
+    );
   }
 
   protected onUnAuthenticated(socket: Socket): void {}
@@ -54,11 +57,22 @@ export class ClientPlugin extends AppPlugin {
     });
   };
 
+  /**
+   * Change page
+   * @param socket
+   */
   handlePageChange: SocketHandler = (socket) => {
+    let plugin = this.otherPlugins["node"] as NodePlugin;
     socket.on("page-change", (pageNum: number) => {
       let client = this.browserClients[socket.id];
       if (client) {
+        console.log("Change page", pageNum);
         client.currentPage = pageNum;
+        this.sendDataToClient(
+          client,
+          socket.id,
+          Object.values(plugin.nodeClients).map((c) => c.toJSON())
+        );
       }
     });
   };
@@ -74,5 +88,15 @@ export class ClientPlugin extends AppPlugin {
         ?.to(socketID)
         .emit("realtime-info", client.generatePaginationResult(devices));
     }
+  };
+
+  private sendDataToClient = (
+    client: BrowserClient,
+    socketID: string,
+    devices: ClientInterface[]
+  ) => {
+    this.server
+      ?.to(socketID)
+      .emit("realtime-info", client.generatePaginationResult(devices));
   };
 }
