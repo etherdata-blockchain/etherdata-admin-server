@@ -2,9 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e1a3988a-0525-413b-a551-8dd5e1c5f215" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.github/workflows/build-next.yml" beforeDir="false" afterPath="$PROJECT_DIR$/.github/workflows/build-next.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/Dockerfile" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -192,7 +190,7 @@
       <workItem from="1629122405537" duration="4201000" />
       <workItem from="1629135600353" duration="2394000" />
       <workItem from="1629783648512" duration="20355000" />
-      <workItem from="1631168154277" duration="10816000" />
+      <workItem from="1631168154277" duration="11288000" />
     </task>
     <servers />
   </component>
