@@ -39,7 +39,7 @@ export default function ResponsiveCard({
             />
           )}
 
-          <CardContent>{children}</CardContent>
+          <CardContent style={{ height: "100%" }}>{children}</CardContent>
         </Card>
       </Hidden>
     </div>

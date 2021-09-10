@@ -22,7 +22,7 @@ interface DeviceInterface {
   joinDetail(deviceId: string): void;
   leaveDetail(deviceId: string): void;
   sendCommand(methodName: string, params: any[]): Promise<any>;
-  handlePageChange(pageNumber: number): void;
+  handlePageChange(pageNumber: number): Promise<any>;
 }
 
 //@ts-ignore
@@ -79,13 +79,16 @@ export default function DeviceProvider(props: any) {
     socket?.emit("leave-room", deviceId);
   }, []);
 
-  const handlePageChange = React.useCallback((pageNumber: number) => {
-    socket?.emit("page-change", pageNumber);
-    socket?.once("page-changed", () => {
-      setLoadingData(false);
+  const handlePageChange = React.useCallback(async (pageNumber: number) => {
+    return new Promise((resolve, reject) => {
+      socket?.emit("page-change", pageNumber);
+      socket?.once("page-changed", () => {
+        setLoadingData(false);
+        setCurrentPageNumber(pageNumber);
+        resolve(true);
+      });
+      setLoadingData(true);
     });
-    setCurrentPageNumber(pageNumber);
-    setLoadingData(true);
   }, []);
 
   const sendCommand = React.useCallback(

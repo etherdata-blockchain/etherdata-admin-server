@@ -78,9 +78,8 @@ export function DeviceTable({
       rows={data}
       paginationMode={"server"}
       rowCount={totalNumRows}
-      onPageChange={(page) => {
-        console.log(currentPageNumber, page);
-        onPageChanged(page.page);
+      onPageChange={async (page) => {
+        await onPageChanged(page.page);
       }}
       autoHeight
       pageSize={numPerPage}
