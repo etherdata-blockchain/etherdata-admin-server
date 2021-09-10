@@ -43,7 +43,7 @@ export default function DeviceProvider(props: any) {
   const [numPerPage, setNumPerPage] = React.useState(0);
 
   React.useEffect(() => {
-    socket = io("wss://etd.admin.sirileepage.com/clients", {
+    socket = io("/clients", {
       auth: { token: process.env.NEXT_PUBLIC_CLIENT_PASSWORD },
     });
 
