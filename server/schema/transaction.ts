@@ -1,7 +1,7 @@
 /**
  * Create a user object for mongoose ORM.
  *
- * This file contains the devices schema for mongodb device collection
+ * This file contains the device schema for mongodb device collection
  */
 import { Schema, model, connect, Document } from "mongoose";
 import { Web3DataInfo } from "../client/node_data";

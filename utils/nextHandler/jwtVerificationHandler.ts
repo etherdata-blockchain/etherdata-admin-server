@@ -2,7 +2,8 @@ import { NextApiHandler, NextApiRequest, NextApiResponse } from "next";
 import jwt from "jsonwebtoken";
 
 /**
- * Post Only Middleware. Only accept post request
+ * Post Only Middleware. Only accept post request.
+ * Will authenticate user using Bearer token in the header
  * @param fn
  * @constructor
  */

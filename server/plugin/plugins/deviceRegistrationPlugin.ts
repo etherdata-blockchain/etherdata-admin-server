@@ -38,6 +38,11 @@ export class DeviceRegistrationPlugin extends DatabasePlugin<IDevice> {
     return [false, "Device Not found"];
   }
 
+  async findDevicesByUser(user: string): Promise<IDevice[]> {
+    let res = await this.model.find({ user: user });
+    return res;
+  }
+
   async performPatch(data: IDevice): Promise<IDevice> {
     let result = await this.model.findOneAndUpdate(
       { id: data.id },

@@ -28,8 +28,8 @@ export class ClientPlugin extends AppPlugin {
   }
 
   auth(password: string): boolean {
-    // return process.env.NEXT_PUBLIC_CLIENT_PASSWORD === password;
-    return true;
+    return process.env.NEXT_PUBLIC_CLIENT_PASSWORD === password;
+    // return true;
   }
 
   protected onAuthenticated(socket: Socket): void {

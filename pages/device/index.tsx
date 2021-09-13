@@ -38,7 +38,7 @@ export default function Index(props: Props) {
     <div>
       <PageHeader
         title={"Devices"}
-        description={"Manage all online devices here"}
+        description={"Manage all online device here"}
       />
       <Divider />
       <Spacer height={20} />
