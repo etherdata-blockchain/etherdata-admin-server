@@ -32,44 +32,51 @@ import { DeviceRegistrationPlugin } from "../../server/plugin/plugins/deviceRegi
 import { IDevice } from "../../server/schema/device";
 import { objectExpand } from "../../utils/objectExpander";
 import Logger from "../../server/logger";
+import { NodePlugin } from "../../server/plugin/plugins/socketIOPlugins/nodePlugin";
+import { ClientInterface } from "../../server/client/nodeClient";
 
 type Props = {
-  device: IDevice | null;
+  device: ClientInterface | null;
+  online: boolean;
+  found: boolean;
+  socketId: string | null;
 };
 
-export default function DeviceDetail({ device }: Props) {
+export default function DeviceDetail({
+  device,
+  online,
+  found,
+  socketId,
+}: Props) {
   const router = useRouter();
   const { devices, joinDetail, leaveDetail } = React.useContext(DeviceContext);
   const { showSnackBarMessage } = React.useContext(UIProviderContext);
 
-  const foundDevice = devices.find((d) => d.id === router.query.id);
+  const foundDevice = devices[0];
 
   React.useEffect(() => {
-    const deviceId = router.query.id!;
+    console.log("Joining room", device?.data?.systemInfo.nodeId);
     //@ts-ignore
-    joinDetail(deviceId);
+    if (socketId) joinDetail(device?.data?.systemInfo.nodeId);
 
     return () => {
       //@ts-ignore
-      leaveDetail(deviceId);
+      if (socketId) leaveDetail(device?.data?.systemInfo.nodeId);
     };
   }, []);
+
+  if (!found) {
+    return <div>Device Not Found</div>;
+  }
 
   return (
     <div>
       <PageHeader
         title={"Device"}
-        description={`${device?.name}`}
+        description={`${device?.id}`}
         action={
           <Button
-            onClick={() =>
-              router.push(
-                "/device/edit/" +
-                  router.query.id +
-                  "?deviceId=" +
-                  foundDevice?.data?.systemInfo.nodeId
-              )
-            }
+            onClick={() => router.push("/device/edit/" + router.query.id)}
             variant={"outlined"}
           >
             Edit
@@ -125,14 +132,13 @@ export default function DeviceDetail({ device }: Props) {
         <Grid item xs={12}>
           <ResponsiveCard>
             <List>
-              {objectExpand(foundDevice ?? { error: "no details" }, [
-                "__v",
-                "_id",
-              ]).map(({ key, value }, index) => (
-                <ListItem key={index}>
-                  <ListItemText primary={key} secondary={`${value}`} />
-                </ListItem>
-              ))}
+              {objectExpand(foundDevice ?? device!, ["__v", "_id"]).map(
+                ({ key, value }, index) => (
+                  <ListItem key={index}>
+                    <ListItemText primary={key} secondary={`${value}`} />
+                  </ListItem>
+                )
+              )}
 
               <ListSubheader>Peers</ListSubheader>
               {foundDevice?.data?.peers.map((p, i) => (
@@ -152,28 +158,33 @@ export default function DeviceDetail({ device }: Props) {
 export const getServerSideProps: GetServerSideProps<Props> = async (
   context
 ) => {
-  const deviceId = context.query.deviceId as string;
-  if (deviceId === undefined || deviceId === "") {
-    return {
-      props: {
-        device: null,
-      },
-    };
-  }
+  const deviceId = context.query.id as string;
+  let device: ClientInterface | null = null;
+  let online: boolean = false;
+  let found: boolean = false;
+  let socketId: string | null = null;
+
   try {
     const plugin = new DeviceRegistrationPlugin();
-    let device = await plugin.get(deviceId);
-    return {
-      props: {
-        device: JSON.parse(JSON.stringify(device)),
-      },
-    };
+    //@ts-ignore
+    const nodePlugin: NodePlugin = global.nodePlugin;
+    const [id, client] = nodePlugin.getDeviceById(deviceId);
+    if (client) {
+      found = true;
+      online = client.isOnline;
+      socketId = id ?? null;
+      device = client.toJSON();
+    }
   } catch (e) {
     Logger.error("Cannot read details: " + e);
-    return {
-      props: {
-        device: null,
-      },
-    };
   }
+
+  return {
+    props: {
+      device,
+      online,
+      found,
+      socketId,
+    },
+  };
 };

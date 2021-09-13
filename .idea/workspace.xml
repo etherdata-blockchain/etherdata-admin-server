@@ -2,7 +2,15 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e1a3988a-0525-413b-a551-8dd5e1c5f215" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/device/deviceAction.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/device/deviceAction.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/device/deviceTable.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/device/deviceTable.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/device/[id].tsx" beforeDir="false" afterPath="$PROJECT_DIR$/pages/device/[id].tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/device/edit/[id].tsx" beforeDir="false" afterPath="$PROJECT_DIR$/pages/device/edit/[id].tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/device/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/pages/device/index.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pages/model/DeviceProvider.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/pages/model/DeviceProvider.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/app.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/app.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/plugin/plugins/socketIOPlugins/nodePlugin.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/plugin/plugins/socketIOPlugins/nodePlugin.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -27,6 +35,18 @@
       <filtered-out-file-type name="TAG" />
       <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
     </file-type-list>
+  </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/pages/transaction/index.tsx" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/pages/model/DeviceProvider.tsx" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/server/client/browserClient.ts" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/styles/Home.module.css" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/components/ResponsiveCard.tsx" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/pages/device/index.tsx" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/components/device/deviceTable.tsx" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/server/plugin/plugins/socketIOPlugins/clientPlugin.ts" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/pages/home/index.tsx" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/pages/device/[id].tsx" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="ProjectId" id="1vAYqrXe79WnCw0LI9t8sBuBWyy" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
@@ -190,7 +210,7 @@
       <workItem from="1629122405537" duration="4201000" />
       <workItem from="1629135600353" duration="2394000" />
       <workItem from="1629783648512" duration="20355000" />
-      <workItem from="1631168154277" duration="16683000" />
+      <workItem from="1631168154277" duration="22024000" />
     </task>
     <servers />
   </component>

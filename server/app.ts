@@ -16,11 +16,11 @@ const nextHandler = nextApp.getRequestHandler();
 nextApp.prepare().then(async () => {
   const server = express();
   const httpServer = createServer(server);
-  const socketIOServer = new Server([
-    new NodePlugin(),
-    new ClientPlugin(),
-    new AppPlugin(),
-  ]);
+  const plugins = [new NodePlugin(), new ClientPlugin(), new AppPlugin()];
+  const socketIOServer = new Server(plugins);
+
+  //@ts-ignore
+  global.nodePlugin = plugins[0];
 
   mongoose.set("useNewUrlParser", true);
   mongoose.set("useUnifiedTopology", true);

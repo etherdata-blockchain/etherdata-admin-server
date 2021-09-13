@@ -48,9 +48,7 @@ export function DeviceTable({
         return (
           <Button
             onClick={() =>
-              router.push(
-                `/device/${params.id}?deviceId=${device.data?.systemInfo.nodeId}`
-              )
+              router.push(`/device/${device.data?.systemInfo.nodeId}`)
             }
           >
             Details

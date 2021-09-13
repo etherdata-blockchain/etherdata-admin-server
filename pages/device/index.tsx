@@ -59,7 +59,7 @@ export default function Index(props: Props) {
         <Grid item md={8}>
           <LargeDataCard
             icon={<ComputerIcon />}
-            title={`${totalNumDevices} / ${totalNumOnlineDevices}`}
+            title={`${totalNumOnlineDevices} / ${totalNumDevices}`}
             color={"#ba03fc"}
             subtitleColor={"white"}
             iconColor={"white"}
@@ -80,13 +80,7 @@ export default function Index(props: Props) {
               totalPageNumber={totalPageNumber}
               onPageChanged={handlePageChange}
               totalNumRows={totalNumDevices}
-              devices={
-                filterKeyword.length > 0
-                  ? devices.filter((d) =>
-                      d.data?.systemInfo.nodeId?.includes(filterKeyword)
-                    )
-                  : devices
-              }
+              devices={devices}
               loading={loadingData}
             />
           </ResponsiveCard>

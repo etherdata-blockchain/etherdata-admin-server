@@ -41,6 +41,15 @@ export class NodePlugin extends BaseSocketIOPlugin {
     return process.env.NODE_PASSWORD === password;
   }
 
+  getDeviceById(nodeId: string): [string | undefined, NodeClient | undefined] {
+    for (const [socketId, client] of Object.entries(this.nodeClients)) {
+      if (client.web3Data?.systemInfo.nodeId === nodeId) {
+        return [socketId, client];
+      }
+    }
+    return [undefined, undefined];
+  }
+
   /**
    * Periodically remove inactive clients
    * @private

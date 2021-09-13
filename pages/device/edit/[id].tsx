@@ -169,7 +169,7 @@ export default function DeviceEditDetail({ user, deviceId }: Props) {
 export const getServerSideProps: GetServerSideProps<Props> = async (
   context
 ) => {
-  const deviceId = context.query.deviceId as string;
+  const deviceId = context.query.id as string;
   if (deviceId === undefined || deviceId === "") {
     return {
       props: {

@@ -1,11 +1,6 @@
 import React from "react";
 import io, { Socket } from "socket.io-client";
-import { ETDHistoryInterface } from "../../server";
-import { TransactionSummary } from "../../server/interfaces/transaction";
 import { UIProviderContext } from "./UIProvider";
-import { realmApp } from "../_app";
-import { IDevice } from "../../server/schema/device";
-import { Web3DataInfo } from "../../server/client/node_data";
 import { ClientInterface } from "../../server/client/nodeClient";
 import { PaginationResult } from "../../server/client/browserClient";
 
