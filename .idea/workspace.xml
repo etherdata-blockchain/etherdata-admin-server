@@ -3,13 +3,8 @@
   <component name="ChangeListManager">
     <list default="true" id="e1a3988a-0525-413b-a551-8dd5e1c5f215" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/globalConfig.json" beforeDir="false" afterPath="$PROJECT_DIR$/globalConfig.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/api/v1/device/devices.ts" beforeDir="false" afterPath="$PROJECT_DIR$/pages/api/v1/device/devices.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/plugin/basePlugin.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/plugin/basePlugin.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/plugin/plugins/socketIOPlugins/appPlugin.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/plugin/plugins/socketIOPlugins/appPlugin.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/plugin/plugins/socketIOPlugins/nodePlugin.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/plugin/plugins/socketIOPlugins/nodePlugin.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/tests/nodePlugin.test.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/tests/nodePlugin.test.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/api/device/devices.test.ts" beforeDir="false" afterPath="$PROJECT_DIR$/tests/api/device/devices.test.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/device/[id].tsx" beforeDir="false" afterPath="$PROJECT_DIR$/pages/device/[id].tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/utils/objectExpander.ts" beforeDir="false" afterPath="$PROJECT_DIR$/utils/objectExpander.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -86,7 +81,7 @@
       <recent name="$PROJECT_DIR$/server/tests" />
     </key>
   </component>
-  <component name="RunManager" selected="Jest.Test find devices by user.Get devices 2">
+  <component name="RunManager" selected="npm.dev">
     <configuration name="Node Plugin Test" type="JavaScriptTestRunnerJest" temporary="true" nameIsGenerated="true">
       <node-interpreter value="project" />
       <node-options value="" />
@@ -169,8 +164,8 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Jest.Test find devices by user.Get devices 2" />
         <item itemvalue="npm.dev" />
+        <item itemvalue="Jest.Test find devices by user.Get devices 2" />
         <item itemvalue="Jest.Test find devices by user.Get devices" />
         <item itemvalue="Jest.Node Plugin Test" />
         <item itemvalue="Jest.Node Plugin Test.Send realtime data" />
@@ -211,7 +206,7 @@
       <workItem from="1629135600353" duration="2394000" />
       <workItem from="1629783648512" duration="20355000" />
       <workItem from="1631168154277" duration="25209000" />
-      <workItem from="1631522836022" duration="2390000" />
+      <workItem from="1631522836022" duration="3885000" />
     </task>
     <servers />
   </component>
@@ -229,6 +224,18 @@
       </map>
     </option>
     <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/pages/device/[id].tsx</url>
+          <line>169</line>
+          <properties lambdaOrdinal="-1" />
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

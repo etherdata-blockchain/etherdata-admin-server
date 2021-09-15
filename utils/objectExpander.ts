@@ -2,11 +2,15 @@ export function objectExpand(
   object: { [key: string]: any },
   omitKeys: string[]
 ) {
+  if (!object) {
+    return [];
+  }
+
   let values: { key: string; value: any }[] = [];
 
   Object.entries(object).forEach(([key, value]) => {
     if (!omitKeys.includes(key)) {
-      if (typeof value === 'object') {
+      if (typeof value === "object") {
         let entries = objectExpand(value, omitKeys);
         values = values.concat(entries);
       } else {

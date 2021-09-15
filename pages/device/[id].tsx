@@ -132,7 +132,7 @@ export default function DeviceDetail({
         <Grid item xs={12}>
           <ResponsiveCard>
             <List>
-              {objectExpand(foundDevice ?? device!, ["__v", "_id"]).map(
+              {objectExpand(foundDevice ?? device, ["__v", "_id"]).map(
                 ({ key, value }, index) => (
                   <ListItem key={index}>
                     <ListItemText primary={key} secondary={`${value}`} />
@@ -174,6 +174,18 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
       online = client.isOnline;
       socketId = id ?? null;
       device = client.toJSON();
+    } else {
+      let data = await plugin.get(deviceId);
+
+      device = {
+        //@ts-ignore
+        data: null,
+        id: data?.id ?? "",
+        lastSeen: "",
+        isOnline: false,
+      };
+
+      found = true;
     }
   } catch (e) {
     Logger.error("Cannot read details: " + e);
