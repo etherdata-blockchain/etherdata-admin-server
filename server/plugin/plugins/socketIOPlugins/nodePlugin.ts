@@ -63,7 +63,7 @@ export class NodePlugin extends BaseSocketIOPlugin {
       shouldDeleteClients.forEach((c) => {
         this.removeClient(c.id);
         //TODO: Send data back to client
-        clientPlugin.sendDataToAllClients(
+        clientPlugin?.sendDataToAllClients(
           Object.values(this.nodeClients).map((n) => n.toJSON())
         );
 
@@ -89,9 +89,7 @@ export class NodePlugin extends BaseSocketIOPlugin {
     let clientPlugin = this.findPlugin<ClientPlugin>("client");
     let appPlugin = this.findPlugin<AppPlugin>("app");
     // If the client back online again, we will update its status
-
-    //TODO: Send pagination results
-    clientPlugin.sendDataToAllClients(
+    clientPlugin?.sendDataToAllClients(
       Object.values(this.nodeClients).map((n) => n.toJSON())
     );
 
@@ -104,7 +102,7 @@ export class NodePlugin extends BaseSocketIOPlugin {
       let client = new NodeClient(socket.id);
       this.nodeClients[socket.id] = client;
       // Send device data to app clients
-      appPlugin.server
+      appPlugin?.server
         ?.in(client.web3Data?.systemInfo.nodeId!)
         .emit("realtime-info", {
           type: "update",
@@ -145,7 +143,7 @@ export class NodePlugin extends BaseSocketIOPlugin {
       if (foundClient) {
         foundClient.updateData(data);
         //TODO: Send data to browser
-        clientPlugin.sendDataToAllClients(
+        clientPlugin?.sendDataToAllClients(
           Object.values(this.nodeClients).map((n) => n.toJSON())
         );
 
@@ -161,7 +159,7 @@ export class NodePlugin extends BaseSocketIOPlugin {
         }
 
         // Send device data to app clients
-        appPlugin.server
+        appPlugin?.server
           ?.in(foundClient.web3Data?.systemInfo.nodeId!)
           .emit("realtime-info", {
             type: "update",
@@ -185,11 +183,11 @@ export class NodePlugin extends BaseSocketIOPlugin {
           } is offline. Will be remove at ${foundClient.out_time.format()}`
         );
         //TODO: Send data back to browser
-        clientPlugin.sendDataToAllClients(
+        clientPlugin?.sendDataToAllClients(
           Object.values(this.nodeClients).map((n) => n.toJSON())
         );
 
-        appPlugin.server?.emit("realtime-info", {
+        appPlugin?.server?.emit("realtime-info", {
           type: "update",
           data: foundClient.toJSON(),
         });
@@ -204,12 +202,12 @@ export class NodePlugin extends BaseSocketIOPlugin {
       let foundClient = this.nodeClients[socket.id];
       if (foundClient) {
         // Send data to app
-        appPlugin.server
+        appPlugin?.server
           ?.in(foundClient.web3Data?.systemInfo.nodeId!)
           .emit("rpc-result", data);
 
         // Send data to browser
-        clientPlugin.server
+        clientPlugin?.server
           ?.in(foundClient.web3Data?.systemInfo.nodeId!)
           .emit("rpc-result", data);
       }
@@ -223,12 +221,12 @@ export class NodePlugin extends BaseSocketIOPlugin {
       let foundClient = this.nodeClients[socket.id];
       if (foundClient) {
         // Send data to app
-        appPlugin.server
+        appPlugin?.server
           ?.in(foundClient.web3Data?.systemInfo.nodeId!)
           .emit("rpc-command-error", data);
 
         // Send data to browser
-        clientPlugin.server
+        clientPlugin?.server
           ?.in(foundClient.web3Data?.systemInfo.nodeId!)
           .emit("rpc-command-error", data);
       }

@@ -77,7 +77,7 @@ export abstract class BaseSocketIOPlugin extends BasePlugin<string> {
 
   protected findPlugin<T extends BaseSocketIOPlugin>(
     pluginName: RegisteredPlugins
-  ): T {
+  ): T | undefined {
     try {
       //@ts-ignore
       return this.otherPlugins[pluginName];

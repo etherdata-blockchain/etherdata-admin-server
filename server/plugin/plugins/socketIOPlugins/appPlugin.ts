@@ -61,12 +61,13 @@ export class AppPlugin extends BaseSocketIOPlugin {
         });
         return;
       }
-
-      for (let client of Object.values(nodePlugin.nodeClients)) {
-        if (client.web3Data?.systemInfo.nodeId === roomId) {
-          Logger.info("Joining room " + roomId);
-          socket.join(roomId);
-          found = true;
+      if (nodePlugin) {
+        for (let client of Object.values(nodePlugin.nodeClients)) {
+          if (client.web3Data?.systemInfo.nodeId === roomId) {
+            Logger.info("Joining room " + roomId);
+            socket.join(roomId);
+            found = true;
+          }
         }
       }
 
@@ -105,10 +106,10 @@ export class AppPlugin extends BaseSocketIOPlugin {
         // room id also is the node id
         let selectedRoom = rooms[1];
         let nodePlugin = this.findPlugin<NodePlugin>("node");
-        let foundClient = nodePlugin.findClient(selectedRoom);
+        let foundClient = nodePlugin?.findClient(selectedRoom);
         if (foundClient) {
           Logger.info(`Sending command ${command} to client`);
-          nodePlugin.server?.to(foundClient.id).emit("rpc-command", command);
+          nodePlugin?.server?.to(foundClient.id).emit("rpc-command", command);
         } else {
           Logger.error(`Client ${selectedRoom} is not online`);
           socket.emit("rpc-command-error", {

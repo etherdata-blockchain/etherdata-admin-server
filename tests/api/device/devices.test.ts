@@ -42,10 +42,65 @@ describe("Test find devices by user", () => {
 
     //@ts-ignore
     await handler(req, res);
-
-    console.log(res._getJSONData());
-
     expect(res._getStatusCode()).toBe(200);
-    expect(res._getJSONData().devices.length).toBe(1);
+    expect(res._getJSONData().length).toBe(1);
+  });
+
+  test("Get devices 2", async () => {
+    await new DeviceModel({
+      name: "a",
+      id: "a",
+      online: true,
+      user: "abcde",
+    }).save();
+
+    await new DeviceModel({
+      name: "b",
+      id: "b",
+      online: true,
+      user: "abcde",
+    }).save();
+
+    let token = jwt.sign({ user: "ab" }, "test");
+    const { req, res } = createMocks({
+      method: "GET",
+      headers: {
+        Authorization: "Bearer " + token,
+      },
+    });
+
+    //@ts-ignore
+    await handler(req, res);
+    expect(res._getStatusCode()).toBe(200);
+    expect(res._getJSONData().length).toBe(0);
+  });
+
+  test("Get devices 2", async () => {
+    await new DeviceModel({
+      name: "a",
+      id: "a",
+      online: true,
+      user: "abcde",
+    }).save();
+
+    await new DeviceModel({
+      name: "b",
+      id: "b",
+      online: true,
+      user: "abcd",
+    }).save();
+
+    let token = jwt.sign({ user: "abcde" }, "test");
+    const { req, res } = createMocks({
+      method: "GET",
+      headers: {
+        Authorization: "Bearer " + token,
+      },
+    });
+
+    //@ts-ignore
+    await handler(req, res);
+    expect(res._getStatusCode()).toBe(200);
+    expect(res._getJSONData().length).toBe(1);
   });
 });

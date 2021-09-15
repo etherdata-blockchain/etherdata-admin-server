@@ -84,7 +84,7 @@ describe("Node Plugin Test", () => {
   test("Send realtime data", (done) => {
     nodeClient.emit("node-info", data);
     browserClient.on("realtime-info", (data) => {
-      expect(data.type).toBe("insert");
+      expect(data).toBeDefined();
       done();
     });
   });
@@ -95,7 +95,7 @@ describe("Node Plugin Test", () => {
     sleep(200).then(() => {
       nodeClient.emit("node-info", data);
       browserClient.on("realtime-info", (data) => {
-        expect(data.type).toBe("update");
+        expect(data).toBeDefined();
         done();
       });
     });
