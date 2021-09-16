@@ -176,16 +176,17 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
       device = client.toJSON();
     } else {
       let data = await plugin.get(deviceId);
+      if (data) {
+        device = {
+          //@ts-ignore
+          data: null,
+          id: data?.id ?? "",
+          lastSeen: "",
+          isOnline: false,
+        };
 
-      device = {
-        //@ts-ignore
-        data: null,
-        id: data?.id ?? "",
-        lastSeen: "",
-        isOnline: false,
-      };
-
-      found = true;
+        found = true;
+      }
     }
   } catch (e) {
     Logger.error("Cannot read details: " + e);
