@@ -2,14 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e1a3988a-0525-413b-a551-8dd5e1c5f215" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/example_configs/env.example" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kubernetes/etherdata-admin-server-deployment.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app.example.json" beforeDir="false" afterPath="$PROJECT_DIR$/example_configs/app.example.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/plugin/plugins/socketIOPlugins/nodePlugin.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/plugin/plugins/socketIOPlugins/nodePlugin.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/server.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/server.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/yarn.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.github/workflows/build-next.yml" beforeDir="false" afterPath="$PROJECT_DIR$/.github/workflows/build-next.yml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -168,12 +161,12 @@
       <method v="2" />
     </configuration>
     <list>
-      <item itemvalue="Jest.Node Plugin Test.Send realtime data" />
       <item itemvalue="Jest.Node Plugin Test" />
-      <item itemvalue="Jest.Test find devices by user.Get devices" />
+      <item itemvalue="Jest.Node Plugin Test.Send realtime data" />
       <item itemvalue="Jest.Test find devices by user.Get devices 2" />
-      <item itemvalue="npm.test" />
+      <item itemvalue="Jest.Test find devices by user.Get devices" />
       <item itemvalue="npm.dev" />
+      <item itemvalue="npm.test" />
     </list>
     <recent_temporary>
       <list>
