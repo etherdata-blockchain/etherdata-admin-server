@@ -150,7 +150,7 @@ export class NodePlugin extends BaseSocketIOPlugin {
         // register device
         if (!this.registeredDevices.includes(data?.systemInfo?.nodeId ?? "")) {
           let success = await dbPlugin.addDevice({
-            id: data.systemInfo?.nodeId ?? "NONAME",
+            id: data?.systemInfo?.nodeId ?? "NONAME",
             name: data.systemInfo?.name,
           });
           if (success) {
