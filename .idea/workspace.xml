@@ -2,8 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e1a3988a-0525-413b-a551-8dd5e1c5f215" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/device/[id].tsx" beforeDir="false" afterPath="$PROJECT_DIR$/pages/device/[id].tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.github/workflows/build-next.yml" beforeDir="false" afterPath="$PROJECT_DIR$/.github/workflows/build-next.yml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -31,15 +30,15 @@
   </component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$PROJECT_DIR$/pages/transaction/index.tsx" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/pages/device/[id].tsx" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/components/ResponsiveCard.tsx" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/components/device/deviceTable.tsx" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/pages/model/DeviceProvider.tsx" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/server/client/browserClient.ts" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/styles/Home.module.css" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/components/ResponsiveCard.tsx" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/pages/device/index.tsx" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/components/device/deviceTable.tsx" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/server/plugin/plugins/socketIOPlugins/clientPlugin.ts" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/pages/home/index.tsx" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/pages/device/[id].tsx" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/server/plugin/plugins/socketIOPlugins/clientPlugin.ts" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="ProjectId" id="1vAYqrXe79WnCw0LI9t8sBuBWyy" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
@@ -154,12 +153,12 @@
       <method v="2" />
     </configuration>
     <list>
-      <item itemvalue="Jest.Node Plugin Test.Send realtime data" />
       <item itemvalue="Jest.Node Plugin Test" />
-      <item itemvalue="Jest.Test find devices by user.Get devices" />
-      <item itemvalue="npm.test" />
-      <item itemvalue="npm.dev" />
+      <item itemvalue="Jest.Node Plugin Test.Send realtime data" />
       <item itemvalue="Jest.Test find devices by user.Get devices 2" />
+      <item itemvalue="Jest.Test find devices by user.Get devices" />
+      <item itemvalue="npm.dev" />
+      <item itemvalue="npm.test" />
     </list>
     <recent_temporary>
       <list>
@@ -230,7 +229,6 @@
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/pages/device/[id].tsx</url>
           <line>171</line>
-          <properties lambdaOrdinal="-1" />
           <option name="timeStamp" value="2" />
         </line-breakpoint>
       </breakpoints>
