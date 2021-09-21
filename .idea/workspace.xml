@@ -3,6 +3,8 @@
   <component name="ChangeListManager">
     <list default="true" id="e1a3988a-0525-413b-a551-8dd5e1c5f215" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.github/workflows/build-next.yml" beforeDir="false" afterPath="$PROJECT_DIR$/.github/workflows/build-next.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
