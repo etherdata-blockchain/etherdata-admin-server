@@ -16,7 +16,7 @@ export class Server {
     const server = new SocketServer(httpServer, { cors: { origin: "*" } });
     Logger.info("Creating redis adapter");
     const pubClient = createClient({
-      url: "",
+      url: process.env.REDIS_URL,
     });
     const subClient = pubClient.duplicate();
     const redisAdapter = createAdapter(pubClient, subClient);
