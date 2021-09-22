@@ -2,11 +2,14 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e1a3988a-0525-413b-a551-8dd5e1c5f215" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/example_configs/docker-compose.yml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kubernetes/etherdata-admin-server-service.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.github/workflows/build-next.yml" beforeDir="false" afterPath="$PROJECT_DIR$/.github/workflows/build-next.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/Dockerfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/example_configs/env.example" beforeDir="false" afterPath="$PROJECT_DIR$/example_configs/env.example" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/kubernetes/etherdata-admin-server-deployment.yml" beforeDir="false" afterPath="$PROJECT_DIR$/kubernetes/etherdata-admin-server-deployment.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/plugin/plugins/socketIOPlugins/appPlugin.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/plugin/plugins/socketIOPlugins/appPlugin.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/api/device/devices.test.ts" beforeDir="false" afterPath="$PROJECT_DIR$/tests/api/device/devices.test.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/utils/nextHandler/jwtVerificationHandler.ts" beforeDir="false" afterPath="$PROJECT_DIR$/utils/nextHandler/jwtVerificationHandler.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -63,7 +66,7 @@
     <property name="nodejs_package_manager_path" value="yarn" />
     <property name="prettierjs.PrettierConfiguration.Package" value="$PROJECT_DIR$/node_modules/prettier" />
     <property name="restartRequiresConfirmation" value="false" />
-    <property name="settings.editor.selected.configurable" value="Errors" />
+    <property name="settings.editor.selected.configurable" value="preferences.externalDependencies" />
     <property name="ts.external.directory.path" value="$PROJECT_DIR$/node_modules/typescript/lib" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
@@ -83,7 +86,7 @@
       <recent name="$PROJECT_DIR$/tests/server" />
     </key>
   </component>
-  <component name="RunManager" selected="npm.dev">
+  <component name="RunManager" selected="Docker.Dockerfile">
     <configuration name="Node Plugin Test" type="JavaScriptTestRunnerJest" temporary="true" nameIsGenerated="true">
       <node-interpreter value="project" />
       <node-options value="" />
@@ -94,20 +97,6 @@
       <test-file value="$PROJECT_DIR$/server/tests/nodePlugin.test.ts" />
       <test-names>
         <test-name value="Node Plugin Test" />
-      </test-names>
-      <method v="2" />
-    </configuration>
-    <configuration name="Node Plugin Test.Send realtime data" type="JavaScriptTestRunnerJest" temporary="true" nameIsGenerated="true">
-      <node-interpreter value="project" />
-      <node-options value="" />
-      <jest-package value="$PROJECT_DIR$/node_modules/jest" />
-      <working-dir value="$PROJECT_DIR$" />
-      <envs />
-      <scope-kind value="TEST" />
-      <test-file value="$PROJECT_DIR$/server/tests/nodePlugin.test.ts" />
-      <test-names>
-        <test-name value="Node Plugin Test" />
-        <test-name value="Send realtime data" />
       </test-names>
       <method v="2" />
     </configuration>
@@ -139,6 +128,33 @@
       </test-names>
       <method v="2" />
     </configuration>
+    <configuration name="Dockerfile" type="docker-deploy" factoryName="dockerfile" temporary="true" server-name="Docker">
+      <deployment type="dockerfile">
+        <settings>
+          <option name="imageTag" value="sirily11/etd-remote-admin-server:pr-1" />
+          <option name="buildArgs">
+            <list>
+              <DockerEnvVarImpl>
+                <option name="name" value="APP_ID" />
+                <option name="value" value="etdtesting-uhjik" />
+              </DockerEnvVarImpl>
+              <DockerEnvVarImpl>
+                <option name="name" value="PUBLIC_CLIENT_PASSWORD" />
+                <option name="value" value="eeeettttdddd" />
+              </DockerEnvVarImpl>
+              <DockerEnvVarImpl>
+                <option name="name" value="PUBLIC_STATS_SERVER" />
+                <option name="value" value="wss://etd.monitor.sirileepage.com" />
+              </DockerEnvVarImpl>
+            </list>
+          </option>
+          <option name="buildOnly" value="true" />
+          <option name="containerName" value="" />
+          <option name="sourceFilePath" value="Dockerfile" />
+        </settings>
+      </deployment>
+      <method v="2" />
+    </configuration>
     <configuration name="dev" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
       <package-json value="$PROJECT_DIR$/package.json" />
       <command value="run" />
@@ -166,19 +182,19 @@
     </configuration>
     <list>
       <item itemvalue="Jest.Node Plugin Test" />
-      <item itemvalue="Jest.Node Plugin Test.Send realtime data" />
       <item itemvalue="Jest.Test find devices by user.Get devices 2" />
       <item itemvalue="Jest.Test find devices by user.Get devices" />
       <item itemvalue="npm.test" />
       <item itemvalue="npm.dev" />
+      <item itemvalue="Docker.Dockerfile" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Docker.Dockerfile" />
         <item itemvalue="npm.dev" />
         <item itemvalue="Jest.Test find devices by user.Get devices 2" />
         <item itemvalue="Jest.Test find devices by user.Get devices" />
         <item itemvalue="Jest.Node Plugin Test" />
-        <item itemvalue="Jest.Node Plugin Test.Send realtime data" />
       </list>
     </recent_temporary>
   </component>

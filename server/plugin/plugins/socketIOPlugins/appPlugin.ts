@@ -27,7 +27,7 @@ export class AppPlugin extends BaseSocketIOPlugin {
 
   auth(password: string): boolean {
     // Use jwt authentication
-    let secret = process.env.NEXT_PUBLIC_SECRET!;
+    let secret = process.env.PUBLIC_SECRET!;
     try {
       jwt.verify(password, secret);
       return true;

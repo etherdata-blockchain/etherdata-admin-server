@@ -9,7 +9,7 @@ import jwt from "jsonwebtoken";
  */
 export const JwtVerificationHandler =
   (fn: NextApiHandler) => async (req: NextApiRequest, res: NextApiResponse) => {
-    let secret = process.env.NEXT_PUBLIC_SECRET;
+    let secret = process.env.PUBLIC_SECRET;
     let user = req.headers.authorization;
     if (user && secret) {
       user = user.replace("Bearer ", "");
