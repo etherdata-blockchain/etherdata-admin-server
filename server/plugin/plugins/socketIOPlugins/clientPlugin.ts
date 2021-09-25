@@ -1,6 +1,5 @@
 import { BaseSocketIOPlugin, SocketHandler } from "../../basePlugin";
 import { Server, Socket } from "socket.io";
-import { NodePlugin } from "./nodePlugin";
 import Logger from "../../../logger";
 import { AppPlugin } from "./appPlugin";
 import { BrowserClient } from "../../../client/browserClient";
@@ -33,14 +32,8 @@ export class ClientPlugin extends AppPlugin {
   }
 
   protected onAuthenticated(socket: Socket): void {
-    let plugin = this.otherPlugins["node"] as NodePlugin;
     let client = new BrowserClient();
     this.browserClients[socket.id] = client;
-    this.sendDataToClient(
-      client,
-      socket.id,
-      Object.values(plugin.nodeClients).map((c) => c.toJSON())
-    );
   }
 
   protected onUnAuthenticated(socket: Socket): void {}
@@ -62,16 +55,10 @@ export class ClientPlugin extends AppPlugin {
    * @param socket
    */
   handlePageChange: SocketHandler = (socket) => {
-    let plugin = this.otherPlugins["node"] as NodePlugin;
     socket.on("page-change", (pageNum: number) => {
       let client = this.browserClients[socket.id];
       if (client) {
         client.currentPage = pageNum;
-        this.sendDataToClient(
-          client,
-          socket.id,
-          Object.values(plugin.nodeClients).map((c) => c.toJSON())
-        );
         socket.emit("page-changed", true);
       }
     });

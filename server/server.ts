@@ -14,17 +14,6 @@ export class Server {
 
   async start(httpServer: any) {
     const server = new SocketServer(httpServer, { cors: { origin: "*" } });
-    Logger.info("Creating redis adapter");
-    const pubClient = createClient({
-      url: process.env.REDIS_URL,
-    });
-    const subClient = pubClient.duplicate();
-    const redisAdapter = createAdapter(pubClient, subClient);
-
-    // Create a redis adapter
-    //@ts-ignore
-    server.adapter(redisAdapter);
-
     for (let plugin of this.plugins) {
       plugin.connectPlugins(this.plugins);
       await plugin.startSocketIOServer(server);

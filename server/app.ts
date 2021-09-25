@@ -3,7 +3,6 @@ import express from "express";
 import { Server } from "./server";
 import mongoose from "mongoose";
 import Logger from "./logger";
-import { NodePlugin } from "./plugin/plugins/socketIOPlugins/nodePlugin";
 import { ClientPlugin } from "./plugin/plugins/socketIOPlugins/clientPlugin";
 import { createServer } from "http";
 import { AppPlugin } from "./plugin/plugins/socketIOPlugins/appPlugin";
@@ -16,7 +15,7 @@ const nextHandler = nextApp.getRequestHandler();
 nextApp.prepare().then(async () => {
   const server = express();
   const httpServer = createServer(server);
-  const plugins = [new NodePlugin(), new ClientPlugin(), new AppPlugin()];
+  const plugins = [new ClientPlugin(), new AppPlugin()];
   const socketIOServer = new Server(plugins);
 
   //@ts-ignore
