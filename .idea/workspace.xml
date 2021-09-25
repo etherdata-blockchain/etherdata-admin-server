@@ -2,14 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e1a3988a-0525-413b-a551-8dd5e1c5f215" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.github/workflows/build-next.yml" beforeDir="false" afterPath="$PROJECT_DIR$/.github/workflows/build-next.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/Dockerfile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example_configs/env.example" beforeDir="false" afterPath="$PROJECT_DIR$/example_configs/env.example" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/kubernetes/etherdata-admin-server-deployment.yml" beforeDir="false" afterPath="$PROJECT_DIR$/kubernetes/etherdata-admin-server-deployment.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/plugin/plugins/socketIOPlugins/appPlugin.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/plugin/plugins/socketIOPlugins/appPlugin.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/api/device/devices.test.ts" beforeDir="false" afterPath="$PROJECT_DIR$/tests/api/device/devices.test.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/nextHandler/jwtVerificationHandler.ts" beforeDir="false" afterPath="$PROJECT_DIR$/utils/nextHandler/jwtVerificationHandler.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -86,7 +81,7 @@
       <recent name="$PROJECT_DIR$/tests/server" />
     </key>
   </component>
-  <component name="RunManager" selected="Docker.Dockerfile">
+  <component name="RunManager" selected="npm.dev">
     <configuration name="Node Plugin Test" type="JavaScriptTestRunnerJest" temporary="true" nameIsGenerated="true">
       <node-interpreter value="project" />
       <node-options value="" />
@@ -169,7 +164,7 @@
         <env name="NODE_PASSWORD" value="eeeeettttttddddd" />
         <env name="NEXT_PUBLIC_CLIENT_PASSWORD" value="eeeettttdddd" />
         <env name="NEXT_PUBLIC_SECRET" value="eeeettttddddeeee" />
-        <env name="REDIS_URL" value="rediss://default:FoNdviTvs53EFcfm@db-redis-sgp1-80164-do-user-9511923-0.b.db.ondigitalocean.com:25061" />
+        <env name="REDIS_URL" value="rediss://default@192.168.31.249:6379" />
       </envs>
       <method v="2" />
     </configuration>
@@ -181,17 +176,17 @@
       <method v="2" />
     </configuration>
     <list>
+      <item itemvalue="Docker.Dockerfile" />
       <item itemvalue="Jest.Node Plugin Test" />
       <item itemvalue="Jest.Test find devices by user.Get devices 2" />
       <item itemvalue="Jest.Test find devices by user.Get devices" />
       <item itemvalue="npm.test" />
       <item itemvalue="npm.dev" />
-      <item itemvalue="Docker.Dockerfile" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Docker.Dockerfile" />
         <item itemvalue="npm.dev" />
+        <item itemvalue="Docker.Dockerfile" />
         <item itemvalue="Jest.Test find devices by user.Get devices 2" />
         <item itemvalue="Jest.Test find devices by user.Get devices" />
         <item itemvalue="Jest.Node Plugin Test" />
@@ -234,6 +229,8 @@
       <workItem from="1631168154277" duration="25209000" />
       <workItem from="1631522836022" duration="5729000" />
       <workItem from="1632064879955" duration="4439000" />
+      <workItem from="1632500665007" duration="1941000" />
+      <workItem from="1632581692965" duration="73000" />
     </task>
     <servers />
   </component>
