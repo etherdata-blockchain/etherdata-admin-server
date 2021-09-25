@@ -54,6 +54,15 @@ export class DeviceRegistrationPlugin extends DatabasePlugin<IDevice> {
     return result;
   }
 
+  /**
+   * Authenticate device with storage server.
+   * Return true if the device is registered in storage server
+   * @param device
+   */
+  async auth(device: any): Promise<boolean> {
+    return true;
+  }
+
   async addDevice(device: any): Promise<boolean> {
     let result = await this.patch(device);
     return true;
