@@ -1,1 +1,5 @@
-export type PluginName = "deviceRegistration" | "transaction";
+export type PluginName =
+  | "deviceRegistration"
+  | "transaction"
+  | "pendingJob"
+  | "jobResult";
