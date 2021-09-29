@@ -1,4 +1,8 @@
-import { BasePlugin, BaseSocketIOPlugin } from "./plugin/basePlugin";
+import {
+  BasePlugin,
+  BaseSocketAuthIOPlugin,
+  BaseSocketIOPlugin,
+} from "./plugin/basePlugin";
 import { Express } from "express";
 import { Server as SocketServer } from "socket.io";
 import { createAdapter } from "@socket.io/redis-adapter";
@@ -16,7 +20,9 @@ export class Server {
     const server = new SocketServer(httpServer, { cors: { origin: "*" } });
     for (let plugin of this.plugins) {
       plugin.connectPlugins(this.plugins);
-      await plugin.startSocketIOServer(server);
+      if (plugin instanceof BaseSocketAuthIOPlugin) {
+        await plugin?.startSocketIOServer(server);
+      }
     }
   }
 }

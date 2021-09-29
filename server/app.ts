@@ -6,6 +6,8 @@ import Logger from "./logger";
 import { ClientPlugin } from "./plugin/plugins/socketIOPlugins/clientPlugin";
 import { createServer } from "http";
 import { AppPlugin } from "./plugin/plugins/socketIOPlugins/appPlugin";
+import { BaseSocketIOPlugin } from "./plugin/basePlugin";
+import { DBChangePlugin } from "./plugin/plugins/socketIOPlugins/dbPlugin";
 
 const port = parseInt(process.env.PORT!, 10) || 3000;
 const dev = process.env.NODE_ENV !== "production";
@@ -15,7 +17,11 @@ const nextHandler = nextApp.getRequestHandler();
 nextApp.prepare().then(async () => {
   const server = express();
   const httpServer = createServer(server);
-  const plugins = [new ClientPlugin(), new AppPlugin()];
+  const plugins: any[] = [
+    new ClientPlugin(),
+    new AppPlugin(),
+    new DBChangePlugin(),
+  ];
   const socketIOServer = new Server(plugins);
 
   //@ts-ignore
