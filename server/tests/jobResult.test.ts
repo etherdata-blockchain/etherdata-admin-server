@@ -30,6 +30,7 @@ describe("Job Result Test", () => {
         value: ["blockNumber"],
       },
       result: "0",
+      success: true,
     }).save();
 
     let plugin = new JobResultPlugin();
@@ -57,6 +58,7 @@ describe("Job Result Test", () => {
         value: ["blockNumber"],
       },
       result: "0",
+      success: true,
     }).save();
 
     await new JobResultModel({
@@ -68,6 +70,7 @@ describe("Job Result Test", () => {
         value: ["blockNumber"],
       },
       result: "0",
+      success: true,
     }).save();
 
     let plugin = new JobResultPlugin();

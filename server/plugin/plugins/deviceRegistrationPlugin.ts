@@ -2,6 +2,7 @@ import { DatabasePlugin } from "../basePlugin";
 import { DeviceModel, deviceSchema, IDevice } from "../../schema/device";
 import { PluginName } from "../pluginName";
 import mongoose, { Model, Query } from "mongoose";
+import axios from "axios";
 
 export class DeviceRegistrationPlugin extends DatabasePlugin<IDevice> {
   protected pluginName: PluginName = "deviceRegistration";
@@ -59,8 +60,15 @@ export class DeviceRegistrationPlugin extends DatabasePlugin<IDevice> {
    * Return true if the device is registered in storage server
    * @param device
    */
-  async auth(device: any): Promise<boolean> {
-    return true;
+  async auth(device: string): Promise<boolean> {
+    try {
+      const path = "storage_management/searchByQR?qr=" + device;
+      const url = new URL(path, process.env.STORAGE_MANAGEMENT_URL);
+      await axios.get(url.toString());
+      return true;
+    } catch (err) {
+      return false;
+    }
   }
 
   async addDevice(device: any): Promise<boolean> {

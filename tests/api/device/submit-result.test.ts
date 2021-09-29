@@ -1,16 +1,15 @@
 import { MongoClient } from "mongodb";
 import mongoose from "mongoose";
-import { DeviceModel } from "../../../server/schema/device";
 import { MongoMemoryServer } from "mongodb-memory-server";
 import { createMocks } from "node-mocks-http";
 import jwt from "jsonwebtoken";
-import handler from "../../../pages/api/v1/device/status/send-status";
-import { mockDeviceData } from "./mockDeviceData";
+import handler from "../../../pages/api/v1/device/result/submit-result";
 import axios from "axios";
+import { JobResultModel } from "../../../server/schema/job-result";
 
 jest.mock("axios");
 
-describe("Test send device status", () => {
+describe("Test get a pending job", () => {
   let dbServer: MongoMemoryServer;
   let connection: MongoClient;
   let oldEnv = process.env;
@@ -29,39 +28,38 @@ describe("Test send device status", () => {
 
   afterEach(async () => {
     try {
-      await DeviceModel.collection.drop();
+      await JobResultModel.collection.drop();
     } catch (e) {
       // console.log("Collection not exists");
     }
   });
 
-  test("Add new device and update", async () => {
+  test("Submit a result", async () => {
+    let data: any = {
+      deviceID: "1",
+      time: new Date(2020, 5, 1),
+      from: "a",
+      command: {
+        type: "rpc",
+        value: ["blockNumber"],
+      },
+      result: "0",
+      success: true,
+    };
+
     let token = jwt.sign({ user: "test-device" }, "test");
     const { req, res } = createMocks({
       method: "POST",
       headers: {
         Authorization: "Bearer " + token,
       },
-      body: mockDeviceData,
+      body: {
+        result: data,
+      },
     });
 
     //@ts-ignore
     await handler(req, res);
     expect(res._getStatusCode()).toBe(201);
-  });
-
-  test("Add new device without correct token", async () => {
-    let token = jwt.sign({ user: "test-device" }, "test1");
-    const { req, res } = createMocks({
-      method: "POST",
-      headers: {
-        Authorization: "Bearer " + token,
-      },
-      body: mockDeviceData,
-    });
-
-    //@ts-ignore
-    await handler(req, res);
-    expect(res._getStatusCode()).toBe(403);
   });
 });

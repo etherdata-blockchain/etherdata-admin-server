@@ -16,6 +16,7 @@ export interface IJobResult extends Document {
   from: string;
   command: any;
   result: any;
+  success: boolean;
 }
 
 export const jobResultSchema = new Schema<IJobResult>({
@@ -24,11 +25,12 @@ export const jobResultSchema = new Schema<IJobResult>({
   from: { type: String, required: true },
   command: { type: Schema.Types.Mixed, required: true },
   result: { type: Schema.Types.Mixed, required: true },
+  success: { type: Boolean, required: true },
 });
 
 /**
  *
  */
 export const JobResultModel: Model<IJobResult> = mongoose.models.job_result
-  ? mongoose.models.device
+  ? mongoose.models.job_result
   : model<IJobResult>("job_result", jobResultSchema);

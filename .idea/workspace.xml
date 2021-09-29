@@ -2,15 +2,19 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e1a3988a-0525-413b-a551-8dd5e1c5f215" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/server/plugin/plugins/jobResultPlugin.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/server/plugin/plugins/pendingJobPlugin.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/server/schema/job-result.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/server/schema/pending-job.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/server/tests/jobResult.test.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/server/tests/pendingJob.test.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pages/api/v1/device/job/get-job.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pages/api/v1/device/result/submit-result.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/api/device/get_pending_job.test.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/api/device/submit-result.test.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/example_configs/env.example" beforeDir="false" afterPath="$PROJECT_DIR$/example_configs/env.example" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/globalConfig.json" beforeDir="false" afterPath="$PROJECT_DIR$/globalConfig.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/plugin/pluginName.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/plugin/pluginName.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/api/v1/device/send-status.ts" beforeDir="false" afterPath="$PROJECT_DIR$/pages/api/v1/device/status/send-status.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/plugin/plugins/deviceRegistrationPlugin.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/plugin/plugins/deviceRegistrationPlugin.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/schema/job-result.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/schema/job-result.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/schema/pending-job.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/schema/pending-job.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/tests/jobResult.test.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/tests/jobResult.test.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/api/device/send_status.test.ts" beforeDir="false" afterPath="$PROJECT_DIR$/tests/api/device/send_status.test.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -62,7 +66,7 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/server/tests" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/tests/api/device" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.standard" value="true" />
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
@@ -77,62 +81,21 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/server/tests" />
-      <recent name="$PROJECT_DIR$/server/plugin/plugins" />
-      <recent name="$PROJECT_DIR$/server/schema" />
       <recent name="$PROJECT_DIR$/tests/api/device" />
+      <recent name="$PROJECT_DIR$/server/schema" />
       <recent name="$PROJECT_DIR$/pages/api/v1/device" />
+      <recent name="$PROJECT_DIR$" />
+      <recent name="$PROJECT_DIR$/server/tests" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/pages/api/v1/device/result" />
+      <recent name="$PROJECT_DIR$/pages/api/v1/device/status" />
+      <recent name="$PROJECT_DIR$/pages/api/v1/device/job" />
       <recent name="$PROJECT_DIR$/example_configs" />
       <recent name="$PROJECT_DIR$/server/plugin/plugins" />
-      <recent name="$PROJECT_DIR$/pages/transaction" />
-      <recent name="$PROJECT_DIR$/tests/pages/transactions" />
-      <recent name="$PROJECT_DIR$/tests/server" />
     </key>
   </component>
-  <component name="RunManager" selected="Jest.Job Result Test">
-    <configuration name="Device Register tests" type="JavaScriptTestRunnerJest" temporary="true" nameIsGenerated="true">
-      <node-interpreter value="project" />
-      <node-options value="" />
-      <jest-package value="$PROJECT_DIR$/node_modules/jest" />
-      <working-dir value="$PROJECT_DIR$" />
-      <envs />
-      <scope-kind value="SUITE" />
-      <test-file value="$PROJECT_DIR$/server/tests/pendingJob.test.ts" />
-      <test-names>
-        <test-name value="Device Register tests" />
-      </test-names>
-      <method v="2" />
-    </configuration>
-    <configuration name="Device Register tests.Get a job 2" type="JavaScriptTestRunnerJest" temporary="true" nameIsGenerated="true">
-      <node-interpreter value="project" />
-      <node-options value="" />
-      <jest-package value="$PROJECT_DIR$/node_modules/jest" />
-      <working-dir value="$PROJECT_DIR$" />
-      <envs />
-      <scope-kind value="TEST" />
-      <test-file value="$PROJECT_DIR$/server/tests/pendingJob.test.ts" />
-      <test-names>
-        <test-name value="Device Register tests" />
-        <test-name value="Get a job 2" />
-      </test-names>
-      <method v="2" />
-    </configuration>
-    <configuration name="Device Register tests.Get no job" type="JavaScriptTestRunnerJest" temporary="true" nameIsGenerated="true">
-      <node-interpreter value="project" />
-      <node-options value="" />
-      <jest-package value="$PROJECT_DIR$/node_modules/jest" />
-      <working-dir value="$PROJECT_DIR$" />
-      <envs />
-      <scope-kind value="TEST" />
-      <test-file value="$PROJECT_DIR$/server/tests/pendingJob.test.ts" />
-      <test-names>
-        <test-name value="Device Register tests" />
-        <test-name value="Get no job" />
-      </test-names>
-      <method v="2" />
-    </configuration>
+  <component name="RunManager" selected="Jest.Test get a pending job.Submit a result">
     <configuration name="Job Result Test" type="JavaScriptTestRunnerJest" temporary="true" nameIsGenerated="true">
       <node-interpreter value="project" />
       <node-options value="" />
@@ -160,6 +123,47 @@
       </test-names>
       <method v="2" />
     </configuration>
+    <configuration name="Test get a pending job.Get a pending job (1)" type="JavaScriptTestRunnerJest" temporary="true" nameIsGenerated="true">
+      <node-interpreter value="project" />
+      <node-options value="" />
+      <jest-package value="$PROJECT_DIR$/node_modules/jest" />
+      <working-dir value="$PROJECT_DIR$" />
+      <envs />
+      <scope-kind value="TEST" />
+      <test-file value="$PROJECT_DIR$/tests/api/device/get_pending_job.test.ts" />
+      <test-names>
+        <test-name value="Test get a pending job" />
+        <test-name value="Get a pending job" />
+      </test-names>
+      <method v="2" />
+    </configuration>
+    <configuration name="Test get a pending job.Submit a result" type="JavaScriptTestRunnerJest" temporary="true" nameIsGenerated="true">
+      <node-interpreter value="project" />
+      <node-options value="" />
+      <jest-package value="$PROJECT_DIR$/node_modules/jest" />
+      <working-dir value="$PROJECT_DIR$" />
+      <envs />
+      <scope-kind value="TEST" />
+      <test-file value="$PROJECT_DIR$/tests/api/device/submit-result.test.ts" />
+      <test-names>
+        <test-name value="Test get a pending job" />
+        <test-name value="Submit a result" />
+      </test-names>
+      <method v="2" />
+    </configuration>
+    <configuration name="Test send device status" type="JavaScriptTestRunnerJest" temporary="true" nameIsGenerated="true">
+      <node-interpreter value="project" />
+      <node-options value="" />
+      <jest-package value="$PROJECT_DIR$/node_modules/jest" />
+      <working-dir value="$PROJECT_DIR$" />
+      <envs />
+      <scope-kind value="SUITE" />
+      <test-file value="$PROJECT_DIR$/tests/api/device/send_status.test.ts" />
+      <test-names>
+        <test-name value="Test send device status" />
+      </test-names>
+      <method v="2" />
+    </configuration>
     <configuration name="test" type="js.build_tools.npm">
       <package-json value="$PROJECT_DIR$/package.json" />
       <command value="test" />
@@ -168,20 +172,20 @@
       <method v="2" />
     </configuration>
     <list>
-      <item itemvalue="npm.test" />
-      <item itemvalue="Jest.Device Register tests.Get no job" />
-      <item itemvalue="Jest.Device Register tests.Get a job 2" />
       <item itemvalue="Jest.Job Result Test" />
-      <item itemvalue="Jest.Device Register tests" />
       <item itemvalue="Jest.Job Result Test.Get a result" />
+      <item itemvalue="Jest.Test send device status" />
+      <item itemvalue="Jest.Test get a pending job.Get a pending job (1)" />
+      <item itemvalue="npm.test" />
+      <item itemvalue="Jest.Test get a pending job.Submit a result" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Jest.Test get a pending job.Submit a result" />
+        <item itemvalue="Jest.Test get a pending job.Get a pending job (1)" />
+        <item itemvalue="Jest.Test send device status" />
         <item itemvalue="Jest.Job Result Test" />
         <item itemvalue="Jest.Job Result Test.Get a result" />
-        <item itemvalue="Jest.Device Register tests" />
-        <item itemvalue="Jest.Device Register tests.Get a job 2" />
-        <item itemvalue="Jest.Device Register tests.Get no job" />
       </list>
     </recent_temporary>
   </component>
@@ -223,7 +227,7 @@
       <workItem from="1632064879955" duration="4439000" />
       <workItem from="1632500665007" duration="1941000" />
       <workItem from="1632581692965" duration="4564000" />
-      <workItem from="1632586910694" duration="6254000" />
+      <workItem from="1632586910694" duration="9904000" />
     </task>
     <servers />
   </component>
@@ -251,9 +255,16 @@
           <option name="timeStamp" value="2" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/pages/api/v1/device/send-status.ts</url>
+          <url>file://$PROJECT_DIR$/pages/api/v1/device/status/send-status.ts</url>
           <line>20</line>
-          <option name="timeStamp" value="8" />
+          <properties lambdaOrdinal="-1" />
+          <option name="timeStamp" value="15" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/pages/api/v1/device/result/submit-result.ts</url>
+          <line>29</line>
+          <properties lambdaOrdinal="-1" />
+          <option name="timeStamp" value="18" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

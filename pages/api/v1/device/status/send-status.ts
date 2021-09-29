@@ -1,11 +1,11 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { PostOnlyMiddleware } from "../../../../utils/nextHandler/postOnlyHandler";
-import { DeviceRegistrationPlugin } from "../../../../server/plugin/plugins/deviceRegistrationPlugin";
-import { JwtVerificationHandler } from "../../../../utils/nextHandler/jwtVerificationHandler";
-import { IDevice } from "../../../../server/schema/device";
+import { PostOnlyMiddleware } from "../../../../../utils/nextHandler/postOnlyHandler";
+import { DeviceRegistrationPlugin } from "../../../../../server/plugin/plugins/deviceRegistrationPlugin";
+import { JwtVerificationHandler } from "../../../../../utils/nextHandler/jwtVerificationHandler";
+import { IDevice } from "../../../../../server/schema/device";
 import moment from "moment";
-import { Web3DataInfo } from "../../../../server/client/node_data";
-import Logger from "../../../../server/logger";
+import { Web3DataInfo } from "../../../../../server/client/node_data";
+import Logger from "../../../../../server/logger";
 
 type Data = {
   error?: string;
