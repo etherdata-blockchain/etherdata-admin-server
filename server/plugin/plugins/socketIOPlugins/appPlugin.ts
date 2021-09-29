@@ -2,19 +2,29 @@
  * App plugin for app use
  */
 
-import { BaseSocketIOPlugin, SocketHandler } from "../../basePlugin";
+import {
+  BaseSocketAuthIOPlugin,
+  BaseSocketIOPlugin,
+  SocketHandler,
+} from "../../basePlugin";
 import { Server, Socket } from "socket.io";
 import jwt from "jsonwebtoken";
 import { NodePlugin } from "./nodePlugin";
 import Logger from "../../../logger";
+import { JobResultModel } from "../../../schema/job-result";
 
 interface RPCCommand {
   methodName: string;
   params: any[];
 }
 
-export class AppPlugin extends BaseSocketIOPlugin {
-  protected pluginName: string = "app";
+export class AppPlugin extends BaseSocketAuthIOPlugin {
+  pluginName: string = "app";
+  /**
+   * SocketID: UserID
+   * @protected
+   */
+  protected user: { [key: string]: string } = {};
 
   constructor() {
     super();
@@ -22,6 +32,7 @@ export class AppPlugin extends BaseSocketIOPlugin {
       this.joinRoomHandler,
       this.leaveRoomHandler,
       this.rpcCommandHandler,
+      this.disconnectHandler,
     ];
   }
 
@@ -30,6 +41,7 @@ export class AppPlugin extends BaseSocketIOPlugin {
     let secret = process.env.PUBLIC_SECRET!;
     try {
       jwt.verify(password, secret);
+
       return true;
     } catch (err) {
       // return false;
@@ -37,7 +49,10 @@ export class AppPlugin extends BaseSocketIOPlugin {
     }
   }
 
-  protected onAuthenticated(socket: Socket): void {}
+  protected onAuthenticated(socket: Socket, password: string): void {
+    let data = jwt.decode(password, { json: true });
+    this.user[socket.id] = data!.user;
+  }
 
   protected onUnAuthenticated(socket: Socket): void {}
 
@@ -46,6 +61,12 @@ export class AppPlugin extends BaseSocketIOPlugin {
     this.connectServer();
     return true;
   }
+
+  disconnectHandler: SocketHandler = (socket) => {
+    socket.on("disconnect", () => {
+      delete this.user[socket.id];
+    });
+  };
 
   /**
    * Join room when user send join room request
@@ -95,6 +116,7 @@ export class AppPlugin extends BaseSocketIOPlugin {
       } else {
         // room id also is the node id
         let selectedRoom = rooms[1];
+        // TODO: Add job to the pending job collection
       }
     });
   };

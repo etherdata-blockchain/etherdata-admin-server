@@ -8,10 +8,33 @@ import { RegisteredPlugins } from "./plugins/socketIOPlugins/registeredPlugins";
 export type SocketHandler = (socket: Socket) => void;
 
 export abstract class BasePlugin<N> {
-  protected abstract pluginName: N;
+  abstract pluginName: N;
 }
 
-export abstract class BaseSocketIOPlugin extends BasePlugin<string> {
+export abstract class BaseSocketIOPlugin extends BasePlugin<RegisteredPlugins> {
+  protected otherPlugins: { [key: string]: BaseSocketIOPlugin } = {};
+
+  connectPlugins(plugins: BaseSocketIOPlugin[]) {
+    for (let plugin of plugins) {
+      if (plugin.pluginName !== this.pluginName) {
+        this.otherPlugins[plugin.pluginName] = plugin;
+      }
+    }
+  }
+
+  protected findPlugin<T extends BaseSocketIOPlugin>(
+    pluginName: RegisteredPlugins
+  ): T | undefined {
+    try {
+      //@ts-ignore
+      return this.otherPlugins[pluginName];
+    } catch (err) {
+      throw new Error("Cannot find this plugin with name " + pluginName);
+    }
+  }
+}
+
+export abstract class BaseSocketAuthIOPlugin extends BaseSocketIOPlugin {
   protected otherPlugins: { [key: string]: BaseSocketIOPlugin } = {};
   /**
    * List of socket handlers
@@ -32,14 +55,6 @@ export abstract class BaseSocketIOPlugin extends BasePlugin<string> {
    */
   abstract startSocketIOServer(server: Server): Promise<boolean | undefined>;
 
-  connectPlugins(plugins: BaseSocketIOPlugin[]) {
-    for (let plugin of plugins) {
-      if (plugin.pluginName !== this.pluginName) {
-        this.otherPlugins[plugin.pluginName] = plugin;
-      }
-    }
-  }
-
   /**
    * Authenticate with configuration's password
    * @param password
@@ -57,7 +72,7 @@ export abstract class BaseSocketIOPlugin extends BasePlugin<string> {
           Logger.info(
             `[${this.pluginName}]: Client ${socket.id} is authenticated!`
           );
-          this.onAuthenticated(socket);
+          this.onAuthenticated(socket, token);
           for (let handle of this.handlers) {
             handle(socket);
           }
@@ -71,20 +86,9 @@ export abstract class BaseSocketIOPlugin extends BasePlugin<string> {
     }
   }
 
-  protected abstract onAuthenticated(socket: Socket): void;
+  protected abstract onAuthenticated(socket: Socket, password: string): void;
 
   protected abstract onUnAuthenticated(socket: Socket): void;
-
-  protected findPlugin<T extends BaseSocketIOPlugin>(
-    pluginName: RegisteredPlugins
-  ): T | undefined {
-    try {
-      //@ts-ignore
-      return this.otherPlugins[pluginName];
-    } catch (err) {
-      throw new Error("Cannot find this plugin with name " + pluginName);
-    }
-  }
 }
 
 export abstract class DatabasePlugin<

@@ -9,7 +9,7 @@ import { ClientInterface } from "../../../client/nodeClient";
  * Web Browser socket io plugin
  */
 export class ClientPlugin extends AppPlugin {
-  protected pluginName: string = "client";
+  pluginName: string = "client";
 
   browserClients: {
     [key: string]: BrowserClient;
