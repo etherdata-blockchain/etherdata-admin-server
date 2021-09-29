@@ -3,9 +3,10 @@ import { DeviceModel, deviceSchema, IDevice } from "../../schema/device";
 import { PluginName } from "../pluginName";
 import mongoose, { Model, Query } from "mongoose";
 import axios from "axios";
+import moment from "moment";
 
 export class DeviceRegistrationPlugin extends DatabasePlugin<IDevice> {
-  protected pluginName: PluginName = "deviceRegistration";
+  pluginName: PluginName = "deviceRegistration";
   protected model: Model<IDevice> = DeviceModel;
 
   protected performGet(id: string): Query<IDevice, IDevice> {
@@ -74,5 +75,12 @@ export class DeviceRegistrationPlugin extends DatabasePlugin<IDevice> {
   async addDevice(device: any): Promise<boolean> {
     let result = await this.patch(device);
     return true;
+  }
+
+  async getOnlineDevicesCount(): Promise<number> {
+    let time = moment().subtract(10, "minutes");
+    console.log(time.toDate());
+    let query = this.model.find({ lastSeen: { $gt: time.toDate() } });
+    return query.count();
   }
 }

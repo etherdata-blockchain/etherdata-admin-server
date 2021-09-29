@@ -1,8 +1,9 @@
 import { Web3DataInfo } from "./node_data";
-import { ClientInterface } from "./nodeClient";
+import { DeviceRegistrationPlugin } from "../plugin/plugins/deviceRegistrationPlugin";
+import { IDevice } from "../schema/device";
 
 export interface PaginationResult {
-  devices: ClientInterface[];
+  devices: IDevice[];
   totalPageNumber: number;
   currentPageNumber: number;
   totalNumberDevices: number;
@@ -13,26 +14,28 @@ export interface PaginationResult {
 export class BrowserClient {
   numPerPage: number = 15;
   currentPage: number = 0;
+  lastResult?: PaginationResult;
 
   /**
    * Generate pagination results based on current page number
-   * @param devices
    */
-  generatePaginationResult(devices: ClientInterface[]): PaginationResult {
-    let start = this.currentPage * this.numPerPage;
-    let end = (this.currentPage + 1) * this.numPerPage;
-    let totalNumberPages = Math.ceil(devices.length / this.numPerPage);
-    let onlineDevices = devices.filter((d) => d.isOnline);
+  async generatePaginationResult(): Promise<PaginationResult> {
+    let devicePlugin = new DeviceRegistrationPlugin();
 
-    let newDevices = devices.slice(start, end);
+    let devices =
+      (await devicePlugin.list(this.currentPage, this.numPerPage)) ?? [];
 
-    return {
-      devices: newDevices,
-      totalPageNumber: totalNumberPages,
+    let onlineDevicesCount = await devicePlugin.getOnlineDevicesCount();
+    let paginationResult = {
+      devices: devices,
+      totalPageNumber: await devicePlugin.totalPages(this.numPerPage),
       currentPageNumber: this.currentPage,
       totalNumberDevices: devices.length,
-      totalOnlineDevices: onlineDevices.length,
+      totalOnlineDevices: onlineDevicesCount,
       numPerPage: this.numPerPage,
     };
+
+    this.lastResult = paginationResult;
+    return paginationResult;
   }
 }
