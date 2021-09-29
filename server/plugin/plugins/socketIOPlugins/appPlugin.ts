@@ -12,6 +12,7 @@ import jwt from "jsonwebtoken";
 import { NodePlugin } from "./nodePlugin";
 import Logger from "../../../logger";
 import { JobResultModel } from "../../../schema/job-result";
+import { RegisteredPlugins } from "./registeredPlugins";
 
 interface RPCCommand {
   methodName: string;
@@ -19,7 +20,7 @@ interface RPCCommand {
 }
 
 export class AppPlugin extends BaseSocketAuthIOPlugin {
-  pluginName: string = "app";
+  pluginName: RegisteredPlugins = "app";
   /**
    * SocketID: UserID
    * @protected

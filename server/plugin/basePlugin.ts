@@ -1,11 +1,20 @@
 import { Namespace, Server, Socket } from "socket.io";
 import { Document, Model, Query } from "mongoose";
 import { PluginName } from "./pluginName";
-import { Express } from "express";
 import Logger from "../logger";
 import { RegisteredPlugins } from "./plugins/socketIOPlugins/registeredPlugins";
 
 export type SocketHandler = (socket: Socket) => void;
+
+export interface PeriodicJob {
+  /**
+   * In seconds
+   */
+  interval: number;
+  name: string;
+  job(): Promise<void>;
+  timer?: NodeJS.Timer;
+}
 
 export abstract class BasePlugin<N> {
   abstract pluginName: N;
@@ -13,6 +22,27 @@ export abstract class BasePlugin<N> {
 
 export abstract class BaseSocketIOPlugin extends BasePlugin<RegisteredPlugins> {
   protected otherPlugins: { [key: string]: BaseSocketIOPlugin } = {};
+  protected periodicJobs: PeriodicJob[] = [];
+
+  async startPlugin(server: Server) {
+    let count = 0;
+    for (let job of this.periodicJobs) {
+      job.timer = setInterval(async () => {
+        await job.job();
+      }, job.interval * 1000);
+      this.periodicJobs[count] = job;
+      count += 1;
+    }
+  }
+
+  stopPeriodicJobByName(name: string) {
+    let job = this.periodicJobs.find((j) => j.name === name);
+    if (job) {
+      clearInterval(job.timer!);
+    } else {
+      throw new Error("Cannot find job with this name");
+    }
+  }
 
   connectPlugins(plugins: BaseSocketIOPlugin[]) {
     for (let plugin of plugins) {
@@ -60,6 +90,11 @@ export abstract class BaseSocketAuthIOPlugin extends BaseSocketIOPlugin {
    * @param password
    */
   abstract auth(password: string): boolean;
+
+  async startPlugin(server: Server) {
+    await super.startPlugin(server);
+    await this.startSocketIOServer(server);
+  }
 
   connectServer() {
     if (this.server === undefined) {
@@ -161,5 +196,14 @@ export abstract class DatabasePlugin<
     let limit = pageSize ?? 20;
 
     return model.skip(skip).limit(limit);
+  }
+
+  async count() {
+    return this.model.count();
+  }
+
+  async totalPages(numPerPage: number) {
+    let count = await this.count();
+    return Math.ceil(count / numPerPage);
   }
 }
