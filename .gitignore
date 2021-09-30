@@ -35,4 +35,6 @@ yarn-error.log*
 .vercel
 dist
 app.json
+
+.idea
 .idea/workspace.xml

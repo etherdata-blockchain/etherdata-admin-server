@@ -1,17 +1,70 @@
 import { Namespace, Server, Socket } from "socket.io";
 import { Document, Model, Query } from "mongoose";
 import { PluginName } from "./pluginName";
-import { Express } from "express";
 import Logger from "../logger";
 import { RegisteredPlugins } from "./plugins/socketIOPlugins/registeredPlugins";
 
 export type SocketHandler = (socket: Socket) => void;
 
-export abstract class BasePlugin<N> {
-  protected abstract pluginName: N;
+export interface PeriodicJob {
+  /**
+   * In seconds
+   */
+  interval: number;
+  name: string;
+  job(): Promise<void>;
+  timer?: NodeJS.Timer;
 }
 
-export abstract class BaseSocketIOPlugin extends BasePlugin<string> {
+export abstract class BasePlugin<N> {
+  abstract pluginName: N;
+}
+
+export abstract class BaseSocketIOPlugin extends BasePlugin<RegisteredPlugins> {
+  protected otherPlugins: { [key: string]: BaseSocketIOPlugin } = {};
+  protected periodicJobs: PeriodicJob[] = [];
+
+  async startPlugin(server: Server) {
+    let count = 0;
+    for (let job of this.periodicJobs) {
+      job.timer = setInterval(async () => {
+        await job.job();
+      }, job.interval * 1000);
+      this.periodicJobs[count] = job;
+      count += 1;
+    }
+  }
+
+  stopPeriodicJobByName(name: string) {
+    let job = this.periodicJobs.find((j) => j.name === name);
+    if (job) {
+      clearInterval(job.timer!);
+    } else {
+      throw new Error("Cannot find job with this name");
+    }
+  }
+
+  connectPlugins(plugins: BaseSocketIOPlugin[]) {
+    for (let plugin of plugins) {
+      if (plugin.pluginName !== this.pluginName) {
+        this.otherPlugins[plugin.pluginName] = plugin;
+      }
+    }
+  }
+
+  protected findPlugin<T extends BaseSocketIOPlugin>(
+    pluginName: RegisteredPlugins
+  ): T | undefined {
+    try {
+      //@ts-ignore
+      return this.otherPlugins[pluginName];
+    } catch (err) {
+      throw new Error("Cannot find this plugin with name " + pluginName);
+    }
+  }
+}
+
+export abstract class BaseSocketAuthIOPlugin extends BaseSocketIOPlugin {
   protected otherPlugins: { [key: string]: BaseSocketIOPlugin } = {};
   /**
    * List of socket handlers
@@ -32,19 +85,16 @@ export abstract class BaseSocketIOPlugin extends BasePlugin<string> {
    */
   abstract startSocketIOServer(server: Server): Promise<boolean | undefined>;
 
-  connectPlugins(plugins: BaseSocketIOPlugin[]) {
-    for (let plugin of plugins) {
-      if (plugin.pluginName !== this.pluginName) {
-        this.otherPlugins[plugin.pluginName] = plugin;
-      }
-    }
-  }
-
   /**
    * Authenticate with configuration's password
    * @param password
    */
   abstract auth(password: string): boolean;
+
+  async startPlugin(server: Server) {
+    await super.startPlugin(server);
+    await this.startSocketIOServer(server);
+  }
 
   connectServer() {
     if (this.server === undefined) {
@@ -57,7 +107,7 @@ export abstract class BaseSocketIOPlugin extends BasePlugin<string> {
           Logger.info(
             `[${this.pluginName}]: Client ${socket.id} is authenticated!`
           );
-          this.onAuthenticated(socket);
+          this.onAuthenticated(socket, token);
           for (let handle of this.handlers) {
             handle(socket);
           }
@@ -71,20 +121,9 @@ export abstract class BaseSocketIOPlugin extends BasePlugin<string> {
     }
   }
 
-  protected abstract onAuthenticated(socket: Socket): void;
+  protected abstract onAuthenticated(socket: Socket, password: string): void;
 
   protected abstract onUnAuthenticated(socket: Socket): void;
-
-  protected findPlugin<T extends BaseSocketIOPlugin>(
-    pluginName: RegisteredPlugins
-  ): T | undefined {
-    try {
-      //@ts-ignore
-      return this.otherPlugins[pluginName];
-    } catch (err) {
-      throw new Error("Cannot find this plugin with name " + pluginName);
-    }
-  }
 }
 
 export abstract class DatabasePlugin<
@@ -157,5 +196,14 @@ export abstract class DatabasePlugin<
     let limit = pageSize ?? 20;
 
     return model.skip(skip).limit(limit);
+  }
+
+  async count() {
+    return this.model.count();
+  }
+
+  async totalPages(numPerPage: number) {
+    let count = await this.count();
+    return Math.floor(count / numPerPage);
   }
 }

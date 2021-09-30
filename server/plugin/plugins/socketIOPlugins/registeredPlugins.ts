@@ -1,1 +1,1 @@
-export type RegisteredPlugins = "node" | "app" | "client";
+export type RegisteredPlugins = "node" | "app" | "client" | "dbChangePlugin";

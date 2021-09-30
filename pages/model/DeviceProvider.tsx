@@ -1,12 +1,12 @@
 import React from "react";
 import io, { Socket } from "socket.io-client";
 import { UIProviderContext } from "./UIProvider";
-import { ClientInterface } from "../../server/client/nodeClient";
 import { PaginationResult } from "../../server/client/browserClient";
+import { IDevice } from "../../server/schema/device";
 
 interface DeviceInterface {
   loadingData: boolean;
-  devices: ClientInterface[];
+  devices: IDevice[];
   currentPageNumber: number;
   totalPageNumber: number;
   totalNumDevices: number;
@@ -23,12 +23,12 @@ interface DeviceInterface {
 //@ts-ignore
 export const DeviceContext = React.createContext<DeviceInterface>({});
 
-let socket: Socket | undefined = undefined;
+export let socket: Socket | undefined = undefined;
 
 export default function DeviceProvider(props: any) {
   const { children } = props;
   const { showSnackBarMessage } = React.useContext(UIProviderContext);
-  const [devices, setDevices] = React.useState<ClientInterface[]>([]);
+  const [devices, setDevices] = React.useState<IDevice[]>([]);
   const [loadingData, setLoadingData] = React.useState(false);
   const [filterKeyword, setFilterKeyword] = React.useState<string>("");
   const [currentPageNumber, setCurrentPageNumber] = React.useState(0);

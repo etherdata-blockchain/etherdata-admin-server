@@ -2,19 +2,31 @@
  * App plugin for app use
  */
 
-import { BaseSocketIOPlugin, SocketHandler } from "../../basePlugin";
+import {
+  BaseSocketAuthIOPlugin,
+  BaseSocketIOPlugin,
+  SocketHandler,
+} from "../../basePlugin";
 import { Server, Socket } from "socket.io";
 import jwt from "jsonwebtoken";
 import { NodePlugin } from "./nodePlugin";
 import Logger from "../../../logger";
+import { JobResultModel } from "../../../schema/job-result";
+import { RegisteredPlugins } from "./registeredPlugins";
+import { DeviceRegistrationPlugin } from "../deviceRegistrationPlugin";
 
 interface RPCCommand {
   methodName: string;
   params: any[];
 }
 
-export class AppPlugin extends BaseSocketIOPlugin {
-  protected pluginName: string = "app";
+export class AppPlugin extends BaseSocketAuthIOPlugin {
+  pluginName: RegisteredPlugins = "app";
+  /**
+   * SocketID: UserID
+   * @protected
+   */
+  protected user: { [key: string]: string } = {};
 
   constructor() {
     super();
@@ -22,14 +34,16 @@ export class AppPlugin extends BaseSocketIOPlugin {
       this.joinRoomHandler,
       this.leaveRoomHandler,
       this.rpcCommandHandler,
+      this.disconnectHandler,
     ];
   }
 
   auth(password: string): boolean {
     // Use jwt authentication
-    let secret = process.env.NEXT_PUBLIC_SECRET!;
+    let secret = process.env.PUBLIC_SECRET!;
     try {
       jwt.verify(password, secret);
+
       return true;
     } catch (err) {
       // return false;
@@ -37,7 +51,10 @@ export class AppPlugin extends BaseSocketIOPlugin {
     }
   }
 
-  protected onAuthenticated(socket: Socket): void {}
+  protected onAuthenticated(socket: Socket, password: string): void {
+    let data = jwt.decode(password, { json: true });
+    this.user[socket.id] = data!.user;
+  }
 
   protected onUnAuthenticated(socket: Socket): void {}
 
@@ -47,13 +64,19 @@ export class AppPlugin extends BaseSocketIOPlugin {
     return true;
   }
 
+  disconnectHandler: SocketHandler = (socket) => {
+    socket.on("disconnect", () => {
+      delete this.user[socket.id];
+    });
+  };
+
   /**
    * Join room when user send join room request
    * @param socket
    */
   joinRoomHandler: SocketHandler = (socket) => {
-    socket.on("join-room", (roomId: string) => {
-      let nodePlugin = this.findPlugin<NodePlugin>("node");
+    let plugin = new DeviceRegistrationPlugin();
+    socket.on("join-room", async (roomId: string) => {
       let found = false;
       if (socket.rooms.size > 2) {
         socket.emit("join-room-error", {
@@ -61,21 +84,16 @@ export class AppPlugin extends BaseSocketIOPlugin {
         });
         return;
       }
-      if (nodePlugin) {
-        for (let client of Object.values(nodePlugin.nodeClients)) {
-          if (client.web3Data?.systemInfo.nodeId === roomId) {
-            Logger.info("Joining room " + roomId);
-            socket.join(roomId);
-            found = true;
-          }
-        }
-      }
 
-      if (!found) {
+      let device = await plugin.findDeviceByDeviceID(roomId);
+      if (!device) {
         Logger.error("Cannot join the room. Client is not online");
         socket.emit("join-room-error", {
           err: "Cannot join the room. Client is not online",
         });
+      } else {
+        Logger.info("Joining room " + roomId);
+        socket.join(roomId);
       }
     });
   };
@@ -105,17 +123,7 @@ export class AppPlugin extends BaseSocketIOPlugin {
       } else {
         // room id also is the node id
         let selectedRoom = rooms[1];
-        let nodePlugin = this.findPlugin<NodePlugin>("node");
-        let foundClient = nodePlugin?.findClient(selectedRoom);
-        if (foundClient) {
-          Logger.info(`Sending command ${command} to client`);
-          nodePlugin?.server?.to(foundClient.id).emit("rpc-command", command);
-        } else {
-          Logger.error(`Client ${selectedRoom} is not online`);
-          socket.emit("rpc-command-error", {
-            err: "Client is offline!",
-          });
-        }
+        // TODO: Add job to the pending job collection
       }
     });
   };

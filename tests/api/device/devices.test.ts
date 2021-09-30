@@ -14,7 +14,7 @@ describe("Test find devices by user", () => {
   beforeAll(async () => {
     process.env = {
       ...oldEnv,
-      NEXT_PUBLIC_SECRET: "test",
+      PUBLIC_SECRET: "test",
     };
     dbServer = await MongoMemoryServer.create();
     await mongoose.connect(dbServer.getUri().concat("etd"));

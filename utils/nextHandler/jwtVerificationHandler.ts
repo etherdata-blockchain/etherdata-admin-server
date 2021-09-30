@@ -1,5 +1,6 @@
 import { NextApiHandler, NextApiRequest, NextApiResponse } from "next";
 import jwt from "jsonwebtoken";
+import Logger from "../../server/logger";
 
 /**
  * Post Only Middleware. Only accept post request.
@@ -9,7 +10,7 @@ import jwt from "jsonwebtoken";
  */
 export const JwtVerificationHandler =
   (fn: NextApiHandler) => async (req: NextApiRequest, res: NextApiResponse) => {
-    let secret = process.env.NEXT_PUBLIC_SECRET;
+    let secret = process.env.PUBLIC_SECRET;
     let user = req.headers.authorization;
     if (user && secret) {
       user = user.replace("Bearer ", "");
@@ -22,6 +23,7 @@ export const JwtVerificationHandler =
         };
         return fn(req, res);
       } catch (e) {
+        console.log(e);
         res.status(403).json({ reason: "Not authorized" });
       }
     } else {
