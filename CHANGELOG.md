@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.4](https://github.com/etherdata-blockchain/etherdata-admin-server/compare/v0.1.3...v0.1.4) (2021-09-30)
+
+
+### Bug Fixes
+
+* remove kubernetes folder ([3bac68e](https://github.com/etherdata-blockchain/etherdata-admin-server/commit/3bac68e3d178716a5c276212360735f3275e1886))
+* Type error ([fc601c1](https://github.com/etherdata-blockchain/etherdata-admin-server/commit/fc601c15cc1b423c7138d939dd763dddb51e6dfa))
+
 ### [0.1.3](https://github.com/etherdata-blockchain/etherdata-admin-server/compare/v0.1.0...v0.1.3) (2021-09-30)
 
 
