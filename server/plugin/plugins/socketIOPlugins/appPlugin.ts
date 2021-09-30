@@ -13,6 +13,7 @@ import { NodePlugin } from "./nodePlugin";
 import Logger from "../../../logger";
 import { JobResultModel } from "../../../schema/job-result";
 import { RegisteredPlugins } from "./registeredPlugins";
+import { DeviceRegistrationPlugin } from "../deviceRegistrationPlugin";
 
 interface RPCCommand {
   methodName: string;
@@ -74,7 +75,8 @@ export class AppPlugin extends BaseSocketAuthIOPlugin {
    * @param socket
    */
   joinRoomHandler: SocketHandler = (socket) => {
-    socket.on("join-room", (roomId: string) => {
+    let plugin = new DeviceRegistrationPlugin();
+    socket.on("join-room", async (roomId: string) => {
       let found = false;
       if (socket.rooms.size > 2) {
         socket.emit("join-room-error", {
@@ -83,11 +85,15 @@ export class AppPlugin extends BaseSocketAuthIOPlugin {
         return;
       }
 
-      if (!found) {
+      let device = await plugin.findDeviceByDeviceID(roomId);
+      if (!device) {
         Logger.error("Cannot join the room. Client is not online");
         socket.emit("join-room-error", {
           err: "Cannot join the room. Client is not online",
         });
+      } else {
+        Logger.info("Joining room " + roomId);
+        socket.join(roomId);
       }
     });
   };

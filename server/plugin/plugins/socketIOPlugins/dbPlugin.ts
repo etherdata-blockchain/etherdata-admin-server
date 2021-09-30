@@ -32,13 +32,28 @@ export class DBChangePlugin extends BaseSocketIOPlugin {
       console.log(data);
     });
 
-    DeviceModel.watch().on("change", (data) => {
-      console.log(data);
-    });
+    DeviceModel.watch([], { fullDocument: "updateLookup" }).on(
+      "change",
+      (data) => {
+        const clientPlugin = this.findPlugin<ClientPlugin>("client");
+        switch (data.operationType) {
+          case "insert":
+            console.log("Inserting");
+            break;
+
+          case "update":
+            clientPlugin?.server
+              ?.in(data.fullDocument?.id)
+              .emit("detail-info", data.fullDocument);
+            break;
+          default:
+            break;
+        }
+      }
+    );
   }
 
   async periodicSendLatestDevices() {
-    console.log("Sending data to browser clients");
     let devicePlugin = new DeviceRegistrationPlugin();
     let totalDevices = await devicePlugin.count();
     let totalOnlineDevices = await devicePlugin.getOnlineDevicesCount();

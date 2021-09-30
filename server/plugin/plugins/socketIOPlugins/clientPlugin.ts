@@ -82,7 +82,6 @@ export class ClientPlugin extends AppPlugin {
     socketID: string,
     data: PaginationResult
   ) => {
-    console.log("sending", await client.generatePaginationResult());
     this.server?.to(socketID).emit("realtime-info", data);
   };
 }

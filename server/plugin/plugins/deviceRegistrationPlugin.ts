@@ -83,4 +83,14 @@ export class DeviceRegistrationPlugin extends DatabasePlugin<IDevice> {
     let query = this.model.find({ lastSeen: { $gt: time.toDate() } });
     return query.count();
   }
+
+  async findDeviceByDeviceID(deviceID: string): Promise<IDevice | null> {
+    let query = this.model.findOne({ id: deviceID });
+    let result = await query.exec();
+    if (result?.data?.systemInfo.isSyncing) {
+      //@ts-ignore
+      result.data.systemInfo.isSyncing = true;
+    }
+    return JSON.parse(JSON.stringify(result));
+  }
 }

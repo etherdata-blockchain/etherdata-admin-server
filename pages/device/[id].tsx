@@ -24,7 +24,7 @@ import { DurationSelectorBtn } from "../../components/home/DurationSelectorBtn";
 import { GridDataCard } from "../../components/cards/gridDataCard";
 import { PanelSelector } from "../../components/device/panelSelector";
 import { useRouter } from "next/dist/client/router";
-import DeviceProvider, { DeviceContext } from "../model/DeviceProvider";
+import DeviceProvider, { DeviceContext, socket } from "../model/DeviceProvider";
 import { abbreviateNumber } from "../../utils/valueFormatter";
 import { UIProviderContext } from "../model/UIProvider";
 import { GetServerSideProps } from "next";
@@ -33,35 +33,33 @@ import { IDevice } from "../../server/schema/device";
 import { objectExpand } from "../../utils/objectExpander";
 import Logger from "../../server/logger";
 import { NodePlugin } from "../../server/plugin/plugins/socketIOPlugins/nodePlugin";
-import { ClientInterface } from "../../server/client/nodeClient";
 
 type Props = {
-  device: ClientInterface | null;
+  device: IDevice | null;
   online: boolean;
   found: boolean;
-  socketId: string | null;
 };
 
-export default function DeviceDetail({
-  device,
-  online,
-  found,
-  socketId,
-}: Props) {
+export default function DeviceDetail({ device, online, found }: Props) {
   const router = useRouter();
-  const { devices, joinDetail, leaveDetail } = React.useContext(DeviceContext);
+  const { joinDetail, leaveDetail } = React.useContext(DeviceContext);
   const { showSnackBarMessage } = React.useContext(UIProviderContext);
-
-  const foundDevice = devices[0];
+  const [foundDevice, setFoundDevice] = React.useState<IDevice | undefined>(
+    device ?? undefined
+  );
 
   React.useEffect(() => {
-    console.log("Joining room", device?.data?.systemInfo.nodeId);
+    console.log("Joining room", device?.id);
     //@ts-ignore
-    if (socketId) joinDetail(device?.data?.systemInfo.nodeId);
+    if (found) joinDetail(device?.id);
+
+    socket?.on("detail-info", (data) => {
+      setFoundDevice(data);
+    });
 
     return () => {
       //@ts-ignore
-      if (socketId) leaveDetail(device?.data?.systemInfo.nodeId);
+      if (found) leaveDetail(device?.id);
     };
   }, []);
 
@@ -101,7 +99,7 @@ export default function DeviceDetail({
         <Grid item md={3}>
           <LargeDataCard
             icon={<ComputerIcon />}
-            title={`${foundDevice?.data?.blockNumber}`}
+            title={`${foundDevice?.data?.number}`}
             color={"#ba03fc"}
             subtitleColor={"white"}
             iconColor={"white"}
@@ -132,7 +130,7 @@ export default function DeviceDetail({
         <Grid item xs={12}>
           <ResponsiveCard>
             <List>
-              {objectExpand(foundDevice ?? device, ["__v", "_id"]).map(
+              {objectExpand(foundDevice!, ["__v", "_id"]).map(
                 ({ key, value }, index) => (
                   <ListItem key={index}>
                     <ListItemText primary={key} secondary={`${value}`} />
@@ -159,34 +157,17 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
   context
 ) => {
   const deviceId = context.query.id as string;
-  let device: ClientInterface | null = null;
+  let device: any | null = null;
   let online: boolean = false;
   let found: boolean = false;
-  let socketId: string | null = null;
 
   try {
     const plugin = new DeviceRegistrationPlugin();
-    //@ts-ignore
-    const nodePlugin: NodePlugin = global.nodePlugin;
-    const [id, client] = nodePlugin.getDeviceById(deviceId);
+    console.log(deviceId);
+    const client = await plugin.findDeviceByDeviceID(deviceId);
     if (client) {
       found = true;
-      online = client.isOnline;
-      socketId = id ?? null;
-      device = client.toJSON();
-    } else {
-      let data = await plugin.get(deviceId);
-      if (data) {
-        device = {
-          //@ts-ignore
-          data: null,
-          id: data?.id ?? "",
-          lastSeen: "",
-          isOnline: false,
-        };
-
-        found = true;
-      }
+      device = client;
     }
   } catch (e) {
     Logger.error("Cannot read details: " + e);
@@ -197,7 +178,6 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
       device,
       online,
       found,
-      socketId,
     },
   };
 };

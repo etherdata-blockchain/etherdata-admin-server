@@ -5,14 +5,16 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/components/device/deviceTable.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/device/deviceTable.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/globalConfig.json" beforeDir="false" afterPath="$PROJECT_DIR$/globalConfig.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/api/v1/device/status/send-status.ts" beforeDir="false" afterPath="$PROJECT_DIR$/pages/api/v1/device/status/send-status.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/device/[id].tsx" beforeDir="false" afterPath="$PROJECT_DIR$/pages/device/[id].tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/model/DeviceProvider.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/pages/model/DeviceProvider.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/client/browserClient.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/client/browserClient.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/client/nodeClient.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/client/nodeClient.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/plugin/basePlugin.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/plugin/basePlugin.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/plugin/plugins/deviceRegistrationPlugin.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/plugin/plugins/deviceRegistrationPlugin.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/plugin/plugins/socketIOPlugins/appPlugin.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/plugin/plugins/socketIOPlugins/appPlugin.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/plugin/plugins/socketIOPlugins/clientPlugin.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/plugin/plugins/socketIOPlugins/clientPlugin.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/plugin/plugins/socketIOPlugins/dbPlugin.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/plugin/plugins/socketIOPlugins/dbPlugin.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/server.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/server.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/utils/nextHandler/jwtVerificationHandler.ts" beforeDir="false" afterPath="$PROJECT_DIR$/utils/nextHandler/jwtVerificationHandler.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -244,19 +246,15 @@
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/pages/device/[id].tsx</url>
-          <line>171</line>
-          <option name="timeStamp" value="2" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/pages/api/v1/device/status/send-status.ts</url>
-          <line>20</line>
-          <option name="timeStamp" value="15" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/pages/api/v1/device/result/submit-result.ts</url>
           <line>29</line>
           <option name="timeStamp" value="18" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/pages/device/[id].tsx</url>
+          <line>167</line>
+          <properties lambdaOrdinal="-1" />
+          <option name="timeStamp" value="22" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

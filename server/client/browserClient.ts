@@ -26,11 +26,13 @@ export class BrowserClient {
       (await devicePlugin.list(this.currentPage, this.numPerPage)) ?? [];
 
     let onlineDevicesCount = await devicePlugin.getOnlineDevicesCount();
+    let totalNumDevices = await devicePlugin.count();
+
     let paginationResult = {
       devices: devices,
       totalPageNumber: await devicePlugin.totalPages(this.numPerPage),
       currentPageNumber: this.currentPage,
-      totalNumberDevices: devices.length,
+      totalNumberDevices: totalNumDevices,
       totalOnlineDevices: onlineDevicesCount,
       numPerPage: this.numPerPage,
     };
