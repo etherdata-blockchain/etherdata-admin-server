@@ -1,0 +1,14 @@
+version: "3"
+
+services:
+  admin-server:
+    image: sirily11/etd-remote-admin-server:pr-1
+    environment:
+      MONGODB_URL: "mongodb+srv://sirily11:11017991@etdtesting.ar0xb.mongodb.net/etd"
+      REDIS_URL: "rediss://default:FoNdviTvs53EFcfm@db-redis-sgp1-80164-do-user-9511923-0.b.db.ondigitalocean.com:25061"
+      PORT: 8080
+      NEXT_PUBLIC_APP_ID: "etdtesting-uhjik"
+      NEXT_PUBLIC_STATS_SERVER: "wss://etd.monitor.sirileepage.com"
+
+    ports:
+      - 3000:8080

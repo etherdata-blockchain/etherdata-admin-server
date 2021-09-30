@@ -8,10 +8,9 @@ import {
 import { Button } from "@material-ui/core";
 import { useRouter } from "next/dist/client/router";
 import { IDevice } from "../../server/schema/device";
-import { ClientInterface } from "../../server/client/nodeClient";
 
 type Props = {
-  devices: ClientInterface[];
+  devices: IDevice[];
   loading?: boolean;
   currentPageNumber: number;
   totalPageNumber: number;
@@ -44,13 +43,9 @@ export function DeviceTable({
       headerName: "Detail",
       width: 200,
       renderCell: (params) => {
-        const device = devices.find((d) => d.id === params.id)!;
+        const device = devices.find((d) => d._id === params.id)!;
         return (
-          <Button
-            onClick={() =>
-              router.push(`/device/${device.data?.systemInfo.nodeId}`)
-            }
-          >
+          <Button onClick={() => router.push(`/device/${device.id}`)}>
             Details
           </Button>
         );
@@ -59,10 +54,10 @@ export function DeviceTable({
   ];
   const data = devices.map((d) => {
     return {
-      id: d.id,
-      deviceId: d.data?.systemInfo.nodeId,
-      blockNumber: d.data?.blockNumber,
-      name: d.data?.systemInfo.name,
+      id: d._id,
+      deviceId: d.id,
+      blockNumber: d.data?.number,
+      name: d.name,
       peerCount: d.data?.systemInfo.peerCount,
       difficulty: d.data?.difficulty,
       nodeInfo: d.data?.systemInfo.nodeVersion,

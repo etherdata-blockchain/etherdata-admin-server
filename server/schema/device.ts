@@ -8,7 +8,7 @@ import { Web3DataInfo } from "../client/node_data";
 import mongoose from "mongoose";
 
 export interface IDevice extends Document {
-  isOnline: boolean;
+  lastSeen?: Date;
   id: string;
   name: string;
   user: string | null;
@@ -19,6 +19,8 @@ export const deviceSchema = new Schema<IDevice>({
   name: { type: String, required: true },
   id: { type: String, required: true },
   user: { type: String, required: false },
+  lastSeen: { type: Date, required: false },
+  data: { type: Object, required: false },
 });
 
 /**

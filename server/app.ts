@@ -1,22 +1,26 @@
 import next from "next";
 import express from "express";
-import { Server } from "./server";
+import {Server} from "./server";
 import mongoose from "mongoose";
 import Logger from "./logger";
-import { NodePlugin } from "./plugin/plugins/socketIOPlugins/nodePlugin";
-import { ClientPlugin } from "./plugin/plugins/socketIOPlugins/clientPlugin";
-import { createServer } from "http";
-import { AppPlugin } from "./plugin/plugins/socketIOPlugins/appPlugin";
+import {ClientPlugin} from "./plugin/plugins/socketIOPlugins/clientPlugin";
+import {createServer} from "http";
+import {AppPlugin} from "./plugin/plugins/socketIOPlugins/appPlugin";
+import {DBChangePlugin} from "./plugin/plugins/socketIOPlugins/dbPlugin";
 
 const port = parseInt(process.env.PORT!, 10) || 3000;
 const dev = process.env.NODE_ENV !== "production";
-const nextApp = next({ dev });
+const nextApp = next({dev});
 const nextHandler = nextApp.getRequestHandler();
 
 nextApp.prepare().then(async () => {
   const server = express();
   const httpServer = createServer(server);
-  const plugins = [new NodePlugin(), new ClientPlugin(), new AppPlugin()];
+  const plugins: any[] = [
+    new ClientPlugin(),
+    new AppPlugin(),
+    new DBChangePlugin(),
+  ];
   const socketIOServer = new Server(plugins);
 
   //@ts-ignore

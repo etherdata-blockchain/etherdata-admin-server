@@ -1,12 +1,6 @@
 import { Web3DataInfo } from "./node_data";
 import moment, { Moment } from "moment";
-
-export interface ClientInterface {
-  id: string;
-  isOnline: boolean;
-  lastSeen: string;
-  data: Web3DataInfo | undefined;
-}
+import { IDevice } from "../schema/device";
 
 export class NodeClient {
   in_time: Moment;
@@ -53,11 +47,12 @@ export class NodeClient {
    * Get a json object.
    * @param omitPeers. Whether include peer's info in object.
    */
-  toJSON(omitPeers = true): ClientInterface {
+  toJSON(omitPeers = true): IDevice {
     if (omitPeers) {
       return {
         id: this.id,
         isOnline: this.isOnline,
+        //@ts-ignore
         lastSeen: this.in_time.toISOString(),
         data: this.web3Data
           ? {
@@ -70,6 +65,7 @@ export class NodeClient {
     return {
       id: this.id,
       isOnline: this.isOnline,
+      //@ts-ignore
       lastSeen: this.in_time.toISOString(),
       data: this.web3Data,
     };
