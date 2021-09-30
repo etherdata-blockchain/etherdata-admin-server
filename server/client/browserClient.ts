@@ -30,7 +30,7 @@ export class BrowserClient {
 
     let paginationResult = {
       devices: devices,
-      totalPageNumber: await devicePlugin.totalPages(this.numPerPage),
+      totalPageNumber: Math.floor(totalNumDevices / this.numPerPage),
       currentPageNumber: this.currentPage,
       totalNumberDevices: totalNumDevices,
       totalOnlineDevices: onlineDevicesCount,

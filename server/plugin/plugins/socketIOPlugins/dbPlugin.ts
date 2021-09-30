@@ -60,13 +60,8 @@ export class DBChangePlugin extends BaseSocketIOPlugin {
     let clientPlugin = this.findPlugin<ClientPlugin>("client");
     for (let [id, client] of Object.entries(clientPlugin!.browserClients)) {
       // Update latest client number and number of online devices
-      let latestResult = client.lastResult;
-      if (latestResult) {
-        // send data to client
-        latestResult.totalNumberDevices = totalDevices;
-        latestResult.totalOnlineDevices = totalOnlineDevices;
-        clientPlugin?.sendDataToClient(client, id, latestResult);
-      }
+     let latestResult = await client.generatePaginationResult()
+      clientPlugin?.sendDataToClient(client, id, latestResult);
     }
   }
 }
