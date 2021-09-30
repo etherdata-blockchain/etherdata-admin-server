@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.6](https://github.com/etherdata-blockchain/etherdata-admin-server/compare/v0.1.5...v0.1.6) (2021-09-30)
+
+
+### Bug Fixes
+
+* update ignore ([582b397](https://github.com/etherdata-blockchain/etherdata-admin-server/commit/582b3973f2291feb0b737374d90886fa485f3e49))
+
 ### [0.1.5](https://github.com/etherdata-blockchain/etherdata-admin-server/compare/v0.1.4...v0.1.5) (2021-09-30)
 
 
