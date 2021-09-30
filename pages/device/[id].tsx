@@ -22,17 +22,19 @@ import style from "../../styles/Device.module.css";
 import { LargeDataCard } from "../../components/cards/largeDataCard";
 import { DurationSelectorBtn } from "../../components/home/DurationSelectorBtn";
 import { GridDataCard } from "../../components/cards/gridDataCard";
-import { PanelSelector } from "../../components/device/panelSelector";
-import { useRouter } from "next/dist/client/router";
+import { PanelSelector }                         from "../../components/device/panelSelector";
+import { useRouter }                             from "next/dist/client/router";
 import DeviceProvider, { DeviceContext, socket } from "../model/DeviceProvider";
-import { abbreviateNumber } from "../../utils/valueFormatter";
-import { UIProviderContext } from "../model/UIProvider";
-import { GetServerSideProps } from "next";
-import { DeviceRegistrationPlugin } from "../../server/plugin/plugins/deviceRegistrationPlugin";
-import { IDevice } from "../../server/schema/device";
-import { objectExpand } from "../../utils/objectExpander";
-import Logger from "../../server/logger";
-import { NodePlugin } from "../../server/plugin/plugins/socketIOPlugins/nodePlugin";
+import { abbreviateNumber }                      from "../../utils/valueFormatter";
+import { UIProviderContext }                     from "../model/UIProvider";
+import { GetServerSideProps }                    from "next";
+import { DeviceRegistrationPlugin }              from "../../server/plugin/plugins/deviceRegistrationPlugin";
+import { IDevice }                               from "../../server/schema/device";
+import { objectExpand }                          from "../../utils/objectExpander";
+import Logger                                    from "../../server/logger";
+import { NodePlugin }                            from "../../server/plugin/plugins/socketIOPlugins/nodePlugin";
+import moment                                    from "moment";
+import {CONFIG}                                  from "../../server/config/config";
 
 type Props = {
   device: IDevice | null;
@@ -40,13 +42,14 @@ type Props = {
   found: boolean;
 };
 
-export default function DeviceDetail({ device, online, found }: Props) {
+export default function DeviceDetail({ device, found }: Props) {
   const router = useRouter();
   const { joinDetail, leaveDetail } = React.useContext(DeviceContext);
   const { showSnackBarMessage } = React.useContext(UIProviderContext);
   const [foundDevice, setFoundDevice] = React.useState<IDevice | undefined>(
     device ?? undefined
   );
+  const online =  Math.abs(moment(foundDevice?.lastSeen).diff(moment(), "seconds")) < CONFIG.maximumNotSeenDuration
 
   React.useEffect(() => {
     console.log("Joining room", device?.id);
@@ -129,6 +132,9 @@ export default function DeviceDetail({ device, online, found }: Props) {
         </Grid>
         <Grid item xs={12}>
           <ResponsiveCard>
+            <ListItem>
+              <ListItemText primary={"Is Online"} secondary={`${online}`} />
+            </ListItem>
             <List>
               {objectExpand(foundDevice!, ["__v", "_id"]).map(
                 ({ key, value }, index) => (
