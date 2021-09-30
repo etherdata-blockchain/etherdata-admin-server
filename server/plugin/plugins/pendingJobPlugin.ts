@@ -5,7 +5,7 @@ import mongoose, { Model, Query } from "mongoose";
 import { IPendingJob, PendingJobModel } from "../../schema/pending-job";
 
 export class PendingJobPlugin extends DatabasePlugin<IPendingJob> {
-  protected pluginName: PluginName = "pendingJob";
+  pluginName: PluginName = "pendingJob";
   protected model: Model<IPendingJob> = PendingJobModel;
 
   /**
