@@ -79,7 +79,6 @@ export class DeviceRegistrationPlugin extends DatabasePlugin<IDevice> {
 
   async getOnlineDevicesCount(): Promise<number> {
     let time = moment().subtract(10, "minutes");
-    console.log(time.toDate());
     let query = this.model.find({ lastSeen: { $gt: time.toDate() } });
     return query.count();
   }
