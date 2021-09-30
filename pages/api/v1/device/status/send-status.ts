@@ -23,14 +23,19 @@ async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
   const returnData: Data = {};
 
   if (!nodeName) {
-    data.error = "You must provide node name";
-    res.status(500).json(data);
+    Logger.error(`${user}: You must provide a node name`);
+    returnData.error = "You must provide a node name";
+    res.status(500).json(returnData);
+    return;
   }
 
   try {
     let plugin = new DeviceRegistrationPlugin();
     let authenticated = await plugin.auth(user);
     if (!authenticated) {
+      Logger.error(
+        `${user}: is not registered in our storage management system`
+      );
       returnData.error = "Device is not registered";
       res.status(403).json(returnData);
       return;
@@ -50,6 +55,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
     Logger.error(err);
     returnData.error = err;
     res.status(500).json(returnData);
+    return;
   }
 }
 

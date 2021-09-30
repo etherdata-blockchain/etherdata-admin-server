@@ -1,5 +1,6 @@
 import { NextApiHandler, NextApiRequest, NextApiResponse } from "next";
 import jwt from "jsonwebtoken";
+import Logger from "../../server/logger";
 
 /**
  * Post Only Middleware. Only accept post request.
@@ -22,6 +23,7 @@ export const JwtVerificationHandler =
         };
         return fn(req, res);
       } catch (e) {
+        console.log(e);
         res.status(403).json({ reason: "Not authorized" });
       }
     } else {
