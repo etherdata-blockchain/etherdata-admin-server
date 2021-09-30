@@ -6,7 +6,7 @@ import { IPendingJob, PendingJobModel } from "../../schema/pending-job";
 import { IJobResult, JobResultModel } from "../../schema/job-result";
 
 export class JobResultPlugin extends DatabasePlugin<IJobResult> {
-  protected pluginName: PluginName = "jobResult";
+  pluginName: PluginName = "jobResult";
   protected model: Model<IJobResult> = JobResultModel;
 
   /**

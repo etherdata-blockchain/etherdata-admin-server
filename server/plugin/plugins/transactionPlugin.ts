@@ -5,7 +5,7 @@ import { Model, Query } from "mongoose";
 
 export class TransactionDBPlugin extends DatabasePlugin<ITransaction> {
   protected model: Model<ITransaction> = TransactionModel;
-  protected pluginName: PluginName = "transaction";
+  pluginName: PluginName = "transaction";
 
   protected performList(): Query<ITransaction[], ITransaction[]> {
     //@ts-ignore
