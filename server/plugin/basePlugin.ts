@@ -202,8 +202,4 @@ export abstract class DatabasePlugin<
     return this.model.count();
   }
 
-  async totalPages(numPerPage: number) {
-    let count = await this.count();
-    return Math.floor(count / numPerPage);
-  }
 }
