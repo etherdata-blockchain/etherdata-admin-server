@@ -40,6 +40,7 @@ export default function DeviceProvider(props: any) {
   React.useEffect(() => {
     socket = io("/clients", {
       auth: { token: process.env.NEXT_PUBLIC_CLIENT_PASSWORD },
+      transports: ['websocket']
     });
 
     socket.on("connect", () => {
