@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.1.0](https://github.com/etherdata-blockchain/etherdata-admin-server/compare/v0.2.9...v1.1.0) (2021-10-05)
+
+
+### Features
+
+* Add admin version in datagrid ([3121e30](https://github.com/etherdata-blockchain/etherdata-admin-server/commit/3121e303d5a5e8485255e9fffc4544bb03ed3555))
+
 ### [0.2.9](https://github.com/etherdata-blockchain/etherdata-admin-server/compare/v0.2.8...v0.2.9) (2021-10-05)
 
 
