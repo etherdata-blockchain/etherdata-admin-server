@@ -14,6 +14,9 @@ import Logger from "../../../logger";
 import { JobResultModel } from "../../../schema/job-result";
 import { RegisteredPlugins } from "./registeredPlugins";
 import { DeviceRegistrationPlugin } from "../deviceRegistrationPlugin";
+import {PendingJobPlugin} from "../pendingJobPlugin";
+import {IPendingJob} from "../../../schema/pending-job";
+import mongoose from "mongoose";
 
 interface RPCCommand {
   methodName: string;
@@ -113,7 +116,8 @@ export class AppPlugin extends BaseSocketAuthIOPlugin {
    * @param socket
    */
   rpcCommandHandler: SocketHandler = (socket) => {
-    socket.on("rpc-command", (command: RPCCommand) => {
+    socket.on("rpc-command", async (command: RPCCommand, uuid: number | undefined) => {
+      const pendingJobPlugin = new PendingJobPlugin()
       let rooms = Array.from(socket.rooms);
       if (rooms.length < 2) {
         Logger.error("Cannot run rpc-command, not in any room!");
@@ -123,7 +127,22 @@ export class AppPlugin extends BaseSocketAuthIOPlugin {
       } else {
         // room id also is the node id
         let selectedRoom = rooms[1];
-        // TODO: Add job to the pending job collection
+        let job = {
+          targetDeviceId: selectedRoom,
+          from: socket.id,
+          time: new Date(),
+          task: {
+            type: "web3",
+            value: command,
+          },
+        }
+        /// Add id if user defined
+        if(uuid){
+          //@ts-ignore
+          job._id = mongoose.mongo.ObjectId(uuid)
+        }
+        //@ts-ignore
+        await pendingJobPlugin.create(job, {})
       }
     });
   };

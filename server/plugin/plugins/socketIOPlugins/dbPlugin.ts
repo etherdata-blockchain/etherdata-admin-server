@@ -8,6 +8,9 @@ import { JobResultModel } from "../../../schema/job-result";
 import { DeviceModel } from "../../../schema/device";
 import { DeviceRegistrationPlugin } from "../deviceRegistrationPlugin";
 import { ClientPlugin } from "./clientPlugin";
+import { PendingJobModel } from "../../../schema/pending-job";
+import { PendingJobPlugin } from "../pendingJobPlugin";
+import { JobResultPlugin } from "../jobResultPlugin";
 
 /**
  * Watch for database changes
@@ -24,13 +27,37 @@ export class DBChangePlugin extends BaseSocketIOPlugin {
         job: this.periodicSendLatestDevices.bind(this),
         name: "periodic_device_data",
       },
+      {
+        interval: 120,
+        job: this.periodicRemoveJobsAndResponses.bind(this),
+        name: "periodic_job_removal",
+      },
     ];
   }
 
   watchJobChanges() {
-    JobResultModel.watch().on("change", (data) => {
-      console.log(data);
-    });
+    JobResultModel.watch([], { fullDocument: "updateLookup" }).on(
+      "change",
+      async (data) => {
+        const clientPlugin = this.findPlugin<ClientPlugin>("client");
+        switch (data.operationType) {
+          case "insert":
+            let result = data.fullDocument!;
+            if (result.success) {
+              clientPlugin?.server
+                ?.in(result.from)
+                .emit(`rpc-result-${result.jobId}`, result.result);
+            } else {
+              clientPlugin?.server
+                ?.in(result.from)
+                .emit(`rpc-error-${result.jobId}`, result.result);
+            }
+            await JobResultModel.deleteOne({ _id: result._id });
+
+            break;
+        }
+      }
+    );
 
     DeviceModel.watch([], { fullDocument: "updateLookup" }).on(
       "change",
@@ -60,8 +87,17 @@ export class DBChangePlugin extends BaseSocketIOPlugin {
     let clientPlugin = this.findPlugin<ClientPlugin>("client");
     for (let [id, client] of Object.entries(clientPlugin!.browserClients)) {
       // Update latest client number and number of online devices
-     let latestResult = await client.generatePaginationResult()
+      let latestResult = await client.generatePaginationResult();
       clientPlugin?.sendDataToClient(client, id, latestResult);
     }
+  }
+
+  async periodicRemoveJobsAndResponses() {
+    console.log("Removing outdated jobs");
+    const jobPlugin = new PendingJobPlugin();
+    const jobResultPlugin = new JobResultPlugin();
+    const maximumDuration = 60;
+    await jobPlugin.removeOutdatedJobs(maximumDuration);
+    await jobResultPlugin.removeOutdatedJobs(maximumDuration);
   }
 }

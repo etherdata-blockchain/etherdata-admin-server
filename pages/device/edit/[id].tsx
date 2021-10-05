@@ -89,6 +89,7 @@ export default function DeviceEditDetail({ user, deviceId }: Props) {
 
   const call = React.useCallback(async ({ methodName, params }: any) => {
     try {
+      showSnackBarMessage("Sending command " + methodName + " to client")
       let result = await sendCommand(methodName, params);
       return result;
     } catch (err) {

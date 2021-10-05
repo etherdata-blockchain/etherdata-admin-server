@@ -8,6 +8,7 @@ import { Web3DataInfo } from "../client/node_data";
 import mongoose from "mongoose";
 
 export interface IJobResult extends Document {
+  jobId: string;
   time: Date;
   deviceID: string;
   /**
@@ -20,6 +21,7 @@ export interface IJobResult extends Document {
 }
 
 export const jobResultSchema = new Schema<IJobResult>({
+  jobId: {type: String,  required: true},
   time: { type: Date, required: true },
   deviceID: { type: String, required: true },
   from: { type: String, required: true },

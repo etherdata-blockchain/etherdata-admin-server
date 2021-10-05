@@ -8,6 +8,8 @@ import Logger from "../../../../../server/logger";
 import { IPendingJob } from "../../../../../server/schema/pending-job";
 import { PendingJobPlugin } from "../../../../../server/plugin/plugins/pendingJobPlugin";
 import { JobResultPlugin } from "../../../../../server/plugin/plugins/jobResultPlugin";
+import {IJobResult} from "../../../../../server/schema/job-result";
+import * as mongoose from "mongoose";
 
 type Data = {
   error?: string;
@@ -19,7 +21,9 @@ type Data = {
  * @param res
  */
 async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
-  const { user, result } = req.body;
+  const result: IJobResult = req.body;
+  //@ts-ignore
+  const { user } = result
 
   const returnData: Data = {};
 
@@ -29,6 +33,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
     let authorized = await devicePlugin.auth(user);
     if (authorized) {
       result.deviceID = user;
+      result._id = new mongoose.mongo.ObjectId(result.jobId)
       await plugin.patch(result);
       res.status(201).json(returnData);
     } else {
