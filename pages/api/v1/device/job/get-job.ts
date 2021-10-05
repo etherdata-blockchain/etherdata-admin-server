@@ -1,4 +1,4 @@
-import type { NextApiRequest, NextApiResponse } from "next";
+ import type { NextApiRequest, NextApiResponse } from "next";
 import { PostOnlyMiddleware } from "../../../../../utils/nextHandler/postOnlyHandler";
 import { DeviceRegistrationPlugin } from "../../../../../server/plugin/plugins/deviceRegistrationPlugin";
 import { JwtVerificationHandler } from "../../../../../utils/nextHandler/jwtVerificationHandler";

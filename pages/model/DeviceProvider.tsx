@@ -3,6 +3,7 @@ import io, { Socket } from "socket.io-client";
 import { UIProviderContext } from "./UIProvider";
 import { PaginationResult } from "../../server/client/browserClient";
 import { IDevice } from "../../server/schema/device";
+import { ObjectId } from "bson";
 
 interface DeviceInterface {
   loadingData: boolean;
@@ -40,7 +41,7 @@ export default function DeviceProvider(props: any) {
   React.useEffect(() => {
     socket = io("/clients", {
       auth: { token: process.env.NEXT_PUBLIC_CLIENT_PASSWORD },
-      transports: ['websocket']
+      transports: ["websocket"],
     });
 
     socket.on("connect", () => {
@@ -88,18 +89,18 @@ export default function DeviceProvider(props: any) {
   }, []);
 
   const sendCommand = React.useCallback(
-    async (methodName: string, params: any[]) => {
+    async (method: string, params: any[]) => {
       return new Promise((resolve, reject) => {
-        socket?.emit("rpc-command", { methodName, params });
-        socket?.once("rpc-result", (data) => {
-          console.log(data);
+        const uuid = new ObjectId().toString();
+        console.log(`Waiting for ${uuid}'s result`);
+        socket?.emit("rpc-command", { method, params }, uuid);
+        socket?.once(`rpc-result-${uuid}`, (data) => {
           resolve(data);
-          socket?.off("rpc-command-error");
+          socket?.off(`rpc-error-${uuid}`);
         });
-        socket?.once("rpc-command-error", (data) => {
-          console.log(data);
+        socket?.once(`rpc-error-${uuid}`, (data) => {
           reject(data);
-          socket?.off("rpc-result");
+          socket?.off(`rpc-result-${uuid}`);
         });
       });
     },
