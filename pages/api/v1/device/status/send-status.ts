@@ -18,7 +18,7 @@ type Data = {
  * @param res
  */
 async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
-  const { user, data, nodeName } = req.body;
+  const { user, data, nodeName, adminVersion } = req.body;
 
   const returnData: Data = {};
 
@@ -47,6 +47,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
       id: user,
       name: nodeName,
       data: data,
+      adminVersion,
     };
 
     let responseData = await plugin.patch(deviceData as IDevice);

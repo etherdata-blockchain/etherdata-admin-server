@@ -12,6 +12,7 @@ export interface IDevice extends Document {
   id: string;
   name: string;
   user: string | null;
+  adminVersion: string;
   data?: Web3DataInfo;
 }
 
@@ -21,6 +22,7 @@ export const deviceSchema = new Schema<IDevice>({
   user: { type: String, required: false },
   lastSeen: { type: Date, required: false },
   data: { type: Object, required: false },
+  adminVersion: { type: String, required: true },
 });
 
 /**
