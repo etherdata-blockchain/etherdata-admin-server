@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.2.9](https://github.com/etherdata-blockchain/etherdata-admin-server/compare/v0.2.8...v0.2.9) (2021-10-05)
+
+
+### Features
+
+* Add job request ui. Support json rpc request ([e6a8f7a](https://github.com/etherdata-blockchain/etherdata-admin-server/commit/e6a8f7a35acc65da6eb433258e8dbe6a46908d7b))
+
 ### [0.2.8](https://github.com/etherdata-blockchain/etherdata-admin-server/compare/v0.2.7...v0.2.8) (2021-10-04)
 
 ### [0.1.9](https://github.com/etherdata-blockchain/etherdata-admin-server/compare/v0.1.8...v0.1.9) (2021-09-30)
