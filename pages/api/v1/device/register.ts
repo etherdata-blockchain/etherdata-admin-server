@@ -11,13 +11,12 @@ type Data = {
 async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
   const { user, device } = req.body;
 
-  try {
-    let plugin = new DeviceRegistrationPlugin();
-    let [success, reason] = await plugin.register(user, device);
-
+  let plugin = new DeviceRegistrationPlugin();
+  let [success, reason] = await plugin.register(device, user);
+  if (success) {
     res.status(201).json({ success: success, reason: reason });
-  } catch (err) {
-    res.status(500).json({ success: false, reason: err.toString() });
+  } else {
+    res.status(500).json({ success: success, reason: reason });
   }
 }
 

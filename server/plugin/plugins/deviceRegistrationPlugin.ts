@@ -2,7 +2,7 @@ import { DatabasePlugin } from "../basePlugin";
 import { DeviceModel, deviceSchema, IDevice } from "../../schema/device";
 import { PluginName } from "../pluginName";
 import mongoose, { Model, Query } from "mongoose";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import moment from "moment";
 
 export class DeviceRegistrationPlugin extends DatabasePlugin<IDevice> {
@@ -12,37 +12,6 @@ export class DeviceRegistrationPlugin extends DatabasePlugin<IDevice> {
   protected performGet(id: string): Query<IDevice, IDevice> {
     //@ts-ignore
     return this.model.findOne({ id: id });
-  }
-
-  /**
-   * Do registration for device with user.
-   * Will return both success status and reason
-   *
-   * @param userId
-   * @param deviceId
-   *
-   * @return success and reason.
-   */
-  async register(
-    userId: string,
-    deviceId: any
-  ): Promise<[boolean, string | undefined]> {
-    let device = await this.get(deviceId);
-    if (device) {
-      if (device.user) {
-        return [false, "Device has been registered by another user"];
-      }
-      device.user = userId;
-      await device.save();
-      return [true, undefined];
-    }
-
-    return [false, "Device Not found"];
-  }
-
-  async findDevicesByUser(user: string): Promise<IDevice[]> {
-    let res = await this.model.find({ user: user });
-    return res;
   }
 
   async performPatch(data: IDevice): Promise<IDevice> {
@@ -65,16 +34,44 @@ export class DeviceRegistrationPlugin extends DatabasePlugin<IDevice> {
     try {
       const path = "storage_management/searchByQR?qr=" + device;
       const url = new URL(path, process.env.STORAGE_MANAGEMENT_URL);
-      await axios.get(url.toString());
+      await axios.get(url.toString(), {
+        headers: {
+          Authorization: `Bearer ${process.env.STORAGE_MANAGEMENT_API_TOKEN}`,
+        },
+      });
       return true;
     } catch (err) {
       return false;
     }
   }
 
-  async addDevice(device: any): Promise<boolean> {
-    let result = await this.patch(device);
-    return true;
+  /**
+   * Register device with users
+   * @param device
+   * @param user
+   *
+   * @return [success, error]
+   */
+  async register(
+    device: string,
+    user: string
+  ): Promise<[boolean, string | undefined]> {
+    try {
+      const path = "storage_management/device/register";
+      const url = new URL(path, process.env.STORAGE_MANAGEMENT_URL);
+      await axios.post(
+        url.toString(),
+        { user, device },
+        {
+          headers: {
+            Authorization: `Bearer ${process.env.STORAGE_MANAGEMENT_API_TOKEN}`,
+          },
+        }
+      );
+      return [true, undefined];
+    } catch (e) {
+      return [false, (e as AxiosError).response?.data.err];
+    }
   }
 
   async getOnlineDevicesCount(): Promise<number> {
@@ -91,5 +88,27 @@ export class DeviceRegistrationPlugin extends DatabasePlugin<IDevice> {
       result.data.systemInfo.isSyncing = true;
     }
     return JSON.parse(JSON.stringify(result));
+  }
+
+  /**
+   * Get devices by user
+   * @param user
+   * @return [success, reason, devices]
+   */
+  async getDevicesByUser(
+    user: string
+  ): Promise<[boolean, string | undefined, any[]]> {
+    try {
+      const path = "storage_management/device?user=" + user;
+      const url = new URL(path, process.env.STORAGE_MANAGEMENT_URL);
+      let resp = await axios.get(url.toString(), {
+        headers: {
+          Authorization: `Bearer ${process.env.STORAGE_MANAGEMENT_API_TOKEN}`,
+        },
+      });
+      return [true, undefined, resp.data];
+    } catch (e) {
+      return [false, (e as AxiosError).response?.data.err, []];
+    }
   }
 }

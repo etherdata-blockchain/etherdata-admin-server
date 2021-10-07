@@ -14,8 +14,8 @@ import Logger from "../../../logger";
 import { JobResultModel } from "../../../schema/job-result";
 import { RegisteredPlugins } from "./registeredPlugins";
 import { DeviceRegistrationPlugin } from "../deviceRegistrationPlugin";
-import {PendingJobPlugin} from "../pendingJobPlugin";
-import {IPendingJob} from "../../../schema/pending-job";
+import { PendingJobPlugin } from "../pendingJobPlugin";
+import { IPendingJob } from "../../../schema/pending-job";
 import mongoose from "mongoose";
 
 interface RPCCommand {
@@ -88,16 +88,8 @@ export class AppPlugin extends BaseSocketAuthIOPlugin {
         return;
       }
 
-      let device = await plugin.findDeviceByDeviceID(roomId);
-      if (!device) {
-        Logger.error("Cannot join the room. Client is not online");
-        socket.emit("join-room-error", {
-          err: "Cannot join the room. Client is not online",
-        });
-      } else {
-        Logger.info("Joining room " + roomId);
-        socket.join(roomId);
-      }
+      Logger.info("Joining room " + roomId);
+      socket.join(roomId);
     });
   };
 
@@ -116,34 +108,37 @@ export class AppPlugin extends BaseSocketAuthIOPlugin {
    * @param socket
    */
   rpcCommandHandler: SocketHandler = (socket) => {
-    socket.on("rpc-command", async (command: RPCCommand, uuid: number | undefined) => {
-      const pendingJobPlugin = new PendingJobPlugin()
-      let rooms = Array.from(socket.rooms);
-      if (rooms.length < 2) {
-        Logger.error("Cannot run rpc-command, not in any room!");
-        socket.emit("rpc-command-error", {
-          err: "Cannot join the room. Not in any room!",
-        });
-      } else {
-        // room id also is the node id
-        let selectedRoom = rooms[1];
-        let job = {
-          targetDeviceId: selectedRoom,
-          from: socket.id,
-          time: new Date(),
-          task: {
-            type: "web3",
-            value: command,
-          },
-        }
-        /// Add id if user defined
-        if(uuid){
+    socket.on(
+      "rpc-command",
+      async (command: RPCCommand, uuid: number | undefined) => {
+        const pendingJobPlugin = new PendingJobPlugin();
+        let rooms = Array.from(socket.rooms);
+        if (rooms.length < 2) {
+          Logger.error("Cannot run rpc-command, not in any room!");
+          socket.emit("rpc-command-error", {
+            err: "Cannot join the room. Not in any room!",
+          });
+        } else {
+          // room id also is the node id
+          let selectedRoom = rooms[1];
+          let job = {
+            targetDeviceId: selectedRoom,
+            from: socket.id,
+            time: new Date(),
+            task: {
+              type: "web3",
+              value: command,
+            },
+          };
+          /// Add id if user defined
+          if (uuid) {
+            //@ts-ignore
+            job._id = mongoose.mongo.ObjectId(uuid);
+          }
           //@ts-ignore
-          job._id = mongoose.mongo.ObjectId(uuid)
+          await pendingJobPlugin.create(job, {});
         }
-        //@ts-ignore
-        await pendingJobPlugin.create(job, {})
       }
-    });
+    );
   };
 }
