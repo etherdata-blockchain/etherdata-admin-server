@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.2.0](https://github.com/etherdata-blockchain/etherdata-admin-server/compare/v1.1.0...v1.2.0) (2021-10-07)
+
+
+### Features
+
+* update devices and bind api ([a8085db](https://github.com/etherdata-blockchain/etherdata-admin-server/commit/a8085dbc79d590c245cf69bd700173b72a75f505))
+
 ## [1.1.0](https://github.com/etherdata-blockchain/etherdata-admin-server/compare/v0.2.9...v1.1.0) (2021-10-05)
 
 
