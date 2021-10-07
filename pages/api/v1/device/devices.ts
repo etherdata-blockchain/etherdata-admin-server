@@ -15,12 +15,13 @@ type Data = {
  */
 async function handler(req: NextApiRequest, res: NextApiResponse) {
   const { user } = req.body;
-  try {
-    let plugin = new DeviceRegistrationPlugin();
-    let response = await plugin.findDevicesByUser(user);
-    res.status(200).json(response);
-  } catch (err) {
-    res.status(500);
+
+  let plugin = new DeviceRegistrationPlugin();
+  const [success, err, devices] = await plugin.getDevicesByUser(user);
+  if (success) {
+    res.status(200).json(devices);
+  } else {
+    res.status(500).json({ reason: err });
   }
 }
 
