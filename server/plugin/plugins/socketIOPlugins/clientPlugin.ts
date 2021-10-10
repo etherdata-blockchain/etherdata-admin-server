@@ -5,6 +5,8 @@ import { AppPlugin } from "./appPlugin";
 import { BrowserClient, PaginationResult } from "../../../client/browserClient";
 import { RegisteredPlugins } from "./registeredPlugins";
 import { IDevice } from "../../../schema/device";
+import { PendingJobPlugin } from "../pendingJobPlugin";
+import mongoose from "mongoose";
 
 /**
  * Web Browser socket io plugin
@@ -24,6 +26,7 @@ export class ClientPlugin extends AppPlugin {
       this.rpcCommandHandler,
       this.disconnectHandler,
       this.handlePageChange,
+      this.handlePushUpdates,
     ];
   }
 
