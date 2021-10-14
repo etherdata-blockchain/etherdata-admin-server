@@ -21,7 +21,6 @@ type Data = {
  */
 async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
   const { user, key } = req.body;
-  console.log("Key", key);
   const returnData: Data = {};
 
   try {
