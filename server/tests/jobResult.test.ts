@@ -22,6 +22,7 @@ describe("Job Result Test", () => {
 
   test("Get a result", async () => {
     await new JobResultModel({
+      jobId: 1,
       deviceID: "1",
       time: new Date(2020, 4, 1),
       from: "a",
@@ -51,6 +52,7 @@ describe("Job Result Test", () => {
   test("Get a result 2", async () => {
     await new JobResultModel({
       deviceID: "1",
+      jobId: 1,
       time: new Date(2020, 4, 1),
       from: "a",
       command: {
@@ -62,6 +64,7 @@ describe("Job Result Test", () => {
     }).save();
 
     await new JobResultModel({
+      jobId: 1,
       deviceID: "1",
       time: new Date(2020, 5, 1),
       from: "a",

@@ -10,6 +10,7 @@ import Logger from "../../../../../server/logger";
 type Data = {
   error?: string;
   data?: IDevice;
+  key?: string;
 };
 
 /**
@@ -18,7 +19,7 @@ type Data = {
  * @param res
  */
 async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
-  const { user, data, nodeName, adminVersion } = req.body;
+  const { user, data, nodeName, adminVersion, key } = req.body;
 
   const returnData: Data = {};
 
@@ -31,7 +32,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
 
   try {
     let plugin = new DeviceRegistrationPlugin();
-    let authenticated = await plugin.auth(user);
+    let [authenticated, newKey] = await plugin.auth(user, key);
     if (!authenticated) {
       Logger.error(
         `${user}: is not registered in our storage management system`
@@ -51,7 +52,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
     };
 
     let responseData = await plugin.patch(deviceData as IDevice);
-    res.status(201).json({ data: responseData });
+    res.status(201).json({ data: responseData, key: newKey });
   } catch (err) {
     Logger.error(err);
     returnData.error = err;
