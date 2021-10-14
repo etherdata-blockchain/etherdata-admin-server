@@ -23,6 +23,7 @@ describe("DB Plugin Tests", () => {
       name: "a",
       id: "a",
       online: true,
+      adminVersion: "1.0.0",
     }).save();
     expect(device._id).toBeDefined();
 
@@ -37,12 +38,14 @@ describe("DB Plugin Tests", () => {
       name: "a",
       id: "a",
       online: true,
+      adminVersion: "1.0.0",
     }).save();
 
     await new DeviceModel({
       name: "b",
       id: "b",
       online: true,
+      adminVersion: "1.0.0",
     }).save();
 
     let plugin = new DeviceRegistrationPlugin();

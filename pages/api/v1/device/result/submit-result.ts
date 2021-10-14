@@ -8,11 +8,13 @@ import Logger from "../../../../../server/logger";
 import { IPendingJob } from "../../../../../server/schema/pending-job";
 import { PendingJobPlugin } from "../../../../../server/plugin/plugins/pendingJobPlugin";
 import { JobResultPlugin } from "../../../../../server/plugin/plugins/jobResultPlugin";
-import {IJobResult} from "../../../../../server/schema/job-result";
+import { IJobResult } from "../../../../../server/schema/job-result";
 import * as mongoose from "mongoose";
+import { ObjectId } from "mongodb";
 
 type Data = {
   error?: string;
+  key?: string;
 };
 
 /**
@@ -23,17 +25,18 @@ type Data = {
 async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
   const result: IJobResult = req.body;
   //@ts-ignore
-  const { user } = result
+  const { user, key } = result;
 
   const returnData: Data = {};
 
   try {
     let plugin = new JobResultPlugin();
     let devicePlugin = new DeviceRegistrationPlugin();
-    let authorized = await devicePlugin.auth(user);
+    let [authorized, newKey] = await devicePlugin.auth(user, key);
     if (authorized) {
       result.deviceID = user;
-      result._id = new mongoose.mongo.ObjectId(result.jobId)
+      result._id = new ObjectId(result.jobId);
+      returnData.key = newKey;
       await plugin.patch(result);
       res.status(201).json(returnData);
     } else {
