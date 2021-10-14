@@ -5,11 +5,12 @@ import {
   GridColDef,
   GridValueGetterParams,
 } from "@material-ui/data-grid";
-import { Button } from "@material-ui/core";
+import { Button, Pagination } from "@material-ui/core";
 import { useRouter } from "next/dist/client/router";
 import { IDevice } from "../../server/schema/device";
 import moment from "moment";
 import { CONFIG } from "../../server/config/config";
+import Spacer from "../Spacer";
 
 type Props = {
   devices: IDevice[];
@@ -73,20 +74,30 @@ export function DeviceTable({
   });
 
   return (
-    <DataGrid
-      loading={loading}
-      columns={columns}
-      rows={data}
-      paginationMode={"server"}
-      rowCount={totalNumRows}
-      onPageChange={async (page) => {
-        await onPageChanged(page.page);
-      }}
-      autoHeight
-      pageSize={numPerPage}
-      disableSelectionOnClick
-      pagination
-      page={currentPageNumber}
-    />
+    <div>
+      <Pagination
+        color={"primary"}
+        onChange={async (e, cur) => {
+          await onPageChanged(cur);
+        }}
+        count={totalPageNumber}
+      />
+      <Spacer height={10} />
+      <DataGrid
+        loading={loading}
+        columns={columns}
+        rows={data}
+        paginationMode={"server"}
+        rowCount={totalNumRows}
+        onPageChange={async (page) => {
+          await onPageChanged(page.page);
+        }}
+        autoHeight
+        pageSize={numPerPage}
+        disableSelectionOnClick
+        pagination
+        page={currentPageNumber}
+      />
+    </div>
   );
 }
