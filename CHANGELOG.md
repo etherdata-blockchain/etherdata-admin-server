@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.4.0](https://github.com/etherdata-blockchain/etherdata-admin-server/compare/v1.3.0...v1.4.0) (2021-10-14)
+
+
+### Features
+
+* Add pagination ([0bc86e9](https://github.com/etherdata-blockchain/etherdata-admin-server/commit/0bc86e98b5ba6d75a48af470ca78520783c6ab2e))
+
 ## [1.3.0](https://github.com/etherdata-blockchain/etherdata-admin-server/compare/v1.2.0...v1.3.0) (2021-10-14)
 
 
