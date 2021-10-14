@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.3.0](https://github.com/etherdata-blockchain/etherdata-admin-server/compare/v1.2.0...v1.3.0) (2021-10-14)
+
+
+### Features
+
+* Reduce requests to the storage management system ([5e88785](https://github.com/etherdata-blockchain/etherdata-admin-server/commit/5e887854fa6cb7d2b53e83e43c585d013f8cd452))
+
+
+### Bug Fixes
+
+* Image size ([956b6d7](https://github.com/etherdata-blockchain/etherdata-admin-server/commit/956b6d706d227f4e33facaaf631d76b4b56e72d6))
+* JWT Sign function ([5df1315](https://github.com/etherdata-blockchain/etherdata-admin-server/commit/5df1315adede960a42eaf7a41b333185edd94a25))
+* Tests ([8d0fa7d](https://github.com/etherdata-blockchain/etherdata-admin-server/commit/8d0fa7decb3ab3c51169003b59308bf649049b27))
+
 ## [1.2.0](https://github.com/etherdata-blockchain/etherdata-admin-server/compare/v1.1.0...v1.2.0) (2021-10-07)
 
 
