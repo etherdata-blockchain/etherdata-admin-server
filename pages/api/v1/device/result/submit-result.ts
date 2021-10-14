@@ -10,6 +10,7 @@ import { PendingJobPlugin } from "../../../../../server/plugin/plugins/pendingJo
 import { JobResultPlugin } from "../../../../../server/plugin/plugins/jobResultPlugin";
 import { IJobResult } from "../../../../../server/schema/job-result";
 import * as mongoose from "mongoose";
+import { ObjectId } from "mongodb";
 
 type Data = {
   error?: string;
@@ -34,7 +35,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
     let [authorized, newKey] = await devicePlugin.auth(user, key);
     if (authorized) {
       result.deviceID = user;
-      result._id = new mongoose.mongo.ObjectId(result.jobId);
+      result._id = new ObjectId(result.jobId);
       returnData.key = newKey;
       await plugin.patch(result);
       res.status(201).json(returnData);

@@ -36,6 +36,7 @@ describe("Test get a pending job", () => {
 
   test("Submit a result", async () => {
     let data: any = {
+      jobId: 123,
       deviceID: "1",
       time: new Date(2020, 5, 1),
       from: "a",
