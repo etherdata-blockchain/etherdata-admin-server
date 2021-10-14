@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.4.1](https://github.com/etherdata-blockchain/etherdata-admin-server/compare/v1.4.0...v1.4.1) (2021-10-14)
+
+
+### Bug Fixes
+
+* Dockerfile ([0c7da09](https://github.com/etherdata-blockchain/etherdata-admin-server/commit/0c7da0936226fee7153fa2778f33690e385fb760))
+
 ## [1.4.0](https://github.com/etherdata-blockchain/etherdata-admin-server/compare/v1.3.0...v1.4.0) (2021-10-14)
 
 
