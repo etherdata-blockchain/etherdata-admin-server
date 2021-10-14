@@ -1,4 +1,4 @@
- import type { NextApiRequest, NextApiResponse } from "next";
+import type { NextApiRequest, NextApiResponse } from "next";
 import { PostOnlyMiddleware } from "../../../../../utils/nextHandler/postOnlyHandler";
 import { DeviceRegistrationPlugin } from "../../../../../server/plugin/plugins/deviceRegistrationPlugin";
 import { JwtVerificationHandler } from "../../../../../utils/nextHandler/jwtVerificationHandler";
@@ -11,6 +11,7 @@ import { PendingJobPlugin } from "../../../../../server/plugin/plugins/pendingJo
 type Data = {
   error?: string;
   job?: IPendingJob;
+  key?: string;
 };
 
 /**
@@ -19,17 +20,18 @@ type Data = {
  * @param res
  */
 async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
-  const { user } = req.body;
+  const { user, key } = req.body;
 
   const returnData: Data = {};
 
   try {
     let plugin = new PendingJobPlugin();
     let devicePlugin = new DeviceRegistrationPlugin();
-    let authorized = await devicePlugin.auth(user);
+    let [authorized, newKey] = await devicePlugin.auth(user, key);
     if (authorized) {
       let job = await plugin.getJob(user);
       returnData.job = job;
+      returnData.key = newKey;
       res.status(200).json(returnData);
     } else {
       returnData.error = "Device is not in our DB";
