@@ -48,14 +48,14 @@ export class DeviceRegistrationPlugin extends DatabasePlugin<IDevice> {
           },
         });
         // Generate a key for next task
-        const newKey = jwt.sign(device, process.env.PUBLIC_SECRET!, {
+        const newKey = jwt.sign({ device }, process.env.PUBLIC_SECRET!, {
           expiresIn: 600,
         });
         return [true, newKey];
       } else {
         jwt.verify(prev_key, process.env.PUBLIC_SECRET!);
         /// verified key
-        const newKey = jwt.sign(device, process.env.PUBLIC_SECRET!, {
+        const newKey = jwt.sign({ device }, process.env.PUBLIC_SECRET!, {
           expiresIn: 600,
         });
         return [true, newKey];

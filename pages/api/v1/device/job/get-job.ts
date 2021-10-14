@@ -21,7 +21,7 @@ type Data = {
  */
 async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
   const { user, key } = req.body;
-
+  console.log("Key", key);
   const returnData: Data = {};
 
   try {
@@ -34,6 +34,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
       returnData.key = newKey;
       res.status(200).json(returnData);
     } else {
+      Logger.error("Device is not in our DB");
       returnData.error = "Device is not in our DB";
       res.status(500).json(returnData);
     }
