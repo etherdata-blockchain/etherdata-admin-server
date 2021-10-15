@@ -11,6 +11,7 @@ import PersonIcon from "@material-ui/icons/Person";
 import ETDProvider from "./model/ETDProvider";
 import * as Realm from "realm-web";
 import DeviceProvider from "./model/DeviceProvider";
+import PieChartIcon from "@material-ui/icons/PieChart";
 
 export const realmApp = new Realm.App({ id: process.env.NEXT_PUBLIC_APP_ID! });
 const darkTheme = createTheme({
@@ -93,6 +94,11 @@ function MyApp(props: AppProps) {
       title: "User",
       icon: <PersonIcon />,
       link: "/user",
+    },
+    {
+      title: "Chart",
+      icon: <PieChartIcon />,
+      link: "/chart",
     },
   ];
 
