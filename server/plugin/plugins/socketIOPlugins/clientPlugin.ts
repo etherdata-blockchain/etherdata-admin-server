@@ -2,7 +2,11 @@ import { BaseSocketIOPlugin, SocketHandler } from "../../basePlugin";
 import { Server, Socket } from "socket.io";
 import Logger from "../../../logger";
 import { AppPlugin } from "./appPlugin";
-import { BrowserClient, PaginationResult } from "../../../client/browserClient";
+import {
+  BrowserClient,
+  ClientFilter,
+  PaginationResult,
+} from "../../../client/browserClient";
 import { RegisteredPlugins } from "./registeredPlugins";
 import { IDevice } from "../../../schema/device";
 import { PendingJobPlugin } from "../pendingJobPlugin";
@@ -27,6 +31,7 @@ export class ClientPlugin extends AppPlugin {
       this.disconnectHandler,
       this.handlePageChange,
       this.handlePushUpdates,
+      this.handleApplyFilter,
     ];
   }
 
@@ -63,6 +68,23 @@ export class ClientPlugin extends AppPlugin {
         let pageResults = await client.generatePaginationResult();
         socket.emit("realtime-info", pageResults);
         socket.emit("page-changed", true);
+      }
+    });
+  };
+
+  /**
+   * Change page
+   * @param socket
+   */
+  handleApplyFilter: SocketHandler = (socket) => {
+    socket.on("apply-filter", async (filter: ClientFilter) => {
+      let client = this.browserClients[socket.id];
+      if (client) {
+        client.currentFilter = filter;
+        client.currentPage = 0;
+        // Send new data to clients
+        let pageResults = await client.generatePaginationResult();
+        socket.emit("realtime-info", pageResults);
       }
     });
   };

@@ -5,6 +5,12 @@ import mongoose, { Model, Query } from "mongoose";
 import axios, { AxiosError } from "axios";
 import moment from "moment";
 import jwt from "jsonwebtoken";
+import { ClientFilter } from "../../client/browserClient";
+
+export interface VersionInfo {
+  version: string;
+  count: number;
+}
 
 export class DeviceRegistrationPlugin extends DatabasePlugin<IDevice> {
   pluginName: PluginName = "deviceRegistration";
@@ -13,6 +19,24 @@ export class DeviceRegistrationPlugin extends DatabasePlugin<IDevice> {
   protected performGet(id: string): Query<IDevice, IDevice> {
     //@ts-ignore
     return this.model.findOne({ id: id });
+  }
+
+  async listWithFilter(
+    pageNumber: number,
+    pageSize: number,
+    filter?: ClientFilter
+  ): Promise<IDevice[] | undefined> {
+    let results = this.model.find({});
+    if (filter) {
+      let queryFilter: { [key: string]: any } = {};
+      queryFilter[filter.key] = filter.value;
+      results = this.model.find(queryFilter);
+    }
+
+    //@ts-ignore
+    let pageResults = this.doPagination(results, pageNumber, pageSize);
+
+    return await pageResults.exec();
   }
 
   async performPatch(data: IDevice): Promise<IDevice> {
@@ -94,9 +118,16 @@ export class DeviceRegistrationPlugin extends DatabasePlugin<IDevice> {
     }
   }
 
-  async getOnlineDevicesCount(): Promise<number> {
+  async getOnlineDevicesCount(filter?: ClientFilter): Promise<number> {
     let time = moment().subtract(10, "minutes");
     let query = this.model.find({ lastSeen: { $gt: time.toDate() } });
+    if (filter) {
+      let queryFilter: { [key: string]: any } = {
+        lastSeen: { $gt: time.toDate() },
+      };
+      queryFilter[filter.key] = filter.value;
+      query = this.model.find(queryFilter);
+    }
     return query.count();
   }
 
@@ -130,5 +161,64 @@ export class DeviceRegistrationPlugin extends DatabasePlugin<IDevice> {
     } catch (e) {
       return [false, (e as AxiosError).response?.data.err, []];
     }
+  }
+
+  async getListOfAdminVersions(): Promise<VersionInfo[]> {
+    const pipeline = this.model.aggregate([
+      {
+        $group: {
+          _id: "$adminVersion",
+          count: { $sum: 1 },
+        },
+      },
+      {
+        $project: {
+          version: "$_id",
+          count: "$count",
+        },
+      },
+      {
+        $sort: {
+          version: 1,
+        },
+      },
+    ]);
+
+    return await pipeline.exec();
+  }
+
+  async getListOfNodeVersion(): Promise<VersionInfo[]> {
+    const pipeline = this.model.aggregate([
+      {
+        $group: {
+          _id: "$data.systemInfo.nodeVersion",
+          count: { $sum: 1 },
+        },
+      },
+      {
+        $project: {
+          version: "$_id",
+          count: "$count",
+        },
+      },
+      {
+        $sort: {
+          version: 1,
+        },
+      },
+    ]);
+
+    return await pipeline.exec();
+  }
+
+  async countWithFilter(filter?: ClientFilter) {
+    let results = this.model.find({});
+    if (filter) {
+      let queryFilter: { [key: string]: any } = {};
+      queryFilter[filter.key] = filter.value;
+      results = this.model.find(queryFilter);
+    }
+
+    return results.count();
   }
 }

@@ -1,6 +1,14 @@
 import { Web3DataInfo } from "./node_data";
-import { DeviceRegistrationPlugin } from "../plugin/plugins/deviceRegistrationPlugin";
+import {
+  DeviceRegistrationPlugin,
+  VersionInfo,
+} from "../plugin/plugins/deviceRegistrationPlugin";
 import { IDevice } from "../schema/device";
+
+export interface ClientFilter {
+  key: string;
+  value: string;
+}
 
 export interface PaginationResult {
   devices: IDevice[];
@@ -9,12 +17,16 @@ export interface PaginationResult {
   totalNumberDevices: number;
   totalOnlineDevices: number;
   numPerPage: number;
+  adminVersions: VersionInfo[];
+  nodeVersions: VersionInfo[];
+  clientFilter?: ClientFilter;
 }
 
 export class BrowserClient {
   numPerPage: number = 15;
   currentPage: number = 0;
   lastResult?: PaginationResult;
+  currentFilter?: ClientFilter;
 
   /**
    * Generate pagination results based on current page number
@@ -23,10 +35,20 @@ export class BrowserClient {
     let devicePlugin = new DeviceRegistrationPlugin();
 
     let devices =
-      (await devicePlugin.list(this.currentPage, this.numPerPage)) ?? [];
+      (await devicePlugin.listWithFilter(
+        this.currentPage,
+        this.numPerPage,
+        this.currentFilter
+      )) ?? [];
 
-    let onlineDevicesCount = await devicePlugin.getOnlineDevicesCount();
-    let totalNumDevices = await devicePlugin.count();
+    let onlineDevicesCount = await devicePlugin.getOnlineDevicesCount(
+      this.currentFilter
+    );
+    let totalNumDevices = await devicePlugin.countWithFilter(
+      this.currentFilter
+    );
+    const adminVersions = await devicePlugin.getListOfAdminVersions();
+    const nodeVersions = await devicePlugin.getListOfNodeVersion();
 
     let paginationResult = {
       devices: devices,
@@ -35,6 +57,9 @@ export class BrowserClient {
       totalNumberDevices: totalNumDevices,
       totalOnlineDevices: onlineDevicesCount,
       numPerPage: this.numPerPage,
+      adminVersions,
+      nodeVersions,
+      clientFilter: this.currentFilter,
     };
 
     this.lastResult = paginationResult;

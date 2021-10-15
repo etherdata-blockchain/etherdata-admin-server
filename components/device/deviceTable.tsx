@@ -78,9 +78,10 @@ export function DeviceTable({
       <Pagination
         color={"primary"}
         onChange={async (e, cur) => {
-          await onPageChanged(cur);
+          await onPageChanged(cur - 1);
         }}
         count={totalPageNumber}
+        page={currentPageNumber + 1}
       />
       <Spacer height={10} />
       <DataGrid

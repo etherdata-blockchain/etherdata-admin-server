@@ -82,8 +82,6 @@ export class DBChangePlugin extends BaseSocketIOPlugin {
 
   async periodicSendLatestDevices() {
     let devicePlugin = new DeviceRegistrationPlugin();
-    let totalDevices = await devicePlugin.count();
-    let totalOnlineDevices = await devicePlugin.getOnlineDevicesCount();
     let clientPlugin = this.findPlugin<ClientPlugin>("client");
     for (let [id, client] of Object.entries(clientPlugin!.browserClients)) {
       // Update latest client number and number of online devices
