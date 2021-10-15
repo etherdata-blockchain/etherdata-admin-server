@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.5.0](https://github.com/etherdata-blockchain/etherdata-admin-server/compare/v1.4.1...v1.5.0) (2021-10-15)
+
+
+### Features
+
+* add chart page ([0168c3f](https://github.com/etherdata-blockchain/etherdata-admin-server/commit/0168c3f77b4a0f4339efbfb2cbe604c980d31f10))
+* Add filter selection ([8e61472](https://github.com/etherdata-blockchain/etherdata-admin-server/commit/8e61472f67669fe3bb9318f7577d2b9bd738027a))
+
+
+### Bug Fixes
+
+* remove unused console log ([50a6764](https://github.com/etherdata-blockchain/etherdata-admin-server/commit/50a676428ce9425ad1e0ae4d4e15dee959ac041c))
+
 ### [1.4.1](https://github.com/etherdata-blockchain/etherdata-admin-server/compare/v1.4.0...v1.4.1) (2021-10-14)
 
 
