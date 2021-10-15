@@ -3,6 +3,7 @@ import { Document, Model, Query } from "mongoose";
 import { PluginName } from "./pluginName";
 import Logger from "../logger";
 import { RegisteredPlugins } from "./plugins/socketIOPlugins/registeredPlugins";
+import { ClientFilter } from "../client/browserClient";
 
 export type SocketHandler = (socket: Socket) => void;
 
@@ -199,7 +200,6 @@ export abstract class DatabasePlugin<
   }
 
   async count() {
-    return this.model.count();
+    return this.model.countDocuments();
   }
-
 }

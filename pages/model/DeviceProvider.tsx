@@ -1,9 +1,13 @@
 import React from "react";
 import io, { Socket } from "socket.io-client";
 import { UIProviderContext } from "./UIProvider";
-import { PaginationResult } from "../../server/client/browserClient";
+import {
+  ClientFilter,
+  PaginationResult,
+} from "../../server/client/browserClient";
 import { IDevice } from "../../server/schema/device";
 import { ObjectId } from "bson";
+import { VersionInfo } from "../../server/plugin/plugins/deviceRegistrationPlugin";
 
 interface DeviceInterface {
   loadingData: boolean;
@@ -14,11 +18,16 @@ interface DeviceInterface {
   totalNumOnlineDevices: number;
   filterKeyword: string;
   numPerPage: number;
+  adminVersions: VersionInfo[];
+  nodeVersions: VersionInfo[];
+  currentFilter?: ClientFilter;
   setFilterKeyword(v: string): void;
   joinDetail(deviceId: string): void;
   leaveDetail(deviceId: string): void;
   sendCommand(methodName: string, params: any[]): Promise<any>;
   handlePageChange(pageNumber: number): Promise<any>;
+  applyFilter(filter: ClientFilter): void;
+  clearFilter(): void;
 }
 
 //@ts-ignore
@@ -36,7 +45,10 @@ export default function DeviceProvider(props: any) {
   const [totalPageNumber, setTotalPageNumber] = React.useState(0);
   const [totalNumDevices, setTotalNumberDevices] = React.useState(0);
   const [totalNumOnlineDevices, setTotalOnlineDevices] = React.useState(0);
+  const [adminVersions, setAdminVersions] = React.useState<VersionInfo[]>([]);
+  const [nodeVersions, setNodeVersions] = React.useState<VersionInfo[]>([]);
   const [numPerPage, setNumPerPage] = React.useState(0);
+  const [currentFilter, setCurrentFilter] = React.useState<ClientFilter>();
 
   React.useEffect(() => {
     socket = io("/clients", {
@@ -57,13 +69,19 @@ export default function DeviceProvider(props: any) {
         totalNumberDevices,
         totalOnlineDevices,
         numPerPage,
+        adminVersions,
+        nodeVersions,
+        clientFilter,
       }: PaginationResult) => {
+        setCurrentFilter(clientFilter);
         setDevices(devices);
         setCurrentPageNumber(currentPageNumber);
         setTotalPageNumber(totalPageNumber);
         setTotalOnlineDevices(totalOnlineDevices);
         setTotalNumberDevices(totalNumberDevices);
         setNumPerPage(numPerPage);
+        setAdminVersions(adminVersions);
+        setNodeVersions(nodeVersions);
       }
     );
   }, []);
@@ -74,6 +92,14 @@ export default function DeviceProvider(props: any) {
 
   const leaveDetail = React.useCallback((deviceId: string) => {
     socket?.emit("leave-room", deviceId);
+  }, []);
+
+  const applyFilter = React.useCallback((filter: ClientFilter) => {
+    socket?.emit("apply-filter", filter);
+  }, []);
+
+  const clearFilter = React.useCallback(() => {
+    socket?.emit("apply-filter", undefined);
   }, []);
 
   const handlePageChange = React.useCallback(async (pageNumber: number) => {
@@ -121,6 +147,11 @@ export default function DeviceProvider(props: any) {
     totalNumDevices,
     totalNumOnlineDevices,
     numPerPage,
+    adminVersions,
+    nodeVersions,
+    currentFilter,
+    applyFilter,
+    clearFilter,
   };
 
   return (
