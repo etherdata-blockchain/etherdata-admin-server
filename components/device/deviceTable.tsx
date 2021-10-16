@@ -74,7 +74,7 @@ export function DeviceTable({
   });
 
   return (
-    <div>
+    <div style={{ width: "100%" }}>
       <Pagination
         color={"primary"}
         onChange={async (e, cur) => {
@@ -85,6 +85,7 @@ export function DeviceTable({
       />
       <Spacer height={10} />
       <DataGrid
+        style={{ width: "100%" }}
         loading={loading}
         columns={columns}
         rows={data}
