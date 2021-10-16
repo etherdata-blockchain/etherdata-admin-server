@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.6.1](https://github.com/etherdata-blockchain/etherdata-admin-server/compare/v1.6.0...v1.6.1) (2021-10-16)
+
+
+### Bug Fixes
+
+* Import error ([591d42e](https://github.com/etherdata-blockchain/etherdata-admin-server/commit/591d42efc662b22f915521d4a88ee30a99e93037))
+
 ## [1.6.0](https://github.com/etherdata-blockchain/etherdata-admin-server/compare/v1.5.3...v1.6.0) (2021-10-16)
 
 
