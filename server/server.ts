@@ -1,8 +1,4 @@
-import {
-  BasePlugin,
-  BaseSocketAuthIOPlugin,
-  BaseSocketIOPlugin,
-} from "./plugin/basePlugin";
+import { BaseSocketIOPlugin } from "./plugin/basePlugin";
 import { Server as SocketServer } from "socket.io";
 
 export class Server {

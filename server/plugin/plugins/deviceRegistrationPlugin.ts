@@ -6,6 +6,7 @@ import axios, { AxiosError } from "axios";
 import moment from "moment";
 import jwt from "jsonwebtoken";
 import { ClientFilter } from "../../client/browserClient";
+import { MongoClient } from "mongodb";
 
 export interface VersionInfo {
   version: string;
@@ -64,18 +65,20 @@ export class DeviceRegistrationPlugin extends DatabasePlugin<IDevice> {
   ): Promise<[boolean, string | undefined]> {
     try {
       if (!prev_key) {
-        const path = "storage_management/searchByQR?qr=" + device;
-        const url = new URL(path, process.env.STORAGE_MANAGEMENT_URL);
-        await axios.get(url.toString(), {
-          headers: {
-            Authorization: `Bearer ${process.env.STORAGE_MANAGEMENT_API_TOKEN}`,
-          },
-        });
-        // Generate a key for next task
-        const newKey = jwt.sign({ device }, process.env.PUBLIC_SECRET!, {
-          expiresIn: 600,
-        });
-        return [true, newKey];
+        //@ts-ignore
+        const client: MongoClient = global.MONGO_CLIENT;
+        const db = client.db("storage-management-system");
+        const coll = db.collection("storage_management_item");
+        const found = await coll.findOne({ qr_code: device });
+        if (found) {
+          // Generate a key for next task
+          const newKey = jwt.sign({ device }, process.env.PUBLIC_SECRET!, {
+            expiresIn: 600,
+          });
+          return [true, newKey];
+        } else {
+          return [false, undefined];
+        }
       } else {
         jwt.verify(prev_key, process.env.PUBLIC_SECRET!);
         /// verified key
@@ -85,6 +88,7 @@ export class DeviceRegistrationPlugin extends DatabasePlugin<IDevice> {
         return [true, newKey];
       }
     } catch (err) {
+      console.log(err);
       return [false, undefined];
     }
   }
