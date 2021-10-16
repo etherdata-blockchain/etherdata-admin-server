@@ -7,6 +7,7 @@ import moment from "moment";
 import jwt from "jsonwebtoken";
 import { ClientFilter } from "../../client/browserClient";
 import { MongoClient } from "mongodb";
+import Logger from "../../logger";
 
 export interface VersionInfo {
   version: string;
@@ -63,32 +64,55 @@ export class DeviceRegistrationPlugin extends DatabasePlugin<IDevice> {
     device: string,
     prev_key: string | undefined
   ): Promise<[boolean, string | undefined]> {
-    try {
-      if (!prev_key) {
-        //@ts-ignore
-        const client: MongoClient = global.MONGO_CLIENT;
-        const db = client.db("storage-management-system");
-        const coll = db.collection("storage_management_item");
-        const found = await coll.findOne({ qr_code: device });
-        if (found) {
-          // Generate a key for next task
-          const newKey = jwt.sign({ device }, process.env.PUBLIC_SECRET!, {
-            expiresIn: 600,
-          });
-          return [true, newKey];
-        } else {
-          return [false, undefined];
-        }
-      } else {
+    /// If no previous key
+    if (!prev_key) {
+      try {
+        return await this.authFromDB(device);
+      } catch (e) {
+        /// Cannot cannot to the db
+        return [false, undefined];
+      }
+    } else {
+      try {
         jwt.verify(prev_key, process.env.PUBLIC_SECRET!);
         /// verified key
         const newKey = jwt.sign({ device }, process.env.PUBLIC_SECRET!, {
           expiresIn: 600,
         });
         return [true, newKey];
+      } catch (e) {
+        /// Token is expired
+        Logger.warning(`${device} key is expired. Re authenticate from DB`);
+        try {
+          return await this.authFromDB(device);
+        } catch (e) {
+          /// Cannot cannot to the db
+          return [false, undefined];
+        }
       }
-    } catch (err) {
-      console.log(err);
+    }
+  }
+
+  /**
+   * Authentication from db
+   * @param device
+   * @private
+   */
+  private async authFromDB(
+    device: string
+  ): Promise<[boolean, string | undefined]> {
+    //@ts-ignore
+    const client: MongoClient = global.MONGO_CLIENT;
+    const db = client.db("storage-management-system");
+    const coll = db.collection("storage_management_item");
+    const found = await coll.findOne({ qr_code: device });
+    if (found) {
+      // Generate a key for next task
+      const newKey = jwt.sign({ device }, process.env.PUBLIC_SECRET!, {
+        expiresIn: 600,
+      });
+      return [true, newKey];
+    } else {
       return [false, undefined];
     }
   }
