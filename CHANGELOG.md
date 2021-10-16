@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.5.1](https://github.com/etherdata-blockchain/etherdata-admin-server/compare/v1.5.0...v1.5.1) (2021-10-16)
+
+
+### Bug Fixes
+
+* update auth method ([32d5dd9](https://github.com/etherdata-blockchain/etherdata-admin-server/commit/32d5dd9039b082395e54f62dfeff0167891f5864))
+
 ## [1.5.0](https://github.com/etherdata-blockchain/etherdata-admin-server/compare/v1.4.1...v1.5.0) (2021-10-15)
 
 
