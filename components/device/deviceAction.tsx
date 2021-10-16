@@ -18,7 +18,7 @@ import {
   bindHover,
 } from "material-ui-popup-state/hooks";
 
-import ArrowRightIcon from "@material-ui/icons/arrowRight";
+import ArrowRightIcon from "@material-ui/icons/ArrowRight";
 
 type Props = {};
 
