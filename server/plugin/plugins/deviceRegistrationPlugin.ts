@@ -87,6 +87,7 @@ export class DeviceRegistrationPlugin extends DatabasePlugin<IDevice> {
           return await this.authFromDB(device);
         } catch (e) {
           /// Cannot cannot to the db
+          Logger.error(`${device} cannot auth due to ${e}`);
           return [false, undefined];
         }
       }
