@@ -22,19 +22,19 @@ import style from "../../styles/Device.module.css";
 import { LargeDataCard } from "../../components/cards/largeDataCard";
 import { DurationSelectorBtn } from "../../components/home/DurationSelectorBtn";
 import { GridDataCard } from "../../components/cards/gridDataCard";
-import { PanelSelector }                         from "../../components/device/panelSelector";
-import { useRouter }                             from "next/dist/client/router";
+import { PanelSelector } from "../../components/device/panelSelector";
+import { useRouter } from "next/dist/client/router";
 import DeviceProvider, { DeviceContext, socket } from "../model/DeviceProvider";
-import { abbreviateNumber }                      from "../../utils/valueFormatter";
-import { UIProviderContext }                     from "../model/UIProvider";
-import { GetServerSideProps }                    from "next";
-import { DeviceRegistrationPlugin }              from "../../server/plugin/plugins/deviceRegistrationPlugin";
-import { IDevice }                               from "../../server/schema/device";
-import { objectExpand }                          from "../../utils/objectExpander";
-import Logger                                    from "../../server/logger";
-import { NodePlugin }                            from "../../server/plugin/plugins/socketIOPlugins/nodePlugin";
-import moment                                    from "moment";
-import {CONFIG}                                  from "../../server/config/config";
+import { abbreviateNumber } from "../../utils/valueFormatter";
+import { UIProviderContext } from "../model/UIProvider";
+import { GetServerSideProps } from "next";
+import { DeviceRegistrationPlugin } from "../../server/plugin/plugins/deviceRegistrationPlugin";
+import { IDevice } from "../../server/schema/device";
+import { objectExpand } from "../../utils/objectExpander";
+import Logger from "../../server/logger";
+import { NodePlugin } from "../../server/plugin/plugins/socketIOPlugins/nodePlugin";
+import moment from "moment";
+import { CONFIG } from "../../server/config/config";
 
 type Props = {
   device: IDevice | null;
@@ -49,7 +49,9 @@ export default function DeviceDetail({ device, found }: Props) {
   const [foundDevice, setFoundDevice] = React.useState<IDevice | undefined>(
     device ?? undefined
   );
-  const online =  Math.abs(moment(foundDevice?.lastSeen).diff(moment(), "seconds")) < CONFIG.maximumNotSeenDuration
+  const online =
+    Math.abs(moment(foundDevice?.lastSeen).diff(moment(), "seconds")) <
+    CONFIG.maximumNotSeenDuration;
 
   React.useEffect(() => {
     console.log("Joining room", device?.id);
@@ -86,7 +88,7 @@ export default function DeviceDetail({ device, found }: Props) {
       />
       <Spacer height={20} />
       <Grid container spacing={5}>
-        <Grid item md={3}>
+        <Grid item md={3} xs={6}>
           <LargeDataCard
             icon={<ComputerIcon />}
             //@ts-ignore
@@ -99,7 +101,7 @@ export default function DeviceDetail({ device, found }: Props) {
             className={style.detailDataCard}
           />
         </Grid>
-        <Grid item md={3}>
+        <Grid item md={3} xs={6}>
           <LargeDataCard
             icon={<ComputerIcon />}
             title={`${foundDevice?.data?.number}`}
@@ -112,7 +114,7 @@ export default function DeviceDetail({ device, found }: Props) {
           />
         </Grid>
 
-        <Grid item md={6}>
+        <Grid item md={6} xs={12}>
           <GridDataCard
             className={style.detailDataCard}
             backgroundColor={"#3385ff"}
@@ -139,7 +141,10 @@ export default function DeviceDetail({ device, found }: Props) {
               {objectExpand(foundDevice!, ["__v", "_id"]).map(
                 ({ key, value }, index) => (
                   <ListItem key={index}>
-                    <ListItemText primary={key} secondary={`${value}`} />
+                    <ListItemText
+                      primary={key}
+                      secondary={<Typography noWrap>{value}</Typography>}
+                    />
                   </ListItem>
                 )
               )}

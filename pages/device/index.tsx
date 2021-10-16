@@ -44,7 +44,7 @@ export default function Index(props: Props) {
       <Spacer height={20} />
 
       <Grid container spacing={4}>
-        <Grid item md={4}>
+        <Grid item md={4} xs={6}>
           <LargeDataCard
             icon={<StorageIcon />}
             title={`${history?.latestBlockNumber ?? 0}`}
@@ -56,7 +56,7 @@ export default function Index(props: Props) {
             className={style.detailDataCard}
           />
         </Grid>
-        <Grid item md={8}>
+        <Grid item md={8} xs={6}>
           <LargeDataCard
             icon={<ComputerIcon />}
             title={`${totalNumOnlineDevices} / ${totalNumDevices}`}
@@ -68,7 +68,7 @@ export default function Index(props: Props) {
             className={style.detailDataCard}
           />
         </Grid>
-        <Grid item md={12}>
+        <Grid item md={12} xs={12}>
           <ResponsiveCard
             title={"Devices"}
             className={styles.deviceTable}

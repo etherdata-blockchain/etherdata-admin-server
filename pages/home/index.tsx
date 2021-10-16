@@ -39,7 +39,7 @@ export default function Index(props: Props) {
       <PageHeader title={"Dashboard"} description={"Default Message"} />
       <Spacer height={10} />
       <Grid container spacing={3}>
-        <Grid item md={3}>
+        <Grid item md={3} xs={6}>
           <LargeDataCard
             icon={<StorageIcon />}
             title={`${totalNumOnlineDevices}/${totalNumDevices}`}
@@ -51,7 +51,7 @@ export default function Index(props: Props) {
             className={style.dataCard}
           />
         </Grid>
-        <Grid item md={3}>
+        <Grid item md={3} xs={6}>
           <LargeDataCard
             icon={<AppsIcon />}
             title={`${blockNumber}`}
@@ -63,7 +63,7 @@ export default function Index(props: Props) {
             className={style.dataCard}
           />
         </Grid>
-        <Grid item md={3}>
+        <Grid item md={3} xs={6}>
           <LargeDataCard
             icon={<HourglassEmptyIcon />}
             title={`${abbreviateNumber(difficulty ?? 0)}`}
@@ -76,7 +76,7 @@ export default function Index(props: Props) {
           />
         </Grid>
 
-        <Grid item md={3}>
+        <Grid item md={3} xs={6}>
           <LargeDataCard
             icon={<FunctionsIcon />}
             title={`${abbreviateNumber(networkHashRate)}`}
@@ -89,7 +89,7 @@ export default function Index(props: Props) {
           />
         </Grid>
         {/*Second Row*/}
-        <Grid item md={8}>
+        <Grid item md={8} xs={12}>
           <ResponsiveCard
             title={"Block Time"}
             subtitle={"History Block Time"}
@@ -100,7 +100,7 @@ export default function Index(props: Props) {
           </ResponsiveCard>
         </Grid>
 
-        <Grid item md={4}>
+        <Grid item md={4} xs={12}>
           <ResponsiveCard
             title={"Block Miners"}
             subtitle={"Block Miners"}
@@ -111,7 +111,7 @@ export default function Index(props: Props) {
           </ResponsiveCard>
         </Grid>
 
-        <Grid item md={4}>
+        <Grid item md={4} xs={12}>
           <ResponsiveCard
             title={"Transaction"}
             subtitle={"Transaction"}
@@ -122,7 +122,7 @@ export default function Index(props: Props) {
           </ResponsiveCard>
         </Grid>
 
-        <Grid item md={8}>
+        <Grid item md={8} xs={12}>
           <ResponsiveCard
             title={"Difficulty"}
             subtitle={"Block Miners"}

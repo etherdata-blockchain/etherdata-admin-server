@@ -11,13 +11,25 @@ import {
 } from "@material-ui/core";
 import { DeviceContext } from "../../pages/model/DeviceProvider";
 import { useRouter } from "next/dist/client/router";
-import { set } from "mongoose";
+import {
+  usePopupState,
+  bindTrigger,
+  bindMenu,
+  bindHover,
+} from "material-ui-popup-state/hooks";
+
+import ArrowRightIcon from "@material-ui/icons/arrowRight";
 
 type Props = {};
 
 export function DeviceAction(props: Props) {
-  const [adminEl, setAdminEl] = React.useState<null | HTMLElement>(null);
-  const [versionEL, setVersionEL] = React.useState<null | HTMLElement>(null);
+  const filterState = usePopupState({ variant: "popover", popupId: "filter" });
+  const adminState = usePopupState({ variant: "popper", popupId: "admin" });
+  const nodeVersionState = usePopupState({
+    variant: "popper",
+    popupId: "node",
+  });
+
   const {
     filterKeyword,
     setFilterKeyword,
@@ -28,39 +40,23 @@ export function DeviceAction(props: Props) {
     clearFilter,
   } = React.useContext(DeviceContext);
   const router = useRouter();
-
-  const handleOpenAdminVersions = (e: React.MouseEvent<HTMLElement>) => {
-    setAdminEl(e.currentTarget);
-  };
-
-  const handleCloseAdminVersions = () => {
-    setAdminEl(null);
-    setVersionEL(null);
-  };
-
-  const handleOpenNodeVersions = (e: React.MouseEvent<HTMLElement>) => {
-    setVersionEL(e.currentTarget);
-    setAdminEl(null);
-  };
-
-  const handleCloseNodeVersions = () => {
-    setVersionEL(null);
-  };
-
   const handleOnAdminVersionClick = (version: string) => {
     applyFilter({ key: "adminVersion", value: version });
-    setAdminEl(null);
+    adminState.close();
+    filterState.close();
   };
 
   const handleOnNodeVersionClick = (version: string) => {
     applyFilter({ key: "data.systemInfo.nodeVersion", value: version });
-    setVersionEL(null);
+    nodeVersionState.close();
+    filterState.close();
   };
 
   const handleOnAllClick = () => {
     clearFilter();
-    setVersionEL(null);
-    setAdminEl(null);
+    adminState.close();
+    nodeVersionState.close();
+    filterState.close();
   };
   return (
     <div
@@ -72,29 +68,24 @@ export function DeviceAction(props: Props) {
         flexDirection: "row",
       }}
     >
-      <TextField
-        label={"Device ID"}
-        style={{ width: 500, marginRight: 20 }}
-        variant={"standard"}
-        value={filterKeyword}
-        onKeyDown={async (e) => {
-          if (e.key === "Enter") {
-            await router.push("/device/" + filterKeyword);
-          }
-        }}
-        onChange={(e) => {
-          setFilterKeyword(e.target.value);
-        }}
-      />
-      <Button onClick={handleOpenAdminVersions}>Admin Versions</Button>
-      <Button color={"primary"} onClick={handleOpenNodeVersions}>
-        Node Versions
+      <Button
+        {...bindTrigger(filterState)}
+        style={{ marginTop: 15, marginBottom: "auto", marginRight: 20 }}
+      >
+        Filters
       </Button>
+      <Menu {...bindMenu(filterState)}>
+        <MenuItem {...bindTrigger(nodeVersionState)}>
+          Node Versions <ArrowRightIcon />
+        </MenuItem>
+        <MenuItem {...bindTrigger(adminState)}>
+          Admin Versions <ArrowRightIcon />
+        </MenuItem>
+      </Menu>
 
       <Menu
-        open={adminEl !== null}
-        anchorEl={adminEl}
-        onClose={handleCloseAdminVersions}
+        {...bindMenu(adminState)}
+        anchorOrigin={{ vertical: "center", horizontal: "right" }}
       >
         <MenuItem key={"All"} onClick={handleOnAllClick}>
           All
@@ -114,9 +105,8 @@ export function DeviceAction(props: Props) {
       </Menu>
 
       <Menu
-        open={versionEL !== null}
-        anchorEl={versionEL}
-        onClose={handleCloseNodeVersions}
+        {...bindMenu(nodeVersionState)}
+        anchorOrigin={{ vertical: "center", horizontal: "right" }}
       >
         <MenuItem key={"All"} onClick={handleOnAllClick}>
           All
@@ -134,6 +124,21 @@ export function DeviceAction(props: Props) {
           </MenuItem>
         ))}
       </Menu>
+
+      <TextField
+        label={"Device ID"}
+        style={{ width: 500, marginRight: 20 }}
+        variant={"standard"}
+        value={filterKeyword}
+        onKeyDown={async (e) => {
+          if (e.key === "Enter") {
+            await router.push("/device/" + filterKeyword);
+          }
+        }}
+        onChange={(e) => {
+          setFilterKeyword(e.target.value);
+        }}
+      />
     </div>
   );
 }
