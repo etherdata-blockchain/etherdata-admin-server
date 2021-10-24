@@ -1,5 +1,5 @@
-import { Fade, Grid } from '@material-ui/core';
-import React from 'react';
+import { Fade, Grid } from "@mui/material";
+import React from "react";
 
 export default function ProgressBar({ length }: { length: number }) {
   const [count, setCount] = React.useState(0);
@@ -21,7 +21,7 @@ export default function ProgressBar({ length }: { length: number }) {
   }, [length]);
 
   return (
-    <Grid container style={{ width: '100%' }}>
+    <Grid container style={{ width: "100%" }}>
       {Array.from(Array(length).keys()).map((i) => (
         <Fade mountOnEnter unmountOnExit in={i < count} key={`progress-${i}`}>
           <div
@@ -33,9 +33,9 @@ export default function ProgressBar({ length }: { length: number }) {
           >
             <div
               style={{
-                backgroundColor: 'white',
-                width: '100%',
-                height: '100%',
+                backgroundColor: "white",
+                width: "100%",
+                height: "100%",
               }}
             />
           </div>

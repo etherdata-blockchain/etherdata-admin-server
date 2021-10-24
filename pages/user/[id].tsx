@@ -17,6 +17,8 @@ import { LargeDataCard } from "../../components/cards/largeDataCard";
 import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
 import { RewardDisplay } from "../../components/user/rewardDisplay";
 
+const pageSize = 20;
+
 type Props = {
   devices: IDevice[];
   totalPageNumber: number;
@@ -39,7 +41,7 @@ export default function UserDetail({
   rewards,
   user,
 }: Props) {
-  console.log(user.transactions);
+  console.log(totalNumRows, totalPageNumber);
   const router = useRouter();
   return (
     <div>
@@ -95,9 +97,11 @@ export default function UserDetail({
           currentPageNumber={currentPage}
           totalPageNumber={totalPageNumber}
           totalNumRows={totalNumRows}
-          numPerPage={20}
+          numPerPage={pageSize}
           onPageChanged={async (page) => {
-            await router.push(`/user/${id}?pageNumber=${page}`);
+            await router.push(`/user/${id}?pageNumber=${page}`, undefined, {
+              scroll: false,
+            });
           }}
         />
       </ResponsiveCard>
@@ -109,14 +113,17 @@ export default function UserDetail({
 export const getServerSideProps: GetServerSideProps<Props> = async (
   context
 ) => {
-  const { id, pageNumber } = context.params!;
+  const { id } = context.params!;
+  const { pageNumber } = context.query;
+
+  const minerAddress = Web3.utils.toChecksumAddress(id as string);
   // Get devices by miner address
   const plugin = new DeviceRegistrationPlugin();
   const [devices, totalNumRows, totalPageNumber] =
     await plugin.getDevicesByMiner(
-      id as string,
+      minerAddress as string,
       parseInt((pageNumber as string) ?? "0"),
-      20
+      pageSize
     );
 
   // Get user's mining reward
@@ -132,7 +139,7 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
 
   // Get recent transactions
   const txURL = new URL(
-    `/api/v2/transactions/${id}`,
+    `/api/v2/transactions/${minerAddress}`,
     process.env.STATS_SERVER!
   );
   const userResult = await axios.get(txURL.toString());

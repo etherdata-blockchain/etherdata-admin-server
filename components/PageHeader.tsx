@@ -7,10 +7,10 @@ import {
   Stack,
   Toolbar,
   Typography,
-} from "@material-ui/core";
+} from "@mui/material";
 import React from "react";
 import Head from "next/head";
-import useScrollTrigger from "@material-ui/core/useScrollTrigger";
+import useScrollTrigger from "@mui/material/useScrollTrigger";
 import { UIProviderContext } from "../pages/model/UIProvider";
 // @ts-ignore
 import ReactDOM from "react-dom";

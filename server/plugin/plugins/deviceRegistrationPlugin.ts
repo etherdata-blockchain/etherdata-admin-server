@@ -266,7 +266,7 @@ export class DeviceRegistrationPlugin extends DatabasePlugin<IDevice> {
     //@ts-ignore
     let results = this.doPagination(devices, pageNumber, pageSize);
     const devicesResults = await results.exec();
-    const totalCount = await devices.count();
+    const totalCount = await this.model.find({ "data.miner": miner }).count();
     const totalPageNumber = Math.ceil(totalCount / pageSize);
 
     return [devicesResults, totalCount, totalPageNumber];

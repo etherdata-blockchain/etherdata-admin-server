@@ -1,7 +1,7 @@
 // @flow
 import * as React from "react";
 import PageHeader from "../../components/PageHeader";
-import { Button } from "@material-ui/core";
+import { Button } from "@mui/material";
 
 import { TransactionTable } from "../../components/transaction/transactionTable";
 import ResponsiveCard from "../../components/ResponsiveCard";

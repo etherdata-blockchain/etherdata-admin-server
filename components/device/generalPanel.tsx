@@ -7,7 +7,7 @@ import {
   Stack,
   TextField,
   Typography,
-} from "@material-ui/core";
+} from "@mui/material";
 import axios from "axios";
 import { UIProviderContext } from "../../pages/model/UIProvider";
 import { useRouter } from "next/dist/client/router";

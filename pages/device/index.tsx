@@ -1,6 +1,6 @@
 // @flow
 import * as React from "react";
-import { Divider, Grid, Typography } from "@material-ui/core";
+import { Divider, Grid, Typography } from "@mui/material";
 import styles from "../../styles/Device.module.css";
 import ResponsiveCard from "../../components/ResponsiveCard";
 import PageHeader from "../../components/PageHeader";
