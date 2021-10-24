@@ -74,7 +74,10 @@ export default function UserDetail({
                     <ListItemText
                       primary={t.time}
                       secondary={`${Web3.utils.fromWei(
-                        t.value.toString(),
+                        //@ts-ignore
+                        t.value.toLocaleString("fullwide", {
+                          useGrouping: false,
+                        }),
                         "ether"
                       )} ETD - ${
                         t.from.toLowerCase() === id.toLowerCase()
