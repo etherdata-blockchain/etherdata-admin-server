@@ -1,8 +1,8 @@
 // @flow
 import * as React from "react";
 import { DataGrid, GridColDef, GridValueGetterParams } from "@mui/x-data-grid";
-import { Button } from "@material-ui/core";
 import { useRouter } from "next/dist/client/router";
+import { Button } from "@mui/material";
 
 type Props = {};
 

@@ -8,14 +8,14 @@ import { DeviceRegistrationPlugin } from "../../server/plugin/plugins/deviceRegi
 import { DeviceTable } from "../../components/device/deviceTable";
 import ResponsiveCard from "../../components/ResponsiveCard";
 import { useRouter } from "next/dist/client/router";
-import { router } from "next/client";
 import axios from "axios";
 import moment from "moment";
 import { Divider, Grid, List, ListItem, ListItemText } from "@mui/material";
-import { RewardDisplay } from "../../components/user/rewardDisplay";
+
 import Web3 from "web3";
 import { LargeDataCard } from "../../components/cards/largeDataCard";
 import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
+import { RewardDisplay } from "../../components/user/rewardDisplay";
 
 type Props = {
   devices: IDevice[];
@@ -128,7 +128,6 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
     )}&end=${now.format("YYYY-MM-DD")}`,
     process.env.STATS_SERVER!
   );
-  url.protocol = "https";
   const result = await axios.get(url.toString());
 
   // Get recent transactions
@@ -136,7 +135,6 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
     `/api/v2/transactions/${id}`,
     process.env.STATS_SERVER!
   );
-  url.protocol = "https";
   const userResult = await axios.get(txURL.toString());
   return {
     props: {
