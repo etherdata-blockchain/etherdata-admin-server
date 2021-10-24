@@ -1,11 +1,7 @@
 // @flow
 import * as React from "react";
-import {
-  DataGrid,
-  GridColDef,
-  GridValueGetterParams,
-} from "@material-ui/data-grid";
-import { Button, Pagination } from "@material-ui/core";
+import { DataGrid, GridColDef, GridValueGetterParams } from "@mui/x-data-grid";
+import { Button, Pagination } from "@mui/material";
 import { useRouter } from "next/dist/client/router";
 import { IDevice } from "../../server/schema/device";
 import moment from "moment";
@@ -92,7 +88,7 @@ export function DeviceTable({
         paginationMode={"server"}
         rowCount={totalNumRows}
         onPageChange={async (page) => {
-          await onPageChanged(page.page);
+          await onPageChanged(page);
         }}
         autoHeight
         pageSize={numPerPage}
