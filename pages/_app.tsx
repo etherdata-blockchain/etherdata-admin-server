@@ -1,17 +1,17 @@
 import type { AppProps } from "next/app";
-import Layout, { Menu } from "../components/layout";
-import HomeIcon from "@material-ui/icons/Home";
-import { createTheme, CssBaseline, ThemeProvider } from "@material-ui/core";
-import ReceiptIcon from "@material-ui/icons/Receipt";
+import Layout from "../components/layout";
+import { createTheme, CssBaseline, ThemeProvider } from "@mui/material";
 import "../styles/globals.css";
 import UIProviderProvider from "./model/UIProvider";
-import DevicesOtherIcon from "@material-ui/icons/DevicesOther";
 import React from "react";
-import PersonIcon from "@material-ui/icons/Person";
-import ETDProvider from "./model/ETDProvider";
 import * as Realm from "realm-web";
-import DeviceProvider from "./model/DeviceProvider";
-import PieChartIcon from "@material-ui/icons/PieChart";
+import {
+  DevicesOther,
+  Home,
+  Person,
+  PieChart,
+  Receipt,
+} from "@mui/icons-material";
 
 export const realmApp = new Realm.App({ id: process.env.NEXT_PUBLIC_APP_ID! });
 const darkTheme = createTheme({
@@ -77,27 +77,27 @@ function MyApp(props: AppProps) {
   const menus = [
     {
       title: "Home",
-      icon: <HomeIcon />,
+      icon: <Home />,
       link: "/home",
     },
     {
       title: "Device",
-      icon: <DevicesOtherIcon />,
+      icon: <DevicesOther />,
       link: "/device",
     },
     {
       title: "Transaction",
-      icon: <ReceiptIcon />,
+      icon: <Receipt />,
       link: "/transaction",
     },
     {
       title: "User",
-      icon: <PersonIcon />,
+      icon: <Person />,
       link: "/user",
     },
     {
       title: "Chart",
-      icon: <PieChartIcon />,
+      icon: <PieChart />,
       link: "/chart",
     },
   ];

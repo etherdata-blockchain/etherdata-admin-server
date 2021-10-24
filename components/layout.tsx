@@ -9,7 +9,7 @@ import {
   ListItemText,
   Slide,
   Stack,
-} from "@material-ui/core";
+} from "@mui/material";
 import {
   AppBar,
   Toolbar,
@@ -22,17 +22,15 @@ import {
   Hidden,
   ListItemButton,
   IconButton,
-} from "@material-ui/core";
+} from "@mui/material";
+import { Add, ExitToApp, Error } from "@mui/icons-material";
 import { useRouter } from "next/dist/client/router";
 import Link from "next/link";
-import AddIcon from "@material-ui/icons/Add";
 import React from "react";
 import Spacer from "./Spacer";
 import { UIProviderContext } from "../pages/model/UIProvider";
-import ErrorIcon from "@material-ui/icons/Error";
 import SearchBar from "./SearchBar";
 import { Configurations } from "../utils/configurations";
-import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import { realmApp } from "../pages/_app";
 import ETDProvider from "../pages/model/ETDProvider";
 import DeviceProvider from "../pages/model/DeviceProvider";
@@ -92,13 +90,13 @@ export default function Layout(props: Props) {
     <Stack direction={"row"}>
       <Tooltip title={"Bind Device"}>
         <IconButton>
-          <AddIcon />
+          <Add />
         </IconButton>
       </Tooltip>
       <Tooltip title={"errors"}>
         <IconButton>
           <Badge badgeContent={4} color={"error"}>
-            <ErrorIcon />
+            <Error />
           </Badge>
         </IconButton>
       </Tooltip>
@@ -109,7 +107,7 @@ export default function Layout(props: Props) {
             await router.replace("/");
           }}
         >
-          <ExitToAppIcon />
+          <ExitToApp />
         </IconButton>
       </Tooltip>
     </Stack>

@@ -1,4 +1,3 @@
-import { GetStaticProps } from "next";
 import {
   Button,
   Grid,
@@ -7,12 +6,11 @@ import {
   Stack,
   TextField,
   Typography,
-} from "@material-ui/core";
+} from "@mui/material";
 import { Formik } from "formik";
 import Spacer from "../components/Spacer";
 import { realmApp } from "./_app";
 import * as Realm from "realm-web";
-import { router } from "next/client";
 import { useRouter } from "next/dist/client/router";
 import React from "react";
 import { UIProviderContext } from "./model/UIProvider";
