@@ -250,4 +250,25 @@ export class DeviceRegistrationPlugin extends DatabasePlugin<IDevice> {
 
     return results.count();
   }
+
+  /**
+   * Get devices by miner address
+   * @param miner
+   * @param pageNumber
+   * @param pageSize
+   */
+  async getDevicesByMiner(
+    miner: string,
+    pageNumber: number,
+    pageSize: number
+  ): Promise<[IDevice[], number, number]> {
+    let devices = this.model.find({ "data.miner": miner });
+    //@ts-ignore
+    let results = this.doPagination(devices, pageNumber, pageSize);
+    const devicesResults = await results.exec();
+    const totalCount = await devices.count();
+    const totalPageNumber = Math.ceil(totalCount / pageSize);
+
+    return [devicesResults, totalCount, totalPageNumber];
+  }
 }
