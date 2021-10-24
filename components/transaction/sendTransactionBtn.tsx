@@ -10,7 +10,7 @@ import {
   DialogTitle,
   Stack,
   TextField,
-} from "@material-ui/core";
+} from "@mui/material";
 import { Formik } from "formik";
 
 type Props = {};

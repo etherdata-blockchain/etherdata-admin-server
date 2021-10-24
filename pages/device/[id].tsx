@@ -16,7 +16,7 @@ import {
   ListSubheader,
   Stack,
   Typography,
-} from "@material-ui/core";
+} from "@mui/material";
 import ComputerIcon from "@material-ui/icons/Computer";
 import style from "../../styles/Device.module.css";
 import { LargeDataCard } from "../../components/cards/largeDataCard";

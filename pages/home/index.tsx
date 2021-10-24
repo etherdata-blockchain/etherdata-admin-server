@@ -1,7 +1,7 @@
 // @flow
 import * as React from "react";
 import PageHeader from "../../components/PageHeader";
-import { Grid, Typography } from "@material-ui/core";
+import { Grid, Typography } from "@mui/material";
 import ResponsiveCard from "../../components/ResponsiveCard";
 import Spacer from "../../components/Spacer";
 import styles from "../../styles/Home.module.css";

@@ -1,6 +1,6 @@
 // @flow
 import * as React from "react";
-import { ToggleButton, ToggleButtonGroup } from "@material-ui/core";
+import { ToggleButton, ToggleButtonGroup } from "@mui/material";
 
 type Props = {
   selections: string[];

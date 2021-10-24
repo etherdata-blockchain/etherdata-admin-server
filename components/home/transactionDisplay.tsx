@@ -8,7 +8,7 @@ import {
   ListItemButton,
   ListItemText,
   Typography,
-} from "@material-ui/core";
+} from "@mui/material";
 import { ETDContext } from "../../pages/model/ETDProvider";
 
 type Props = {};

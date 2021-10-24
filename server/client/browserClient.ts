@@ -7,7 +7,7 @@ import { IDevice } from "../schema/device";
 
 export interface ClientFilter {
   key: string;
-  value: string;
+  value: any;
 }
 
 export interface PaginationResult {

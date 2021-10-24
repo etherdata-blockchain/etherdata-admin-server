@@ -1,7 +1,7 @@
 // @flow
 import * as React from "react";
 import PageHeader from "../../components/PageHeader";
-import { Button, Grid } from "@material-ui/core";
+import { Button, Grid } from "@mui/material";
 import ResponsiveCard from "../../components/ResponsiveCard";
 import Spacer from "../../components/Spacer";
 import { GetServerSideProps } from "next";

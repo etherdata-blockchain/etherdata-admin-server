@@ -6,7 +6,7 @@ import {
   ListItemButton,
   ListItemText,
   Typography,
-} from "@material-ui/core";
+} from "@mui/material";
 
 type Props = {};
 

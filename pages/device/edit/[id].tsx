@@ -1,8 +1,8 @@
 import * as React from "react";
-import Tabs from "@material-ui/core/Tabs";
-import Tab from "@material-ui/core/Tab";
-import Typography from "@material-ui/core/Typography";
-import Box from "@material-ui/core/Box";
+import Tabs from "@mui/material/Tabs";
+import Tab from "@mui/material/Tab";
+import Typography from "@mui/material/Typography";
+import Box from "@mui/material/Box";
 import PageHeader from "../../../components/PageHeader";
 import Spacer from "../../../components/Spacer";
 import { GeneralPanel } from "../../../components/device/generalPanel";
@@ -89,7 +89,7 @@ export default function DeviceEditDetail({ user, deviceId }: Props) {
 
   const call = React.useCallback(async ({ methodName, params }: any) => {
     try {
-      showSnackBarMessage("Sending command " + methodName + " to client")
+      showSnackBarMessage("Sending command " + methodName + " to client");
       let result = await sendCommand(methodName, params);
       return result;
     } catch (err) {

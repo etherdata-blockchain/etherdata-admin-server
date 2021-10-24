@@ -7,7 +7,7 @@ import {
   CardContent,
   Stack,
   Typography,
-} from "@material-ui/core";
+} from "@mui/material";
 import Spacer from "../Spacer";
 
 type Props = {
