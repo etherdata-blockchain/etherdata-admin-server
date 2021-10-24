@@ -1,25 +1,21 @@
 import React from "react";
-import Paper from "@material-ui/core/Paper";
-import InputBase from "@material-ui/core/InputBase";
-import Divider from "@material-ui/core/Divider";
-import IconButton from "@material-ui/core/IconButton";
-import SearchIcon from "@material-ui/icons/Search";
-import StorageIcon from "@material-ui/icons/Storage";
 import { useRouter } from "next/dist/client/router";
 import Web3 from "web3";
-import {
-  AlertTitle,
-  CircularProgress,
-  Snackbar,
-  TextField,
-} from "@material-ui/core";
-import { Alert } from "@material-ui/core";
+import { CircularProgress, InputBase } from "@mui/material";
 
 export default function SearchBar() {
   const router = useRouter();
   const [value, setValue] = React.useState("");
+  const [isLoading, setIsLoading] = React.useState(false);
 
-  const search = React.useCallback(async () => {}, [value]);
+  const search = React.useCallback(async () => {
+    setIsLoading(true);
+    const isUser = Web3.utils.isAddress(value);
+    if (isUser) {
+      await router.push("/user/" + value);
+    }
+    setIsLoading(false);
+  }, [value]);
 
   return (
     <div
@@ -45,6 +41,7 @@ export default function SearchBar() {
           }
         }}
       />
+      {isLoading && <CircularProgress size={20} />}
     </div>
   );
 }

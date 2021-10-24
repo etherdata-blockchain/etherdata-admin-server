@@ -35,6 +35,7 @@ import Logger from "../../server/logger";
 import { NodePlugin } from "../../server/plugin/plugins/socketIOPlugins/nodePlugin";
 import moment from "moment";
 import { CONFIG } from "../../server/config/config";
+import { ListItemButton } from "@mui/material";
 
 type Props = {
   device: IDevice | null;
@@ -137,8 +138,22 @@ export default function DeviceDetail({ device, found }: Props) {
             <ListItem>
               <ListItemText primary={"Is Online"} secondary={`${online}`} />
             </ListItem>
+
+            <ListItemButton
+              onClick={async () => {
+                await router.push("/user/" + foundDevice?.data?.miner);
+              }}
+            >
+              <ListItemText
+                primary={"miner"}
+                secondary={
+                  <Typography noWrap>{foundDevice!.data?.miner}</Typography>
+                }
+              />
+            </ListItemButton>
+
             <List>
-              {objectExpand(foundDevice!, ["__v", "_id"]).map(
+              {objectExpand(foundDevice!, ["__v", "_id", "miner"]).map(
                 ({ key, value }, index) => (
                   <ListItem key={index}>
                     <ListItemText
@@ -174,7 +189,6 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
 
   try {
     const plugin = new DeviceRegistrationPlugin();
-    console.log(deviceId);
     const client = await plugin.findDeviceByDeviceID(deviceId);
     if (client) {
       found = true;

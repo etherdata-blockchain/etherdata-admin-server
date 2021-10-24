@@ -12,7 +12,9 @@ import {
   PieChart,
   Receipt,
 } from "@mui/icons-material";
+import NextNprogress from "nextjs-progressbar";
 
+// Setup realm for login
 export const realmApp = new Realm.App({ id: process.env.NEXT_PUBLIC_APP_ID! });
 const darkTheme = createTheme({
   components: {
@@ -103,14 +105,23 @@ function MyApp(props: AppProps) {
   ];
 
   return (
-    <ThemeProvider theme={darkTheme}>
-      <UIProviderProvider>
-        <Layout menus={menus}>
-          <CssBaseline />
-          <Component {...pageProps} />
-        </Layout>
-      </UIProviderProvider>
-    </ThemeProvider>
+    <div>
+      <NextNprogress
+        color="#29D"
+        startPosition={0.3}
+        stopDelayMs={200}
+        height={3}
+        showOnShallow={true}
+      />
+      <ThemeProvider theme={darkTheme}>
+        <UIProviderProvider>
+          <Layout menus={menus}>
+            <CssBaseline />
+            <Component {...pageProps} />
+          </Layout>
+        </UIProviderProvider>
+      </ThemeProvider>
+    </div>
   );
 }
 export default MyApp;
