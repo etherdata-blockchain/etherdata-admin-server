@@ -1,35 +1,58 @@
 import { DatabasePlugin } from "../basePlugin";
-import { DeviceModel, deviceSchema, IDevice } from "../../schema/device";
-import { PluginName } from "../pluginName";
-import mongoose, { Model, Query } from "mongoose";
-import { IPendingJob, PendingJobModel } from "../../schema/pending-job";
-import { IJobResult, JobResultModel } from "../../schema/job-result";
+import { IJobResult } from "../../schema/job-result";
 import moment from "moment";
+import { Channel } from "amqplib";
 
-export class JobResultPlugin extends DatabasePlugin<IJobResult> {
-  pluginName: PluginName = "jobResult";
-  protected model: Model<IJobResult> = JobResultModel;
+export class JobResultPlugin {
+  private getQueueID(from: string) {
+    return `result-${from}`;
+  }
+
+  async addResult(result: IJobResult) {
+    //@ts-ignore
+    const channel: Channel = global.QUEUE_CHANNEL;
+    await channel.assertQueue(this.getQueueID(result.from), {
+      autoDelete: true,
+    });
+    await channel.sendToQueue(
+      this.getQueueID(result.from),
+      Buffer.from(JSON.stringify(result))
+    );
+  }
 
   /**
    * Get results
    * @param from User ID
    */
   async getResults(from: string): Promise<IJobResult[] | undefined> {
-    const result = await this.model.find({ from: from });
-    await this.model.remove({ from: from });
+    return new Promise(async (resolve, reject) => {
+      //@ts-ignore
+      const channel: Channel = global.QUEUE_CHANNEL;
+      const result = await channel.assertQueue(this.getQueueID(from), {
+        autoDelete: true,
+      });
 
-    if (result === null) {
-      return undefined;
-    }
-    return result;
+      if (result.messageCount === 0) {
+        resolve(undefined);
+      }
+
+      await channel.consume(
+        this.getQueueID(from),
+        (message) => {
+          if (message !== null) {
+            const content = message.content.toString();
+            channel.ack(message);
+            resolve(JSON.parse(content));
+          }
+        },
+        {}
+      );
+    });
   }
 
   /**
    * Remove outdated jobs
    * @param maximumDuration In seconds
    */
-  async removeOutdatedJobs(maximumDuration: number){
-    const deadline = moment().subtract(maximumDuration, "seconds")
-    await this.model.deleteMany({time: {$lte: deadline.toDate()}})
-  }
+  async removeOutdatedJobs(maximumDuration: number) {}
 }

@@ -20,8 +20,10 @@ type Data = {
  * @param res
  */
 async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
-  const { user, key } = req.body;
+  const { key } = req.body;
   const returnData: Data = {};
+
+  const user = "etd-test-node";
 
   try {
     let plugin = new PendingJobPlugin();
@@ -29,6 +31,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
     let [authorized, newKey] = await devicePlugin.auth(user, key);
     if (authorized) {
       let job = await plugin.getJob(user);
+
       returnData.job = job;
       returnData.key = newKey;
       res.status(200).json(returnData);
@@ -44,4 +47,6 @@ async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
   }
 }
 
-export default JwtVerificationHandler(handler);
+// export default JwtVerificationHandler(handler);
+
+export default handler;

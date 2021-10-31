@@ -5,7 +5,6 @@ import { createMocks } from "node-mocks-http";
 import jwt from "jsonwebtoken";
 import handler from "../../../pages/api/v1/device/result/submit-result";
 import axios from "axios";
-import { JobResultModel } from "../../../server/schema/job-result";
 
 jest.mock("axios");
 
@@ -28,7 +27,6 @@ describe("Test get a pending job", () => {
 
   afterEach(async () => {
     try {
-      await JobResultModel.collection.drop();
     } catch (e) {
       // console.log("Collection not exists");
     }

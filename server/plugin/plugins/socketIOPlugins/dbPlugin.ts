@@ -4,11 +4,9 @@
 
 import { BaseSocketIOPlugin, SocketHandler } from "../../basePlugin";
 import { RegisteredPlugins } from "./registeredPlugins";
-import { JobResultModel } from "../../../schema/job-result";
 import { DeviceModel } from "../../../schema/device";
 import { DeviceRegistrationPlugin } from "../deviceRegistrationPlugin";
 import { ClientPlugin } from "./clientPlugin";
-import { PendingJobModel } from "../../../schema/pending-job";
 import { PendingJobPlugin } from "../pendingJobPlugin";
 import { JobResultPlugin } from "../jobResultPlugin";
 
@@ -36,29 +34,6 @@ export class DBChangePlugin extends BaseSocketIOPlugin {
   }
 
   watchJobChanges() {
-    JobResultModel.watch([], { fullDocument: "updateLookup" }).on(
-      "change",
-      async (data) => {
-        const clientPlugin = this.findPlugin<ClientPlugin>("client");
-        switch (data.operationType) {
-          case "insert":
-            let result = data.fullDocument!;
-            if (result.success) {
-              clientPlugin?.server
-                ?.in(result.from)
-                .emit(`rpc-result-${result.jobId}`, result.result);
-            } else {
-              clientPlugin?.server
-                ?.in(result.from)
-                .emit(`rpc-error-${result.jobId}`, result.result);
-            }
-            await JobResultModel.deleteOne({ _id: result._id });
-
-            break;
-        }
-      }
-    );
-
     DeviceModel.watch([], { fullDocument: "updateLookup" }).on(
       "change",
       (data) => {

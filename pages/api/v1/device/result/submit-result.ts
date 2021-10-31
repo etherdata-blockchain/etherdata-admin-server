@@ -35,9 +35,8 @@ async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
     let [authorized, newKey] = await devicePlugin.auth(user, key);
     if (authorized) {
       result.deviceID = user;
-      result._id = new ObjectId(result.jobId);
       returnData.key = newKey;
-      await plugin.patch(result);
+      await plugin.addResult(result);
       res.status(201).json(returnData);
     } else {
       returnData.error = "Device is not in our DB";
