@@ -42,6 +42,9 @@ import { CONFIG } from "../../server/config/config";
 import { ListItemButton } from "@mui/material";
 import AllInboxIcon from "@mui/icons-material/AllInbox";
 import AlbumIcon from "@mui/icons-material/Album";
+import ContainerTreeView from "../../components/device/containerTreeView";
+import { set } from "mongoose";
+import ImageTreeView from "../../components/device/imageTreeView";
 
 type Props = {
   device: IDevice | null;
@@ -54,7 +57,7 @@ export default function DeviceDetail({ device, found }: Props) {
   const { joinDetail, leaveDetail } = React.useContext(DeviceContext);
   const { showSnackBarMessage } = React.useContext(UIProviderContext);
   const [showContainerDetails, setShowContainerDetails] = React.useState(false);
-  const [showImageDetail, setShowImageDetail] = React.useState(false);
+  const [showImageDetails, setShowImageDetails] = React.useState(false);
 
   const [foundDevice, setFoundDevice] = React.useState<IDevice | undefined>(
     device ?? undefined
@@ -167,6 +170,7 @@ export default function DeviceDetail({ device, found }: Props) {
             iconBackgroundColor={"#9704cc"}
             subtitle={"Docker images"}
             className={style.detailDataCard}
+            onClick={() => setShowImageDetails(true)}
           />
         </Grid>
         <Grid item xs={12}>
@@ -222,34 +226,28 @@ export default function DeviceDetail({ device, found }: Props) {
       >
         <DialogTitle>Docker containers</DialogTitle>
         <DialogContent>
-          <List>
-            {foundDevice?.docker?.containers?.map((container, index) => (
-              <div key={`container-${index}`}>
-                <ListSubheader>
-                  ID: <Typography noWrap>{container.Id}</Typography>
-                </ListSubheader>
-                <ListItem>
-                  <ListItemText
-                    primary={"Container name"}
-                    secondary={container.Names}
-                  />
-                  <ListItemSecondaryAction>
-                    {container.State}
-                    <br />
-                    {container.Status}
-                  </ListItemSecondaryAction>
-                </ListItem>
-                <ListItem>
-                  <ListItemText primary={"Image"} secondary={container.Image} />
-                </ListItem>
-
-                <Divider />
-              </div>
-            ))}
-          </List>
+          {foundDevice?.docker?.containers && (
+            <ContainerTreeView containers={foundDevice.docker.containers} />
+          )}
         </DialogContent>
         <DialogActions>
           <Button onClick={() => setShowContainerDetails(false)}>ok</Button>
+        </DialogActions>
+      </Dialog>
+
+      <Dialog
+        open={showImageDetails}
+        onClose={() => setShowImageDetails(false)}
+        fullWidth
+      >
+        <DialogTitle>Docker Images</DialogTitle>
+        <DialogContent>
+          {foundDevice?.docker?.images && (
+            <ImageTreeView images={foundDevice.docker.images} />
+          )}
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setShowImageDetails(false)}>ok</Button>
         </DialogActions>
       </Dialog>
     </div>
