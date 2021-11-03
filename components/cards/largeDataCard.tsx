@@ -21,6 +21,7 @@ type Props = {
   action?: JSX.Element;
   className?: string;
   style?: JSX.Element;
+  onClick?: () => void;
 };
 
 export function LargeDataCard({
@@ -34,9 +35,17 @@ export function LargeDataCard({
   iconBackgroundColor,
   style,
   className,
+  onClick,
 }: Props) {
   return (
-    <Card style={{ backgroundColor: color }} className={className}>
+    <Card
+      style={{
+        backgroundColor: color,
+        cursor: onClick !== undefined ? "grab" : undefined,
+      }}
+      className={className}
+      onClick={onClick}
+    >
       <CardContent>
         <Stack direction={"row"} justifyContent={"space-between"}>
           <Avatar

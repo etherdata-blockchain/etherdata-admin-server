@@ -5,6 +5,10 @@ import Spacer from "../../components/Spacer";
 import ResponsiveCard from "../../components/ResponsiveCard";
 import {
   Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
   Divider,
   Grid,
   IconButton,
@@ -36,6 +40,11 @@ import { NodePlugin } from "../../server/plugin/plugins/socketIOPlugins/nodePlug
 import moment from "moment";
 import { CONFIG } from "../../server/config/config";
 import { ListItemButton } from "@mui/material";
+import AllInboxIcon from "@mui/icons-material/AllInbox";
+import AlbumIcon from "@mui/icons-material/Album";
+import ContainerTreeView from "../../components/device/containerTreeView";
+import { set } from "mongoose";
+import ImageTreeView from "../../components/device/imageTreeView";
 
 type Props = {
   device: IDevice | null;
@@ -47,6 +56,9 @@ export default function DeviceDetail({ device, found }: Props) {
   const router = useRouter();
   const { joinDetail, leaveDetail } = React.useContext(DeviceContext);
   const { showSnackBarMessage } = React.useContext(UIProviderContext);
+  const [showContainerDetails, setShowContainerDetails] = React.useState(false);
+  const [showImageDetails, setShowImageDetails] = React.useState(false);
+
   const [foundDevice, setFoundDevice] = React.useState<IDevice | undefined>(
     device ?? undefined
   );
@@ -133,6 +145,34 @@ export default function DeviceDetail({ device, found }: Props) {
             ]}
           />
         </Grid>
+        <Grid item xs={6}>
+          <LargeDataCard
+            icon={<AllInboxIcon />}
+            title={`${foundDevice?.docker?.containers.length}`}
+            color={"#ba03fc"}
+            subtitleColor={"white"}
+            iconColor={"white"}
+            iconBackgroundColor={"#9704cc"}
+            subtitle={"Docker containers"}
+            className={style.detailDataCard}
+            onClick={() => {
+              setShowContainerDetails(true);
+            }}
+          />
+        </Grid>
+        <Grid item xs={6}>
+          <LargeDataCard
+            icon={<AlbumIcon />}
+            title={`${foundDevice?.docker?.images.length}`}
+            color={"#ba03fc"}
+            subtitleColor={"white"}
+            iconColor={"white"}
+            iconBackgroundColor={"#9704cc"}
+            subtitle={"Docker images"}
+            className={style.detailDataCard}
+            onClick={() => setShowImageDetails(true)}
+          />
+        </Grid>
         <Grid item xs={12}>
           <ResponsiveCard>
             <ListItem>
@@ -153,16 +193,19 @@ export default function DeviceDetail({ device, found }: Props) {
             </ListItemButton>
 
             <List>
-              {objectExpand(foundDevice!, ["__v", "_id", "miner"]).map(
-                ({ key, value }, index) => (
-                  <ListItem key={index}>
-                    <ListItemText
-                      primary={key}
-                      secondary={<Typography noWrap>{value}</Typography>}
-                    />
-                  </ListItem>
-                )
-              )}
+              {objectExpand(foundDevice!, [
+                "__v",
+                "_id",
+                "miner",
+                "docker",
+              ]).map(({ key, value }, index) => (
+                <ListItem key={index}>
+                  <ListItemText
+                    primary={key}
+                    secondary={<Typography noWrap>{value}</Typography>}
+                  />
+                </ListItem>
+              ))}
 
               <ListSubheader>Peers</ListSubheader>
               {foundDevice?.data?.peers.map((p, i) => (
@@ -175,6 +218,38 @@ export default function DeviceDetail({ device, found }: Props) {
           </ResponsiveCard>
         </Grid>
       </Grid>
+
+      <Dialog
+        open={showContainerDetails}
+        onClose={() => setShowContainerDetails(false)}
+        fullWidth
+      >
+        <DialogTitle>Docker containers</DialogTitle>
+        <DialogContent>
+          {foundDevice?.docker?.containers && (
+            <ContainerTreeView containers={foundDevice.docker.containers} />
+          )}
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setShowContainerDetails(false)}>ok</Button>
+        </DialogActions>
+      </Dialog>
+
+      <Dialog
+        open={showImageDetails}
+        onClose={() => setShowImageDetails(false)}
+        fullWidth
+      >
+        <DialogTitle>Docker Images</DialogTitle>
+        <DialogContent>
+          {foundDevice?.docker?.images && (
+            <ImageTreeView images={foundDevice.docker.images} />
+          )}
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setShowImageDetails(false)}>ok</Button>
+        </DialogActions>
+      </Dialog>
     </div>
   );
 }

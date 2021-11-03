@@ -6,6 +6,12 @@
 import { Schema, model, connect, Document } from "mongoose";
 import { Web3DataInfo } from "../client/node_data";
 import mongoose from "mongoose";
+import { ImageInfo, ContainerInfo } from "dockerode";
+
+interface Docker {
+  images: ImageInfo[];
+  containers: ContainerInfo[];
+}
 
 export interface IDevice extends Document {
   lastSeen?: Date;
@@ -14,6 +20,7 @@ export interface IDevice extends Document {
   user: string | null;
   adminVersion: string;
   data?: Web3DataInfo;
+  docker?: Docker;
 }
 
 export const deviceSchema = new Schema<IDevice>({
@@ -23,6 +30,7 @@ export const deviceSchema = new Schema<IDevice>({
   lastSeen: { type: Date, required: false },
   data: { type: Object, required: false },
   adminVersion: { type: String, required: true },
+  docker: { type: Object, required: false },
 });
 
 /**

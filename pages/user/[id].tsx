@@ -32,6 +32,22 @@ type Props = {
   };
 };
 
+function weiToETD(value: any) {
+  try {
+    let etdValue = "0";
+    if (typeof value === "string") {
+      //@ts-ignore
+      etdValue = value.toLocaleString("fullwide", { useGrouping: false });
+    } else {
+      etdValue = value.high.toString();
+    }
+
+    return Web3.utils.fromWei(etdValue, "ether");
+  } catch (e) {
+    return 0;
+  }
+}
+
 export default function UserDetail({
   devices,
   currentPage,
@@ -41,7 +57,7 @@ export default function UserDetail({
   rewards,
   user,
 }: Props) {
-  console.log(totalNumRows, totalPageNumber);
+  console.log(rewards);
   const router = useRouter();
   return (
     <div>
@@ -73,13 +89,7 @@ export default function UserDetail({
                   <ListItem>
                     <ListItemText
                       primary={t.time}
-                      secondary={`${Web3.utils.fromWei(
-                        //@ts-ignore
-                        t.value.toLocaleString("fullwide", {
-                          useGrouping: false,
-                        }),
-                        "ether"
-                      )} ETD - ${
+                      secondary={`${weiToETD(t.value)} ETD - ${
                         t.from.toLowerCase() === id.toLowerCase()
                           ? "Sent"
                           : "Received"
