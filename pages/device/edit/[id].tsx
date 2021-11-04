@@ -24,11 +24,14 @@ import { UIProviderContext } from "../../model/UIProvider";
 import "bootstrap/dist/css/bootstrap.min.css";
 import io from "socket.io-client";
 import ETDProvider, { ETDContext } from "../../model/ETDProvider";
-import { DeviceContext } from "../../model/DeviceProvider";
+import { DeviceContext, socket } from "../../model/DeviceProvider";
+import { DockerPanel } from "../../../components/device/dockerPanel";
+import { IDevice } from "../../../server/schema/device";
 
 interface Props {
   user: string | null;
   deviceId: string | null;
+  device: IDevice | null;
 }
 
 interface TabPanelProps {
@@ -65,11 +68,29 @@ function a11yProps(index: number) {
   };
 }
 
-export default function DeviceEditDetail({ user, deviceId }: Props) {
+export default function DeviceEditDetail({ user, deviceId, device }: Props) {
   const [value, setValue] = React.useState(0);
   const { showSnackBarMessage } = React.useContext(UIProviderContext);
   const { devices, joinDetail, leaveDetail, sendCommand } =
     React.useContext(DeviceContext);
+  const [foundDevice, setFoundDevice] = React.useState<IDevice | undefined>(
+    undefined
+  );
+
+  React.useEffect(() => {
+    console.log("Joining room", deviceId);
+    //@ts-ignore
+    if (device) joinDetail(deviceId);
+
+    socket?.on("detail-info", (data) => {
+      setFoundDevice(data);
+    });
+
+    return () => {
+      //@ts-ignore
+      if (device) leaveDetail(deviceId);
+    };
+  }, []);
 
   React.useEffect(() => {
     if (deviceId) {
@@ -118,48 +139,52 @@ export default function DeviceEditDetail({ user, deviceId }: Props) {
           sx={{ borderRight: 1, borderColor: "divider" }}
         >
           <Tab label="General" {...a11yProps(0)} />
-          <Tab label="Admin" {...a11yProps(1)} />
-          <Tab label="Miner" {...a11yProps(2)} />
-          <Tab label="JSON RPC Method" {...a11yProps(3)} />
-          <Tab label="JSON RPC" {...a11yProps(4)} />
-          <Tab label="ETD" {...a11yProps(5)} />
-          <Tab label="Debug" {...a11yProps(6)} />
-          <Tab label="Clique" {...a11yProps(7)} />
-          <Tab label="Personal" {...a11yProps(8)} />
-          <Tab label="Realtime" {...a11yProps(9)} />
-          <Tab label="TXPool" {...a11yProps(10)} />
+          <Tab label="Docker" {...a11yProps(1)} />
+          <Tab label="Admin" {...a11yProps(2)} />
+          <Tab label="Miner" {...a11yProps(3)} />
+          <Tab label="JSON RPC Method" {...a11yProps(4)} />
+          <Tab label="JSON RPC" {...a11yProps(5)} />
+          <Tab label="ETD" {...a11yProps(6)} />
+          <Tab label="Debug" {...a11yProps(7)} />
+          <Tab label="Clique" {...a11yProps(8)} />
+          <Tab label="Personal" {...a11yProps(9)} />
+          <Tab label="Realtime" {...a11yProps(10)} />
+          <Tab label="TXPool" {...a11yProps(11)} />
         </Tabs>
         <TabPanel value={value} index={0}>
           <GeneralPanel user={user ?? ""} />
         </TabPanel>
         <TabPanel value={value} index={1}>
-          <Admin call={call} />
+          <DockerPanel device={foundDevice} />
         </TabPanel>
         <TabPanel value={value} index={2}>
-          <Miner call={call} />
+          <Admin call={call} />
         </TabPanel>
         <TabPanel value={value} index={3}>
-          <Json_rpc_methods call={call} />
+          <Miner call={call} />
         </TabPanel>
         <TabPanel value={value} index={4}>
-          <Json_rpc call={call} />
+          <Json_rpc_methods call={call} />
         </TabPanel>
         <TabPanel value={value} index={5}>
-          <Etd call={call} />
+          <Json_rpc call={call} />
         </TabPanel>
         <TabPanel value={value} index={6}>
-          <Debug call={call} />
+          <Etd call={call} />
         </TabPanel>
         <TabPanel value={value} index={7}>
-          <Clique call={call} />
+          <Debug call={call} />
         </TabPanel>
         <TabPanel value={value} index={8}>
-          <Personal call={call} />
+          <Clique call={call} />
         </TabPanel>
         <TabPanel value={value} index={9}>
-          <Real_time call={call} />
+          <Personal call={call} />
         </TabPanel>
         <TabPanel value={value} index={10}>
+          <Real_time call={call} />
+        </TabPanel>
+        <TabPanel value={value} index={11}>
           <Txpool call={call} />
         </TabPanel>
       </Box>
@@ -176,17 +201,18 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
       props: {
         user: null,
         deviceId: null,
+        device: null,
       },
     };
   }
 
   const plugin = new DeviceRegistrationPlugin();
   let device = await plugin.get(deviceId);
-  console.log(device?.user);
   return {
     props: {
       user: device?.user ?? null,
       deviceId: deviceId,
+      device: JSON.parse(JSON.stringify(device)) ?? null,
     },
   };
 };
