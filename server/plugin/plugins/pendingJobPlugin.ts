@@ -12,27 +12,32 @@ export class PendingJobPlugin {
    */
   async getJob(deviceID: string): Promise<IPendingJob | undefined> {
     return new Promise(async (resolve, reject) => {
-      //@ts-ignore
-      const channel: Channel = global.QUEUE_CHANNEL;
-      const result = await channel.assertQueue(this.getQueueID(deviceID), {
-        autoDelete: true,
-      });
+      try {
+        //@ts-ignore
+        const channel: Channel = global.QUEUE_CHANNEL;
+        const result = await channel.assertQueue(this.getQueueID(deviceID), {
+          autoDelete: true,
+        });
 
-      if (result.messageCount === 0) {
-        resolve(undefined);
+        if (result.messageCount === 0) {
+          resolve(undefined);
+          return;
+        }
+
+        await channel.consume(
+          this.getQueueID(deviceID),
+          (message) => {
+            if (message !== null) {
+              const content = message.content.toString();
+              channel.ack(message);
+              resolve(JSON.parse(content));
+            }
+          },
+          {}
+        );
+      } catch (e) {
+        reject(e);
       }
-
-      await channel.consume(
-        this.getQueueID(deviceID),
-        (message) => {
-          if (message !== null) {
-            const content = message.content.toString();
-            channel.ack(message);
-            resolve(JSON.parse(content));
-          }
-        },
-        {}
-      );
     });
   }
 

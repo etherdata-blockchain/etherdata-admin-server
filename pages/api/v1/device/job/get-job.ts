@@ -22,7 +22,7 @@ type Data = {
 async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
   const { key } = req.body;
   const returnData: Data = {};
-
+  //TODO: Remove this
   const user = "etd-test-node";
 
   try {
