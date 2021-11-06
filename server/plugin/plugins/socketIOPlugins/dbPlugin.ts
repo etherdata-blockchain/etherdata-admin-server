@@ -25,11 +25,6 @@ export class DBChangePlugin extends BaseSocketIOPlugin {
         job: this.periodicSendLatestDevices.bind(this),
         name: "periodic_device_data",
       },
-      {
-        interval: 120,
-        job: this.periodicRemoveJobsAndResponses.bind(this),
-        name: "periodic_job_removal",
-      },
     ];
   }
 
@@ -65,12 +60,12 @@ export class DBChangePlugin extends BaseSocketIOPlugin {
     }
   }
 
-  async periodicRemoveJobsAndResponses() {
-    console.log("Removing outdated jobs");
-    const jobPlugin = new PendingJobPlugin();
-    const jobResultPlugin = new JobResultPlugin();
-    const maximumDuration = 60;
-    await jobPlugin.removeOutdatedJobs(maximumDuration);
-    await jobResultPlugin.removeOutdatedJobs(maximumDuration);
-  }
+  // async periodicRemoveJobsAndResponses() {
+  //   console.log("Removing outdated jobs");
+  //   const jobPlugin = new PendingJobPlugin();
+  //   const jobResultPlugin = new JobResultPlugin();
+  //   const maximumDuration = 60;
+  //   await jobPlugin.removeOutdatedJobs(maximumDuration);
+  //   await jobResultPlugin.removeOutdatedJobs(maximumDuration);
+  // }
 }

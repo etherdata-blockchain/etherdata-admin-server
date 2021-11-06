@@ -37,6 +37,7 @@ export class AppPlugin extends BaseSocketAuthIOPlugin {
       this.leaveRoomHandler,
       this.rpcCommandHandler,
       this.disconnectHandler,
+      this.dockerCommandHandler,
     ];
   }
 
@@ -123,6 +124,7 @@ export class AppPlugin extends BaseSocketAuthIOPlugin {
         let selectedRoom = this.canSubmitJob(socket);
         if (selectedRoom) {
           let job = {
+            id: uuid,
             targetDeviceId: selectedRoom,
             from: socket.id,
             time: new Date(),
@@ -140,6 +142,36 @@ export class AppPlugin extends BaseSocketAuthIOPlugin {
         }
       }
     );
+  };
+
+  /**
+   * Send docker command based on joined room.
+   * @param socket
+   */
+  dockerCommandHandler: SocketHandler = (socket) => {
+    socket.on("docker-command", async (value: any, uuid: string) => {
+      console.log("Getting docker command", value, uuid);
+      const pendingJobPlugin = new PendingJobPlugin();
+      let selectedRoom = this.canSubmitJob(socket);
+      if (selectedRoom) {
+        let job = {
+          id: uuid,
+          targetDeviceId: selectedRoom,
+          from: socket.id,
+          time: new Date(),
+          task: {
+            type: "docker",
+            value: value,
+          },
+        };
+        await pendingJobPlugin.addJob(selectedRoom, job);
+      } else {
+        Logger.error("Cannot run docker-command, not in any room!");
+        socket.emit("docker-error", {
+          err: "Cannot join the room. Not in any room!",
+        });
+      }
+    });
   };
 
   handlePushUpdates: SocketHandler = (socket) => {
@@ -166,8 +198,8 @@ export class AppPlugin extends BaseSocketAuthIOPlugin {
           //@ts-ignore
           await pendingJobPlugin.create(job, {});
         } else {
-          Logger.error("Cannot run rpc-command, not in any room!");
-          socket.emit("rpc-command-error", {
+          Logger.error("Cannot run update-command, not in any room!");
+          socket.emit("update-command-error", {
             err: "Cannot join the room. Not in any room!",
           });
         }

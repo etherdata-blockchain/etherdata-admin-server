@@ -32,6 +32,7 @@ export class ClientPlugin extends AppPlugin {
       this.handlePageChange,
       this.handlePushUpdates,
       this.handleApplyFilter,
+      this.dockerCommandHandler,
     ];
   }
 

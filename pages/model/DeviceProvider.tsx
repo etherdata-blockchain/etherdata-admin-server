@@ -6,8 +6,13 @@ import {
   PaginationResult,
 } from "../../server/client/browserClient";
 import { IDevice } from "../../server/schema/device";
-import { ObjectId } from "bson";
+import { v4 } from "uuid";
 import { VersionInfo } from "../../server/plugin/plugins/deviceRegistrationPlugin";
+
+interface DockerValue {
+  method: "logs" | "start" | "stop" | "remove" | "restart" | "exec";
+  value: any;
+}
 
 interface DeviceInterface {
   loadingData: boolean;
@@ -22,6 +27,7 @@ interface DeviceInterface {
   nodeVersions: VersionInfo[];
   currentFilter?: ClientFilter;
   setFilterKeyword(v: string): void;
+  sendDockerCommand(v: DockerValue): Promise<any>;
   joinDetail(deviceId: string): void;
   leaveDetail(deviceId: string): void;
   sendCommand(methodName: string, params: any[]): Promise<any>;
@@ -117,7 +123,7 @@ export default function DeviceProvider(props: any) {
   const sendCommand = React.useCallback(
     async (method: string, params: any[]) => {
       return new Promise((resolve, reject) => {
-        const uuid = new ObjectId().toString();
+        const uuid = v4();
         console.log(`Waiting for ${uuid}'s result`);
         socket?.emit("rpc-command", { method, params }, uuid);
         socket?.once(`rpc-result-${uuid}`, (data) => {
@@ -127,6 +133,28 @@ export default function DeviceProvider(props: any) {
         socket?.once(`rpc-error-${uuid}`, (data) => {
           reject(data);
           socket?.off(`rpc-result-${uuid}`);
+        });
+      });
+    },
+    [socket]
+  );
+
+  const sendDockerCommand = React.useCallback(
+    (value: DockerValue) => {
+      return new Promise((resolve, reject) => {
+        console.log("Getting logs");
+        const uuid = v4();
+        socket?.emit("docker-command", value, uuid);
+        socket?.once(`docker-result-${uuid}`, (value) => {
+          resolve(value);
+          socket?.off(`docker-result-${uuid}`);
+          socket?.off(`docker-error-${uuid}`);
+        });
+
+        socket?.once(`docker-error-${uuid}`, (value) => {
+          reject(value);
+          socket?.off(`docker-result-${uuid}`);
+          socket?.off(`docker-error-${uuid}`);
         });
       });
     },
@@ -152,6 +180,7 @@ export default function DeviceProvider(props: any) {
     currentFilter,
     applyFilter,
     clearFilter,
+    sendDockerCommand,
   };
 
   return (

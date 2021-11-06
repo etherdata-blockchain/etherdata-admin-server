@@ -18,6 +18,11 @@ import AlbumIcon from "@mui/icons-material/Album";
 import { SvgIconProps } from "@mui/material/SvgIcon";
 import { ContainerInfo } from "dockerode";
 import moment from "moment";
+import DeviceProvider, {
+  DeviceContext,
+} from "../../../pages/model/DeviceProvider";
+import { UIProviderContext } from "../../../pages/model/UIProvider";
+import { CircularProgress } from "@mui/material";
 
 declare module "react" {
   interface CSSProperties {
@@ -105,6 +110,11 @@ export default function ContainerTreeView({
 }: {
   containers: ContainerInfo[];
 }) {
+  const { sendDockerCommand } = React.useContext(DeviceContext);
+  const [result, setResult] = React.useState<string>();
+  const [isLoading, setIsLoading] = React.useState(false);
+  const { showSnackBarMessage } = React.useContext(UIProviderContext);
+
   return (
     <TreeView
       aria-label="containers"
@@ -130,7 +140,7 @@ export default function ContainerTreeView({
             bgColor="#e8f0fe"
           />
           <StyledTreeItem
-            nodeId="6"
+            nodeId={`${container.Id}-6`}
             labelText={"Created time"}
             labelIcon={BuildIcon}
             labelInfo={moment(container.Created * 1000).format(
@@ -140,7 +150,7 @@ export default function ContainerTreeView({
             bgColor="#fcefe3"
           />
           <StyledTreeItem
-            nodeId="7"
+            nodeId={`${container.Id}-7`}
             labelText="Status"
             labelIcon={AccessTimeFilledIcon}
             labelInfo={container.Status}
@@ -148,13 +158,38 @@ export default function ContainerTreeView({
             bgColor="#f3e8fd"
           />
           <StyledTreeItem
-            nodeId="8"
+            nodeId={`${container.Id}-8`}
             labelText="State"
             labelIcon={InfoIcon}
             labelInfo={container.State}
             color="#3c8039"
             bgColor="#e6f4ea"
           />
+
+          <StyledTreeItem
+            nodeId={`${container.Id}-9`}
+            labelIcon={InfoIcon}
+            labelText={"Logs"}
+            onClick={async () => {
+              setIsLoading(true);
+              try {
+                console.log("Sending docker command");
+                const result: string = await sendDockerCommand({
+                  method: "logs",
+                  value: container.Id,
+                });
+                setResult(result);
+              } catch (e) {
+                showSnackBarMessage(`${e}`);
+              } finally {
+                setIsLoading(false);
+              }
+            }}
+          >
+            <Box pl={10} color={"black"} pt={1}>
+              {isLoading && <CircularProgress size={20} />}
+            </Box>
+          </StyledTreeItem>
         </StyledTreeItem>
       ))}
     </TreeView>

@@ -20,10 +20,8 @@ type Data = {
  * @param res
  */
 async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
-  const { key } = req.body;
+  const { key, user } = req.body;
   const returnData: Data = {};
-  //TODO: Remove this
-  const user = "etd-test-node";
 
   try {
     let plugin = new PendingJobPlugin();
@@ -42,11 +40,10 @@ async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
     }
   } catch (err) {
     Logger.error(err);
+    // @ts-ignore
     returnData.error = err;
     res.status(500).json(returnData);
   }
 }
 
-// export default JwtVerificationHandler(handler);
-
-export default handler;
+export default JwtVerificationHandler(handler);
