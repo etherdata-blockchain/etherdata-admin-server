@@ -44,7 +44,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
     }
   } catch (err) {
     Logger.error(err);
-    returnData.error = err;
+    returnData.error = `${err}`;
     res.status(500).json(returnData);
   }
 }

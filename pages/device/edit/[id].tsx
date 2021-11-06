@@ -22,8 +22,6 @@ import {
 } from "etd-react-ui";
 import { UIProviderContext } from "../../model/UIProvider";
 import "bootstrap/dist/css/bootstrap.min.css";
-import io from "socket.io-client";
-import ETDProvider, { ETDContext } from "../../model/ETDProvider";
 import { DeviceContext, socket } from "../../model/DeviceProvider";
 import { DockerPanel } from "../../../components/device/dockerPanel";
 import { IDevice } from "../../../server/schema/device";
@@ -114,8 +112,8 @@ export default function DeviceEditDetail({ user, deviceId, device }: Props) {
       let result = await sendCommand(methodName, params);
       return result;
     } catch (err) {
-      showSnackBarMessage(err.toString());
-      throw new Error(err);
+      showSnackBarMessage(`${err}`);
+      throw new Error(`${err}`);
     }
   }, []);
 

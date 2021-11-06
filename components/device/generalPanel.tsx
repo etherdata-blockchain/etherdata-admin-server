@@ -40,7 +40,7 @@ export function GeneralPanel({ user }: Props) {
 
             showSnackBarMessage("User has been updated");
           } catch (err) {
-            showSnackBarMessage(err.toString());
+            showSnackBarMessage(`${err}`);
           }
         }}
       >
