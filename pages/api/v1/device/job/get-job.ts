@@ -20,7 +20,7 @@ type Data = {
  * @param res
  */
 async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
-  const { key, user } = req.body;
+  const { user, key } = req.body;
   const returnData: Data = {};
 
   try {
@@ -29,7 +29,6 @@ async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
     let [authorized, newKey] = await devicePlugin.auth(user, key);
     if (authorized) {
       let job = await plugin.getJob(user);
-
       returnData.job = job;
       returnData.key = newKey;
       res.status(200).json(returnData);

@@ -12,7 +12,7 @@ interface Task {
   value: any;
 }
 
-export interface IPendingJob {
+export interface IPendingJob extends Document {
   targetDeviceId: string;
   /**
    * From client id.
@@ -21,3 +21,20 @@ export interface IPendingJob {
   time: Date;
   task: Task;
 }
+
+export const pendingJobSchema = new Schema<IPendingJob>({
+  targetDeviceId: { type: String, required: true },
+  time: { type: Date, required: true },
+  from: { type: String, required: true },
+  task: {
+    type: { type: String, required: true },
+    value: { type: Schema.Types.Mixed, required: true },
+  },
+});
+
+/**
+ *
+ */
+export const PendingJobModel: Model<IPendingJob> = mongoose.models.pending_job
+  ? mongoose.models.pending_job
+  : model<IPendingJob>("pending_job", pendingJobSchema);

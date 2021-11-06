@@ -11,6 +11,7 @@ import { Server, Socket } from "socket.io";
 import jwt from "jsonwebtoken";
 import { NodePlugin } from "./nodePlugin";
 import Logger from "../../../logger";
+import { JobResultModel } from "../../../schema/job-result";
 import { RegisteredPlugins } from "./registeredPlugins";
 import { DeviceRegistrationPlugin } from "../deviceRegistrationPlugin";
 import { PendingJobPlugin } from "../pendingJobPlugin";
@@ -133,7 +134,13 @@ export class AppPlugin extends BaseSocketAuthIOPlugin {
               value: command,
             },
           };
-          await pendingJobPlugin.addJob(selectedRoom, job);
+          /// Add id if user defined
+          if (uuid) {
+            //@ts-ignore
+            job._id = mongoose.mongo.ObjectId(uuid);
+          }
+          //@ts-ignore
+          await pendingJobPlugin.create(job, {});
         } else {
           Logger.error("Cannot run rpc-command, not in any room!");
           socket.emit("rpc-error", {

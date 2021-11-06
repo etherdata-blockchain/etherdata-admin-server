@@ -8,7 +8,6 @@ import { createServer } from "http";
 import { AppPlugin } from "./plugin/plugins/socketIOPlugins/appPlugin";
 import { DBChangePlugin } from "./plugin/plugins/socketIOPlugins/dbPlugin";
 import { MongoClient } from "mongodb";
-import { connect } from "amqplib";
 
 const port = parseInt(process.env.PORT!, 10) || 3000;
 const dev = process.env.NODE_ENV !== "production";
@@ -18,14 +17,8 @@ const nextHandler = nextApp.getRequestHandler();
 nextApp.prepare().then(async () => {
   const client = new MongoClient(process.env.MONGODB_URL!);
   await client.connect();
-
-  const conn = await connect(process.env.RABBIT_MQ_URL!);
-  const channel = await conn.createChannel();
-
   //@ts-ignore
   global.MONGO_CLIENT = client;
-  //@ts-ignore
-  global.QUEUE_CHANNEL = channel;
 
   const server = express();
   const httpServer = createServer(server);

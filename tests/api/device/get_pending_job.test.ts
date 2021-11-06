@@ -6,6 +6,7 @@ import jwt from "jsonwebtoken";
 import handler from "../../../pages/api/v1/device/job/get-job";
 import { mockDeviceData } from "./mockDeviceData";
 import axios from "axios";
+import { PendingJobModel } from "../../../server/schema/pending-job";
 
 jest.mock("axios");
 
@@ -28,6 +29,7 @@ describe("Test get a pending job", () => {
 
   afterEach(async () => {
     try {
+      await PendingJobModel.collection.drop();
     } catch (e) {
       // console.log("Collection not exists");
     }
@@ -43,6 +45,7 @@ describe("Test get a pending job", () => {
       },
       time: new Date(),
     };
+    await PendingJobModel.create(data);
 
     let token = jwt.sign({ user: "test-device" }, "test");
     const { req, res } = createMocks({

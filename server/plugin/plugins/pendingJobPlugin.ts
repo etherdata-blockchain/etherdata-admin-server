@@ -1,64 +1,38 @@
-import { Channel } from "amqplib";
-import { IPendingJob } from "../../schema/pending-job";
+import {DatabasePlugin} from "../basePlugin";
+import {DeviceModel, deviceSchema, IDevice} from "../../schema/device";
+import {PluginName} from "../pluginName";
+import mongoose, {Model, Query} from "mongoose";
+import {IPendingJob, PendingJobModel} from "../../schema/pending-job";
+import moment from "moment";
 
-export class PendingJobPlugin {
-  private getQueueID(deviceID: string) {
-    return `job-${deviceID}`;
-  }
+export class PendingJobPlugin extends DatabasePlugin<IPendingJob> {
+    pluginName: PluginName = "pendingJob";
+    protected model: Model<IPendingJob> = PendingJobModel;
 
-  /**
-   * Get a job
-   * @param deviceID
-   */
-  async getJob(deviceID: string): Promise<IPendingJob | undefined> {
-    return new Promise(async (resolve, reject) => {
-      try {
-        //@ts-ignore
-        const channel: Channel = global.QUEUE_CHANNEL;
-        const result = await channel.assertQueue(this.getQueueID(deviceID), {
-          autoDelete: true,
-        });
-
-        if (result.messageCount === 0) {
-          resolve(undefined);
-          return;
-        }
-
-        await channel.consume(
-          this.getQueueID(deviceID),
-          (message) => {
-            if (message !== null) {
-              const content = message.content.toString();
-              channel.ack(message);
-              resolve(JSON.parse(content));
-            }
-          },
-          {}
+    /**
+     * Get a job
+     * @param deviceID
+     */
+    async getJob(deviceID: string): Promise<IPendingJob | undefined> {
+        const result = await this.model.findOneAndRemove(
+            {
+                targetDeviceId: deviceID,
+            },
+            {sort: {time: 1}}
         );
-      } catch (e) {
-        reject(e);
-      }
-    });
-  }
 
-  /**
-   * Add a job
-   * @param deviceID
-   * @param job
-   */
-  async addJob(deviceID: string, job: IPendingJob) {
-    //@ts-ignore
-    const channel: Channel = global.QUEUE_CHANNEL;
-    await channel.assertQueue(this.getQueueID(deviceID), { autoDelete: true });
-    await channel.sendToQueue(
-      this.getQueueID(deviceID),
-      Buffer.from(JSON.stringify(job))
-    );
-  }
+        if (result === null) {
+            return undefined;
+        }
+        return result;
+    }
 
-  /**
-   * Remove outdated jobs
-   * @param maximumDuration In seconds
-   */
-  async removeOutdatedJobs(maximumDuration: number) {}
+    /**
+     * Remove outdated jobs
+     * @param maximumDuration In seconds
+     */
+    async removeOutdatedJobs(maximumDuration: number){
+        const deadline = moment().subtract(maximumDuration, "seconds")
+        await this.model.deleteMany({time: {$lte: deadline.toDate()}})
+    }
 }
