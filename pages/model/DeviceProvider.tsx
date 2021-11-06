@@ -6,7 +6,7 @@ import {
   PaginationResult,
 } from "../../server/client/browserClient";
 import { IDevice } from "../../server/schema/device";
-import { v4 } from "uuid";
+import { ObjectId } from "bson";
 import { VersionInfo } from "../../server/plugin/plugins/deviceRegistrationPlugin";
 
 interface DockerValue {
@@ -123,7 +123,7 @@ export default function DeviceProvider(props: any) {
   const sendCommand = React.useCallback(
     async (method: string, params: any[]) => {
       return new Promise((resolve, reject) => {
-        const uuid = v4();
+        const uuid = new ObjectId().toString();
         console.log(`Waiting for ${uuid}'s result`);
         socket?.emit("rpc-command", { method, params }, uuid);
         socket?.once(`rpc-result-${uuid}`, (data) => {
@@ -143,7 +143,7 @@ export default function DeviceProvider(props: any) {
     (value: DockerValue) => {
       return new Promise((resolve, reject) => {
         console.log("Getting logs");
-        const uuid = v4();
+        const uuid = new ObjectId().toString();
         socket?.emit("docker-command", value, uuid);
         socket?.once(`docker-result-${uuid}`, (value) => {
           resolve(value);

@@ -27,6 +27,11 @@ export class DBChangePlugin extends BaseSocketIOPlugin {
         job: this.periodicSendLatestDevices.bind(this),
         name: "periodic_device_data",
       },
+      {
+        interval: 120,
+        job: this.periodicRemoveJobsAndResponses.bind(this),
+        name: "periodic_device_data",
+      },
     ];
   }
 
@@ -39,15 +44,35 @@ export class DBChangePlugin extends BaseSocketIOPlugin {
           case "insert":
             let result = data.fullDocument!;
             if (result.success) {
-              clientPlugin?.server
-                ?.in(result.from)
-                .emit(`rpc-result-${result.jobId}`, result.result);
+              switch (result.commandType) {
+                case "docker":
+                  clientPlugin?.server
+                    ?.in(result.from)
+                    .emit(`docker-result-${result.jobId}`, result.result);
+                  break;
+
+                case "web3":
+                  clientPlugin?.server
+                    ?.in(result.from)
+                    .emit(`rpc-result-${result.jobId}`, result.result);
+                  break;
+              }
             } else {
-              clientPlugin?.server
-                ?.in(result.from)
-                .emit(`rpc-error-${result.jobId}`, result.result);
+              switch (result.commandType) {
+                case "docker":
+                  clientPlugin?.server
+                    ?.in(result.from)
+                    .emit(`docker-error-${result.jobId}`, result.result);
+                  break;
+                case "web3":
+                  clientPlugin?.server
+                    ?.in(result.from)
+                    .emit(`docker-error-${result.jobId}`, result.result);
+                  break;
+              }
             }
-            await JobResultModel.deleteOne({ _id: result._id });
+            console.log(result);
+            // await JobResultModel.deleteOne({ _id: result._id });
 
             break;
         }
@@ -85,12 +110,12 @@ export class DBChangePlugin extends BaseSocketIOPlugin {
     }
   }
 
-  // async periodicRemoveJobsAndResponses() {
-  //   console.log("Removing outdated jobs");
-  //   const jobPlugin = new PendingJobPlugin();
-  //   const jobResultPlugin = new JobResultPlugin();
-  //   const maximumDuration = 60;
-  //   await jobPlugin.removeOutdatedJobs(maximumDuration);
-  //   await jobResultPlugin.removeOutdatedJobs(maximumDuration);
-  // }
+  async periodicRemoveJobsAndResponses() {
+    console.log("Removing outdated jobs");
+    const jobPlugin = new PendingJobPlugin();
+    const jobResultPlugin = new JobResultPlugin();
+    const maximumDuration = 60;
+    await jobPlugin.removeOutdatedJobs(maximumDuration);
+    await jobResultPlugin.removeOutdatedJobs(maximumDuration);
+  }
 }

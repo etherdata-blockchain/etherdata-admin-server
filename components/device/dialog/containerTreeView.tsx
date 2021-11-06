@@ -115,6 +115,21 @@ export default function ContainerTreeView({
   const [isLoading, setIsLoading] = React.useState(false);
   const { showSnackBarMessage } = React.useContext(UIProviderContext);
 
+  const getLog = async (container: string) => {
+    setIsLoading(true);
+    try {
+      const result: string = await sendDockerCommand({
+        method: "logs",
+        value: container,
+      });
+      setResult(result);
+    } catch (e) {
+      showSnackBarMessage(`${e}`);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
     <TreeView
       aria-label="containers"
@@ -123,6 +138,11 @@ export default function ContainerTreeView({
       defaultExpandIcon={<ArrowRightIcon />}
       defaultEndIcon={<div style={{ width: 24 }} />}
       sx={{ flexGrow: 1, overflowY: "auto" }}
+      onNodeToggle={async (e, v) => {
+        if (v[0].includes("log-")) {
+          await getLog(v[0].replace("log-", ""));
+        }
+      }}
     >
       {containers.map((container, index) => (
         <StyledTreeItem
@@ -167,27 +187,17 @@ export default function ContainerTreeView({
           />
 
           <StyledTreeItem
-            nodeId={`${container.Id}-9`}
+            nodeId={`log-${container.Id}`}
             labelIcon={InfoIcon}
             labelText={"Logs"}
-            onClick={async () => {
-              setIsLoading(true);
-              try {
-                console.log("Sending docker command");
-                const result: string = await sendDockerCommand({
-                  method: "logs",
-                  value: container.Id,
-                });
-                setResult(result);
-              } catch (e) {
-                showSnackBarMessage(`${e}`);
-              } finally {
-                setIsLoading(false);
-              }
-            }}
           >
             <Box pl={10} color={"black"} pt={1}>
               {isLoading && <CircularProgress size={20} />}
+              {result &&
+                !isLoading &&
+                result
+                  .split("\n")
+                  .map((r, i) => <Typography key={`r-${i}`}>{r}</Typography>)}
             </Box>
           </StyledTreeItem>
         </StyledTreeItem>

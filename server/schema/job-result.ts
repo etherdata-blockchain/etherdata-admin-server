@@ -21,13 +21,14 @@ export interface IJobResult extends Document {
 }
 
 export const jobResultSchema = new Schema<IJobResult>({
-  jobId: {type: String,  required: true},
+  jobId: { type: String, required: true },
   time: { type: Date, required: true },
   deviceID: { type: String, required: true },
   from: { type: String, required: true },
   command: { type: Schema.Types.Mixed, required: true },
   result: { type: Schema.Types.Mixed, required: true },
   success: { type: Boolean, required: true },
+  commandType: { type: String, required: true },
 });
 
 /**

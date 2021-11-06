@@ -171,7 +171,13 @@ export class AppPlugin extends BaseSocketAuthIOPlugin {
             value: value,
           },
         };
-        await pendingJobPlugin.addJob(selectedRoom, job);
+        /// Add id if user defined
+        if (uuid) {
+          //@ts-ignore
+          job._id = mongoose.mongo.ObjectId(uuid);
+        }
+        //@ts-ignore
+        await pendingJobPlugin.create(job, {});
       } else {
         Logger.error("Cannot run docker-command, not in any room!");
         socket.emit("docker-error", {
