@@ -143,6 +143,7 @@ export class DeviceRegistrationPlugin extends DatabasePlugin<IDevice> {
       );
       return [true, undefined];
     } catch (e) {
+      console.log(e);
       return [false, (e as AxiosError).response?.data.err];
     }
   }
