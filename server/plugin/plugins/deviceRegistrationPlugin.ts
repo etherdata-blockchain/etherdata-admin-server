@@ -179,7 +179,7 @@ export class DeviceRegistrationPlugin extends DatabasePlugin<IDevice> {
     user: string
   ): Promise<[boolean, string | undefined, any[]]> {
     try {
-      const path = "storage_management/device?user=" + user;
+      const path = "storage_management/device?user=" + encodeURIComponent(user);
       const url = new URL(path, process.env.STORAGE_MANAGEMENT_URL);
       let resp = await axios.get(url.toString(), {
         headers: {
