@@ -3,11 +3,9 @@ import {
   CardContent,
   CardHeader,
   Hidden,
-  Paper,
   Typography,
 } from "@mui/material";
 import React from "react";
-import { jsx } from "@emotion/react";
 
 export default function ResponsiveCard({
   children,

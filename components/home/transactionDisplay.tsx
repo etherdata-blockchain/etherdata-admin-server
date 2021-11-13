@@ -3,7 +3,6 @@ import * as React from "react";
 import {
   Divider,
   List,
-  ListItem,
   ListItemAvatar,
   ListItemButton,
   ListItemText,

@@ -1,6 +1,6 @@
 // @flow
 import * as React from "react";
-import { DataGrid, GridColDef, GridValueGetterParams } from "@mui/x-data-grid";
+import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { ITransaction } from "../../server/schema/transaction";
 import ResponsiveCard from "../ResponsiveCard";
 import styles from "../../styles/Transactions.module.css";

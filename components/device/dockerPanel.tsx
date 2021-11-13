@@ -2,27 +2,17 @@
 import * as React from "react";
 import { IDevice } from "../../server/schema/device";
 import {
-  Box,
-  Button,
-  FormControl,
-  Grid,
-  InputLabel,
   List,
-  ListItem,
   ListItemButton,
-  ListItemSecondaryAction,
   ListItemText,
   Menu,
   MenuItem,
-  Select,
-  Typography,
 } from "@mui/material";
 import {
   bindMenu,
   bindTrigger,
   usePopupState,
 } from "material-ui-popup-state/hooks";
-import ArrowRightIcon from "@material-ui/icons/ArrowRight";
 
 type Props = {
   device: IDevice | undefined;

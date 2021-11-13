@@ -8,10 +8,8 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import axios from "axios";
 import { UIProviderContext } from "../../pages/model/UIProvider";
 import { useRouter } from "next/dist/client/router";
-import jwt from "jsonwebtoken";
 import { realmApp } from "../../pages/_app";
 
 type Props = {

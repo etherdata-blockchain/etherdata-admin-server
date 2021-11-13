@@ -1,22 +1,12 @@
 import * as React from "react";
-import { styled } from "@mui/material/styles";
-import Box from "@mui/material/Box";
 import TreeView from "@mui/lab/TreeView";
-import TreeItem, { TreeItemProps, treeItemClasses } from "@mui/lab/TreeItem";
-import Typography from "@mui/material/Typography";
 import ArchiveIcon from "@mui/icons-material/Archive";
-import Label from "@mui/icons-material/Label";
-import SupervisorAccountIcon from "@mui/icons-material/SupervisorAccount";
-import InfoIcon from "@mui/icons-material/Info";
-import ForumIcon from "@mui/icons-material/Forum";
-import LocalOfferIcon from "@mui/icons-material/LocalOffer";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import AccessTimeFilledIcon from "@mui/icons-material/AccessTimeFilled";
 import ArrowRightIcon from "@mui/icons-material/ArrowRight";
 import BuildIcon from "@mui/icons-material/Build";
 import AlbumIcon from "@mui/icons-material/Album";
-import { SvgIconProps } from "@mui/material/SvgIcon";
-import { ContainerInfo, ImageInfo } from "dockerode";
+import { ImageInfo } from "dockerode";
 import moment from "moment";
 import { StyledTreeItem } from "./containerTreeView";
 

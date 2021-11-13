@@ -2,7 +2,7 @@
 import * as React from "react";
 import { IconButton, Menu, MenuItem } from "@mui/material";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
-import PopupState, { bindTrigger, bindMenu } from "material-ui-popup-state";
+import PopupState, { bindMenu, bindTrigger } from "material-ui-popup-state";
 
 type Props = {};
 
