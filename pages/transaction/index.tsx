@@ -1,14 +1,11 @@
 // @flow
 import * as React from "react";
 import PageHeader from "../../components/PageHeader";
-import { Button } from "@mui/material";
 
 import { TransactionTable } from "../../components/transaction/transactionTable";
-import ResponsiveCard from "../../components/ResponsiveCard";
 import Spacer from "../../components/Spacer";
 import { SendTransactionBtn } from "../../components/transaction/sendTransactionBtn";
 import { GetServerSideProps } from "next";
-import { DeviceRegistrationPlugin } from "../../server/plugin/plugins/deviceRegistrationPlugin";
 import { TransactionDBPlugin } from "../../server/plugin/plugins/transactionPlugin";
 import { ITransaction } from "../../server/schema/transaction";
 

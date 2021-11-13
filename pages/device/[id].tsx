@@ -5,20 +5,13 @@ import Spacer from "../../components/Spacer";
 import ResponsiveCard from "../../components/ResponsiveCard";
 import {
   Button,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
-  Divider,
   Grid,
-  IconButton,
   List,
   ListItem,
   ListItemAvatar,
-  ListItemSecondaryAction,
+  ListItemButton,
   ListItemText,
   ListSubheader,
-  Stack,
   Typography,
 } from "@mui/material";
 import ComputerIcon from "@material-ui/icons/Computer";
@@ -26,7 +19,7 @@ import style from "../../styles/Device.module.css";
 import { LargeDataCard } from "../../components/cards/largeDataCard";
 import { GridDataCard } from "../../components/cards/gridDataCard";
 import { useRouter } from "next/dist/client/router";
-import DeviceProvider, { DeviceContext, socket } from "../model/DeviceProvider";
+import { DeviceContext, socket } from "../model/DeviceProvider";
 import { abbreviateNumber } from "../../utils/valueFormatter";
 import { UIProviderContext } from "../model/UIProvider";
 import { GetServerSideProps } from "next";
@@ -36,11 +29,8 @@ import { objectExpand } from "../../utils/objectExpander";
 import Logger from "../../server/logger";
 import moment from "moment";
 import { CONFIG } from "../../server/config/config";
-import { ListItemButton } from "@mui/material";
 import AllInboxIcon from "@mui/icons-material/AllInbox";
 import AlbumIcon from "@mui/icons-material/Album";
-import ContainerTreeView from "../../components/device/dialog/containerTreeView";
-import ImageTreeView from "../../components/device/dialog/imageTreeView";
 import { ContainerDialog } from "../../components/device/dialog/containerDialog";
 import { ImageDialog } from "../../components/device/dialog/imageDialog";
 

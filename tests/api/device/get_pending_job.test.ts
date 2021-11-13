@@ -1,11 +1,9 @@
-import { MongoClient } from "mongodb";
 import mongoose from "mongoose";
 import { MongoMemoryServer } from "mongodb-memory-server";
 import { createMocks } from "node-mocks-http";
 import jwt from "jsonwebtoken";
 import handler from "../../../pages/api/v1/device/job/get-job";
 import { mockDeviceData } from "./mockDeviceData";
-import axios from "axios";
 import { PendingJobModel } from "../../../server/schema/pending-job";
 import { StorageManagementSystemPlugin } from "../../../server/plugin/plugins/storageManagementSystemPlugin";
 

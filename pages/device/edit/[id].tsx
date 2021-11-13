@@ -10,15 +10,15 @@ import { GetServerSideProps } from "next";
 import { DeviceRegistrationPlugin } from "../../../server/plugin/plugins/deviceRegistrationPlugin";
 import {
   Admin,
-  Txpool,
-  Real_time,
-  Personal,
-  Json_rpc_methods,
-  Json_rpc,
-  Debug,
   Clique,
+  Debug,
   Etd,
+  Json_rpc,
+  Json_rpc_methods,
   Miner,
+  Personal,
+  Real_time,
+  Txpool,
 } from "etd-react-ui";
 import { UIProviderContext } from "../../model/UIProvider";
 import "bootstrap/dist/css/bootstrap.min.css";

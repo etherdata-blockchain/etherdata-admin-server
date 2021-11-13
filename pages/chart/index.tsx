@@ -1,7 +1,7 @@
 // @flow
 import * as React from "react";
 import PageHeader from "../../components/PageHeader";
-import { Button, Grid } from "@mui/material";
+import { Grid } from "@mui/material";
 import ResponsiveCard from "../../components/ResponsiveCard";
 import Spacer from "../../components/Spacer";
 import { GetServerSideProps } from "next";
@@ -9,14 +9,7 @@ import {
   DeviceRegistrationPlugin,
   VersionInfo,
 } from "../../server/plugin/plugins/deviceRegistrationPlugin";
-import {
-  PieChart,
-  Pie,
-  Sector,
-  Cell,
-  ResponsiveContainer,
-  Tooltip,
-} from "recharts";
+import { Cell, Pie, PieChart, ResponsiveContainer, Tooltip } from "recharts";
 import randomColor from "randomcolor";
 
 type Props = {

@@ -18,11 +18,6 @@ export class DeviceRegistrationPlugin extends DatabasePlugin<IDevice> {
   pluginName: PluginName = "deviceRegistration";
   protected model: Model<IDevice> = DeviceModel;
 
-  protected performGet(id: string): Query<IDevice, IDevice> {
-    //@ts-ignore
-    return this.model.findOne({ id: id });
-  }
-
   async listWithFilter(
     pageNumber: number,
     pageSize: number,
@@ -91,28 +86,6 @@ export class DeviceRegistrationPlugin extends DatabasePlugin<IDevice> {
           return [false, undefined];
         }
       }
-    }
-  }
-
-  /**
-   * Authentication from db
-   * @param device
-   * @private
-   */
-  private async authFromDB(
-    device: string
-  ): Promise<[boolean, string | undefined]> {
-    const storageManagementPlugin = new StorageManagementSystemPlugin();
-    const foundDevice = await storageManagementPlugin.findDeviceById(device);
-
-    if (foundDevice) {
-      // Generate a key for next task
-      const newKey = jwt.sign({ device }, process.env.PUBLIC_SECRET!, {
-        expiresIn: 600,
-      });
-      return [true, newKey];
-    } else {
-      return [false, undefined];
     }
   }
 
@@ -269,5 +242,32 @@ export class DeviceRegistrationPlugin extends DatabasePlugin<IDevice> {
     const totalPageNumber = Math.ceil(totalCount / pageSize);
 
     return [devicesResults, totalCount, totalPageNumber];
+  }
+
+  protected performGet(id: string): Query<IDevice, IDevice> {
+    //@ts-ignore
+    return this.model.findOne({ id: id });
+  }
+
+  /**
+   * Authentication from db
+   * @param device
+   * @private
+   */
+  private async authFromDB(
+    device: string
+  ): Promise<[boolean, string | undefined]> {
+    const storageManagementPlugin = new StorageManagementSystemPlugin();
+    const foundDevice = await storageManagementPlugin.findDeviceById(device);
+
+    if (foundDevice) {
+      // Generate a key for next task
+      const newKey = jwt.sign({ device }, process.env.PUBLIC_SECRET!, {
+        expiresIn: 600,
+      });
+      return [true, newKey];
+    } else {
+      return [false, undefined];
+    }
   }
 }

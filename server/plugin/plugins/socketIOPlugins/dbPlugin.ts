@@ -2,15 +2,14 @@
  * App plugin for app use
  */
 
-import { BaseSocketIOPlugin, SocketHandler } from "../../basePlugin";
-import { RegisteredPlugins } from "./registeredPlugins";
-import { JobResultModel } from "../../../schema/job-result";
-import { DeviceModel } from "../../../schema/device";
-import { DeviceRegistrationPlugin } from "../deviceRegistrationPlugin";
-import { ClientPlugin } from "./clientPlugin";
-import { PendingJobModel } from "../../../schema/pending-job";
-import { PendingJobPlugin } from "../pendingJobPlugin";
-import { JobResultPlugin } from "../jobResultPlugin";
+import {BaseSocketIOPlugin}       from "../../basePlugin";
+import {RegisteredPlugins}        from "./registeredPlugins";
+import {JobResultModel}           from "../../../schema/job-result";
+import {DeviceModel}              from "../../../schema/device";
+import {DeviceRegistrationPlugin} from "../deviceRegistrationPlugin";
+import {ClientPlugin}             from "./clientPlugin";
+import {PendingJobPlugin}         from "../pendingJobPlugin";
+import {JobResultPlugin}          from "../jobResultPlugin";
 
 /**
  * Watch for database changes

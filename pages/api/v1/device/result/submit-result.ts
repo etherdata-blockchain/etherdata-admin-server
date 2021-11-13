@@ -2,14 +2,9 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import { PostOnlyMiddleware } from "../../../../../utils/nextHandler/postOnlyHandler";
 import { DeviceRegistrationPlugin } from "../../../../../server/plugin/plugins/deviceRegistrationPlugin";
 import { JwtVerificationHandler } from "../../../../../utils/nextHandler/jwtVerificationHandler";
-import { IDevice } from "../../../../../server/schema/device";
-import moment from "moment";
 import Logger from "../../../../../server/logger";
-import { IPendingJob } from "../../../../../server/schema/pending-job";
-import { PendingJobPlugin } from "../../../../../server/plugin/plugins/pendingJobPlugin";
 import { JobResultPlugin } from "../../../../../server/plugin/plugins/jobResultPlugin";
 import { IJobResult } from "../../../../../server/schema/job-result";
-import * as mongoose from "mongoose";
 import { ObjectId } from "mongodb";
 
 type Data = {

@@ -4,7 +4,6 @@ import { DeviceRegistrationPlugin } from "../../../../../server/plugin/plugins/d
 import { JwtVerificationHandler } from "../../../../../utils/nextHandler/jwtVerificationHandler";
 import { IDevice } from "../../../../../server/schema/device";
 import moment from "moment";
-import { Web3DataInfo } from "../../../../../server/client/node_data";
 import Logger from "../../../../../server/logger";
 
 type Data = {

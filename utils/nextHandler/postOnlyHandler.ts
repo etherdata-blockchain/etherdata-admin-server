@@ -1,4 +1,4 @@
-import { NextApiHandler, NextApiRequest, NextApiResponse } from "next";
+import {NextApiHandler, NextApiRequest, NextApiResponse} from "next";
 
 /**
  * Post Only Middleware. Only accept post request

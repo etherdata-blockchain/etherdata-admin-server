@@ -26,13 +26,21 @@ interface DeviceInterface {
   adminVersions: VersionInfo[];
   nodeVersions: VersionInfo[];
   currentFilter?: ClientFilter;
+
   setFilterKeyword(v: string): void;
+
   sendDockerCommand(v: DockerValue): Promise<any>;
+
   joinDetail(deviceId: string): void;
+
   leaveDetail(deviceId: string): void;
+
   sendCommand(methodName: string, params: any[]): Promise<any>;
+
   handlePageChange(pageNumber: number): Promise<any>;
+
   applyFilter(filter: ClientFilter): void;
+
   clearFilter(): void;
 }
 

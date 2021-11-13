@@ -3,7 +3,6 @@ import { Document, Model, Query } from "mongoose";
 import { PluginName } from "./pluginName";
 import Logger from "../logger";
 import { RegisteredPlugins } from "./plugins/socketIOPlugins/registeredPlugins";
-import { ClientFilter } from "../client/browserClient";
 
 export type SocketHandler = (socket: Socket) => void;
 
@@ -13,8 +12,9 @@ export interface PeriodicJob {
    */
   interval: number;
   name: string;
-  job(): Promise<void>;
   timer?: NodeJS.Timer;
+
+  job(): Promise<void>;
 }
 
 export abstract class BasePlugin<N> {
@@ -66,16 +66,15 @@ export abstract class BaseSocketIOPlugin extends BasePlugin<RegisteredPlugins> {
 }
 
 export abstract class BaseSocketAuthIOPlugin extends BaseSocketIOPlugin {
-  protected otherPlugins: { [key: string]: BaseSocketIOPlugin } = {};
   /**
    * List of socket handlers
    */
   handlers: SocketHandler[] = [];
-
   /**
    * Socket IO Server
    */
   server?: Namespace;
+  protected otherPlugins: { [key: string]: BaseSocketIOPlugin } = {};
 
   /**
    * Start a SocketIO server.
@@ -132,11 +131,6 @@ export abstract class DatabasePlugin<
 > extends BasePlugin<PluginName> {
   protected abstract model: Model<T>;
 
-  protected performGet(id: string): Query<T, T> {
-    //@ts-ignore
-    return this.model.findOne({ _id: id });
-  }
-
   async get(id: string): Promise<T | undefined> {
     let result = await this.performGet(id).exec();
     if (result) {
@@ -144,11 +138,6 @@ export abstract class DatabasePlugin<
     } else {
       return undefined;
     }
-  }
-
-  protected performList(): Query<T[], T[]> {
-    //@ts-ignore
-    return this.model.find({});
   }
 
   async list(pageNumber: number, pageSize: number): Promise<T[] | undefined> {
@@ -188,6 +177,20 @@ export abstract class DatabasePlugin<
     return await this.performPatch(data);
   }
 
+  async count() {
+    return this.model.countDocuments();
+  }
+
+  protected performGet(id: string): Query<T, T> {
+    //@ts-ignore
+    return this.model.findOne({ _id: id });
+  }
+
+  protected performList(): Query<T[], T[]> {
+    //@ts-ignore
+    return this.model.find({});
+  }
+
   protected doPagination(
     model: Query<T[], T[]>,
     pageNumber: number,
@@ -197,9 +200,5 @@ export abstract class DatabasePlugin<
     let limit = pageSize ?? 20;
 
     return model.skip(skip).limit(limit);
-  }
-
-  async count() {
-    return this.model.countDocuments();
   }
 }

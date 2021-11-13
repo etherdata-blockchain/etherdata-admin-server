@@ -4,7 +4,6 @@
 
 This is the ETDStats Server
 
-
 ## Run
 
 1. Install dependencies

@@ -5,9 +5,13 @@ interface UIProviderInterface {
   drawerOpen: boolean;
   appBarTitle?: string;
   appBarTitleShow: boolean;
+
   setDrawerOpen(v: boolean): void;
+
   showSnackBarMessage(v: string): void;
+
   showAppBarTitle(v: string): void;
+
   hideAppBarTitle(): void;
 }
 

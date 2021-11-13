@@ -1,4 +1,3 @@
-import { MongoClient } from "mongodb";
 import mongoose from "mongoose";
 import { DeviceModel } from "../../../server/schema/device";
 import { MongoMemoryServer } from "mongodb-memory-server";

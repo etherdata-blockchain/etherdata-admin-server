@@ -2,20 +2,13 @@
  * App plugin for app use
  */
 
-import {
-  BaseSocketAuthIOPlugin,
-  BaseSocketIOPlugin,
-  SocketHandler,
-} from "../../basePlugin";
+import { BaseSocketAuthIOPlugin, SocketHandler } from "../../basePlugin";
 import { Server, Socket } from "socket.io";
 import jwt from "jsonwebtoken";
-import { NodePlugin } from "./nodePlugin";
 import Logger from "../../../logger";
-import { JobResultModel } from "../../../schema/job-result";
 import { RegisteredPlugins } from "./registeredPlugins";
 import { DeviceRegistrationPlugin } from "../deviceRegistrationPlugin";
 import { PendingJobPlugin } from "../pendingJobPlugin";
-import { IPendingJob } from "../../../schema/pending-job";
 import mongoose from "mongoose";
 
 interface RPCCommand {
@@ -54,13 +47,6 @@ export class AppPlugin extends BaseSocketAuthIOPlugin {
       return true;
     }
   }
-
-  protected onAuthenticated(socket: Socket, password: string): void {
-    let data = jwt.decode(password, { json: true });
-    this.user[socket.id] = data!.user;
-  }
-
-  protected onUnAuthenticated(socket: Socket): void {}
 
   async startSocketIOServer(server: Server): Promise<boolean | undefined> {
     this.server = server.of("/apps");
@@ -103,15 +89,6 @@ export class AppPlugin extends BaseSocketAuthIOPlugin {
       socket.leave(roomId);
     });
   };
-
-  private canSubmitJob(socket: Socket): string | undefined {
-    let rooms = Array.from(socket.rooms);
-    if (rooms.length < 2) {
-      return undefined;
-    } else {
-      return rooms[1];
-    }
-  }
 
   /**
    * Send rpc command based on joined room.
@@ -219,4 +196,20 @@ export class AppPlugin extends BaseSocketAuthIOPlugin {
       }
     );
   };
+
+  protected onAuthenticated(socket: Socket, password: string): void {
+    let data = jwt.decode(password, { json: true });
+    this.user[socket.id] = data!.user;
+  }
+
+  protected onUnAuthenticated(socket: Socket): void {}
+
+  private canSubmitJob(socket: Socket): string | undefined {
+    let rooms = Array.from(socket.rooms);
+    if (rooms.length < 2) {
+      return undefined;
+    } else {
+      return rooms[1];
+    }
+  }
 }
