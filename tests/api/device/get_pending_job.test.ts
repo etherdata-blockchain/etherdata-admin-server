@@ -7,18 +7,15 @@ import handler from "../../../pages/api/v1/device/job/get-job";
 import { mockDeviceData } from "./mockDeviceData";
 import axios from "axios";
 import { PendingJobModel } from "../../../server/schema/pending-job";
+import { StorageManagementSystemPlugin } from "../../../server/plugin/plugins/storageManagementSystemPlugin";
 
-jest.mock("axios");
+jest.mock("../../../server/plugin/plugins/storageManagementSystemPlugin");
 
 describe("Test get a pending job", () => {
   let dbServer: MongoMemoryServer;
-  let connection: MongoClient;
   let oldEnv = process.env;
 
   beforeAll(async () => {
-    //@ts-ignore
-    axios.get.mockResolvedValue({});
-    process.env["STORAGE_MANAGEMENT_URL"] = "https://storage-management-system";
     process.env = {
       ...oldEnv,
       PUBLIC_SECRET: "test",
@@ -36,6 +33,13 @@ describe("Test get a pending job", () => {
   });
 
   test("Get a pending job", async () => {
+    //@ts-ignore
+    StorageManagementSystemPlugin.mockImplementation(() => {
+      return {
+        findDeviceById: jest.fn(() => Promise.resolve({ a: "a" })),
+      };
+    });
+
     let data: any = {
       from: "abcde",
       targetDeviceId: "test-device",

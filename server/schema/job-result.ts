@@ -28,7 +28,7 @@ export const jobResultSchema = new Schema<IJobResult>({
   command: { type: Schema.Types.Mixed, required: true },
   result: { type: Schema.Types.Mixed, required: true },
   success: { type: Boolean, required: true },
-  commandType: { type: String, required: true },
+  commandType: { type: String, required: false },
 });
 
 /**

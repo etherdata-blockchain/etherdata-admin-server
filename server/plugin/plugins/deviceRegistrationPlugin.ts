@@ -1,13 +1,13 @@
 import { DatabasePlugin } from "../basePlugin";
-import { DeviceModel, deviceSchema, IDevice } from "../../schema/device";
+import { DeviceModel, IDevice } from "../../schema/device";
 import { PluginName } from "../pluginName";
-import mongoose, { Model, Query } from "mongoose";
+import { Model, Query } from "mongoose";
 import axios, { AxiosError } from "axios";
 import moment from "moment";
 import jwt from "jsonwebtoken";
 import { ClientFilter } from "../../client/browserClient";
-import { MongoClient } from "mongodb";
 import Logger from "../../logger";
+import { StorageManagementSystemPlugin } from "./storageManagementSystemPlugin";
 
 export interface VersionInfo {
   version: string;
@@ -102,12 +102,10 @@ export class DeviceRegistrationPlugin extends DatabasePlugin<IDevice> {
   private async authFromDB(
     device: string
   ): Promise<[boolean, string | undefined]> {
-    //@ts-ignore
-    const client: MongoClient = global.MONGO_CLIENT;
-    const db = client.db("storage-management-system");
-    const coll = db.collection("storage_management_item");
-    const found = await coll.findOne({ qr_code: device });
-    if (found) {
+    const storageManagementPlugin = new StorageManagementSystemPlugin();
+    const foundDevice = await storageManagementPlugin.findDeviceById(device);
+
+    if (foundDevice) {
       // Generate a key for next task
       const newKey = jwt.sign({ device }, process.env.PUBLIC_SECRET!, {
         expiresIn: 600,
