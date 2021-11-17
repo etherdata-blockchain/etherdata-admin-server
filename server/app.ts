@@ -32,10 +32,6 @@ nextApp.prepare().then(async () => {
   //@ts-ignore
   global.nodePlugin = plugins[0];
 
-  mongoose.set("useNewUrlParser", true);
-  mongoose.set("useUnifiedTopology", true);
-  mongoose.set(`useFindAndModify`, true);
-
   await mongoose.connect(process.env.MONGODB_URL!);
   Logger.info("Connected to database");
 

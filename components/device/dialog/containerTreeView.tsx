@@ -75,6 +75,7 @@ export function StyledTreeItem(props: StyledTreeItemProps) {
   } = props;
 
   return (
+    //@ts-ignore
     <StyledTreeItemRoot
       label={
         <Box sx={{ display: "flex", alignItems: "center", p: 0.5, pr: 0 }}>
