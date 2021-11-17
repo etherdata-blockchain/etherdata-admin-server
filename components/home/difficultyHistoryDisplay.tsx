@@ -3,12 +3,11 @@ import * as React from "react";
 import {
   Bar,
   BarChart,
-  CartesianGrid,
   Legend,
+  ResponsiveContainer,
   Tooltip,
   XAxis,
   YAxis,
-  ResponsiveContainer,
 } from "recharts";
 import { ETDContext } from "../../pages/model/ETDProvider";
 

@@ -1,20 +1,17 @@
 // @flow
 import * as React from "react";
-import { Divider, Grid, Typography } from "@mui/material";
+import { Divider, Grid } from "@mui/material";
 import styles from "../../styles/Device.module.css";
+import style from "../../styles/Device.module.css";
 import ResponsiveCard from "../../components/ResponsiveCard";
 import PageHeader from "../../components/PageHeader";
 import Spacer from "../../components/Spacer";
 import ComputerIcon from "@material-ui/icons/Computer";
-import style from "../../styles/Device.module.css";
 import { LargeDataCard } from "../../components/cards/largeDataCard";
 import { DeviceTable } from "../../components/device/deviceTable";
-import { IDevice } from "../../server/schema/device";
-import { realmApp } from "../_app";
-import { UIProviderContext } from "../model/UIProvider";
 import { DeviceAction } from "../../components/device/deviceAction";
 import { DeviceContext } from "../model/DeviceProvider";
-import ETDProvider, { ETDContext } from "../model/ETDProvider";
+import { ETDContext } from "../model/ETDProvider";
 import StorageIcon from "@material-ui/icons/Storage";
 
 type Props = {};

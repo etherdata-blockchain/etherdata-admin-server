@@ -1,8 +1,8 @@
-.dataCard{
-  height: 150px;
+.dataCard {
+    height: 150px;
 }
 
-.graphCard{
-  height: 600px;
-  overflow-y: scroll;
+.graphCard {
+    height: 600px;
+    overflow-y: scroll;
 }

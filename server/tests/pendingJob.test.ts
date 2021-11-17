@@ -1,4 +1,6 @@
-import { DeviceRegistrationPlugin } from "../plugin/plugins/deviceRegistrationPlugin";
+global.TextEncoder = require("util").TextEncoder;
+global.TextDecoder = require("util").TextDecoder;
+
 import { MongoClient } from "mongodb";
 import mongoose from "mongoose";
 import { MongoMemoryServer } from "mongodb-memory-server";

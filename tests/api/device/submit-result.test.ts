@@ -1,40 +1,36 @@
-import { MongoClient } from "mongodb";
-import mongoose from "mongoose";
+global.TextEncoder = require("util").TextEncoder;
+global.TextDecoder = require("util").TextDecoder;
+
 import { MongoMemoryServer } from "mongodb-memory-server";
 import { createMocks } from "node-mocks-http";
 import jwt from "jsonwebtoken";
 import handler from "../../../pages/api/v1/device/result/submit-result";
-import axios from "axios";
-import { JobResultModel } from "../../../server/schema/job-result";
+import { StorageManagementSystemPlugin } from "../../../server/plugin/plugins/storageManagementSystemPlugin";
+import mongoose from "mongoose";
 
-jest.mock("axios");
+jest.mock("../../../server/plugin/plugins/storageManagementSystemPlugin");
 
-describe("Test get a pending job", () => {
+describe("Test submit result", () => {
   let dbServer: MongoMemoryServer;
-  let connection: MongoClient;
-  let oldEnv = process.env;
-
   beforeAll(async () => {
-    //@ts-ignore
-    axios.get.mockResolvedValue({});
-    process.env["STORAGE_MANAGEMENT_URL"] = "https://storage-management-system";
     process.env = {
-      ...oldEnv,
+      ...process.env,
       PUBLIC_SECRET: "test",
     };
     dbServer = await MongoMemoryServer.create();
     await mongoose.connect(dbServer.getUri().concat("etd"));
   });
 
-  afterEach(async () => {
-    try {
-      await JobResultModel.collection.drop();
-    } catch (e) {
-      // console.log("Collection not exists");
-    }
-  });
+  afterEach(async () => {});
 
-  test("Submit a result", async () => {
+  test("Submit a result if device exist", async () => {
+    //@ts-ignore
+    StorageManagementSystemPlugin.mockImplementation(() => {
+      return {
+        findDeviceById: jest.fn(() => Promise.resolve({ a: "a" })),
+      };
+    });
+
     let data: any = {
       jobId: 123,
       deviceID: "1",

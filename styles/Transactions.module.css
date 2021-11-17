@@ -1,4 +1,4 @@
-.transactionTable{
+.transactionTable {
     height: calc(100vh - 88px);
     overflow-y: scroll;
 }

@@ -1,9 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { PostOnlyMiddleware } from "../../../../../utils/nextHandler/postOnlyHandler";
 import { DeviceRegistrationPlugin } from "../../../../../server/plugin/plugins/deviceRegistrationPlugin";
 import { JwtVerificationHandler } from "../../../../../utils/nextHandler/jwtVerificationHandler";
-import { IDevice } from "../../../../../server/schema/device";
-import moment from "moment";
 import Logger from "../../../../../server/logger";
 import { IPendingJob } from "../../../../../server/schema/pending-job";
 import { PendingJobPlugin } from "../../../../../server/plugin/plugins/pendingJobPlugin";
@@ -39,6 +36,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
     }
   } catch (err) {
     Logger.error(err);
+    // @ts-ignore
     returnData.error = err;
     res.status(500).json(returnData);
   }

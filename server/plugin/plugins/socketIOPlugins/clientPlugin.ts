@@ -1,16 +1,9 @@
-import { BaseSocketIOPlugin, SocketHandler } from "../../basePlugin";
-import { Server, Socket } from "socket.io";
-import Logger from "../../../logger";
-import { AppPlugin } from "./appPlugin";
-import {
-  BrowserClient,
-  ClientFilter,
-  PaginationResult,
-} from "../../../client/browserClient";
-import { RegisteredPlugins } from "./registeredPlugins";
-import { IDevice } from "../../../schema/device";
-import { PendingJobPlugin } from "../pendingJobPlugin";
-import mongoose from "mongoose";
+import {SocketHandler}                                  from "../../basePlugin";
+import {Server, Socket}                                 from "socket.io";
+import {AppPlugin}                                      from "./appPlugin";
+import {BrowserClient, ClientFilter, PaginationResult,} from "../../../client/browserClient";
+import {RegisteredPlugins}                              from "./registeredPlugins";
+import {IDevice}                                        from "../../../schema/device";
 
 /**
  * Web Browser socket io plugin
@@ -32,6 +25,7 @@ export class ClientPlugin extends AppPlugin {
       this.handlePageChange,
       this.handlePushUpdates,
       this.handleApplyFilter,
+      this.dockerCommandHandler,
     ];
   }
 
@@ -39,15 +33,6 @@ export class ClientPlugin extends AppPlugin {
     return process.env.NEXT_PUBLIC_CLIENT_PASSWORD === password;
     // return true;
   }
-
-  protected async onAuthenticated(socket: Socket) {
-    let client = new BrowserClient();
-    this.browserClients[socket.id] = client;
-    let data = await client.generatePaginationResult();
-    await this.sendDataToClient(client, socket.id, data);
-  }
-
-  protected onUnAuthenticated(socket: Socket): void {}
 
   async startSocketIOServer(server: Server): Promise<boolean | undefined> {
     this.server = server.of("/clients");
@@ -109,4 +94,13 @@ export class ClientPlugin extends AppPlugin {
   ) => {
     this.server?.to(socketID).emit("realtime-info", data);
   };
+
+  protected async onAuthenticated(socket: Socket) {
+    let client = new BrowserClient();
+    this.browserClients[socket.id] = client;
+    let data = await client.generatePaginationResult();
+    await this.sendDataToClient(client, socket.id, data);
+  }
+
+  protected onUnAuthenticated(socket: Socket): void {}
 }

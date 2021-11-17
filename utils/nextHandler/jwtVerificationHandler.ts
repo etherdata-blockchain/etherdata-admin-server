@@ -1,6 +1,5 @@
-import { NextApiHandler, NextApiRequest, NextApiResponse } from "next";
-import jwt from "jsonwebtoken";
-import Logger from "../../server/logger";
+import {NextApiHandler, NextApiRequest, NextApiResponse} from "next";
+import jwt                                               from "jsonwebtoken";
 
 /**
  * Post Only Middleware. Only accept post request.

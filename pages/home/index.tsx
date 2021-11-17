@@ -1,11 +1,10 @@
 // @flow
 import * as React from "react";
 import PageHeader from "../../components/PageHeader";
-import { Grid, Typography } from "@mui/material";
+import { Grid } from "@mui/material";
 import ResponsiveCard from "../../components/ResponsiveCard";
 import Spacer from "../../components/Spacer";
 import styles from "../../styles/Home.module.css";
-import MoreVertIcon from "@material-ui/icons/MoreVert";
 import { DurationSelectorBtn } from "../../components/home/DurationSelectorBtn";
 import { BlockTimeHistoryDisplay } from "../../components/home/blockTimeHistoryDisplay";
 import { BlockMinerDisplay } from "../../components/home/blockMinerDisplay";
@@ -17,7 +16,6 @@ import { LargeDataCard } from "../../components/cards/largeDataCard";
 import style from "../../styles/Device.module.css";
 
 import StorageIcon from "@material-ui/icons/Storage";
-import ComputerIcon from "@material-ui/icons/Computer";
 import AppsIcon from "@material-ui/icons/Apps";
 import HourglassEmptyIcon from "@material-ui/icons/HourglassEmpty";
 import FunctionsIcon from "@material-ui/icons/Functions";

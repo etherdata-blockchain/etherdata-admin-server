@@ -9,6 +9,11 @@ import { IDevice } from "../../server/schema/device";
 import { ObjectId } from "bson";
 import { VersionInfo } from "../../server/plugin/plugins/deviceRegistrationPlugin";
 
+interface DockerValue {
+  method: "logs" | "start" | "stop" | "remove" | "restart" | "exec";
+  value: any;
+}
+
 interface DeviceInterface {
   loadingData: boolean;
   devices: IDevice[];
@@ -21,12 +26,21 @@ interface DeviceInterface {
   adminVersions: VersionInfo[];
   nodeVersions: VersionInfo[];
   currentFilter?: ClientFilter;
+
   setFilterKeyword(v: string): void;
+
+  sendDockerCommand(v: DockerValue): Promise<any>;
+
   joinDetail(deviceId: string): void;
+
   leaveDetail(deviceId: string): void;
+
   sendCommand(methodName: string, params: any[]): Promise<any>;
+
   handlePageChange(pageNumber: number): Promise<any>;
+
   applyFilter(filter: ClientFilter): void;
+
   clearFilter(): void;
 }
 
@@ -133,6 +147,28 @@ export default function DeviceProvider(props: any) {
     [socket]
   );
 
+  const sendDockerCommand = React.useCallback(
+    (value: DockerValue) => {
+      return new Promise((resolve, reject) => {
+        console.log("Getting logs");
+        const uuid = new ObjectId().toString();
+        socket?.emit("docker-command", value, uuid);
+        socket?.once(`docker-result-${uuid}`, (value) => {
+          resolve(value);
+          socket?.off(`docker-result-${uuid}`);
+          socket?.off(`docker-error-${uuid}`);
+        });
+
+        socket?.once(`docker-error-${uuid}`, (value) => {
+          reject(value);
+          socket?.off(`docker-result-${uuid}`);
+          socket?.off(`docker-error-${uuid}`);
+        });
+      });
+    },
+    [socket]
+  );
+
   const value: DeviceInterface = {
     devices,
     filterKeyword,
@@ -152,6 +188,7 @@ export default function DeviceProvider(props: any) {
     currentFilter,
     applyFilter,
     clearFilter,
+    sendDockerCommand,
   };
 
   return (

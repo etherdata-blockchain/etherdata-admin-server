@@ -1,13 +1,6 @@
 // @flow
 import * as React from "react";
-import {
-  Avatar,
-  Card,
-  CardContent,
-  Grid,
-  Stack,
-  Typography,
-} from "@mui/material";
+import { Avatar, Card, Grid, Stack, Typography } from "@mui/material";
 
 type Props = {
   className?: string;

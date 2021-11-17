@@ -2,20 +2,13 @@
  * App plugin for app use
  */
 
-import {
-  BaseSocketAuthIOPlugin,
-  BaseSocketIOPlugin,
-  SocketHandler,
-} from "../../basePlugin";
+import { BaseSocketAuthIOPlugin, SocketHandler } from "../../basePlugin";
 import { Server, Socket } from "socket.io";
 import jwt from "jsonwebtoken";
-import { NodePlugin } from "./nodePlugin";
 import Logger from "../../../logger";
-import { JobResultModel } from "../../../schema/job-result";
 import { RegisteredPlugins } from "./registeredPlugins";
 import { DeviceRegistrationPlugin } from "../deviceRegistrationPlugin";
 import { PendingJobPlugin } from "../pendingJobPlugin";
-import { IPendingJob } from "../../../schema/pending-job";
 import mongoose from "mongoose";
 
 interface RPCCommand {
@@ -38,6 +31,7 @@ export class AppPlugin extends BaseSocketAuthIOPlugin {
       this.leaveRoomHandler,
       this.rpcCommandHandler,
       this.disconnectHandler,
+      this.dockerCommandHandler,
     ];
   }
 
@@ -53,13 +47,6 @@ export class AppPlugin extends BaseSocketAuthIOPlugin {
       return true;
     }
   }
-
-  protected onAuthenticated(socket: Socket, password: string): void {
-    let data = jwt.decode(password, { json: true });
-    this.user[socket.id] = data!.user;
-  }
-
-  protected onUnAuthenticated(socket: Socket): void {}
 
   async startSocketIOServer(server: Server): Promise<boolean | undefined> {
     this.server = server.of("/apps");
@@ -103,15 +90,6 @@ export class AppPlugin extends BaseSocketAuthIOPlugin {
     });
   };
 
-  private canSubmitJob(socket: Socket): string | undefined {
-    let rooms = Array.from(socket.rooms);
-    if (rooms.length < 2) {
-      return undefined;
-    } else {
-      return rooms[1];
-    }
-  }
-
   /**
    * Send rpc command based on joined room.
    * @param socket
@@ -124,6 +102,7 @@ export class AppPlugin extends BaseSocketAuthIOPlugin {
         let selectedRoom = this.canSubmitJob(socket);
         if (selectedRoom) {
           let job = {
+            id: uuid,
             targetDeviceId: selectedRoom,
             from: socket.id,
             time: new Date(),
@@ -147,6 +126,42 @@ export class AppPlugin extends BaseSocketAuthIOPlugin {
         }
       }
     );
+  };
+
+  /**
+   * Send docker command based on joined room.
+   * @param socket
+   */
+  dockerCommandHandler: SocketHandler = (socket) => {
+    socket.on("docker-command", async (value: any, uuid: string) => {
+      console.log("Getting docker command", value, uuid);
+      const pendingJobPlugin = new PendingJobPlugin();
+      let selectedRoom = this.canSubmitJob(socket);
+      if (selectedRoom) {
+        let job = {
+          id: uuid,
+          targetDeviceId: selectedRoom,
+          from: socket.id,
+          time: new Date(),
+          task: {
+            type: "docker",
+            value: value,
+          },
+        };
+        /// Add id if user defined
+        if (uuid) {
+          //@ts-ignore
+          job._id = mongoose.mongo.ObjectId(uuid);
+        }
+        //@ts-ignore
+        await pendingJobPlugin.create(job, {});
+      } else {
+        Logger.error("Cannot run docker-command, not in any room!");
+        socket.emit("docker-error", {
+          err: "Cannot join the room. Not in any room!",
+        });
+      }
+    });
   };
 
   handlePushUpdates: SocketHandler = (socket) => {
@@ -173,12 +188,28 @@ export class AppPlugin extends BaseSocketAuthIOPlugin {
           //@ts-ignore
           await pendingJobPlugin.create(job, {});
         } else {
-          Logger.error("Cannot run rpc-command, not in any room!");
-          socket.emit("rpc-command-error", {
+          Logger.error("Cannot run update-command, not in any room!");
+          socket.emit("update-command-error", {
             err: "Cannot join the room. Not in any room!",
           });
         }
       }
     );
   };
+
+  protected onAuthenticated(socket: Socket, password: string): void {
+    let data = jwt.decode(password, { json: true });
+    this.user[socket.id] = data!.user;
+  }
+
+  protected onUnAuthenticated(socket: Socket): void {}
+
+  private canSubmitJob(socket: Socket): string | undefined {
+    let rooms = Array.from(socket.rooms);
+    if (rooms.length < 2) {
+      return undefined;
+    } else {
+      return rooms[1];
+    }
+  }
 }

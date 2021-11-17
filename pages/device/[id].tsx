@@ -5,30 +5,21 @@ import Spacer from "../../components/Spacer";
 import ResponsiveCard from "../../components/ResponsiveCard";
 import {
   Button,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
-  Divider,
   Grid,
-  IconButton,
   List,
   ListItem,
   ListItemAvatar,
-  ListItemSecondaryAction,
+  ListItemButton,
   ListItemText,
   ListSubheader,
-  Stack,
   Typography,
 } from "@mui/material";
 import ComputerIcon from "@material-ui/icons/Computer";
 import style from "../../styles/Device.module.css";
 import { LargeDataCard } from "../../components/cards/largeDataCard";
-import { DurationSelectorBtn } from "../../components/home/DurationSelectorBtn";
 import { GridDataCard } from "../../components/cards/gridDataCard";
-import { PanelSelector } from "../../components/device/panelSelector";
 import { useRouter } from "next/dist/client/router";
-import DeviceProvider, { DeviceContext, socket } from "../model/DeviceProvider";
+import { DeviceContext, socket } from "../model/DeviceProvider";
 import { abbreviateNumber } from "../../utils/valueFormatter";
 import { UIProviderContext } from "../model/UIProvider";
 import { GetServerSideProps } from "next";
@@ -36,15 +27,12 @@ import { DeviceRegistrationPlugin } from "../../server/plugin/plugins/deviceRegi
 import { IDevice } from "../../server/schema/device";
 import { objectExpand } from "../../utils/objectExpander";
 import Logger from "../../server/logger";
-import { NodePlugin } from "../../server/plugin/plugins/socketIOPlugins/nodePlugin";
 import moment from "moment";
 import { CONFIG } from "../../server/config/config";
-import { ListItemButton } from "@mui/material";
 import AllInboxIcon from "@mui/icons-material/AllInbox";
 import AlbumIcon from "@mui/icons-material/Album";
-import ContainerTreeView from "../../components/device/containerTreeView";
-import { set } from "mongoose";
-import ImageTreeView from "../../components/device/imageTreeView";
+import { ContainerDialog } from "../../components/device/dialog/containerDialog";
+import { ImageDialog } from "../../components/device/dialog/imageDialog";
 
 type Props = {
   device: IDevice | null;
@@ -219,37 +207,21 @@ export default function DeviceDetail({ device, found }: Props) {
         </Grid>
       </Grid>
 
-      <Dialog
-        open={showContainerDetails}
-        onClose={() => setShowContainerDetails(false)}
-        fullWidth
-      >
-        <DialogTitle>Docker containers</DialogTitle>
-        <DialogContent>
-          {foundDevice?.docker?.containers && (
-            <ContainerTreeView containers={foundDevice.docker.containers} />
-          )}
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={() => setShowContainerDetails(false)}>ok</Button>
-        </DialogActions>
-      </Dialog>
+      {foundDevice?.docker?.containers && (
+        <ContainerDialog
+          show={showContainerDetails}
+          onClose={() => setShowContainerDetails(false)}
+          containers={foundDevice?.docker?.containers}
+        />
+      )}
 
-      <Dialog
-        open={showImageDetails}
-        onClose={() => setShowImageDetails(false)}
-        fullWidth
-      >
-        <DialogTitle>Docker Images</DialogTitle>
-        <DialogContent>
-          {foundDevice?.docker?.images && (
-            <ImageTreeView images={foundDevice.docker.images} />
-          )}
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={() => setShowImageDetails(false)}>ok</Button>
-        </DialogActions>
-      </Dialog>
+      {foundDevice?.docker?.images && (
+        <ImageDialog
+          images={foundDevice.docker.images}
+          show={showImageDetails}
+          onClose={() => setShowImageDetails(false)}
+        />
+      )}
     </div>
   );
 }

@@ -2,14 +2,10 @@ import * as React from "react";
 import { styled } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import TreeView from "@mui/lab/TreeView";
-import TreeItem, { TreeItemProps, treeItemClasses } from "@mui/lab/TreeItem";
+import TreeItem, { treeItemClasses, TreeItemProps } from "@mui/lab/TreeItem";
 import Typography from "@mui/material/Typography";
 import ArchiveIcon from "@mui/icons-material/Archive";
-import Label from "@mui/icons-material/Label";
-import SupervisorAccountIcon from "@mui/icons-material/SupervisorAccount";
 import InfoIcon from "@mui/icons-material/Info";
-import ForumIcon from "@mui/icons-material/Forum";
-import LocalOfferIcon from "@mui/icons-material/LocalOffer";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import AccessTimeFilledIcon from "@mui/icons-material/AccessTimeFilled";
 import ArrowRightIcon from "@mui/icons-material/ArrowRight";
@@ -18,6 +14,9 @@ import AlbumIcon from "@mui/icons-material/Album";
 import { SvgIconProps } from "@mui/material/SvgIcon";
 import { ContainerInfo } from "dockerode";
 import moment from "moment";
+import { DeviceContext } from "../../../pages/model/DeviceProvider";
+import { UIProviderContext } from "../../../pages/model/UIProvider";
+import { CircularProgress } from "@mui/material";
 
 declare module "react" {
   interface CSSProperties {
@@ -105,6 +104,26 @@ export default function ContainerTreeView({
 }: {
   containers: ContainerInfo[];
 }) {
+  const { sendDockerCommand } = React.useContext(DeviceContext);
+  const [result, setResult] = React.useState<string>();
+  const [isLoading, setIsLoading] = React.useState(false);
+  const { showSnackBarMessage } = React.useContext(UIProviderContext);
+
+  const getLog = async (container: string) => {
+    setIsLoading(true);
+    try {
+      const result: string = await sendDockerCommand({
+        method: "logs",
+        value: container,
+      });
+      setResult(result);
+    } catch (e) {
+      showSnackBarMessage(`${e}`);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
     <TreeView
       aria-label="containers"
@@ -113,6 +132,11 @@ export default function ContainerTreeView({
       defaultExpandIcon={<ArrowRightIcon />}
       defaultEndIcon={<div style={{ width: 24 }} />}
       sx={{ flexGrow: 1, overflowY: "auto" }}
+      onNodeToggle={async (e, v) => {
+        if (v[0].includes("log-")) {
+          await getLog(v[0].replace("log-", ""));
+        }
+      }}
     >
       {containers.map((container, index) => (
         <StyledTreeItem
@@ -130,7 +154,7 @@ export default function ContainerTreeView({
             bgColor="#e8f0fe"
           />
           <StyledTreeItem
-            nodeId="6"
+            nodeId={`${container.Id}-6`}
             labelText={"Created time"}
             labelIcon={BuildIcon}
             labelInfo={moment(container.Created * 1000).format(
@@ -140,7 +164,7 @@ export default function ContainerTreeView({
             bgColor="#fcefe3"
           />
           <StyledTreeItem
-            nodeId="7"
+            nodeId={`${container.Id}-7`}
             labelText="Status"
             labelIcon={AccessTimeFilledIcon}
             labelInfo={container.Status}
@@ -148,13 +172,28 @@ export default function ContainerTreeView({
             bgColor="#f3e8fd"
           />
           <StyledTreeItem
-            nodeId="8"
+            nodeId={`${container.Id}-8`}
             labelText="State"
             labelIcon={InfoIcon}
             labelInfo={container.State}
             color="#3c8039"
             bgColor="#e6f4ea"
           />
+
+          <StyledTreeItem
+            nodeId={`log-${container.Id}`}
+            labelIcon={InfoIcon}
+            labelText={"Logs"}
+          >
+            <Box pl={10} color={"black"} pt={1}>
+              {isLoading && <CircularProgress size={20} />}
+              {result &&
+                !isLoading &&
+                result
+                  .split("\n")
+                  .map((r, i) => <Typography key={`r-${i}`}>{r}</Typography>)}
+            </Box>
+          </StyledTreeItem>
         </StyledTreeItem>
       ))}
     </TreeView>

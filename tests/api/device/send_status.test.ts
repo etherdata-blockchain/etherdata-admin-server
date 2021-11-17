@@ -1,4 +1,5 @@
-import { MongoClient } from "mongodb";
+global.TextEncoder = require("util").TextEncoder;
+global.TextDecoder = require("util").TextDecoder;
 import mongoose from "mongoose";
 import { DeviceModel } from "../../../server/schema/device";
 import { MongoMemoryServer } from "mongodb-memory-server";
@@ -7,18 +8,18 @@ import jwt from "jsonwebtoken";
 import handler from "../../../pages/api/v1/device/status/send-status";
 import { mockDeviceData } from "./mockDeviceData";
 import axios from "axios";
+import { StorageManagementSystemPlugin } from "../../../server/plugin/plugins/storageManagementSystemPlugin";
 
 jest.mock("axios");
+jest.mock("../../../server/plugin/plugins/storageManagementSystemPlugin");
 
 describe("Test send device status", () => {
   let dbServer: MongoMemoryServer;
-  let connection: MongoClient;
   let oldEnv = process.env;
 
   beforeAll(async () => {
     //@ts-ignore
     axios.get.mockResolvedValue({});
-    process.env["STORAGE_MANAGEMENT_URL"] = "https://storage-management-system";
     process.env = {
       ...oldEnv,
       PUBLIC_SECRET: "test",
@@ -36,6 +37,13 @@ describe("Test send device status", () => {
   });
 
   test("Add new device and update", async () => {
+    //@ts-ignore
+    StorageManagementSystemPlugin.mockImplementation(() => {
+      return {
+        findDeviceById: jest.fn(() => Promise.resolve({ a: "a" })),
+      };
+    });
+
     let token = jwt.sign({ user: "test-device" }, "test");
     const { req, res } = createMocks({
       method: "POST",
@@ -51,6 +59,13 @@ describe("Test send device status", () => {
   });
 
   test("Add new device without correct token", async () => {
+    //@ts-ignore
+    StorageManagementSystemPlugin.mockImplementation(() => {
+      return {
+        findDeviceById: jest.fn(() => Promise.resolve({ a: "a" })),
+      };
+    });
+
     let token = jwt.sign({ user: "test-device" }, "test1");
     const { req, res } = createMocks({
       method: "POST",

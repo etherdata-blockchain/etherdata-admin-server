@@ -2,11 +2,8 @@ import React from "react";
 // import { ClientInterface } from "../../server";
 import io, { Socket } from "socket.io-client";
 import { ETDHistoryInterface } from "../../server";
-import moment from "moment";
-import * as Realm from "realm-web";
 import { realmApp } from "../_app";
 import { TransactionSummary } from "../../server/interfaces/transaction";
-import { set } from "mongoose";
 import { UIProviderContext } from "./UIProvider";
 
 interface ETDInterface {
@@ -15,6 +12,7 @@ interface ETDInterface {
   isLoadingDetail: boolean;
   detail: any | undefined;
   transactions: TransactionSummary[];
+
   fetchDetail(id: string): void;
 }
 

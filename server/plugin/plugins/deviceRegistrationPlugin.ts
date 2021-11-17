@@ -1,13 +1,13 @@
 import { DatabasePlugin } from "../basePlugin";
-import { DeviceModel, deviceSchema, IDevice } from "../../schema/device";
+import { DeviceModel, IDevice } from "../../schema/device";
 import { PluginName } from "../pluginName";
-import mongoose, { Model, Query } from "mongoose";
+import { Model, Query } from "mongoose";
 import axios, { AxiosError } from "axios";
 import moment from "moment";
 import jwt from "jsonwebtoken";
 import { ClientFilter } from "../../client/browserClient";
-import { MongoClient } from "mongodb";
 import Logger from "../../logger";
+import { StorageManagementSystemPlugin } from "./storageManagementSystemPlugin";
 
 export interface VersionInfo {
   version: string;
@@ -17,11 +17,6 @@ export interface VersionInfo {
 export class DeviceRegistrationPlugin extends DatabasePlugin<IDevice> {
   pluginName: PluginName = "deviceRegistration";
   protected model: Model<IDevice> = DeviceModel;
-
-  protected performGet(id: string): Query<IDevice, IDevice> {
-    //@ts-ignore
-    return this.model.findOne({ id: id });
-  }
 
   async listWithFilter(
     pageNumber: number,
@@ -95,30 +90,6 @@ export class DeviceRegistrationPlugin extends DatabasePlugin<IDevice> {
   }
 
   /**
-   * Authentication from db
-   * @param device
-   * @private
-   */
-  private async authFromDB(
-    device: string
-  ): Promise<[boolean, string | undefined]> {
-    //@ts-ignore
-    const client: MongoClient = global.MONGO_CLIENT;
-    const db = client.db("storage-management-system");
-    const coll = db.collection("storage_management_item");
-    const found = await coll.findOne({ qr_code: device });
-    if (found) {
-      // Generate a key for next task
-      const newKey = jwt.sign({ device }, process.env.PUBLIC_SECRET!, {
-        expiresIn: 600,
-      });
-      return [true, newKey];
-    } else {
-      return [false, undefined];
-    }
-  }
-
-  /**
    * Register device with users
    * @param device
    * @param user
@@ -143,6 +114,7 @@ export class DeviceRegistrationPlugin extends DatabasePlugin<IDevice> {
       );
       return [true, undefined];
     } catch (e) {
+      console.log(e);
       return [false, (e as AxiosError).response?.data.err];
     }
   }
@@ -270,5 +242,32 @@ export class DeviceRegistrationPlugin extends DatabasePlugin<IDevice> {
     const totalPageNumber = Math.ceil(totalCount / pageSize);
 
     return [devicesResults, totalCount, totalPageNumber];
+  }
+
+  protected performGet(id: string): Query<IDevice, IDevice> {
+    //@ts-ignore
+    return this.model.findOne({ id: id });
+  }
+
+  /**
+   * Authentication from db
+   * @param device
+   * @private
+   */
+  private async authFromDB(
+    device: string
+  ): Promise<[boolean, string | undefined]> {
+    const storageManagementPlugin = new StorageManagementSystemPlugin();
+    const foundDevice = await storageManagementPlugin.findDeviceById(device);
+
+    if (foundDevice) {
+      // Generate a key for next task
+      const newKey = jwt.sign({ device }, process.env.PUBLIC_SECRET!, {
+        expiresIn: 600,
+      });
+      return [true, newKey];
+    } else {
+      return [false, undefined];
+    }
   }
 }

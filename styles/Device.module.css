@@ -1,16 +1,16 @@
-.dataCard{
-  height: 150px;
+.dataCard {
+    height: 150px;
 }
 
-.deviceTable{
-  overflow-y: scroll;
+.deviceTable {
+    overflow-y: scroll;
 }
 
-.detailDataCard{
-  height: 190px;
-  overflow-y: scroll;
+.detailDataCard {
+    height: 190px;
+    overflow-y: scroll;
 }
 
-.white{
-  color: white;
+.white {
+    color: white;
 }

@@ -1,18 +1,12 @@
-import type { AppProps } from "next/app";
-import Layout from "../components/layout";
-import { createTheme, CssBaseline, ThemeProvider } from "@mui/material";
+import type {AppProps}                                  from "next/app";
+import Layout                                           from "../components/layout";
+import {createTheme, CssBaseline, ThemeProvider}        from "@mui/material";
 import "../styles/globals.css";
-import UIProviderProvider from "./model/UIProvider";
-import React from "react";
-import * as Realm from "realm-web";
-import {
-  DevicesOther,
-  Home,
-  Person,
-  PieChart,
-  Receipt,
-} from "@mui/icons-material";
-import NextNprogress from "nextjs-progressbar";
+import UIProviderProvider                               from "./model/UIProvider";
+import React                                            from "react";
+import * as Realm                                       from "realm-web";
+import {DevicesOther, Home, Person, PieChart, Receipt,} from "@mui/icons-material";
+import NextNprogress                                    from "nextjs-progressbar";
 
 // Setup realm for login
 export const realmApp = new Realm.App({ id: process.env.NEXT_PUBLIC_APP_ID! });
@@ -124,4 +118,5 @@ function MyApp(props: AppProps) {
     </div>
   );
 }
+
 export default MyApp;

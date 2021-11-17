@@ -3,9 +3,7 @@
  *
  * This file contains the device schema for mongodb device collection
  */
-import { Schema, model, connect, Document, Model } from "mongoose";
-import { Web3DataInfo } from "../client/node_data";
-import mongoose from "mongoose";
+import mongoose, { Document, model, Model, Schema } from "mongoose";
 
 export interface IJobResult extends Document {
   jobId: string;
@@ -18,16 +16,18 @@ export interface IJobResult extends Document {
   command: any;
   result: any;
   success: boolean;
+  commandType: string;
 }
 
 export const jobResultSchema = new Schema<IJobResult>({
-  jobId: {type: String,  required: true},
+  jobId: { type: String, required: true },
   time: { type: Date, required: true },
   deviceID: { type: String, required: true },
   from: { type: String, required: true },
   command: { type: Schema.Types.Mixed, required: true },
   result: { type: Schema.Types.Mixed, required: true },
   success: { type: Boolean, required: true },
+  commandType: { type: String, required: false },
 });
 
 /**
