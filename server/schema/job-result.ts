@@ -16,6 +16,7 @@ export interface IJobResult extends Document {
   command: any;
   result: any;
   success: boolean;
+  commandType: string;
 }
 
 export const jobResultSchema = new Schema<IJobResult>({
