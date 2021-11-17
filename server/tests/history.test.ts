@@ -1,3 +1,6 @@
+global.TextEncoder = require("util").TextEncoder;
+global.TextDecoder = require("util").TextDecoder;
+
 import { ETDHistory } from "../../server/";
 import moment from "moment";
 
