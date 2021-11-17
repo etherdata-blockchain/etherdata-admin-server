@@ -1,3 +1,5 @@
+global.TextEncoder = require("util").TextEncoder;
+global.TextDecoder = require("util").TextDecoder;
 import mongoose from "mongoose";
 import { MongoMemoryServer } from "mongodb-memory-server";
 import { JobResultModel } from "../schema/job-result";
