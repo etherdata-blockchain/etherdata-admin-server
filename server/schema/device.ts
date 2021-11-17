@@ -3,10 +3,9 @@
  *
  * This file contains the device schema for mongodb device collection
  */
-import { Schema, model, connect, Document } from "mongoose";
+import mongoose, { Document, model, Schema } from "mongoose";
 import { Web3DataInfo } from "../client/node_data";
-import mongoose from "mongoose";
-import { ImageInfo, ContainerInfo } from "dockerode";
+import { ContainerInfo, ImageInfo } from "dockerode";
 
 interface Docker {
   images: ImageInfo[];

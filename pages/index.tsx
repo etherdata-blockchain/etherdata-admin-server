@@ -2,7 +2,6 @@ import {
   Button,
   Grid,
   LinearProgress,
-  Paper,
   Stack,
   TextField,
   Typography,

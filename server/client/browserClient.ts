@@ -1,4 +1,3 @@
-import { Web3DataInfo } from "./node_data";
 import {
   DeviceRegistrationPlugin,
   VersionInfo,

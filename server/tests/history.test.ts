@@ -1,5 +1,8 @@
+global.TextEncoder = require("util").TextEncoder;
+global.TextDecoder = require("util").TextDecoder;
+
 import { ETDHistory } from "../../server/";
-import moment, { Moment } from "moment";
+import moment from "moment";
 
 const now = moment("2020-03-01", "YYYY-MM-DD");
 const oneDay = moment("2020-03-02", "YYYY-MM-DD");

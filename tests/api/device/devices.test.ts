@@ -1,10 +1,5 @@
 import { MongoClient } from "mongodb";
-import mongoose from "mongoose";
-import { DeviceModel } from "../../../server/schema/device";
 import { MongoMemoryServer } from "mongodb-memory-server";
-import { createMocks } from "node-mocks-http";
-import jwt from "jsonwebtoken";
-import handler from "../../../pages/api/v1/device/devices";
 
 describe("Test find devices by user", () => {
   let dbServer: MongoMemoryServer;

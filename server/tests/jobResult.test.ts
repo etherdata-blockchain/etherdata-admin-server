@@ -1,15 +1,15 @@
-import { DeviceRegistrationPlugin } from "../plugin/plugins/deviceRegistrationPlugin";
-import { MongoClient } from "mongodb";
+global.TextEncoder = require("util").TextEncoder;
+global.TextDecoder = require("util").TextDecoder;
 import mongoose from "mongoose";
 import { MongoMemoryServer } from "mongodb-memory-server";
-import { PendingJobModel } from "../schema/pending-job";
-import { PendingJobPlugin } from "../plugin/plugins/pendingJobPlugin";
 import { JobResultModel } from "../schema/job-result";
 import { JobResultPlugin } from "../plugin/plugins/jobResultPlugin";
+import { StorageManagementSystemPlugin } from "../plugin/plugins/storageManagementSystemPlugin";
+
+jest.mock("../plugin/plugins/storageManagementSystemPlugin");
 
 describe("Job Result Test", () => {
   let dbServer: MongoMemoryServer;
-  let connection: MongoClient;
 
   beforeAll(async () => {
     dbServer = await MongoMemoryServer.create();
@@ -21,6 +21,12 @@ describe("Job Result Test", () => {
   });
 
   test("Get a result", async () => {
+    //@ts-ignore
+    StorageManagementSystemPlugin.mockImplementation(() => {
+      return {
+        findDeviceById: jest.fn(() => Promise.resolve({ a: "a" })),
+      };
+    });
     await new JobResultModel({
       jobId: 1,
       deviceID: "1",
@@ -32,6 +38,7 @@ describe("Job Result Test", () => {
       },
       result: "0",
       success: true,
+      commandType: "",
     }).save();
 
     let plugin = new JobResultPlugin();
@@ -61,6 +68,7 @@ describe("Job Result Test", () => {
       },
       result: "0",
       success: true,
+      commandType: "",
     }).save();
 
     await new JobResultModel({

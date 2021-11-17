@@ -1,9 +1,12 @@
-# ETDStats Server
+# ETD Admin Server
 
-[![Build Next App](https://github.com/crypyto-panel/etdstats-server/actions/workflows/build-next.yml/badge.svg)](https://github.com/crypyto-panel/etdstats-server/actions/workflows/build-next.yml) [![Test](https://github.com/crypyto-panel/etdstats-server/actions/workflows/test-next.yml/badge.svg)](https://github.com/crypyto-panel/etdstats-server/actions/workflows/test-next.yml)
+[![codecov](https://codecov.io/gh/etherdata-blockchain/etherdata-admin-server/branch/main/graph/badge.svg?token=IYHCKFRR0Y)](https://codecov.io/gh/etherdata-blockchain/etherdata-admin-server)
+
+[![CodeFactor](https://www.codefactor.io/repository/github/etherdata-blockchain/etherdata-admin-server/badge)](https://www.codefactor.io/repository/github/etherdata-blockchain/etherdata-admin-server)
+
+
 
 This is the ETDStats Server
-
 
 ## Run
 

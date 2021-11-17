@@ -1,14 +1,6 @@
 // @flow
 import * as React from "react";
-import {
-  Avatar,
-  Button,
-  Card,
-  CardContent,
-  Stack,
-  Typography,
-} from "@mui/material";
-import Spacer from "../Spacer";
+import { Avatar, Card, CardContent, Stack, Typography } from "@mui/material";
 
 type Props = {
   icon: JSX.Element;

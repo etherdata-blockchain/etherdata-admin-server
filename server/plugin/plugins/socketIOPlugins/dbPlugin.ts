@@ -2,15 +2,14 @@
  * App plugin for app use
  */
 
-import { BaseSocketIOPlugin, SocketHandler } from "../../basePlugin";
-import { RegisteredPlugins } from "./registeredPlugins";
-import { JobResultModel } from "../../../schema/job-result";
-import { DeviceModel } from "../../../schema/device";
-import { DeviceRegistrationPlugin } from "../deviceRegistrationPlugin";
-import { ClientPlugin } from "./clientPlugin";
-import { PendingJobModel } from "../../../schema/pending-job";
-import { PendingJobPlugin } from "../pendingJobPlugin";
-import { JobResultPlugin } from "../jobResultPlugin";
+import {BaseSocketIOPlugin}       from "../../basePlugin";
+import {RegisteredPlugins}        from "./registeredPlugins";
+import {JobResultModel}           from "../../../schema/job-result";
+import {DeviceModel}              from "../../../schema/device";
+import {DeviceRegistrationPlugin} from "../deviceRegistrationPlugin";
+import {ClientPlugin}             from "./clientPlugin";
+import {PendingJobPlugin}         from "../pendingJobPlugin";
+import {JobResultPlugin}          from "../jobResultPlugin";
 
 /**
  * Watch for database changes
@@ -30,7 +29,7 @@ export class DBChangePlugin extends BaseSocketIOPlugin {
       {
         interval: 120,
         job: this.periodicRemoveJobsAndResponses.bind(this),
-        name: "periodic_job_removal",
+        name: "periodic_device_data",
       },
     ];
   }
@@ -44,15 +43,35 @@ export class DBChangePlugin extends BaseSocketIOPlugin {
           case "insert":
             let result = data.fullDocument!;
             if (result.success) {
-              clientPlugin?.server
-                ?.in(result.from)
-                .emit(`rpc-result-${result.jobId}`, result.result);
+              switch (result.commandType) {
+                case "docker":
+                  clientPlugin?.server
+                    ?.in(result.from)
+                    .emit(`docker-result-${result.jobId}`, result.result);
+                  break;
+
+                case "web3":
+                  clientPlugin?.server
+                    ?.in(result.from)
+                    .emit(`rpc-result-${result.jobId}`, result.result);
+                  break;
+              }
             } else {
-              clientPlugin?.server
-                ?.in(result.from)
-                .emit(`rpc-error-${result.jobId}`, result.result);
+              switch (result.commandType) {
+                case "docker":
+                  clientPlugin?.server
+                    ?.in(result.from)
+                    .emit(`docker-error-${result.jobId}`, result.result);
+                  break;
+                case "web3":
+                  clientPlugin?.server
+                    ?.in(result.from)
+                    .emit(`docker-error-${result.jobId}`, result.result);
+                  break;
+              }
             }
-            await JobResultModel.deleteOne({ _id: result._id });
+            console.log(result);
+            // await JobResultModel.deleteOne({ _id: result._id });
 
             break;
         }

@@ -39,3 +39,6 @@ app.json
 .idea
 .idea/workspace.xml
 yarn.lock
+yarn.lock
+globalConfig.json
+.idea

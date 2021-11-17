@@ -1,21 +1,12 @@
 // @flow
 import * as React from "react";
-import {
-  Button,
-  ListItemText,
-  Menu,
-  MenuItem,
-  Stack,
-  TextField,
-  Typography,
-} from "@mui/material";
+import { Button, ListItemText, Menu, MenuItem, TextField } from "@mui/material";
 import { DeviceContext } from "../../pages/model/DeviceProvider";
 import { useRouter } from "next/dist/client/router";
 import {
-  usePopupState,
-  bindTrigger,
   bindMenu,
-  bindHover,
+  bindTrigger,
+  usePopupState,
 } from "material-ui-popup-state/hooks";
 
 import ArrowRightIcon from "@material-ui/icons/ArrowRight";

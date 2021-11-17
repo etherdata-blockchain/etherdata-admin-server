@@ -1,12 +1,6 @@
 // @flow
 import * as React from "react";
-import {
-  List,
-  ListItem,
-  ListItemButton,
-  ListItemText,
-  Typography,
-} from "@mui/material";
+import { List, ListItemButton, ListItemText, Typography } from "@mui/material";
 
 type Props = {};
 

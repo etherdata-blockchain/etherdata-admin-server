@@ -1,8 +1,10 @@
+global.TextEncoder = require("util").TextEncoder;
+global.TextDecoder = require("util").TextDecoder;
+
 import { MongoClient } from "mongodb";
 import { MongoMemoryServer } from "mongodb-memory-server";
 import mongoose from "mongoose";
 import { DeviceModel } from "../schema/device";
-import { DatabasePlugin } from "../plugin/basePlugin";
 import { DeviceRegistrationPlugin } from "../plugin/plugins/deviceRegistrationPlugin";
 
 describe("DB Plugin Tests", () => {

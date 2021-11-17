@@ -9,4 +9,6 @@ module.exports = {
     "\\.(scss|sass|css)$": "identity-obj-proxy",
   },
   preset: "@shelf/jest-mongodb",
+  transform: { "\\.ts$": ["ts-jest"] },
+  testTimeout: 20000,
 };
