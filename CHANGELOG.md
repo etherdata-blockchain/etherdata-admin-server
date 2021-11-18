@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.6.6](https://github.com/etherdata-blockchain/etherdata-admin-server/compare/v1.6.5...v1.6.6) (2021-11-18)
+
+
+### Bug Fixes
+
+* Add v in k8s tag ([d913135](https://github.com/etherdata-blockchain/etherdata-admin-server/commit/d913135b02e360e4c88137502df635289bdf2b17))
+
 ### [1.6.5](https://github.com/etherdata-blockchain/etherdata-admin-server/compare/v1.6.4...v1.6.5) (2021-11-18)
 
 
