@@ -2,11 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.6.5](https://github.com/etherdata-blockchain/etherdata-admin-server/compare/v1.6.4...v1.6.5) (2021-11-18)
+
 
 ### Bug Fixes
 
 * Update error ([#14](https://github.com/etherdata-blockchain/etherdata-admin-server/issues/14)) ([250db94](https://github.com/etherdata-blockchain/etherdata-admin-server/commit/250db944fff18cd5ad02466f1b78e4cb9fb551b7))
 * Update next js version and add new field in device ([bcb75c9](https://github.com/etherdata-blockchain/etherdata-admin-server/commit/bcb75c978f29a036e66f1d2d29b1115f6a099db0))
+* Won't update package json version ([953bc5f](https://github.com/etherdata-blockchain/etherdata-admin-server/commit/953bc5f780a73ac77c8f3c6984cc104e5a65cd0d))
 
 ### [1.6.4](https://github.com/etherdata-blockchain/etherdata-admin-server/compare/v1.6.3...v1.6.4) (2021-10-24)
 
