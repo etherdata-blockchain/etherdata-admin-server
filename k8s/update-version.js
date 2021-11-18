@@ -4,7 +4,6 @@ module.exports.readVersion = function (contents) {
   const yamlFileContent = YAML.parse(contents);
   const image = yamlFileContent.spec.template.spec.containers[0].image;
   const version = image.split(":")[1];
-  console.log(version);
   return version;
 };
 
