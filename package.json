@@ -1,6 +1,6 @@
 {
   "name": "etd-admin-ui",
-  "version": "1.6.6",
+  "version": "1.6.8",
   "private": true,
   "scripts": {
     "build:server": "tsc --project tsconfig.server.json",
@@ -75,8 +75,11 @@
     "yaml": "^1.10.2"
   },
   "standard-version": {
-    "scripts": {
-      "precommit": "node k8s/update-version.js"
-    }
+    "packageFiles": [
+      {
+        "filename": "k8s/deployment.yml",
+        "updater": "k8s/update-version.js"
+      }
+    ]
   }
 }
