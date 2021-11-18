@@ -79,12 +79,18 @@
       {
         "filename": "k8s/deployment.yml",
         "updater": "k8s/update-version.js"
+      },
+      {
+        "filename": "package.json"
       }
     ],
     "bumpFiles": [
       {
         "filename": "k8s/deployment.yml",
         "updater": "k8s/update-version.js"
+      },
+      {
+        "filename": "package.json"
       }
     ]
   }
