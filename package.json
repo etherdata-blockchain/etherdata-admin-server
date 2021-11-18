@@ -75,8 +75,17 @@
     "yaml": "^1.10.2"
   },
   "standard-version": {
-    "scripts": {
-      "precommit": "node k8s/update-version.js"
-    }
+    "packageFiles": [
+      {
+        "filename": "k8s/deployment.yml",
+        "updater": "k8s/update-version.js"
+      }
+    ],
+    "bumpFiles": [
+      {
+        "filename": "k8s/deployment.yml",
+        "updater": "k8s/update-version.js"
+      }
+    ]
   }
 }
