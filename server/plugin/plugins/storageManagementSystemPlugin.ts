@@ -1,6 +1,7 @@
 import { Db, MongoClient } from "mongodb";
 import { Configurations } from "../../const/configurations";
 import { Config } from "dockerode";
+import { DefaultStorageUser } from "../../const/defaultValues";
 
 export interface StorageUser {
   _id: string;
@@ -51,8 +52,9 @@ export class StorageManagementSystemPlugin {
       .limit(Configurations.numberPerPage)
       .toArray();
 
-    const totalUsers = await ownCol.countDocuments();
+    const totalUsers = (await ownCol.countDocuments()) + 1;
     const totalPage = Math.ceil(totalUsers / Configurations.numberPerPage);
+    if (page === 0) users.push(DefaultStorageUser);
 
     return {
       totalUsers: totalUsers,
@@ -63,10 +65,12 @@ export class StorageManagementSystemPlugin {
 
   async getDeviceIdsByUser(
     page: number,
-    userID: string
+    userID?: string
   ): Promise<PaginatedItems> {
     const deviceCol = this.db.collection("storage_management_item");
-    const deviceIdsQuery = deviceCol.find({ owner_id: parseInt(userID) });
+    const deviceIdsQuery = deviceCol.find({
+      owner_id: userID ? parseInt(userID) : undefined,
+    });
 
     const devices = await deviceIdsQuery
       .skip(page * Configurations.numberPerPage)
@@ -74,7 +78,9 @@ export class StorageManagementSystemPlugin {
       .project({ qr_code: 1, name: 1 })
       .toArray();
 
-    const totalDevices = await deviceCol.count({ owner_id: parseInt(userID) });
+    const totalDevices = await deviceCol.count({
+      owner_id: userID ? parseInt(userID) : undefined,
+    });
     const totalPage = Math.ceil(totalDevices / Configurations.numberPerPage);
 
     return {

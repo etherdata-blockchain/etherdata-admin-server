@@ -5,6 +5,7 @@ import { useRouter } from "next/dist/client/router";
 import { Button } from "@mui/material";
 import { PaginatedStorageUsers } from "../../server/plugin/plugins/storageManagementSystemPlugin";
 import { Configurations } from "../../server/const/configurations";
+import { DefaultStorageUser } from "../../server/const/defaultValues";
 
 type Props = {
   storageUser: PaginatedStorageUsers;
@@ -32,11 +33,17 @@ export function UserTable({
         const user = users.find((u) => u.id === params.value);
         return (
           <Button
-            onClick={() =>
-              router.push(
-                `/user/${params.value}?coinbase=${user?.coinbase}&name${user?.user_name}`
-              )
-            }
+            onClick={async () => {
+              if (params.value === DefaultStorageUser.id) {
+                await router.push(
+                  `/user/${params.value}?&name=${user?.user_name}`
+                );
+              } else {
+                await router.push(
+                  `/user/${params.value}?coinbase=${user?.coinbase}&name=${user?.user_name}`
+                );
+              }
+            }}
           >
             Details
           </Button>

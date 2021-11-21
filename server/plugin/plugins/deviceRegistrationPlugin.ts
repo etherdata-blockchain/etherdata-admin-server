@@ -24,7 +24,6 @@ export class DeviceRegistrationPlugin extends DatabasePlugin<IDevice> {
     deviceIds: string[],
     filter?: ClientFilter
   ): Promise<IDevice[] | undefined> {
-    console.log("filter", deviceIds);
     let results = this.model.find({
       id: { $in: deviceIds },
     });
@@ -132,16 +131,14 @@ export class DeviceRegistrationPlugin extends DatabasePlugin<IDevice> {
     let time = moment().subtract(10, "minutes");
     let query = this.model.find({
       lastSeen: { $gt: time.toDate() },
-      id: { $in: deviceIds },
     });
-    if (filter) {
-      let queryFilter: { [key: string]: any } = {
-        lastSeen: { $gt: time.toDate() },
-        id: { $in: deviceIds },
-      };
-      queryFilter[filter.key] = filter.value;
-      query = this.model.find(queryFilter);
-    }
+    // if (filter) {
+    //   let queryFilter: { [key: string]: any } = {
+    //     lastSeen: { $gt: time.toDate() },
+    //   };
+    //   queryFilter[filter.key] = filter.value;
+    //   query = this.model.find(queryFilter);
+    // }
     return query.count();
   }
 
@@ -226,10 +223,10 @@ export class DeviceRegistrationPlugin extends DatabasePlugin<IDevice> {
   }
 
   async countWithFilter(deviceIds: string[], filter?: ClientFilter) {
-    let queryFilter: { [key: string]: any } = { id: { $in: deviceIds } };
-    if (filter) {
-      queryFilter[filter.key] = filter.value;
-    }
+    let queryFilter: { [key: string]: any } = {};
+    // if (filter) {
+    //   queryFilter[filter.key] = filter.value;
+    // }
     let results = this.model.find(queryFilter);
     return results.count();
   }
