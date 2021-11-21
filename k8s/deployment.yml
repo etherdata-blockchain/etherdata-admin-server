@@ -29,6 +29,8 @@ spec:
               memory: 1000Mi
               cpu: 1000m
           env:
+            - name: NEXT_PUBLIC_VERSION
+              value: v1.6.6
             - name: PORT
               value: "8080"
             - name: NEXT_PUBLIC_APP_ID

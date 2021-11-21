@@ -2,14 +2,14 @@
  * App plugin for app use
  */
 
-import {BaseSocketIOPlugin}       from "../../basePlugin";
-import {RegisteredPlugins}        from "./registeredPlugins";
-import {JobResultModel}           from "../../../schema/job-result";
-import {DeviceModel}              from "../../../schema/device";
-import {DeviceRegistrationPlugin} from "../deviceRegistrationPlugin";
-import {ClientPlugin}             from "./clientPlugin";
-import {PendingJobPlugin}         from "../pendingJobPlugin";
-import {JobResultPlugin}          from "../jobResultPlugin";
+import { BaseSocketIOPlugin } from "../../basePlugin";
+import { RegisteredPlugins } from "./registeredPlugins";
+import { JobResultModel } from "../../../schema/job-result";
+import { DeviceModel } from "../../../schema/device";
+import { DeviceRegistrationPlugin } from "../deviceRegistrationPlugin";
+import { ClientPlugin } from "./clientPlugin";
+import { PendingJobPlugin } from "../pendingJobPlugin";
+import { JobResultPlugin } from "../jobResultPlugin";
 
 /**
  * Watch for database changes
@@ -102,6 +102,7 @@ export class DBChangePlugin extends BaseSocketIOPlugin {
   async periodicSendLatestDevices() {
     let devicePlugin = new DeviceRegistrationPlugin();
     let clientPlugin = this.findPlugin<ClientPlugin>("client");
+
     for (let [id, client] of Object.entries(clientPlugin!.browserClients)) {
       // Update latest client number and number of online devices
       let latestResult = await client.generatePaginationResult();
@@ -110,7 +111,6 @@ export class DBChangePlugin extends BaseSocketIOPlugin {
   }
 
   async periodicRemoveJobsAndResponses() {
-    console.log("Removing outdated jobs");
     const jobPlugin = new PendingJobPlugin();
     const jobResultPlugin = new JobResultPlugin();
     const maximumDuration = 60;

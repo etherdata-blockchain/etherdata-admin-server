@@ -11,6 +11,7 @@ import {
 
 import ArrowRightIcon from "@material-ui/icons/ArrowRight";
 import moment from "moment";
+import { DefaultPaginationResult } from "../../server/const/defaultValues";
 
 type Props = {};
 
@@ -26,13 +27,14 @@ export function DeviceAction(props: Props) {
   const {
     filterKeyword,
     setFilterKeyword,
-    adminVersions,
-    nodeVersions,
-    currentFilter,
+    paginationResult,
     applyFilter,
     clearFilter,
   } = React.useContext(DeviceContext);
   const router = useRouter();
+  const { adminVersions, nodeVersions, clientFilter } =
+    paginationResult ?? DefaultPaginationResult;
+
   const handleOnAdminVersionClick = (version: string) => {
     applyFilter({ key: "adminVersion", value: version });
     adminState.close();
@@ -103,7 +105,7 @@ export function DeviceAction(props: Props) {
           <MenuItem
             key={`admin-version-${i}`}
             onClick={() => handleOnAdminVersionClick(a.version)}
-            selected={currentFilter?.value === a.version}
+            selected={clientFilter?.value === a.version}
           >
             <ListItemText
               primary={a.version ?? "No Data"}
@@ -120,7 +122,7 @@ export function DeviceAction(props: Props) {
         {nodeVersions?.map((a, i) => (
           <MenuItem
             key={`node-version-${i}`}
-            selected={currentFilter?.value === a.version}
+            selected={clientFilter?.value === a.version}
             onClick={() => handleOnNodeVersionClick(a.version)}
           >
             <ListItemText
@@ -150,7 +152,7 @@ export function DeviceAction(props: Props) {
         value={filterKeyword}
         onKeyDown={async (e) => {
           if (e.key === "Enter") {
-            await router.push("/device/" + filterKeyword);
+            await router.push("/user/" + filterKeyword);
           }
         }}
         onChange={(e) => {

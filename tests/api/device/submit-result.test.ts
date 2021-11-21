@@ -23,7 +23,7 @@ describe("Test submit result", () => {
 
   afterEach(async () => {});
 
-  test("Submit a result if device exist", async () => {
+  test("Submit a result if user exist", async () => {
     //@ts-ignore
     StorageManagementSystemPlugin.mockImplementation(() => {
       return {
@@ -44,7 +44,7 @@ describe("Test submit result", () => {
       success: true,
     };
 
-    let token = jwt.sign({ user: "test-device" }, "test");
+    let token = jwt.sign({ user: "test-user" }, "test");
     const { req, res } = createMocks({
       method: "POST",
       headers: {

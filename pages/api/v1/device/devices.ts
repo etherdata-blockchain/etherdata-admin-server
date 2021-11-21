@@ -8,7 +8,7 @@ type Data = {
 };
 
 /**
- * Found device by given user
+ * Found user by given user
  * @param req
  * @param res
  */

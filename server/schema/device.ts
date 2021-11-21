@@ -1,7 +1,7 @@
 /**
  * Create a user object for mongoose ORM.
  *
- * This file contains the device schema for mongodb device collection
+ * This file contains the user schema for mongodb user collection
  */
 import mongoose, { Document, model, Schema } from "mongoose";
 import { Web3DataInfo } from "../client/node_data";
@@ -33,7 +33,7 @@ export const deviceSchema = new Schema<IDevice>({
 });
 
 /**
- * A device model. Mongoose will use this model to do CRUD operations.
+ * A user model. Mongoose will use this model to do CRUD operations.
  */
 
 export const DeviceModel = mongoose.models.device
