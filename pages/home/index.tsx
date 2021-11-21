@@ -20,13 +20,16 @@ import AppsIcon from "@material-ui/icons/Apps";
 import HourglassEmptyIcon from "@material-ui/icons/HourglassEmpty";
 import FunctionsIcon from "@material-ui/icons/Functions";
 import { DeviceContext } from "../model/DeviceProvider";
+import { DefaultPaginationResult } from "../../server/const/defaultValues";
 
 type Props = {};
 
 export default function Index(props: Props) {
   const { history } = React.useContext(ETDContext);
-  const { devices, totalNumOnlineDevices, totalNumDevices } =
-    React.useContext(DeviceContext);
+  const { paginationResult } = React.useContext(DeviceContext);
+  const { totalStorageNumber, totalOnlineDevices } =
+    paginationResult || DefaultPaginationResult;
+
   const blockNumber = history?.latestBlockNumber;
 
   const difficulty = history?.latestDifficulty;
@@ -40,7 +43,7 @@ export default function Index(props: Props) {
         <Grid item md={3} xs={6}>
           <LargeDataCard
             icon={<StorageIcon />}
-            title={`${totalNumOnlineDevices}/${totalNumDevices}`}
+            title={`${totalOnlineDevices}/${totalStorageNumber}`}
             color={"#ba03fc"}
             subtitleColor={"white"}
             iconColor={"white"}
