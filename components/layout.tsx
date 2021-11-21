@@ -24,7 +24,7 @@ import React from "react";
 import Spacer from "./Spacer";
 import { UIProviderContext } from "../pages/model/UIProvider";
 import SearchBar from "./SearchBar";
-import { Configurations } from "./const/configurations";
+import { Configurations } from "../server/const/configurations";
 import { realmApp } from "../pages/_app";
 import ETDProvider from "../pages/model/ETDProvider";
 import DeviceProvider from "../pages/model/DeviceProvider";

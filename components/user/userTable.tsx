@@ -3,22 +3,39 @@ import * as React from "react";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { useRouter } from "next/dist/client/router";
 import { Button } from "@mui/material";
+import { PaginatedStorageUsers } from "../../server/plugin/plugins/storageManagementSystemPlugin";
+import { Configurations } from "../../server/const/configurations";
 
-type Props = {};
+type Props = {
+  storageUser: PaginatedStorageUsers;
+  handlePageChange(number: number): Promise<void>;
+  currentPage: number;
+};
 
-export function UserTable(props: Props) {
+export function UserTable({
+  storageUser,
+  handlePageChange,
+  currentPage,
+}: Props) {
+  const { totalUsers, totalPage, users } = storageUser;
   const router = useRouter();
 
   const columns: GridColDef[] = [
-    { field: "id", headerName: "User ID", width: 200 },
-    { field: "deviceAmount", headerName: "Device Amount", width: 200 },
+    { field: "id", headerName: "ID", width: 3 },
+    { field: "user_name", headerName: "User Name", flex: 3 },
+    { field: "coinbase", headerName: "Coinbase", flex: 5 },
     {
       field: "detail",
       headerName: "Detail",
-      width: 200,
+      flex: 2,
       renderCell: (params) => {
+        const user = users.find((u) => u.id === params.value);
         return (
-          <Button onClick={() => router.push(`/user/${params.value}`)}>
+          <Button
+            onClick={() =>
+              router.push(`/user/${params.value}?coinbase=${user?.coinbase}`)
+            }
+          >
             Details
           </Button>
         );
@@ -26,7 +43,14 @@ export function UserTable(props: Props) {
     },
   ];
 
-  const rows = [{ id: 1, deviceAmount: 200, detail: 1 }];
+  const rows = users.map((u) => {
+    return {
+      id: u.id,
+      detail: u.id,
+      user_name: u.user_name,
+      coinbase: u.coinbase,
+    };
+  });
 
   return (
     <DataGrid
@@ -34,6 +58,13 @@ export function UserTable(props: Props) {
       rows={rows}
       autoHeight
       disableSelectionOnClick
+      paginationMode={"server"}
+      page={currentPage}
+      rowCount={totalUsers}
+      pageSize={Configurations.numberPerPage}
+      onPageChange={async (page) => {
+        await handlePageChange(page);
+      }}
     />
   );
 }

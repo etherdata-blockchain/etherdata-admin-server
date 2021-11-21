@@ -21,12 +21,16 @@ export class DeviceRegistrationPlugin extends DatabasePlugin<IDevice> {
   async listWithFilter(
     pageNumber: number,
     pageSize: number,
+    deviceIds: string[],
     filter?: ClientFilter
   ): Promise<IDevice[] | undefined> {
     let results = this.model.find({});
     if (filter) {
-      let queryFilter: { [key: string]: any } = {};
+      let queryFilter: { [key: string]: any } = {
+        id: { $in: deviceIds },
+      };
       queryFilter[filter.key] = filter.value;
+
       results = this.model.find(queryFilter);
     }
 
@@ -48,8 +52,8 @@ export class DeviceRegistrationPlugin extends DatabasePlugin<IDevice> {
   }
 
   /**
-   * Authenticate device with storage server.
-   * Return true if the device is registered in storage server.
+   * Authenticate user with storage server.
+   * Return true if the user is registered in storage server.
    * If provided key, then will use that key for authorization
    * @param device
    * @param prev_key Previous assigned key
@@ -90,7 +94,7 @@ export class DeviceRegistrationPlugin extends DatabasePlugin<IDevice> {
   }
 
   /**
-   * Register device with users
+   * Register user with users
    * @param device
    * @param user
    *
@@ -101,7 +105,7 @@ export class DeviceRegistrationPlugin extends DatabasePlugin<IDevice> {
     user: string
   ): Promise<[boolean, string | undefined]> {
     try {
-      const path = "storage_management/device/register";
+      const path = "storage_management/user/register";
       const url = new URL(path, process.env.STORAGE_MANAGEMENT_URL);
       await axios.post(
         url.toString(),
@@ -119,12 +123,16 @@ export class DeviceRegistrationPlugin extends DatabasePlugin<IDevice> {
     }
   }
 
-  async getOnlineDevicesCount(filter?: ClientFilter): Promise<number> {
+  async getOnlineDevicesCount(
+    deviceIds: string[],
+    filter?: ClientFilter
+  ): Promise<number> {
     let time = moment().subtract(10, "minutes");
     let query = this.model.find({ lastSeen: { $gt: time.toDate() } });
     if (filter) {
       let queryFilter: { [key: string]: any } = {
         lastSeen: { $gt: time.toDate() },
+        id: { $in: deviceIds },
       };
       queryFilter[filter.key] = filter.value;
       query = this.model.find(queryFilter);
@@ -151,7 +159,7 @@ export class DeviceRegistrationPlugin extends DatabasePlugin<IDevice> {
     user: string
   ): Promise<[boolean, string | undefined, any[]]> {
     try {
-      const path = "storage_management/device?user=" + encodeURIComponent(user);
+      const path = "storage_management/user?user=" + encodeURIComponent(user);
       const url = new URL(path, process.env.STORAGE_MANAGEMENT_URL);
       let resp = await axios.get(url.toString(), {
         headers: {
@@ -212,10 +220,10 @@ export class DeviceRegistrationPlugin extends DatabasePlugin<IDevice> {
     return await pipeline.exec();
   }
 
-  async countWithFilter(filter?: ClientFilter) {
+  async countWithFilter(deviceIds: string[], filter?: ClientFilter) {
     let results = this.model.find({});
     if (filter) {
-      let queryFilter: { [key: string]: any } = {};
+      let queryFilter: { [key: string]: any } = { id: { $in: deviceIds } };
       queryFilter[filter.key] = filter.value;
       results = this.model.find(queryFilter);
     }

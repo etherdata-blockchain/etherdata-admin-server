@@ -1,4 +1,27 @@
 import { Db, MongoClient } from "mongodb";
+import { Configurations } from "../../const/configurations";
+import { Config } from "dockerode";
+
+export interface StorageUser {
+  _id: string;
+  id?: string;
+  user_name: string;
+  user_id: string;
+  coinbase?: string;
+  balance?: string;
+}
+
+export interface PaginatedStorageUsers {
+  users: StorageUser[];
+  totalUsers: number;
+  totalPage: number;
+}
+
+export interface PaginatedItems {
+  deviceIds: string[];
+  totalPage: number;
+  totalDevices: number;
+}
 
 export class StorageManagementSystemPlugin {
   db: Db;
@@ -18,5 +41,44 @@ export class StorageManagementSystemPlugin {
   async count() {
     const coll = this.db.collection("storage_management_item");
     return coll.countDocuments();
+  }
+
+  async getUsers(page: number): Promise<PaginatedStorageUsers> {
+    const ownCol = this.db.collection<StorageUser>("storage_management_owner");
+    const users = await ownCol
+      .find()
+      .skip(page * Configurations.numberPerPage)
+      .limit(Configurations.numberPerPage)
+      .toArray();
+
+    const totalUsers = await ownCol.countDocuments();
+    const totalPage = Math.ceil(totalUsers / Configurations.numberPerPage);
+
+    return {
+      totalUsers: totalUsers,
+      users: users,
+      totalPage,
+    };
+  }
+
+  async getDeviceIdsByUser(
+    page: number,
+    userID: string
+  ): Promise<PaginatedItems> {
+    const deviceCol = this.db.collection("storage_management_items");
+    const deviceIds = await deviceCol
+      .find({ owner_id: userID })
+      .skip(page * Configurations.numberPerPage)
+      .limit(Configurations.numberPerPage)
+      .project({ qr_code: 1 })
+      .toArray();
+    const totalDevices = await deviceCol.countDocuments();
+    const totalPage = Math.ceil(totalDevices / Configurations.numberPerPage);
+
+    return {
+      deviceIds: deviceIds.map((d) => d.qr_code),
+      totalDevices,
+      totalPage,
+    };
   }
 }

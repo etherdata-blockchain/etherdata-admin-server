@@ -3,11 +3,11 @@ import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
-import PageHeader from "../../../components/PageHeader";
-import Spacer from "../../../components/Spacer";
-import { GeneralPanel } from "../../../components/device/generalPanel";
+import PageHeader from "../../../../../components/PageHeader";
+import Spacer from "../../../../../components/Spacer";
+import { GeneralPanel } from "../../../../../components/device/generalPanel";
 import { GetServerSideProps } from "next";
-import { DeviceRegistrationPlugin } from "../../../server/plugin/plugins/deviceRegistrationPlugin";
+import { DeviceRegistrationPlugin } from "../../../../../server/plugin/plugins/deviceRegistrationPlugin";
 import {
   Admin,
   Clique,
@@ -20,11 +20,11 @@ import {
   Real_time,
   Txpool,
 } from "etd-react-ui";
-import { UIProviderContext } from "../../model/UIProvider";
+import { UIProviderContext } from "../../../../model/UIProvider";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { DeviceContext, socket } from "../../model/DeviceProvider";
-import { DockerPanel } from "../../../components/device/dockerPanel";
-import { IDevice } from "../../../server/schema/device";
+import { DeviceContext, socket } from "../../../../model/DeviceProvider";
+import { DockerPanel } from "../../../../../components/device/dockerPanel";
+import { IDevice } from "../../../../../server/schema/device";
 
 interface Props {
   user: string | null;
@@ -69,7 +69,7 @@ function a11yProps(index: number) {
 export default function DeviceEditDetail({ user, deviceId, device }: Props) {
   const [value, setValue] = React.useState(0);
   const { showSnackBarMessage } = React.useContext(UIProviderContext);
-  const { devices, joinDetail, leaveDetail, sendCommand } =
+  const { joinDetail, leaveDetail, sendCommand } =
     React.useContext(DeviceContext);
   const [foundDevice, setFoundDevice] = React.useState<IDevice | undefined>(
     undefined

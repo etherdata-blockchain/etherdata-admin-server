@@ -50,10 +50,10 @@ export class ClientPlugin extends AppPlugin {
    * @param socket
    */
   handlePageChange: SocketHandler = (socket) => {
-    socket.on("page-change", async (pageNum: number) => {
+    socket.on("page-change", async (deviceIds: string[]) => {
       let client = this.browserClients[socket.id];
       if (client) {
-        client.currentPage = pageNum;
+        client.deviceIds = deviceIds;
         // Send new data to clients
         let pageResults = await client.generatePaginationResult();
         socket.emit("realtime-info", pageResults);

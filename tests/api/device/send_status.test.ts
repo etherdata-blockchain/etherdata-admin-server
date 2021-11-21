@@ -13,7 +13,7 @@ import { StorageManagementSystemPlugin } from "../../../server/plugin/plugins/st
 jest.mock("axios");
 jest.mock("../../../server/plugin/plugins/storageManagementSystemPlugin");
 
-describe("Test send device status", () => {
+describe("Test send user status", () => {
   let dbServer: MongoMemoryServer;
   let oldEnv = process.env;
 
@@ -36,7 +36,7 @@ describe("Test send device status", () => {
     }
   });
 
-  test("Add new device and update", async () => {
+  test("Add new user and update", async () => {
     //@ts-ignore
     StorageManagementSystemPlugin.mockImplementation(() => {
       return {
@@ -44,7 +44,7 @@ describe("Test send device status", () => {
       };
     });
 
-    let token = jwt.sign({ user: "test-device" }, "test");
+    let token = jwt.sign({ user: "test-user" }, "test");
     const { req, res } = createMocks({
       method: "POST",
       headers: {
@@ -58,7 +58,7 @@ describe("Test send device status", () => {
     expect(res._getStatusCode()).toBe(201);
   });
 
-  test("Add new device without correct token", async () => {
+  test("Add new user without correct token", async () => {
     //@ts-ignore
     StorageManagementSystemPlugin.mockImplementation(() => {
       return {
@@ -66,7 +66,7 @@ describe("Test send device status", () => {
       };
     });
 
-    let token = jwt.sign({ user: "test-device" }, "test1");
+    let token = jwt.sign({ user: "test-user" }, "test1");
     const { req, res } = createMocks({
       method: "POST",
       headers: {
