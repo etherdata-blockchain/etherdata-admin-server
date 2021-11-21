@@ -46,8 +46,7 @@ export class BrowserClient {
   async generatePaginationResult(): Promise<PaginationResult> {
     let devicePlugin = new DeviceRegistrationPlugin();
     let storageSystem = new StorageManagementSystemPlugin();
-
-    if (!this.deviceIds) {
+    if (!this.deviceIds || this.deviceIds.length === 0) {
       return {
         adminVersions: [],
         clientFilter: undefined,

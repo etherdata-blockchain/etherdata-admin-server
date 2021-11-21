@@ -18,7 +18,7 @@ export interface PaginatedStorageUsers {
 }
 
 export interface PaginatedItems {
-  deviceIds: string[];
+  storageDevices: any[];
   totalPage: number;
   totalDevices: number;
 }
@@ -65,18 +65,20 @@ export class StorageManagementSystemPlugin {
     page: number,
     userID: string
   ): Promise<PaginatedItems> {
-    const deviceCol = this.db.collection("storage_management_items");
-    const deviceIds = await deviceCol
-      .find({ owner_id: userID })
+    const deviceCol = this.db.collection("storage_management_item");
+    const deviceIdsQuery = deviceCol.find({ owner_id: parseInt(userID) });
+
+    const devices = await deviceIdsQuery
       .skip(page * Configurations.numberPerPage)
       .limit(Configurations.numberPerPage)
-      .project({ qr_code: 1 })
+      .project({ qr_code: 1, name: 1 })
       .toArray();
-    const totalDevices = await deviceCol.countDocuments();
+
+    const totalDevices = await deviceCol.count({ owner_id: parseInt(userID) });
     const totalPage = Math.ceil(totalDevices / Configurations.numberPerPage);
 
     return {
-      deviceIds: deviceIds.map((d) => d.qr_code),
+      storageDevices: devices,
       totalDevices,
       totalPage,
     };

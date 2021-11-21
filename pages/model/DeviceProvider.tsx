@@ -23,7 +23,7 @@ interface DeviceInterface {
   joinDetail(deviceId: string): void;
   leaveDetail(deviceId: string): void;
   sendCommand(methodName: string, params: any[]): Promise<any>;
-  handlePageChange(pageNumber: number): Promise<any>;
+  handlePageChange(deviceIds: string[]): Promise<any>;
   applyFilter(filter: ClientFilter): void;
   clearFilter(): void;
 }
@@ -73,16 +73,11 @@ export default function DeviceProvider(props: any) {
     socket?.emit("apply-filter", undefined);
   }, []);
 
-  const handlePageChange = React.useCallback(async (pageNumber: number) => {
+  const handlePageChange = React.useCallback(async (deviceIds: string[]) => {
     return new Promise((resolve, reject) => {
-      socket?.emit("page-change", pageNumber);
+      socket?.emit("page-change", deviceIds);
       socket?.once("page-changed", () => {
         setLoadingData(false);
-        setPaginationResult((r) => {
-          if (r) r.currentPageNumber = pageNumber;
-
-          return r;
-        });
         resolve(true);
       });
       setLoadingData(true);

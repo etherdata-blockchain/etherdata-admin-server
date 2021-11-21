@@ -57,9 +57,10 @@ export function DeviceTable({
     return {
       id: d._id,
       deviceId: d.id,
-      online:
-        Math.abs(moment(d.lastSeen).diff(moment(), "seconds")) <
-        CONFIG.maximumNotSeenDuration,
+      online: d.lastSeen
+        ? Math.abs(moment(d.lastSeen).diff(moment(), "seconds")) <
+          CONFIG.maximumNotSeenDuration
+        : false,
       blockNumber: d.data?.number,
       name: d.name,
       peerCount: d.data?.systemInfo.peerCount,

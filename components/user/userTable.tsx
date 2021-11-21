@@ -33,7 +33,9 @@ export function UserTable({
         return (
           <Button
             onClick={() =>
-              router.push(`/user/${params.value}?coinbase=${user?.coinbase}`)
+              router.push(
+                `/user/${params.value}?coinbase=${user?.coinbase}&name${user?.user_name}`
+              )
             }
           >
             Details
