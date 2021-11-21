@@ -116,12 +116,11 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
   const minerAddress = Web3.utils.toChecksumAddress(id as string);
   // Get devices by miner address
   const plugin = new DeviceRegistrationPlugin();
-  const [devices, totalNumRows, totalPageNumber] =
-    await plugin.getDevicesByMiner(
-      minerAddress as string,
-      parseInt((pageNumber as string) ?? "0"),
-      pageSize
-    );
+  const devicesPromise = plugin.getDevicesByMiner(
+    minerAddress as string,
+    parseInt((pageNumber as string) ?? "0"),
+    pageSize
+  );
 
   // Get user's mining reward
   const now = moment();
@@ -132,14 +131,18 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
     )}&end=${now.format("YYYY-MM-DD")}`,
     process.env.STATS_SERVER!
   );
-  const result = await axios.get(url.toString());
+  const resultPromise = axios.get(url.toString());
 
   // Get recent transactions
   const txURL = new URL(
     `/api/v2/transactions/${minerAddress}`,
     process.env.STATS_SERVER!
   );
-  const userResult = await axios.get(txURL.toString());
+  const userResultPromise = axios.get(txURL.toString());
+
+  const [[devices, totalNumRows, totalPageNumber], result, userResult] =
+    await Promise.all([devicesPromise, resultPromise, userResultPromise]);
+
   return {
     props: {
       devices: JSON.parse(JSON.stringify(devices)),

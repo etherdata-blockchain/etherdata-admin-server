@@ -37,7 +37,10 @@ export default function Index(props: Props) {
   const networkHashRate = difficulty && blockTime ? difficulty / blockTime : 0;
   return (
     <div>
-      <PageHeader title={"Dashboard"} description={"Default Message"} />
+      <PageHeader
+        title={"Dashboard"}
+        description={`Version ${process.env.NEXT_PUBLIC_VERSION}`}
+      />
       <Spacer height={10} />
       <Grid container spacing={3}>
         <Grid item md={3} xs={6}>
