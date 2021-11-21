@@ -3,6 +3,7 @@ import {
   VersionInfo,
 } from "../plugin/plugins/deviceRegistrationPlugin";
 import { IDevice } from "../schema/device";
+import { StorageManagementSystemPlugin } from "../plugin/plugins/storageManagementSystemPlugin";
 
 export interface ClientFilter {
   key: string;
@@ -11,9 +12,25 @@ export interface ClientFilter {
 
 export interface PaginationResult {
   devices: IDevice[];
+  /**
+   * Total number of devices in the storage
+   */
+  totalStorageNumber: number;
+  /**
+   * Total page number
+   */
   totalPageNumber: number;
+  /**
+   * Current page
+   */
   currentPageNumber: number;
+  /**
+   * Total number of devices with filter
+   */
   totalNumberDevices: number;
+  /**
+   * Total number of online devices with filter
+   */
   totalOnlineDevices: number;
   numPerPage: number;
   adminVersions: VersionInfo[];
@@ -32,6 +49,22 @@ export class BrowserClient {
    */
   async generatePaginationResult(): Promise<PaginationResult> {
     let devicePlugin = new DeviceRegistrationPlugin();
+    let storageSystem = new StorageManagementSystemPlugin();
+
+    if (!this.currentFilter) {
+      return {
+        adminVersions: [],
+        clientFilter: undefined,
+        currentPageNumber: 0,
+        devices: [],
+        nodeVersions: [],
+        numPerPage: 0,
+        totalNumberDevices: 0,
+        totalOnlineDevices: 0,
+        totalPageNumber: 0,
+        totalStorageNumber: await storageSystem.count(),
+      };
+    }
 
     let devices =
       (await devicePlugin.listWithFilter(
@@ -39,7 +72,6 @@ export class BrowserClient {
         this.numPerPage,
         this.currentFilter
       )) ?? [];
-
     let onlineDevicesCount = await devicePlugin.getOnlineDevicesCount(
       this.currentFilter
     );
@@ -49,7 +81,8 @@ export class BrowserClient {
     const adminVersions = await devicePlugin.getListOfAdminVersions();
     const nodeVersions = await devicePlugin.getListOfNodeVersion();
 
-    let paginationResult = {
+    let paginationResult: PaginationResult = {
+      totalStorageNumber: await storageSystem.count(),
       devices: devices,
       totalPageNumber: Math.floor(totalNumDevices / this.numPerPage),
       currentPageNumber: this.currentPage,

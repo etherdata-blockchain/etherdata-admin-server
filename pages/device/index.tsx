@@ -13,21 +13,26 @@ import { DeviceAction } from "../../components/device/deviceAction";
 import { DeviceContext } from "../model/DeviceProvider";
 import { ETDContext } from "../model/ETDProvider";
 import StorageIcon from "@material-ui/icons/Storage";
+import { DefaultPaginationResult } from "../../components/const/defaultValues";
 
 type Props = {};
 
 export default function Index(props: Props) {
+  const { loadingData, filterKeyword, paginationResult, handlePageChange } =
+    React.useContext(DeviceContext);
+
   const {
-    loadingData,
     devices,
-    filterKeyword,
     currentPageNumber,
     totalPageNumber,
-    totalNumDevices,
-    totalNumOnlineDevices,
-    handlePageChange,
+    totalStorageNumber,
     numPerPage,
-  } = React.useContext(DeviceContext);
+    adminVersions,
+    nodeVersions,
+    clientFilter,
+    totalNumberDevices,
+    totalOnlineDevices,
+  } = paginationResult ?? DefaultPaginationResult;
 
   const { history } = React.useContext(ETDContext);
 
@@ -53,10 +58,23 @@ export default function Index(props: Props) {
             className={style.detailDataCard}
           />
         </Grid>
-        <Grid item md={8} xs={6}>
+        <Grid item md={4} xs={6}>
           <LargeDataCard
             icon={<ComputerIcon />}
-            title={`${totalNumOnlineDevices} / ${totalNumDevices}`}
+            title={`${totalStorageNumber}`}
+            color={"#ba03fc"}
+            subtitleColor={"white"}
+            iconColor={"white"}
+            iconBackgroundColor={"#9704cc"}
+            subtitle={"Active Devices"}
+            className={style.detailDataCard}
+          />
+        </Grid>
+
+        <Grid item md={4} xs={12}>
+          <LargeDataCard
+            icon={<ComputerIcon />}
+            title={`${totalOnlineDevices} / ${totalNumberDevices}`}
             color={"#ba03fc"}
             subtitleColor={"white"}
             iconColor={"white"}
@@ -76,7 +94,7 @@ export default function Index(props: Props) {
               currentPageNumber={currentPageNumber}
               totalPageNumber={totalPageNumber}
               onPageChanged={handlePageChange}
-              totalNumRows={totalNumDevices}
+              totalNumRows={totalNumberDevices}
               devices={devices}
               loading={loadingData}
             />

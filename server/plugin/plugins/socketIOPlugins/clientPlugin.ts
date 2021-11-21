@@ -1,9 +1,14 @@
-import {SocketHandler}                                  from "../../basePlugin";
-import {Server, Socket}                                 from "socket.io";
-import {AppPlugin}                                      from "./appPlugin";
-import {BrowserClient, ClientFilter, PaginationResult,} from "../../../client/browserClient";
-import {RegisteredPlugins}                              from "./registeredPlugins";
-import {IDevice}                                        from "../../../schema/device";
+import { SocketHandler } from "../../basePlugin";
+import { Server, Socket } from "socket.io";
+import { AppPlugin } from "./appPlugin";
+import {
+  BrowserClient,
+  ClientFilter,
+  PaginationResult,
+} from "../../../client/browserClient";
+import { RegisteredPlugins } from "./registeredPlugins";
+import { IDevice } from "../../../schema/device";
+import Logger from "../../../logger";
 
 /**
  * Web Browser socket io plugin
@@ -72,19 +77,6 @@ export class ClientPlugin extends AppPlugin {
         socket.emit("realtime-info", pageResults);
       }
     });
-  };
-
-  /**
-   * Send data to all browser clients
-   * @param devices
-   */
-  sendDataToAllClients = async (devices: IDevice[]) => {
-    for (let [socketID, client] of Object.entries(this.browserClients)) {
-      // Send pagination data to all browser clients
-      this.server
-        ?.to(socketID)
-        .emit("realtime-info", await client.generatePaginationResult());
-    }
   };
 
   sendDataToClient = async (

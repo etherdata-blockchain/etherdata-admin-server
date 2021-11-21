@@ -16,31 +16,15 @@ interface DockerValue {
 
 interface DeviceInterface {
   loadingData: boolean;
-  devices: IDevice[];
-  currentPageNumber: number;
-  totalPageNumber: number;
-  totalNumDevices: number;
-  totalNumOnlineDevices: number;
+  paginationResult?: PaginationResult;
   filterKeyword: string;
-  numPerPage: number;
-  adminVersions: VersionInfo[];
-  nodeVersions: VersionInfo[];
-  currentFilter?: ClientFilter;
-
   setFilterKeyword(v: string): void;
-
   sendDockerCommand(v: DockerValue): Promise<any>;
-
   joinDetail(deviceId: string): void;
-
   leaveDetail(deviceId: string): void;
-
   sendCommand(methodName: string, params: any[]): Promise<any>;
-
   handlePageChange(pageNumber: number): Promise<any>;
-
   applyFilter(filter: ClientFilter): void;
-
   clearFilter(): void;
 }
 
@@ -55,14 +39,8 @@ export default function DeviceProvider(props: any) {
   const [devices, setDevices] = React.useState<IDevice[]>([]);
   const [loadingData, setLoadingData] = React.useState(false);
   const [filterKeyword, setFilterKeyword] = React.useState<string>("");
-  const [currentPageNumber, setCurrentPageNumber] = React.useState(0);
-  const [totalPageNumber, setTotalPageNumber] = React.useState(0);
-  const [totalNumDevices, setTotalNumberDevices] = React.useState(0);
-  const [totalNumOnlineDevices, setTotalOnlineDevices] = React.useState(0);
-  const [adminVersions, setAdminVersions] = React.useState<VersionInfo[]>([]);
-  const [nodeVersions, setNodeVersions] = React.useState<VersionInfo[]>([]);
-  const [numPerPage, setNumPerPage] = React.useState(0);
-  const [currentFilter, setCurrentFilter] = React.useState<ClientFilter>();
+  const [paginationResult, setPaginationResult] =
+    React.useState<PaginationResult>();
 
   React.useEffect(() => {
     socket = io("/clients", {
@@ -74,30 +52,9 @@ export default function DeviceProvider(props: any) {
       showSnackBarMessage("Connected to admin socket server");
     });
 
-    socket.on(
-      "realtime-info",
-      ({
-        totalPageNumber,
-        currentPageNumber,
-        devices,
-        totalNumberDevices,
-        totalOnlineDevices,
-        numPerPage,
-        adminVersions,
-        nodeVersions,
-        clientFilter,
-      }: PaginationResult) => {
-        setCurrentFilter(clientFilter);
-        setDevices(devices);
-        setCurrentPageNumber(currentPageNumber);
-        setTotalPageNumber(totalPageNumber);
-        setTotalOnlineDevices(totalOnlineDevices);
-        setTotalNumberDevices(totalNumberDevices);
-        setNumPerPage(numPerPage);
-        setAdminVersions(adminVersions);
-        setNodeVersions(nodeVersions);
-      }
-    );
+    socket.on("realtime-info", (paginationResult: PaginationResult) => {
+      setPaginationResult(paginationResult);
+    });
   }, []);
 
   const joinDetail = React.useCallback((deviceId: string) => {
@@ -121,7 +78,11 @@ export default function DeviceProvider(props: any) {
       socket?.emit("page-change", pageNumber);
       socket?.once("page-changed", () => {
         setLoadingData(false);
-        setCurrentPageNumber(pageNumber);
+        setPaginationResult((r) => {
+          if (r) r.currentPageNumber = pageNumber;
+
+          return r;
+        });
         resolve(true);
       });
       setLoadingData(true);
@@ -170,22 +131,14 @@ export default function DeviceProvider(props: any) {
   );
 
   const value: DeviceInterface = {
-    devices,
     filterKeyword,
     loadingData,
     setFilterKeyword,
     joinDetail,
     leaveDetail,
     sendCommand,
-    currentPageNumber,
-    totalPageNumber,
     handlePageChange,
-    totalNumDevices,
-    totalNumOnlineDevices,
-    numPerPage,
-    adminVersions,
-    nodeVersions,
-    currentFilter,
+    paginationResult,
     applyFilter,
     clearFilter,
     sendDockerCommand,
