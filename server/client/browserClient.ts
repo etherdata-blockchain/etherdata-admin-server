@@ -54,7 +54,7 @@ export class BrowserClient {
         nodeVersions: [],
         totalNumberDevices: 0,
         totalOnlineDevices: 0,
-        totalStorageNumber: await storageSystem.count(),
+        totalStorageNumber: await storageSystem.countItems(),
       };
     }
 
@@ -77,7 +77,7 @@ export class BrowserClient {
     const nodeVersions = await devicePlugin.getListOfNodeVersion();
 
     let paginationResult: PaginationResult = {
-      totalStorageNumber: await storageSystem.count(),
+      totalStorageNumber: await storageSystem.countItems(),
       devices: devices,
       totalNumberDevices: totalNumDevices,
       totalOnlineDevices: onlineDevicesCount,

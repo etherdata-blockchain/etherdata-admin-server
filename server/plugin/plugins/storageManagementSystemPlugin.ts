@@ -28,24 +28,26 @@ export class StorageManagementSystemPlugin {
   db: Db;
   client: MongoClient;
 
-  constructor() {
+  constructor(dbClient?: MongoClient) {
     //@ts-ignore
-    this.client = global.MONGO_CLIENT;
-    this.db = this.client.db("storage-management-system");
+    this.client = dbClient ?? global.MONGO_CLIENT;
+    this.db = this.client.db(Configurations.storageDBName);
   }
 
   async findDeviceById(deviceId: string) {
-    const coll = this.db.collection("storage_management_item");
+    const coll = this.db.collection(Configurations.storageItemCollectionName);
     return await coll.findOne({ qr_code: deviceId });
   }
 
-  async count() {
-    const coll = this.db.collection("storage_management_item");
+  async countItems() {
+    const coll = this.db.collection(Configurations.storageItemCollectionName);
     return coll.countDocuments();
   }
 
   async getUsers(page: number): Promise<PaginatedStorageUsers> {
-    const ownCol = this.db.collection<StorageUser>("storage_management_owner");
+    const ownCol = this.db.collection<StorageUser>(
+      Configurations.storageUserCollectionName
+    );
     const users = await ownCol
       .find()
       .skip(page * Configurations.numberPerPage)
@@ -63,11 +65,13 @@ export class StorageManagementSystemPlugin {
     };
   }
 
-  async getDeviceIdsByUser(
+  async getDevicesByUser(
     page: number,
     userID?: string
   ): Promise<PaginatedItems> {
-    const deviceCol = this.db.collection("storage_management_item");
+    const deviceCol = this.db.collection(
+      Configurations.storageItemCollectionName
+    );
     const deviceIdsQuery = deviceCol.find({
       owner_id: userID ? parseInt(userID) : undefined,
     });

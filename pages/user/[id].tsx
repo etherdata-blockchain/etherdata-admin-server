@@ -243,7 +243,7 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
     const userResultPromise = axios.get(txURL.toString());
 
     // Get user devices
-    const paginatedDevicesPromise = storagePlugin.getDeviceIdsByUser(
+    const paginatedDevicesPromise = storagePlugin.getDevicesByUser(
       currentPage,
       user
     );
@@ -270,7 +270,7 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
   }
 
   // Get user devices
-  const paginatedDevices = await storagePlugin.getDeviceIdsByUser(
+  const paginatedDevices = await storagePlugin.getDevicesByUser(
     currentPage,
     user === DefaultStorageUser.id ? undefined : user
   );
