@@ -12,7 +12,7 @@ export default function SearchBar() {
     setIsLoading(true);
     const isUser = Web3.utils.isAddress(value);
     if (isUser) {
-      await router.push("/user/" + value);
+      await router.push("/user/wallet/" + value);
     }
     setIsLoading(false);
   }, [value]);

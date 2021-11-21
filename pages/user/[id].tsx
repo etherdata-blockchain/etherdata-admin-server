@@ -1,120 +1,211 @@
-// @flow
-import * as React from "react";
+import React from "react";
+import { GetServerSideProps } from "next";
+import moment from "moment";
+import axios from "axios";
+import {
+  PaginatedItems,
+  StorageManagementSystemPlugin,
+} from "../../server/plugin/plugins/storageManagementSystemPlugin";
+import { useRouter } from "next/dist/client/router";
 import PageHeader from "../../components/PageHeader";
 import Spacer from "../../components/Spacer";
-import { GetServerSideProps } from "next";
-import { IDevice } from "../../server/schema/device";
-import { DeviceRegistrationPlugin } from "../../server/plugin/plugins/deviceRegistrationPlugin";
-import { DeviceTable } from "../../components/device/deviceTable";
-import ResponsiveCard from "../../components/ResponsiveCard";
-import { useRouter } from "next/dist/client/router";
-import axios from "axios";
-import moment from "moment";
-import { Divider, Grid, List, ListItem, ListItemText } from "@mui/material";
-
-import Web3 from "web3";
+import {
+  Divider,
+  Grid,
+  List,
+  ListItem,
+  ListItemText,
+  Pagination,
+} from "@mui/material";
 import { LargeDataCard } from "../../components/cards/largeDataCard";
 import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
+import Web3 from "web3";
+import ResponsiveCard from "../../components/ResponsiveCard";
 import { RewardDisplay } from "../../components/user/rewardDisplay";
+import { weiToETD } from "../../utils/weiToETD";
+import { DeviceTable } from "../../components/device/deviceTable";
+import { ETDContext } from "../model/ETDProvider";
+import { DeviceContext } from "../model/DeviceProvider";
+import {
+  DefaultPaginationResult,
+  DefaultStorageUser,
+} from "../../server/const/defaultValues";
+import { Configurations } from "../../server/const/configurations";
+import { IDevice } from "../../server/schema/device";
+import StorageIcon from "@material-ui/icons/Storage";
+import style from "../../styles/Device.module.css";
+import ComputerIcon from "@material-ui/icons/Computer";
+import { DeviceAction } from "../../components/device/deviceAction";
 
-const pageSize = 20;
-
-type Props = {
-  devices: IDevice[];
-  totalPageNumber: number;
-  totalNumRows: number;
+interface Props {
+  coinbase: string | undefined;
+  paginatedItems: PaginatedItems;
   currentPage: number;
-  id: string;
-  rewards: { date: string; reward: number }[];
-  user: {
+  userID: string;
+  userName: string;
+  rewards?: { date: string; reward: number }[];
+  user?: {
     balance: string;
     transactions: { from: string; value: string; time: string }[];
   };
-};
-
-function weiToETD(value: any) {
-  try {
-    let etdValue = "0";
-    if (typeof value === "string") {
-      //@ts-ignore
-      etdValue = value.toLocaleString("fullwide", { useGrouping: false });
-    } else {
-      etdValue = value.high.toString();
-    }
-
-    return Web3.utils.fromWei(etdValue, "ether");
-  } catch (e) {
-    return 0;
-  }
 }
 
-export default function UserDetail({
-  devices,
-  currentPage,
-  totalPageNumber,
-  totalNumRows,
-  id,
+export default function ({
   rewards,
   user,
+  paginatedItems,
+  coinbase,
+  currentPage,
+  userID,
+  userName,
 }: Props) {
-  console.log(rewards);
+  const { totalPage, totalDevices, storageDevices } = paginatedItems;
   const router = useRouter();
+  const { handlePageChange, paginationResult } =
+    React.useContext(DeviceContext);
+  const { history } = React.useContext(ETDContext);
+
+  const {
+    devices,
+    totalNumberDevices,
+    totalOnlineDevices,
+    totalStorageNumber,
+    clientFilter,
+  } = paginationResult ?? DefaultPaginationResult;
+
+  React.useEffect(() => {
+    handlePageChange(storageDevices.map((d) => d.qr_code)).then(() => {});
+  }, []);
+
+  //@ts-ignore
+  const displayDevices: IDevice[] = storageDevices
+    .filter((d) => {
+      // If we apply a filter, then we return devices with realtime status
+      if (clientFilter) {
+        const foundDeviceInfo = devices.find((i) => i.id === d.qr_code);
+        return foundDeviceInfo !== undefined;
+      }
+
+      // Otherwise, we return all
+      return true;
+    })
+    .map((d) => {
+      const foundDeviceInfo = devices.find((i) => i.id === d.qr_code);
+      if (foundDeviceInfo) {
+        //TODO: Add more info from storage device
+        return {
+          ...foundDeviceInfo,
+        };
+      }
+      return {
+        _id: d._id,
+        id: d.qr_code,
+        name: d.name,
+      };
+    });
+
   return (
     <div>
-      <PageHeader title={"User"} description={id} />
+      <PageHeader title={"User"} description={userName} />
       <Spacer height={20} />
-      <Grid container spacing={5}>
-        <Grid item md={6} xs={12}>
+      <Grid container spacing={4}>
+        <Grid item md={4} xs={6}>
           <LargeDataCard
-            icon={<AccountBalanceWalletIcon />}
-            title={"Balance"}
-            color={"#7ed1e6"}
-            iconColor={"#ffffff"}
-            subtitle={`${Web3.utils.fromWei(user.balance, "ether")} ETD`}
+            icon={<StorageIcon />}
+            title={`${history?.latestBlockNumber ?? 0}`}
+            color={"#ba03fc"}
             subtitleColor={"white"}
+            iconColor={"white"}
+            iconBackgroundColor={"#9704cc"}
+            subtitle={"Number Of Blocks"}
+            className={style.detailDataCard}
           />
-          <Spacer height={20} />
-          <ResponsiveCard style={{ height: "400px" }} title={"Mining reward"}>
-            <RewardDisplay rewards={rewards} />
-          </ResponsiveCard>
         </Grid>
-        <Grid item md={6} xs={12}>
-          <ResponsiveCard
-            style={{ height: "600px", overflowY: "scroll" }}
-            title={"Transactions"}
-          >
-            <List>
-              {user.transactions.map((t, index) => (
-                <div key={`tx-${index}`}>
-                  <ListItem>
-                    <ListItemText
-                      primary={t.time}
-                      secondary={`${weiToETD(t.value)} ETD - ${
-                        t.from.toLowerCase() === id.toLowerCase()
-                          ? "Sent"
-                          : "Received"
-                      }`}
-                    />
-                  </ListItem>
-                  <Divider />
-                </div>
-              ))}
-            </List>
-          </ResponsiveCard>
+        <Grid item md={4} xs={6}>
+          <LargeDataCard
+            icon={<ComputerIcon />}
+            title={`${totalStorageNumber}`}
+            color={"#ba03fc"}
+            subtitleColor={"white"}
+            iconColor={"white"}
+            iconBackgroundColor={"#9704cc"}
+            subtitle={"In storage"}
+            className={style.detailDataCard}
+          />
+        </Grid>
+        <Grid item md={4} xs={12}>
+          <LargeDataCard
+            icon={<ComputerIcon />}
+            title={`${totalOnlineDevices}`}
+            color={"#ba03fc"}
+            subtitleColor={"white"}
+            iconColor={"white"}
+            iconBackgroundColor={"#9704cc"}
+            subtitle={"Active Device"}
+            className={style.detailDataCard}
+          />
         </Grid>
       </Grid>
+      <Spacer height={10} />
+      {rewards && user && coinbase && (
+        <Grid container spacing={5}>
+          <Grid item md={6} xs={12}>
+            <LargeDataCard
+              icon={<AccountBalanceWalletIcon />}
+              title={"Balance"}
+              color={"#7ed1e6"}
+              iconColor={"#ffffff"}
+              subtitle={`${weiToETD(user.balance)} ETD`}
+              subtitleColor={"white"}
+            />
+            <Spacer height={20} />
+            <ResponsiveCard style={{ height: "400px" }} title={"Mining reward"}>
+              <RewardDisplay rewards={rewards} />
+            </ResponsiveCard>
+          </Grid>
+          <Grid item md={6} xs={12}>
+            <ResponsiveCard
+              style={{ height: "600px", overflowY: "scroll" }}
+              title={"Transactions"}
+            >
+              <List>
+                {user?.transactions?.map((t, index) => (
+                  <div key={`tx-${index}`}>
+                    <ListItem>
+                      <ListItemText
+                        primary={t.time}
+                        secondary={`${weiToETD(t.value)} ETD - ${
+                          t.from.toLowerCase() === coinbase.toLowerCase()
+                            ? "Sent"
+                            : "Received"
+                        }`}
+                      />
+                    </ListItem>
+                    <Divider />
+                  </div>
+                ))}
+              </List>
+            </ResponsiveCard>
+          </Grid>
+        </Grid>
+      )}
+
       <Spacer height={20} />
-      <ResponsiveCard title={"Devices"}>
+      <ResponsiveCard title={"Devices"} action={<DeviceAction />}>
         <DeviceTable
-          devices={devices}
+          devices={displayDevices}
           currentPageNumber={currentPage}
-          totalPageNumber={totalPageNumber}
-          totalNumRows={totalNumRows}
-          numPerPage={pageSize}
+          totalPageNumber={totalPage}
+          totalNumRows={totalDevices}
+          numPerPage={Configurations.numberPerPage}
           onPageChanged={async (page) => {
-            await router.push(`/user/${id}?pageNumber=${page}`, undefined, {
-              scroll: false,
-            });
+            await router.push(
+              `/user/${userID}?coinbase=${coinbase}&page=${page}`,
+              undefined,
+              {
+                scroll: false,
+              }
+            );
           }}
         />
       </ResponsiveCard>
@@ -126,45 +217,75 @@ export default function UserDetail({
 export const getServerSideProps: GetServerSideProps<Props> = async (
   context
 ) => {
-  const { id } = context.params!;
-  const { pageNumber } = context.query;
+  const user = context.params?.id as string;
+  const name = context.query.name as string;
+  const currentPage = parseInt((context.query.page as string) ?? "0");
+  const coinbase = context.query.coinbase as string | undefined;
 
-  const minerAddress = Web3.utils.toChecksumAddress(id as string);
-  // Get devices by miner address
-  const plugin = new DeviceRegistrationPlugin();
-  const [devices, totalNumRows, totalPageNumber] =
-    await plugin.getDevicesByMiner(
-      minerAddress as string,
-      parseInt((pageNumber as string) ?? "0"),
-      pageSize
+  const storagePlugin = new StorageManagementSystemPlugin();
+
+  if (coinbase) {
+    // mining reward
+    const prev = moment().subtract(7, "days");
+    const miningUrl = new URL(
+      `api/v2/miningReward/${coinbase}?start=${prev.format(
+        "YYYY-MM-DD"
+      )}&end=${moment().format("YYYY-MM-DD")}`,
+      process.env.STATS_SERVER!
+    );
+    const miningRewardsPromise = axios.get(miningUrl.toString());
+
+    // Get recent transactions
+    const txURL = new URL(
+      `/api/v2/transactions/${coinbase}`,
+      process.env.STATS_SERVER!
+    );
+    const userResultPromise = axios.get(txURL.toString());
+
+    // Get user devices
+    const paginatedDevicesPromise = storagePlugin.getDevicesByUser(
+      currentPage,
+      user
     );
 
-  // Get user's mining reward
-  const now = moment();
-  const prev = moment().subtract(7, "days");
-  const url = new URL(
-    `api/v2/miningReward/${id}?start=${prev.format(
-      "YYYY-MM-DD"
-    )}&end=${now.format("YYYY-MM-DD")}`,
-    process.env.STATS_SERVER!
-  );
-  const result = await axios.get(url.toString());
+    const [miningRewards, userResults, paginatedItems] = await Promise.all([
+      miningRewardsPromise,
+      userResultPromise,
+      paginatedDevicesPromise,
+    ]);
 
-  // Get recent transactions
-  const txURL = new URL(
-    `/api/v2/transactions/${minerAddress}`,
-    process.env.STATS_SERVER!
+    const result: Props = {
+      userID: user,
+      paginatedItems: paginatedItems,
+      currentPage,
+      rewards: miningRewards.data.rewards,
+      user: userResults.data.user,
+      coinbase,
+      userName: name,
+    };
+
+    return {
+      props: JSON.parse(JSON.stringify(result)),
+    };
+  }
+
+  // Get user devices
+  const paginatedDevices = await storagePlugin.getDevicesByUser(
+    currentPage,
+    user === DefaultStorageUser.id ? undefined : user
   );
-  const userResult = await axios.get(txURL.toString());
+
+  const result: Props = {
+    userID: user,
+    paginatedItems: paginatedDevices,
+    currentPage,
+    rewards: [],
+    user: undefined,
+    coinbase,
+    userName: name,
+  };
+
   return {
-    props: {
-      devices: JSON.parse(JSON.stringify(devices)),
-      totalNumRows,
-      totalPageNumber,
-      currentPage: parseInt((pageNumber as string) ?? "0"),
-      id: id as string,
-      rewards: result.data.rewards,
-      user: userResult.data.user,
-    },
+    props: JSON.parse(JSON.stringify(result)),
   };
 };

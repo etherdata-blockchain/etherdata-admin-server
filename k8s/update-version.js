@@ -10,5 +10,6 @@ module.exports.readVersion = function (contents) {
 module.exports.writeVersion = function (contents, version) {
   const yamlFileContent = YAML.parse(contents);
   yamlFileContent.spec.template.spec.containers[0].image = `sirily11/etd-remote-admin-server:v${version}`;
+  yamlFileContent.spec.template.spec.containers[0].env[0].value = `v${version}`;
   return YAML.stringify(yamlFileContent);
 };

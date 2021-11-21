@@ -1,8 +1,8 @@
 // @flow
 import * as React from "react";
-import PageHeader from "../../components/PageHeader";
-import Spacer from "../../components/Spacer";
-import ResponsiveCard from "../../components/ResponsiveCard";
+import PageHeader from "../../../../components/PageHeader";
+import Spacer from "../../../../components/Spacer";
+import ResponsiveCard from "../../../../components/ResponsiveCard";
 import {
   Button,
   Grid,
@@ -15,24 +15,24 @@ import {
   Typography,
 } from "@mui/material";
 import ComputerIcon from "@material-ui/icons/Computer";
-import style from "../../styles/Device.module.css";
-import { LargeDataCard } from "../../components/cards/largeDataCard";
-import { GridDataCard } from "../../components/cards/gridDataCard";
+import style from "../../../../styles/Device.module.css";
+import { LargeDataCard } from "../../../../components/cards/largeDataCard";
+import { GridDataCard } from "../../../../components/cards/gridDataCard";
 import { useRouter } from "next/dist/client/router";
-import { DeviceContext, socket } from "../model/DeviceProvider";
-import { abbreviateNumber } from "../../utils/valueFormatter";
-import { UIProviderContext } from "../model/UIProvider";
+import { DeviceContext, socket } from "../../../model/DeviceProvider";
+import { abbreviateNumber } from "../../../../utils/valueFormatter";
+import { UIProviderContext } from "../../../model/UIProvider";
 import { GetServerSideProps } from "next";
-import { DeviceRegistrationPlugin } from "../../server/plugin/plugins/deviceRegistrationPlugin";
-import { IDevice } from "../../server/schema/device";
-import { objectExpand } from "../../utils/objectExpander";
-import Logger from "../../server/logger";
+import { DeviceRegistrationPlugin } from "../../../../server/plugin/plugins/deviceRegistrationPlugin";
+import { IDevice } from "../../../../server/schema/device";
+import { objectExpand } from "../../../../utils/objectExpander";
+import Logger from "../../../../server/logger";
 import moment from "moment";
-import { CONFIG } from "../../server/config/config";
+import { CONFIG } from "../../../../server/config/config";
 import AllInboxIcon from "@mui/icons-material/AllInbox";
 import AlbumIcon from "@mui/icons-material/Album";
-import { ContainerDialog } from "../../components/device/dialog/containerDialog";
-import { ImageDialog } from "../../components/device/dialog/imageDialog";
+import { ContainerDialog } from "../../../../components/device/dialog/containerDialog";
+import { ImageDialog } from "../../../../components/device/dialog/imageDialog";
 
 type Props = {
   device: IDevice | null;
@@ -80,7 +80,7 @@ export default function DeviceDetail({ device, found }: Props) {
         description={`${device?.id}`}
         action={
           <Button
-            onClick={() => router.push("/device/edit/" + router.query.id)}
+            onClick={() => router.push("/user/edit/" + router.query.id)}
             variant={"outlined"}
           >
             Edit

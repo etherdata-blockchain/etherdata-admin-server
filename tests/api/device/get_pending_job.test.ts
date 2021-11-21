@@ -43,7 +43,7 @@ describe("Test get a pending job", () => {
 
     let data: any = {
       from: "abcde",
-      targetDeviceId: "test-device",
+      targetDeviceId: "test-user",
       task: {
         type: "rpc",
         value: "",
@@ -52,7 +52,7 @@ describe("Test get a pending job", () => {
     };
     await PendingJobModel.create(data);
 
-    let token = jwt.sign({ user: "test-device" }, "test");
+    let token = jwt.sign({ user: "test-user" }, "test");
     const { req, res } = createMocks({
       method: "GET",
       headers: {

@@ -1,9 +1,14 @@
-import {SocketHandler}                                  from "../../basePlugin";
-import {Server, Socket}                                 from "socket.io";
-import {AppPlugin}                                      from "./appPlugin";
-import {BrowserClient, ClientFilter, PaginationResult,} from "../../../client/browserClient";
-import {RegisteredPlugins}                              from "./registeredPlugins";
-import {IDevice}                                        from "../../../schema/device";
+import { SocketHandler } from "../../basePlugin";
+import { Server, Socket } from "socket.io";
+import { AppPlugin } from "./appPlugin";
+import {
+  BrowserClient,
+  ClientFilter,
+  PaginationResult,
+} from "../../../client/browserClient";
+import { RegisteredPlugins } from "./registeredPlugins";
+import { IDevice } from "../../../schema/device";
+import Logger from "../../../logger";
 
 /**
  * Web Browser socket io plugin
@@ -45,10 +50,10 @@ export class ClientPlugin extends AppPlugin {
    * @param socket
    */
   handlePageChange: SocketHandler = (socket) => {
-    socket.on("page-change", async (pageNum: number) => {
+    socket.on("page-change", async (deviceIds: string[]) => {
       let client = this.browserClients[socket.id];
       if (client) {
-        client.currentPage = pageNum;
+        client.deviceIds = deviceIds;
         // Send new data to clients
         let pageResults = await client.generatePaginationResult();
         socket.emit("realtime-info", pageResults);
@@ -72,19 +77,6 @@ export class ClientPlugin extends AppPlugin {
         socket.emit("realtime-info", pageResults);
       }
     });
-  };
-
-  /**
-   * Send data to all browser clients
-   * @param devices
-   */
-  sendDataToAllClients = async (devices: IDevice[]) => {
-    for (let [socketID, client] of Object.entries(this.browserClients)) {
-      // Send pagination data to all browser clients
-      this.server
-        ?.to(socketID)
-        .emit("realtime-info", await client.generatePaginationResult());
-    }
   };
 
   sendDataToClient = async (

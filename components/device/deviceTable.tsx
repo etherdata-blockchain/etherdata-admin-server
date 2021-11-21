@@ -6,6 +6,8 @@ import { useRouter } from "next/dist/client/router";
 import { IDevice } from "../../server/schema/device";
 import moment from "moment";
 import { CONFIG } from "../../server/config/config";
+import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
+import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 import Spacer from "../Spacer";
 
 type Props = {
@@ -32,7 +34,22 @@ export function DeviceTable({
   const columns: GridColDef[] = [
     { field: "id", headerName: "ID", width: 100 },
     { field: "name", headerName: "Device Name", width: 200 },
-    { field: "online", headerName: "Is Online", width: 160 },
+    {
+      field: "online",
+      headerName: "Is Online",
+      width: 160,
+      renderCell: (params) => {
+        return (
+          <div>
+            {params.value === true ? (
+              <CheckCircleOutlineIcon style={{ color: "green" }} />
+            ) : (
+              <HighlightOffIcon style={{ color: "red" }} />
+            )}
+          </div>
+        );
+      },
+    },
     { field: "deviceId", headerName: "Device ID", width: 200 },
     { field: "nodeInfo", headerName: "Node Info", width: 400 },
     { field: "blockNumber", headerName: "#Blocks", width: 200 },
@@ -46,7 +63,9 @@ export function DeviceTable({
       renderCell: (params) => {
         const device = devices.find((d) => d._id === params.id)!;
         return (
-          <Button onClick={() => router.push(`/device/${device.id}`)}>
+          <Button
+            onClick={() => router.push(`/user/devices/detail/${device.id}`)}
+          >
             Details
           </Button>
         );
@@ -57,9 +76,10 @@ export function DeviceTable({
     return {
       id: d._id,
       deviceId: d.id,
-      online:
-        Math.abs(moment(d.lastSeen).diff(moment(), "seconds")) <
-        CONFIG.maximumNotSeenDuration,
+      online: d.lastSeen
+        ? Math.abs(moment(d.lastSeen).diff(moment(), "seconds")) <
+          CONFIG.maximumNotSeenDuration
+        : false,
       blockNumber: d.data?.number,
       name: d.name,
       peerCount: d.data?.systemInfo.peerCount,
