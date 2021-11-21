@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.7.1](https://github.com/etherdata-blockchain/etherdata-admin-server/compare/v1.7.0...v1.7.1) (2021-11-21)
+
+
+### Bug Fixes
+
+* Update online devices display ([d61749b](https://github.com/etherdata-blockchain/etherdata-admin-server/commit/d61749b872e1682517be7b5f7a17e769efa56c82))
+
 ## [1.7.0](https://github.com/etherdata-blockchain/etherdata-admin-server/compare/v1.6.6...v1.7.0) (2021-11-21)
 
 
