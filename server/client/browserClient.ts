@@ -46,6 +46,11 @@ export class BrowserClient {
   async generatePaginationResult(): Promise<PaginationResult> {
     let devicePlugin = new DeviceRegistrationPlugin();
     let storageSystem = new StorageManagementSystemPlugin();
+    let onlineDevicesCount = await devicePlugin.getOnlineDevicesCount(
+        this.deviceIds,
+        this.currentFilter
+    );
+
     if (!this.deviceIds || this.deviceIds.length === 0) {
       return {
         adminVersions: [],
@@ -53,7 +58,7 @@ export class BrowserClient {
         devices: [],
         nodeVersions: [],
         totalNumberDevices: 0,
-        totalOnlineDevices: 0,
+        totalOnlineDevices: onlineDevicesCount,
         totalStorageNumber: await storageSystem.countItems(),
       };
     }
@@ -65,10 +70,7 @@ export class BrowserClient {
         this.deviceIds,
         this.currentFilter
       )) ?? [];
-    let onlineDevicesCount = await devicePlugin.getOnlineDevicesCount(
-      this.deviceIds,
-      this.currentFilter
-    );
+
     let totalNumDevices = await devicePlugin.countWithFilter(
       this.deviceIds,
       this.currentFilter
