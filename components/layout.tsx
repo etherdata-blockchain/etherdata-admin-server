@@ -67,7 +67,7 @@ export default function Layout(props: Props) {
     <div>
       {menus.map((m, i) => (
         <Link href={m.link} key={`item-${i}`}>
-          <ListItemButton selected={selectedIndex === i}>
+          <ListItemButton selected={selectedIndex === i} id={m.title}>
             <Tooltip title={m.title}>
               <ListItemIcon>{m.icon}</ListItemIcon>
             </Tooltip>
