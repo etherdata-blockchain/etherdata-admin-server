@@ -4,6 +4,7 @@ module.exports = {
     "<rootDir>/.next/",
     "<rootDir>/node_modules/",
     "<rootDir>/dist",
+    "<rootDir>/cypress",
   ],
   moduleNameMapper: {
     "\\.(scss|sass|css)$": "identity-obj-proxy",
