@@ -1,0 +1,23 @@
+name: Integration tests
+
+on:
+  schedule:
+    - cron: '0 0 * * *'
+  workflow_dispatch
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: "16"
+      - uses: tinovyatkin/action-check-deprecated-js-deps@v1
+      - run: yarn
+      - name: Test
+        run: yarn cypress
+        env:
+          cypress_url: ${{ secrets.IT_URL }}
+          cypress_password: ${{ secrets.IT_PASSWORD }}
+          cypress_username: ${{ secrets.IT_USERNAME }}

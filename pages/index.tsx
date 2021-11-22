@@ -92,7 +92,7 @@ export default function Home(props: Props) {
                     fullWidth
                   />
 
-                  <Button variant={"contained"} type={"submit"}>
+                  <Button variant={"contained"} type={"submit"} id={"login"}>
                     Login
                   </Button>
                   <Spacer height={100} />

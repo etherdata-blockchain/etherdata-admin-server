@@ -206,11 +206,13 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
 
   const plugin = new DeviceRegistrationPlugin();
   let device = await plugin.get(deviceId);
+
+  const props = {
+    user: device?.user,
+    deviceId: deviceId,
+    device: device,
+  };
   return {
-    props: {
-      user: device?.user ?? null,
-      deviceId: deviceId,
-      device: JSON.parse(JSON.stringify(device)) ?? null,
-    },
+    props: JSON.parse(JSON.stringify(props)),
   };
 };

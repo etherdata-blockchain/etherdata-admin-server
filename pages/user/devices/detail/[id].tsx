@@ -69,10 +69,6 @@ export default function DeviceDetail({ device, found }: Props) {
     };
   }, []);
 
-  if (!found) {
-    return <div>Device Not Found</div>;
-  }
-
   return (
     <div>
       <PageHeader
@@ -164,7 +160,7 @@ export default function DeviceDetail({ device, found }: Props) {
         <Grid item xs={12}>
           <ResponsiveCard>
             <ListItem>
-              <ListItemText primary={"Is Online"} secondary={`${online}`} />
+              <ListItemText primary={"Is Online"} secondary={`${found && online}`} />
             </ListItem>
 
             <ListItemButton
@@ -175,7 +171,7 @@ export default function DeviceDetail({ device, found }: Props) {
               <ListItemText
                 primary={"miner"}
                 secondary={
-                  <Typography noWrap>{foundDevice!.data?.miner}</Typography>
+                  <Typography noWrap>{foundDevice?.data?.miner}</Typography>
                 }
               />
             </ListItemButton>
