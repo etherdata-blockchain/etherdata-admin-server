@@ -80,7 +80,7 @@ export default function DeviceDetail({ device, found }: Props) {
         description={`${device?.id}`}
         action={
           <Button
-            onClick={() => router.push("/user/edit/" + router.query.id)}
+            onClick={() => router.push("/user/devices/detail/edit/" + router.query.id)}
             variant={"outlined"}
           >
             Edit
