@@ -19,7 +19,7 @@ jobs:
       - uses: tinovyatkin/action-check-deprecated-js-deps@v1
       - run: yarn
       - name: Test
-        run: yarn cypress
+        run: yarn cypress:headless
         env:
           cypress_url: ${{ secrets.IT_URL }}
           cypress_password: ${{ secrets.IT_PASSWORD }}
