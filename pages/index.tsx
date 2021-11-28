@@ -1,6 +1,7 @@
 import {
   Button,
   Grid,
+  Hidden,
   LinearProgress,
   Stack,
   TextField,
@@ -28,19 +29,21 @@ export default function Home(props: Props) {
 
   return (
     <Grid container>
-      <Grid
-        item
-        xs={8}
-        style={{
-          backgroundColor: "white",
-          height: "100vh",
-          background: "url(https://source.unsplash.com/random)",
-          backgroundRepeat: "no-repeat",
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-        }}
-      />
-      <Grid item xs={4}>
+      <Hidden only={"xs"}>
+        <Grid
+          item
+          xs={8}
+          style={{
+            backgroundColor: "white",
+            height: "100vh",
+            background: "url(https://source.unsplash.com/random)",
+            backgroundRepeat: "no-repeat",
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+          }}
+        />
+      </Hidden>
+      <Grid item xs={12} md={4}>
         <Stack
           justifyContent={"center"}
           alignContent={"center"}

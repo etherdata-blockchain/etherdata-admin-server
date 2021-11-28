@@ -28,6 +28,7 @@ import { Configurations } from "../server/const/configurations";
 import { realmApp } from "../pages/_app";
 import ETDProvider from "../pages/model/ETDProvider";
 import DeviceProvider from "../pages/model/DeviceProvider";
+import MenuIcon from "@mui/icons-material/Menu";
 
 export interface Menu {
   title: string;
@@ -72,7 +73,7 @@ export default function Layout(props: Props) {
               <ListItemIcon>{m.icon}</ListItemIcon>
             </Tooltip>
             <Hidden smUp>
-              <ListItemText>{m.title}</ListItemText>
+              <ListItemText style={{ color: "white" }}>{m.title}</ListItemText>
             </Hidden>
           </ListItemButton>
         </Link>
@@ -141,6 +142,25 @@ export default function Layout(props: Props) {
     </AppBar>
   );
 
+  const mobileAppbar = (
+    <AppBar elevation={0} position={"fixed"}>
+      <Toolbar>
+        <IconButton onClick={() => setDrawerOpen(!drawerOpen)}>
+          <MenuIcon />
+        </IconButton>
+        <Typography style={{ color: "black" }} variant={"h6"}>
+          {appBarTitle}
+        </Typography>
+        <Divider
+          orientation={"vertical"}
+          style={{ marginRight: 10, height: 35 }}
+        />
+        <Box sx={{ flexGrow: 1 }} />
+        {tools}
+      </Toolbar>
+    </AppBar>
+  );
+
   if (router.pathname === "/") {
     return <div>{children}</div>;
   }
@@ -162,7 +182,7 @@ export default function Layout(props: Props) {
               </List>
             </Drawer>
           </Hidden>
-          <Hidden mdUp>
+          <Hidden only={["sm", "md", "lg", "xl"]}>
             {/**mobile**/}
             <Drawer
               open={drawerOpen}
@@ -184,8 +204,9 @@ export default function Layout(props: Props) {
               {children}
             </main>
           </Hidden>
-          <Hidden smUp>
+          <Hidden only={["sm", "md", "lg", "xl"]}>
             {/**Mobile**/}
+            {mobileAppbar}
             <Spacer height={70} />
             <main
               style={{ paddingLeft: 30, paddingRight: 30, paddingBottom: 30 }}

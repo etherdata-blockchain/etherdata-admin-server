@@ -19,7 +19,7 @@ import {
 } from "@mui/material";
 import { LargeDataCard } from "../../components/cards/largeDataCard";
 import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
-import Web3 from "web3";
+import queryString from "querystring";
 import ResponsiveCard from "../../components/ResponsiveCard";
 import { RewardDisplay } from "../../components/user/rewardDisplay";
 import { weiToETD } from "../../utils/weiToETD";
@@ -199,13 +199,13 @@ export default function ({
           totalNumRows={totalDevices}
           numPerPage={Configurations.numberPerPage}
           onPageChanged={async (page) => {
-            await router.push(
-              `/user/${userID}?coinbase=${coinbase}&page=${page}`,
-              undefined,
-              {
-                scroll: false,
-              }
-            );
+            const query = queryString.stringify({
+              coinbase: coinbase,
+              page: page,
+            });
+            await router.push(`/user/${userID}?${query}`, undefined, {
+              scroll: false,
+            });
           }}
         />
       </ResponsiveCard>

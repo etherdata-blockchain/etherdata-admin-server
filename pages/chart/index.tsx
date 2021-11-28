@@ -28,7 +28,7 @@ export default function Transaction({
       <PageHeader title={"Chart"} description={"List of charts"} />
       <Spacer height={20} />
       <Grid container spacing={5}>
-        <Grid item md={6}>
+        <Grid item md={6} sm={12}>
           <ResponsiveCard style={{ height: 600 }} title={"Admin versions"}>
             <ResponsiveContainer width="100%" height="80%">
               <PieChart>
@@ -52,7 +52,7 @@ export default function Transaction({
             </ResponsiveContainer>
           </ResponsiveCard>
         </Grid>
-        <Grid item md={6}>
+        <Grid item md={6} sm={12}>
           <ResponsiveCard style={{ height: 600 }} title={"Node versions"}>
             <ResponsiveContainer width="100%" height="80%">
               <PieChart>

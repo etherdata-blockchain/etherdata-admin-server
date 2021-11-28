@@ -9,7 +9,8 @@ module.exports = {
   moduleNameMapper: {
     "\\.(scss|sass|css)$": "identity-obj-proxy",
   },
-  preset: "@shelf/jest-mongodb",
-  transform: { "\\.ts$": ["ts-jest"] },
+  presets: ["@shelf/jest-mongodb"],
+  transform: { "\\.ts$": ["ts-jest"], "\\.tsx$": ["ts-jest"] },
   testTimeout: 20000,
+  testEnvironment: "jsdom",
 };

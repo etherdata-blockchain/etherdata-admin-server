@@ -6,6 +6,7 @@ import { Button } from "@mui/material";
 import { PaginatedStorageUsers } from "../../server/plugin/plugins/storageManagementSystemPlugin";
 import { Configurations } from "../../server/const/configurations";
 import { DefaultStorageUser } from "../../server/const/defaultValues";
+import queryString from "querystring";
 
 type Props = {
   storageUser: PaginatedStorageUsers;
@@ -35,13 +36,14 @@ export function UserTable({
           <Button
             onClick={async () => {
               if (params.value === DefaultStorageUser.id) {
-                await router.push(
-                  `/user/${params.value}?&name=${user?.user_name}`
-                );
+                const query = queryString.stringify({ name: user?.user_id });
+                await router.push(`/user/${params.value}?${query}`);
               } else {
-                await router.push(
-                  `/user/${params.value}?coinbase=${user?.coinbase}&name=${user?.user_name}`
-                );
+                const query = queryString.stringify({
+                  name: user?.user_name,
+                  coinbase: user?.coinbase,
+                });
+                await router.push(`/user/${params.value}?${query}`);
               }
             }}
           >

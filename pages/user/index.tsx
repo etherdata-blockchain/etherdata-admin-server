@@ -12,6 +12,7 @@ import {
 } from "../../server/plugin/plugins/storageManagementSystemPlugin";
 import { Pagination } from "@mui/material";
 import { useRouter } from "next/dist/client/router";
+import { TestingValues } from "../../server/const/testingValues";
 
 type Props = {
   paginationResult: PaginatedStorageUsers;
@@ -36,6 +37,7 @@ export default function User({ paginationResult, currentPage }: Props) {
       <Spacer height={20} />
       <ResponsiveCard>
         <Pagination
+          data-testid={TestingValues.pagination}
           color={"primary"}
           onChange={async (e, cur) => {
             await handlePageChange(cur - 1);

@@ -24,7 +24,7 @@ export default function ResponsiveCard({
 }) {
   return (
     <div>
-      <Hidden mdUp>{children}</Hidden>
+      <Hidden only={["sm", "md", "lg", "xl"]}>{children}</Hidden>
       <Hidden only={["xs"]}>
         <Card className={className} style={style}>
           {title && (
