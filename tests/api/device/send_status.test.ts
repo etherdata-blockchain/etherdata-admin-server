@@ -11,11 +11,11 @@ import axios from "axios";
 import { StorageManagementSystemPlugin } from "../../../services/dbServices/storageManagementSystemPlugin";
 
 jest.mock("axios");
-jest.mock("../../../server/plugin/plugins/storageManagementSystemPlugin");
+jest.mock("../../../services/dbServices/storageManagementSystemPlugin");
 
 describe("Test send user status", () => {
   let dbServer: MongoMemoryServer;
-  let oldEnv = process.env;
+  const oldEnv = process.env;
 
   beforeAll(async () => {
     //@ts-ignore
@@ -44,7 +44,7 @@ describe("Test send user status", () => {
       };
     });
 
-    let token = jwt.sign({ user: "test-user" }, "test");
+    const token = jwt.sign({ user: "test-user" }, "test");
     const { req, res } = createMocks({
       method: "POST",
       headers: {
@@ -66,7 +66,7 @@ describe("Test send user status", () => {
       };
     });
 
-    let token = jwt.sign({ user: "test-user" }, "test1");
+    const token = jwt.sign({ user: "test-user" }, "test1");
     const { req, res } = createMocks({
       method: "POST",
       headers: {

@@ -8,7 +8,7 @@ import handler from "../../../pages/api/v1/device/result/submit-result";
 import { StorageManagementSystemPlugin } from "../../../services/dbServices/storageManagementSystemPlugin";
 import mongoose from "mongoose";
 
-jest.mock("../../../server/plugin/plugins/storageManagementSystemPlugin");
+jest.mock("../../../services/dbServices/storageManagementSystemPlugin");
 
 describe("Test submit result", () => {
   let dbServer: MongoMemoryServer;
