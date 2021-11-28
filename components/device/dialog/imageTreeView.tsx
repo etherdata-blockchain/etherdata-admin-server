@@ -22,6 +22,11 @@ function bytesToSize(bytes: number) {
   return (bytes / Math.pow(1024, i)).toFixed(2) + " " + sizes[i];
 }
 
+/**
+ * Show list of docker images
+ * @param images
+ * @constructor
+ */
 export default function ImageTreeView({ images }: { images: ImageInfo[] }) {
   console.log(images);
   return (

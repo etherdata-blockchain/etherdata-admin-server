@@ -16,6 +16,21 @@ type Props = {
   onClick?: () => void;
 };
 
+/**
+ * Display a large data card
+ * @param title
+ * @param subtitle
+ * @param action
+ * @param icon
+ * @param color
+ * @param iconColor
+ * @param subtitleColor
+ * @param iconBackgroundColor
+ * @param style
+ * @param className
+ * @param onClick
+ * @constructor
+ */
 export function LargeDataCard({
   title,
   subtitle,

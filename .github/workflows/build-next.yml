@@ -94,6 +94,7 @@ jobs:
             APP_ID=${{ secrets.APP_ID }}
             PUBLIC_CLIENT_PASSWORD=${{secrets.PUBLIC_CLIENT_PASSWORD}}
             PUBLIC_STATS_SERVER=${{secrets.PUBLIC_STATS_SERVER}}
+            VERSION=${{ steps.prep.outputs.tags }}
 
   publish-k8s-release:
     runs-on: ubuntu-latest

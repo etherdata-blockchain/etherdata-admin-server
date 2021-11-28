@@ -28,6 +28,7 @@ import { Configurations } from "../server/const/configurations";
 import { realmApp } from "../pages/_app";
 import ETDProvider from "../pages/model/ETDProvider";
 import DeviceProvider from "../pages/model/DeviceProvider";
+import MenuIcon from "@mui/icons-material/Menu";
 
 export interface Menu {
   title: string;
@@ -40,8 +41,12 @@ interface Props {
   menus: Menu[];
 }
 
-const drawerWidth = 60;
-
+/**
+ * Default layout for the app. Including a sidebar, a appbar,
+ * and will automatically fit different screen size
+ * @param {any} props Props
+ * @constructor
+ */
 export default function Layout(props: Props) {
   const { children, menus } = props;
   const router = useRouter();
@@ -57,7 +62,7 @@ export default function Layout(props: Props) {
     React.useContext(UIProviderContext);
 
   React.useEffect(() => {
-    let found = menus.findIndex((m) => router.pathname.includes(m.link));
+    const found = menus.findIndex((m) => router.pathname.includes(m.link));
     if (found >= 0) {
       setSelectedIndex(found);
     }
@@ -72,7 +77,7 @@ export default function Layout(props: Props) {
               <ListItemIcon>{m.icon}</ListItemIcon>
             </Tooltip>
             <Hidden smUp>
-              <ListItemText>{m.title}</ListItemText>
+              <ListItemText style={{ color: "white" }}>{m.title}</ListItemText>
             </Hidden>
           </ListItemButton>
         </Link>
@@ -109,7 +114,7 @@ export default function Layout(props: Props) {
 
   const appbar = (
     <AppBar elevation={0} position={"fixed"}>
-      <Toolbar style={{ marginLeft: drawerWidth }}>
+      <Toolbar style={{ marginLeft: Configurations.drawerSize }}>
         <div style={{ width: 200 }}>
           <Collapse
             in={appBarTitleShow}
@@ -141,6 +146,25 @@ export default function Layout(props: Props) {
     </AppBar>
   );
 
+  const mobileAppbar = (
+    <AppBar elevation={0} position={"fixed"}>
+      <Toolbar>
+        <IconButton onClick={() => setDrawerOpen(!drawerOpen)}>
+          <MenuIcon />
+        </IconButton>
+        <Typography style={{ color: "black" }} variant={"h6"}>
+          {appBarTitle}
+        </Typography>
+        <Divider
+          orientation={"vertical"}
+          style={{ marginRight: 10, height: 35 }}
+        />
+        <Box sx={{ flexGrow: 1 }} />
+        {tools}
+      </Toolbar>
+    </AppBar>
+  );
+
   if (router.pathname === "/") {
     return <div>{children}</div>;
   }
@@ -154,16 +178,21 @@ export default function Layout(props: Props) {
       <ETDProvider>
         <div>
           <Hidden only={["xs"]}>
-            {/**Desktop**/}
+            {/** Desktop**/}
             {appbar}
             <Drawer variant="permanent">
-              <List style={{ width: drawerWidth, overflowX: "hidden" }}>
+              <List
+                style={{
+                  width: Configurations.drawerSize,
+                  overflowX: "hidden",
+                }}
+              >
                 {listContent}
               </List>
             </Drawer>
           </Hidden>
-          <Hidden mdUp>
-            {/**mobile**/}
+          <Hidden only={["sm", "md", "lg", "xl"]}>
+            {/** mobile**/}
             <Drawer
               open={drawerOpen}
               onClose={() => {
@@ -177,15 +206,20 @@ export default function Layout(props: Props) {
           </Hidden>
 
           <Hidden only={["xs"]}>
-            {/**Desktop**/}
+            {/** Desktop**/}
             <main
-              style={{ marginLeft: drawerWidth, padding: 30, marginTop: 50 }}
+              style={{
+                marginLeft: Configurations.drawerSize,
+                padding: 30,
+                marginTop: 50,
+              }}
             >
               {children}
             </main>
           </Hidden>
-          <Hidden smUp>
-            {/**Mobile**/}
+          <Hidden only={["sm", "md", "lg", "xl"]}>
+            {/** Mobile**/}
+            {mobileAppbar}
             <Spacer height={70} />
             <main
               style={{ paddingLeft: 30, paddingRight: 30, paddingBottom: 30 }}

@@ -1,6 +1,5 @@
 import { Db, MongoClient } from "mongodb";
 import { Configurations } from "../../const/configurations";
-import { Config } from "dockerode";
 import { DefaultStorageUser } from "../../const/defaultValues";
 
 export interface StorageUser {

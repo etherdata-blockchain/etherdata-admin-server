@@ -13,10 +13,13 @@ import {
   Clique,
   Debug,
   Etd,
+  // eslint-disable-next-line camelcase
   Json_rpc,
+  // eslint-disable-next-line camelcase
   Json_rpc_methods,
   Miner,
   Personal,
+  // eslint-disable-next-line camelcase
   Real_time,
   Txpool,
 } from "etd-react-ui";
@@ -38,6 +41,7 @@ interface TabPanelProps {
   value: number;
 }
 
+// eslint-disable-next-line require-jsdoc
 function TabPanel(props: TabPanelProps) {
   const { children, value, index, ...other } = props;
 
@@ -59,6 +63,7 @@ function TabPanel(props: TabPanelProps) {
   );
 }
 
+// eslint-disable-next-line require-jsdoc
 function a11yProps(index: number) {
   return {
     id: `vertical-tab-${index}`,
@@ -66,6 +71,7 @@ function a11yProps(index: number) {
   };
 }
 
+// eslint-disable-next-line require-jsdoc
 export default function DeviceEditDetail({ user, deviceId, device }: Props) {
   const [value, setValue] = React.useState(0);
   const { showSnackBarMessage } = React.useContext(UIProviderContext);
@@ -77,7 +83,7 @@ export default function DeviceEditDetail({ user, deviceId, device }: Props) {
 
   React.useEffect(() => {
     console.log("Joining room", deviceId);
-    //@ts-ignore
+    // @ts-ignore
     if (device) joinDetail(deviceId);
 
     socket?.on("detail-info", (data) => {
@@ -85,7 +91,7 @@ export default function DeviceEditDetail({ user, deviceId, device }: Props) {
     });
 
     return () => {
-      //@ts-ignore
+      // @ts-ignore
       if (device) leaveDetail(deviceId);
     };
   }, []);
@@ -109,7 +115,7 @@ export default function DeviceEditDetail({ user, deviceId, device }: Props) {
   const call = React.useCallback(async ({ methodName, params }: any) => {
     try {
       showSnackBarMessage("Sending command " + methodName + " to client");
-      let result = await sendCommand(methodName, params);
+      const result = await sendCommand(methodName, params);
       return result;
     } catch (err) {
       showSnackBarMessage(`${err}`);
@@ -205,7 +211,7 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
   }
 
   const plugin = new DeviceRegistrationPlugin();
-  let device = await plugin.get(deviceId);
+  const device = await plugin.get(deviceId);
 
   const props = {
     user: device?.user,

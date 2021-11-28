@@ -7,8 +7,6 @@ import {
   PaginationResult,
 } from "../../../client/browserClient";
 import { RegisteredPlugins } from "./registeredPlugins";
-import { IDevice } from "../../../schema/device";
-import Logger from "../../../logger";
 
 /**
  * Web Browser socket io plugin

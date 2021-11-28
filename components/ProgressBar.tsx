@@ -1,6 +1,7 @@
 import { Fade, Grid } from "@mui/material";
 import React from "react";
 
+// eslint-disable-next-line require-jsdoc
 export default function ProgressBar({ length }: { length: number }) {
   const [count, setCount] = React.useState(0);
 

@@ -18,6 +18,11 @@ type Props = {
   device: IDevice | undefined;
 };
 
+/**
+ * Docker panel for docker operations
+ * @param props
+ * @constructor
+ */
 export function DockerPanel(props: Props) {
   const filterState = usePopupState({ variant: "popper", popupId: "filter" });
   const selectionState = usePopupState({

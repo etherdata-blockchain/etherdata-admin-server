@@ -9,17 +9,10 @@ import {
 import { useRouter } from "next/dist/client/router";
 import PageHeader from "../../components/PageHeader";
 import Spacer from "../../components/Spacer";
-import {
-  Divider,
-  Grid,
-  List,
-  ListItem,
-  ListItemText,
-  Pagination,
-} from "@mui/material";
+import { Divider, Grid, List, ListItem, ListItemText } from "@mui/material";
 import { LargeDataCard } from "../../components/cards/largeDataCard";
 import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
-import Web3 from "web3";
+import queryString from "querystring";
 import ResponsiveCard from "../../components/ResponsiveCard";
 import { RewardDisplay } from "../../components/user/rewardDisplay";
 import { weiToETD } from "../../utils/weiToETD";
@@ -50,6 +43,17 @@ interface Props {
   };
 }
 
+/**
+ * This page will display user info with their
+ * coinbase, mining reward and devices
+ * @param rewards
+ * @param user
+ * @param paginatedItems
+ * @param coinbase
+ * @param currentPage
+ * @param userID
+ * @param userName
+ */
 export default function ({
   rewards,
   user,
@@ -65,19 +69,14 @@ export default function ({
     React.useContext(DeviceContext);
   const { history } = React.useContext(ETDContext);
 
-  const {
-    devices,
-    totalNumberDevices,
-    totalOnlineDevices,
-    totalStorageNumber,
-    clientFilter,
-  } = paginationResult ?? DefaultPaginationResult;
+  const { devices, totalOnlineDevices, totalStorageNumber, clientFilter } =
+    paginationResult ?? DefaultPaginationResult;
 
   React.useEffect(() => {
     handlePageChange(storageDevices.map((d) => d.qr_code)).then(() => {});
   }, []);
 
-  //@ts-ignore
+  // @ts-ignore
   const displayDevices: IDevice[] = storageDevices
     .filter((d) => {
       // If we apply a filter, then we return devices with realtime status
@@ -92,7 +91,7 @@ export default function ({
     .map((d) => {
       const foundDeviceInfo = devices.find((i) => i.id === d.qr_code);
       if (foundDeviceInfo) {
-        //TODO: Add more info from storage device
+        // TODO: Add more info from storage device
         return {
           ...foundDeviceInfo,
         };
@@ -199,13 +198,13 @@ export default function ({
           totalNumRows={totalDevices}
           numPerPage={Configurations.numberPerPage}
           onPageChanged={async (page) => {
-            await router.push(
-              `/user/${userID}?coinbase=${coinbase}&page=${page}`,
-              undefined,
-              {
-                scroll: false,
-              }
-            );
+            const query = queryString.stringify({
+              coinbase: coinbase,
+              page: page,
+            });
+            await router.push(`/user/${userID}?${query}`, undefined, {
+              scroll: false,
+            });
           }}
         />
       </ResponsiveCard>

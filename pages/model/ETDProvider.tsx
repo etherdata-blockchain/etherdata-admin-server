@@ -16,24 +16,31 @@ interface ETDInterface {
   fetchDetail(id: string): void;
 }
 
-//@ts-ignore
+// @ts-ignore
 export const ETDContext = React.createContext<ETDInterface>({});
 
 let socket: Socket | undefined = undefined;
 
+/**
+ * Provider for fetching etd data
+ * @param props
+ * @constructor
+ */
 export default function ETDProvider(props: any) {
   const { children } = props;
+  // eslint-disable-next-line no-unused-vars
   const [clients, setClients] = React.useState<any[]>([]);
   const [transactions, setTransactions] = React.useState<TransactionSummary[]>(
     []
   );
   const [history, setHistory] = React.useState<ETDHistoryInterface>();
+  // eslint-disable-next-line no-unused-vars
   const [detail, setDetail] = React.useState<any>();
   const [isLoadingDetail, setIsLoadingDetail] = React.useState(false);
   const { showSnackBarMessage } = React.useContext(UIProviderContext);
 
   React.useEffect(() => {
-    let url = process.env.NEXT_PUBLIC_STATS_SERVER + "/clients";
+    const url = process.env.NEXT_PUBLIC_STATS_SERVER + "/clients";
     showSnackBarMessage("Loading Data");
     console.log(url);
     socket = io(url);
@@ -48,7 +55,7 @@ export default function ETDProvider(props: any) {
       transactionCol
         .count()
         .then(async (count) => {
-          let tx = await transactionCol.aggregate([
+          const tx = await transactionCol.aggregate([
             {
               $skip: count - 20,
             },

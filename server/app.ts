@@ -17,7 +17,7 @@ const nextHandler = nextApp.getRequestHandler();
 nextApp.prepare().then(async () => {
   const client = new MongoClient(process.env.MONGODB_URL!);
   await client.connect();
-  //@ts-ignore
+  // @ts-ignore
   global.MONGO_CLIENT = client;
 
   const server = express();
@@ -29,7 +29,7 @@ nextApp.prepare().then(async () => {
   ];
   const socketIOServer = new Server(plugins);
 
-  //@ts-ignore
+  // @ts-ignore
   global.nodePlugin = plugins[0];
 
   await mongoose.connect(process.env.MONGODB_URL!);

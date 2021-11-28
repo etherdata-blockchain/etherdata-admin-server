@@ -20,6 +20,7 @@ type Props = {
   onPageChanged(num: number): void;
 };
 
+// eslint-disable-next-line require-jsdoc
 export function DeviceTable({
   devices,
   loading,

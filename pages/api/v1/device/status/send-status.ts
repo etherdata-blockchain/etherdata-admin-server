@@ -1,7 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { PostOnlyMiddleware } from "../../../../../utils/nextHandler/postOnlyHandler";
+import { postOnlyMiddleware } from "../../../../../utils/nextHandler/postOnlyHandler";
 import { DeviceRegistrationPlugin } from "../../../../../server/plugin/plugins/deviceRegistrationPlugin";
-import { JwtVerificationHandler } from "../../../../../utils/nextHandler/jwtVerificationHandler";
+import { jwtVerificationHandler } from "../../../../../utils/nextHandler/jwtVerificationHandler";
 import { IDevice } from "../../../../../server/schema/device";
 import moment from "moment";
 import Logger from "../../../../../server/logger";
@@ -30,8 +30,8 @@ async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
   }
 
   try {
-    let plugin = new DeviceRegistrationPlugin();
-    let [authenticated, newKey] = await plugin.auth(user, key);
+    const plugin = new DeviceRegistrationPlugin();
+    const [authenticated, newKey] = await plugin.auth(user, key);
     if (!authenticated) {
       Logger.error(
         `${user}: is not registered in our storage management system`
@@ -51,7 +51,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
       docker,
     };
 
-    let responseData = await plugin.patch(deviceData as IDevice);
+    const responseData = await plugin.patch(deviceData as IDevice);
     res.status(201).json({ data: responseData, key: newKey });
   } catch (err) {
     Logger.error(err);
@@ -61,4 +61,4 @@ async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
   }
 }
 
-export default PostOnlyMiddleware(JwtVerificationHandler(handler));
+export default postOnlyMiddleware(jwtVerificationHandler(handler));

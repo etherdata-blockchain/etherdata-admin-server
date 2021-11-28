@@ -1,18 +1,26 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { PostOnlyMiddleware } from "../../../../utils/nextHandler/postOnlyHandler";
+import { postOnlyMiddleware } from "../../../../utils/nextHandler/postOnlyHandler";
 import { DeviceRegistrationPlugin } from "../../../../server/plugin/plugins/deviceRegistrationPlugin";
-import { JwtVerificationHandler } from "../../../../utils/nextHandler/jwtVerificationHandler";
+import { jwtVerificationHandler } from "../../../../utils/nextHandler/jwtVerificationHandler";
 
 type Data = {
   success: boolean;
   reason?: string;
 };
 
+/**
+ * Handle device register request.
+ * When user submit a register device,
+ * this handler will try to find the matched device,
+ * and try to register the user info in the database
+ * @param req
+ * @param res
+ */
 async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
   const { user, device } = req.body;
 
-  let plugin = new DeviceRegistrationPlugin();
-  let [success, reason] = await plugin.register(device, user);
+  const plugin = new DeviceRegistrationPlugin();
+  const [success, reason] = await plugin.register(device, user);
   if (success) {
     res.status(201).json({ success: success, reason: reason });
   } else {
@@ -20,4 +28,4 @@ async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
   }
 }
 
-export default PostOnlyMiddleware(JwtVerificationHandler(handler));
+export default postOnlyMiddleware(jwtVerificationHandler(handler));

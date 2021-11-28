@@ -4,6 +4,11 @@ import { List, ListItemButton, ListItemText, Typography } from "@mui/material";
 
 type Props = {};
 
+/**
+ * List of miners display
+ * @param props
+ * @constructor
+ */
 export function BlockMinerDisplay(props: Props) {
   return (
     <List>

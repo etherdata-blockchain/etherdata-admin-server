@@ -3,8 +3,6 @@ import React from "react";
 import Head from "next/head";
 import useScrollTrigger from "@mui/material/useScrollTrigger";
 import { UIProviderContext } from "../pages/model/UIProvider";
-// @ts-ignore
-import ReactDOM from "react-dom";
 
 interface Props {
   title: string;
@@ -12,8 +10,9 @@ interface Props {
   action?: JSX.Element;
 }
 
+// eslint-disable-next-line require-jsdoc
 export default function PageHeader({ title, description, action }: Props) {
-  const { setDrawerOpen, showAppBarTitle, hideAppBarTitle, appBarTitleShow } =
+  const { showAppBarTitle, hideAppBarTitle } =
     React.useContext(UIProviderContext);
   const trigger = useScrollTrigger({
     disableHysteresis: true,

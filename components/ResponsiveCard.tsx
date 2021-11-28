@@ -7,6 +7,18 @@ import {
 } from "@mui/material";
 import React from "react";
 
+/**
+ * Will display a card component by current screen width.
+ * If screen width belows xs break point, will not
+ * display a card.
+ * @param children
+ * @param className
+ * @param title
+ * @param subtitle
+ * @param style
+ * @param action
+ * @constructor
+ */
 export default function ResponsiveCard({
   children,
   className,
@@ -24,7 +36,7 @@ export default function ResponsiveCard({
 }) {
   return (
     <div>
-      <Hidden mdUp>{children}</Hidden>
+      <Hidden only={["sm", "md", "lg", "xl"]}>{children}</Hidden>
       <Hidden only={["xs"]}>
         <Card className={className} style={style}>
           {title && (
