@@ -17,6 +17,11 @@ import { UIProviderContext } from "./model/UIProvider";
 
 interface Props {}
 
+/**
+ * Home page
+ * @param props
+ * @constructor
+ */
 export default function Home(props: Props) {
   const router = useRouter();
   const { showSnackBarMessage } = React.useContext(UIProviderContext);

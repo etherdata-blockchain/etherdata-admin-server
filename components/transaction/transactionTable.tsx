@@ -9,6 +9,7 @@ type Props = {
   transactions: ITransaction[];
 };
 
+// eslint-disable-next-line require-jsdoc
 export function TransactionTable({ transactions }: Props) {
   console.log(transactions);
 

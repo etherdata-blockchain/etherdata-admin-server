@@ -12,6 +12,17 @@ type Props = {
   subtitleColor?: string;
 };
 
+/**
+ * Display a grid data card
+ * @param className
+ * @param backgroundColor
+ * @param items
+ * @param iconColor
+ * @param iconBackgroundColor
+ * @param titleColor
+ * @param subtitleColor
+ * @constructor
+ */
 export function GridDataCard({
   className,
   backgroundColor,

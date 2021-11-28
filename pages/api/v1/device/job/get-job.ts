@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { DeviceRegistrationPlugin } from "../../../../../server/plugin/plugins/deviceRegistrationPlugin";
-import { JwtVerificationHandler } from "../../../../../utils/nextHandler/jwtVerificationHandler";
+import { jwtVerificationHandler } from "../../../../../utils/nextHandler/jwtVerificationHandler";
 import Logger from "../../../../../server/logger";
 import { IPendingJob } from "../../../../../server/schema/pending-job";
 import { PendingJobPlugin } from "../../../../../server/plugin/plugins/pendingJobPlugin";
@@ -21,11 +21,11 @@ async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
   const returnData: Data = {};
 
   try {
-    let plugin = new PendingJobPlugin();
-    let devicePlugin = new DeviceRegistrationPlugin();
-    let [authorized, newKey] = await devicePlugin.auth(user, key);
+    const plugin = new PendingJobPlugin();
+    const devicePlugin = new DeviceRegistrationPlugin();
+    const [authorized, newKey] = await devicePlugin.auth(user, key);
     if (authorized) {
-      let job = await plugin.getJob(user);
+      const job = await plugin.getJob(user);
       returnData.job = job;
       returnData.key = newKey;
       res.status(200).json(returnData);
@@ -42,4 +42,4 @@ async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
   }
 }
 
-export default JwtVerificationHandler(handler);
+export default jwtVerificationHandler(handler);

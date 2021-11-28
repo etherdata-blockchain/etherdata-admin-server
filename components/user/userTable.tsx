@@ -14,12 +14,19 @@ type Props = {
   currentPage: number;
 };
 
+/**
+ * Show user
+ * @param {PaginatedStorageUsers} storageUser data to be shown
+ * @param {function} handlePageChange Go to next page
+ * @param {number}currentPage Current page number
+ * @constructor
+ */
 export function UserTable({
   storageUser,
   handlePageChange,
   currentPage,
 }: Props) {
-  const { totalUsers, totalPage, users } = storageUser;
+  const { totalUsers, users } = storageUser;
   const router = useRouter();
 
   const columns: GridColDef[] = [

@@ -41,8 +41,12 @@ interface Props {
   menus: Menu[];
 }
 
-const drawerWidth = 60;
-
+/**
+ * Default layout for the app. Including a sidebar, a appbar,
+ * and will automatically fit different screen size
+ * @param {any} props Props
+ * @constructor
+ */
 export default function Layout(props: Props) {
   const { children, menus } = props;
   const router = useRouter();
@@ -58,7 +62,7 @@ export default function Layout(props: Props) {
     React.useContext(UIProviderContext);
 
   React.useEffect(() => {
-    let found = menus.findIndex((m) => router.pathname.includes(m.link));
+    const found = menus.findIndex((m) => router.pathname.includes(m.link));
     if (found >= 0) {
       setSelectedIndex(found);
     }
@@ -110,7 +114,7 @@ export default function Layout(props: Props) {
 
   const appbar = (
     <AppBar elevation={0} position={"fixed"}>
-      <Toolbar style={{ marginLeft: drawerWidth }}>
+      <Toolbar style={{ marginLeft: Configurations.drawerSize }}>
         <div style={{ width: 200 }}>
           <Collapse
             in={appBarTitleShow}
@@ -174,16 +178,21 @@ export default function Layout(props: Props) {
       <ETDProvider>
         <div>
           <Hidden only={["xs"]}>
-            {/**Desktop**/}
+            {/** Desktop**/}
             {appbar}
             <Drawer variant="permanent">
-              <List style={{ width: drawerWidth, overflowX: "hidden" }}>
+              <List
+                style={{
+                  width: Configurations.drawerSize,
+                  overflowX: "hidden",
+                }}
+              >
                 {listContent}
               </List>
             </Drawer>
           </Hidden>
           <Hidden only={["sm", "md", "lg", "xl"]}>
-            {/**mobile**/}
+            {/** mobile**/}
             <Drawer
               open={drawerOpen}
               onClose={() => {
@@ -197,15 +206,19 @@ export default function Layout(props: Props) {
           </Hidden>
 
           <Hidden only={["xs"]}>
-            {/**Desktop**/}
+            {/** Desktop**/}
             <main
-              style={{ marginLeft: drawerWidth, padding: 30, marginTop: 50 }}
+              style={{
+                marginLeft: Configurations.drawerSize,
+                padding: 30,
+                marginTop: 50,
+              }}
             >
               {children}
             </main>
           </Hidden>
           <Hidden only={["sm", "md", "lg", "xl"]}>
-            {/**Mobile**/}
+            {/** Mobile**/}
             {mobileAppbar}
             <Spacer height={70} />
             <main

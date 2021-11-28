@@ -40,10 +40,11 @@ type Props = {
   found: boolean;
 };
 
+// eslint-disable-next-line require-jsdoc
 export default function DeviceDetail({ device, found }: Props) {
   const router = useRouter();
   const { joinDetail, leaveDetail } = React.useContext(DeviceContext);
-  const { showSnackBarMessage } = React.useContext(UIProviderContext);
+  const {} = React.useContext(UIProviderContext);
   const [showContainerDetails, setShowContainerDetails] = React.useState(false);
   const [showImageDetails, setShowImageDetails] = React.useState(false);
 
@@ -56,7 +57,7 @@ export default function DeviceDetail({ device, found }: Props) {
 
   React.useEffect(() => {
     console.log("Joining room", device?.id);
-    //@ts-ignore
+    // @ts-ignore
     if (found) joinDetail(device?.id);
 
     socket?.on("detail-info", (data) => {
@@ -64,7 +65,7 @@ export default function DeviceDetail({ device, found }: Props) {
     });
 
     return () => {
-      //@ts-ignore
+      // @ts-ignore
       if (found) leaveDetail(device?.id);
     };
   }, []);
@@ -76,7 +77,9 @@ export default function DeviceDetail({ device, found }: Props) {
         description={`${device?.id}`}
         action={
           <Button
-            onClick={() => router.push("/user/devices/detail/edit/" + router.query.id)}
+            onClick={() =>
+              router.push("/user/devices/detail/edit/" + router.query.id)
+            }
             variant={"outlined"}
           >
             Edit
@@ -88,7 +91,7 @@ export default function DeviceDetail({ device, found }: Props) {
         <Grid item md={3} xs={6}>
           <LargeDataCard
             icon={<ComputerIcon />}
-            //@ts-ignore
+            // @ts-ignore
             title={`${abbreviateNumber(foundDevice?.data?.difficulty ?? 0)}`}
             color={"#ba03fc"}
             subtitleColor={"white"}
@@ -160,7 +163,10 @@ export default function DeviceDetail({ device, found }: Props) {
         <Grid item xs={12}>
           <ResponsiveCard>
             <ListItem>
-              <ListItemText primary={"Is Online"} secondary={`${found && online}`} />
+              <ListItemText
+                primary={"Is Online"}
+                secondary={`${found && online}`}
+              />
             </ListItem>
 
             <ListItemButton
@@ -227,7 +233,7 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
 ) => {
   const deviceId = context.query.id as string;
   let device: any | null = null;
-  let online: boolean = false;
+  const online: boolean = false;
   let found: boolean = false;
 
   try {

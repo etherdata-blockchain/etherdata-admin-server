@@ -15,6 +15,7 @@ import { DefaultPaginationResult } from "../../server/const/defaultValues";
 
 type Props = {};
 
+// eslint-disable-next-line require-jsdoc
 export function DeviceAction(props: Props) {
   const filterState = usePopupState({ variant: "popover", popupId: "filter" });
   const adminState = usePopupState({ variant: "popper", popupId: "admin" });

@@ -24,6 +24,11 @@ import { DefaultPaginationResult } from "../../server/const/defaultValues";
 
 type Props = {};
 
+/**
+ * Home page
+ * @param props
+ * @constructor
+ */
 export default function Index(props: Props) {
   const { history } = React.useContext(ETDContext);
   const { paginationResult } = React.useContext(DeviceContext);
@@ -92,7 +97,7 @@ export default function Index(props: Props) {
             className={style.dataCard}
           />
         </Grid>
-        {/*Second Row*/}
+        {/* Second Row*/}
         <Grid item md={8} xs={12}>
           <ResponsiveCard
             title={"Block Time"}

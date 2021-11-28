@@ -1,20 +1,15 @@
+import React from "react";
 import UserPage from "../../pages/user/index";
 import { PaginatedStorageUsers } from "../../server/plugin/plugins/storageManagementSystemPlugin";
 import "@testing-library/jest-dom";
-import {
-  render,
-  fireEvent,
-  waitFor,
-  screen,
-  within,
-} from "@testing-library/react";
+import { render, within } from "@testing-library/react";
 import { TestingValues } from "../../server/const/testingValues";
 import UIProviderProvider from "../../pages/model/UIProvider";
 import { createMatchMedia } from "../utils/utils";
 
 describe("Given a user homepage", () => {
   beforeAll(() => {
-    //@ts-ignore
+    // @ts-ignore
     window.matchMedia = createMatchMedia(window.innerWidth);
   });
 

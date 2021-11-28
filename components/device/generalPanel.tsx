@@ -16,6 +16,11 @@ type Props = {
   user: string;
 };
 
+/**
+ * General panel for device editing
+ * @param user
+ * @constructor
+ */
 export function GeneralPanel({ user }: Props) {
   const { showSnackBarMessage } = React.useContext(UIProviderContext);
   const router = useRouter();

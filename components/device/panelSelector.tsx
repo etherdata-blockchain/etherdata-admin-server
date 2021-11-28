@@ -7,6 +7,12 @@ type Props = {
   onChange(v: string): void;
 };
 
+/**
+ * Select panel
+ * @param selections
+ * @param onChange
+ * @constructor
+ */
 export function PanelSelector({ selections, onChange }: Props) {
   const [selection, setSelection] = React.useState(selections[0]);
 

@@ -14,6 +14,11 @@ type Props = {
   rewards: { date: string; reward: number }[];
 };
 
+/**
+ * Show the details of user mining reward
+ * @param {object} props Rewards
+ * @constructor
+ */
 export function RewardDisplay(props: Props) {
   return (
     <ResponsiveContainer width="100%" height="80%">

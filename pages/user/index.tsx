@@ -19,8 +19,9 @@ type Props = {
   currentPage: number;
 };
 
+// eslint-disable-next-line require-jsdoc
 export default function User({ paginationResult, currentPage }: Props) {
-  const { users, totalUsers, totalPage } = paginationResult;
+  const { totalPage } = paginationResult;
   const router = useRouter();
 
   const handlePageChange = React.useCallback(async (page: number) => {

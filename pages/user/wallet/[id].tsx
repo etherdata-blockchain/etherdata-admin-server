@@ -33,6 +33,7 @@ type Props = {
   };
 };
 
+// eslint-disable-next-line require-jsdoc
 export default function UserDetail({
   devices,
   currentPage,

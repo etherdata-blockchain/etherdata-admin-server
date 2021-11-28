@@ -1,21 +1,16 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { DeviceRegistrationPlugin } from "../../../../server/plugin/plugins/deviceRegistrationPlugin";
-import { JwtVerificationHandler } from "../../../../utils/nextHandler/jwtVerificationHandler";
-import { IDevice } from "../../../../server/schema/device";
-
-type Data = {
-  devices: IDevice[];
-};
+import { jwtVerificationHandler } from "../../../../utils/nextHandler/jwtVerificationHandler";
 
 /**
  * Found user by given user
- * @param req
- * @param res
+ * @param {NextApiRequest} req request
+ * @param {NextApiResponse} res response
  */
 async function handler(req: NextApiRequest, res: NextApiResponse) {
   const { user } = req.body;
 
-  let plugin = new DeviceRegistrationPlugin();
+  const plugin = new DeviceRegistrationPlugin();
   const [success, err, devices] = await plugin.getDevicesByUser(user);
   if (success) {
     res.status(200).json(devices);
@@ -24,4 +19,4 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
   }
 }
 
-export default JwtVerificationHandler(handler);
+export default jwtVerificationHandler(handler);

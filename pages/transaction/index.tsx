@@ -13,6 +13,11 @@ type Props = {
   transactions: ITransaction[];
 };
 
+/**
+ * Transaction page
+ * @param transactions
+ * @constructor
+ */
 export default function Transaction({ transactions }: Props) {
   return (
     <div>
@@ -32,7 +37,7 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
   context
 ) => {
   const plugin = new TransactionDBPlugin();
-  let transactions = await plugin.list(0, 20);
+  const transactions = await plugin.list(0, 20);
   return {
     props: {
       transactions: JSON.parse(JSON.stringify(transactions)),

@@ -1,7 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { PostOnlyMiddleware } from "../../../../../utils/nextHandler/postOnlyHandler";
+import { postOnlyMiddleware } from "../../../../../utils/nextHandler/postOnlyHandler";
 import { DeviceRegistrationPlugin } from "../../../../../server/plugin/plugins/deviceRegistrationPlugin";
-import { JwtVerificationHandler } from "../../../../../utils/nextHandler/jwtVerificationHandler";
+import { jwtVerificationHandler } from "../../../../../utils/nextHandler/jwtVerificationHandler";
 import Logger from "../../../../../server/logger";
 import { JobResultPlugin } from "../../../../../server/plugin/plugins/jobResultPlugin";
 import { IJobResult } from "../../../../../server/schema/job-result";
@@ -19,15 +19,15 @@ type Data = {
  */
 async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
   const result: IJobResult = req.body;
-  //@ts-ignore
+  // @ts-ignore
   const { user, key } = result;
 
   const returnData: Data = {};
 
   try {
-    let plugin = new JobResultPlugin();
-    let devicePlugin = new DeviceRegistrationPlugin();
-    let [authorized, newKey] = await devicePlugin.auth(user, key);
+    const plugin = new JobResultPlugin();
+    const devicePlugin = new DeviceRegistrationPlugin();
+    const [authorized, newKey] = await devicePlugin.auth(user, key);
     if (authorized) {
       result.deviceID = user;
       result._id = new ObjectId(result.jobId);
@@ -45,4 +45,4 @@ async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
   }
 }
 
-export default PostOnlyMiddleware(JwtVerificationHandler(handler));
+export default postOnlyMiddleware(jwtVerificationHandler(handler));
