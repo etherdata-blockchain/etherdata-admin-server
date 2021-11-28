@@ -6,7 +6,7 @@ import { JobResultModel } from "../../services/dbSchema/job-result";
 import { JobResultPlugin } from "../../services/dbServices/jobResultPlugin";
 import { StorageManagementSystemPlugin } from "../../services/dbServices/storageManagementSystemPlugin";
 
-jest.mock("../plugin/plugins/storageManagementSystemPlugin");
+jest.mock("../../services/dbServices/storageManagementSystemPlugin");
 
 describe("Job Result Test", () => {
   let dbServer: MongoMemoryServer;

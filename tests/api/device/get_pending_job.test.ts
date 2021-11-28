@@ -10,7 +10,7 @@ import { mockDeviceData } from "./mockDeviceData";
 import { PendingJobModel } from "../../../services/dbSchema/pending-job";
 import { StorageManagementSystemPlugin } from "../../../services/dbServices/storageManagementSystemPlugin";
 
-jest.mock("../../../server/plugin/plugins/storageManagementSystemPlugin");
+jest.mock("../../../services/dbServices/storageManagementSystemPlugin");
 
 describe("Test get a pending job", () => {
   let dbServer: MongoMemoryServer;
