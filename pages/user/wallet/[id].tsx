@@ -14,8 +14,8 @@ import Spacer from "../../../components/Spacer";
 import { RewardDisplay } from "../../../components/user/rewardDisplay";
 import { LargeDataCard } from "../../../components/cards/largeDataCard";
 import PageHeader from "../../../components/PageHeader";
-import { IDevice } from "../../../server/schema/device";
-import { DeviceRegistrationPlugin } from "../../../server/plugin/plugins/deviceRegistrationPlugin";
+import { IDevice } from "../../../services/dbSchema/device";
+import { DeviceRegistrationPlugin } from "../../../services/dbServices/deviceRegistrationPlugin";
 import { weiToETD } from "../../../utils/weiToETD";
 
 const pageSize = 20;

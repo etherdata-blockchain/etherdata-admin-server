@@ -1,9 +1,9 @@
 import {
   DeviceRegistrationPlugin,
   VersionInfo,
-} from "../plugin/plugins/deviceRegistrationPlugin";
-import { IDevice } from "../schema/device";
-import { StorageManagementSystemPlugin } from "../plugin/plugins/storageManagementSystemPlugin";
+} from "../../services/dbServices/deviceRegistrationPlugin";
+import { IDevice } from "../../services/dbSchema/device";
+import { StorageManagementSystemPlugin } from "../../services/dbServices/storageManagementSystemPlugin";
 import { Configurations } from "../const/configurations";
 
 export interface ClientFilter {

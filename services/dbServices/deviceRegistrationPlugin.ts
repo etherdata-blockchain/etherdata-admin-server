@@ -1,12 +1,12 @@
-import { DatabasePlugin } from "../basePlugin";
-import { DeviceModel, IDevice } from "../../schema/device";
-import { PluginName } from "../pluginName";
+import { DatabasePlugin } from "../../server/plugin/basePlugin";
+import { DeviceModel, IDevice } from "../dbSchema/device";
+import { PluginName } from "../../server/plugin/pluginName";
 import { Model, Query } from "mongoose";
 import axios, { AxiosError } from "axios";
 import moment from "moment";
 import jwt from "jsonwebtoken";
-import { ClientFilter } from "../../client/browserClient";
-import Logger from "../../logger";
+import { ClientFilter } from "../../server/client/browserClient";
+import Logger from "../../server/logger";
 import { StorageManagementSystemPlugin } from "./storageManagementSystemPlugin";
 
 export interface VersionInfo {

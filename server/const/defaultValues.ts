@@ -1,5 +1,5 @@
 import { PaginationResult } from "../client/browserClient";
-import { StorageUser } from "../plugin/plugins/storageManagementSystemPlugin";
+import { StorageUser } from "../../services/dbServices/storageManagementSystemPlugin";
 
 export const DefaultPaginationResult: PaginationResult = {
   adminVersions: [],

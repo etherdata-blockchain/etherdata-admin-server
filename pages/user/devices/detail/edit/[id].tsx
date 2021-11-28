@@ -7,7 +7,7 @@ import PageHeader from "../../../../../components/PageHeader";
 import Spacer from "../../../../../components/Spacer";
 import { GeneralPanel } from "../../../../../components/device/generalPanel";
 import { GetServerSideProps } from "next";
-import { DeviceRegistrationPlugin } from "../../../../../server/plugin/plugins/deviceRegistrationPlugin";
+import { DeviceRegistrationPlugin } from "../../../../../services/dbServices/deviceRegistrationPlugin";
 import {
   Admin,
   Clique,
@@ -27,7 +27,7 @@ import { UIProviderContext } from "../../../../model/UIProvider";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { DeviceContext, socket } from "../../../../model/DeviceProvider";
 import { DockerPanel } from "../../../../../components/device/dockerPanel";
-import { IDevice } from "../../../../../server/schema/device";
+import { IDevice } from "../../../../../services/dbSchema/device";
 
 interface Props {
   user: string | null;
@@ -42,7 +42,7 @@ interface TabPanelProps {
 }
 
 // eslint-disable-next-line require-jsdoc
-function TabPanel(props: TabPanelProps) {
+export function TabPanel(props: TabPanelProps) {
   const { children, value, index, ...other } = props;
 
   return (
@@ -64,7 +64,7 @@ function TabPanel(props: TabPanelProps) {
 }
 
 // eslint-disable-next-line require-jsdoc
-function a11yProps(index: number) {
+export function a11yProps(index: number) {
   return {
     id: `vertical-tab-${index}`,
     "aria-controls": `vertical-tabpanel-${index}`,

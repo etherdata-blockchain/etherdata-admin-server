@@ -3,8 +3,8 @@ global.TextDecoder = require("util").TextDecoder;
 
 import { MongoMemoryServer } from "mongodb-memory-server";
 import mongoose from "mongoose";
-import { DeviceModel } from "../schema/device";
-import { DeviceRegistrationPlugin } from "../plugin/plugins/deviceRegistrationPlugin";
+import { DeviceModel } from "../../services/dbSchema/device";
+import { DeviceRegistrationPlugin } from "../../services/dbServices/deviceRegistrationPlugin";
 
 describe("DB Plugin Tests", () => {
   let dbServer: MongoMemoryServer;

@@ -1,7 +1,7 @@
 /**
  * Create a user object for mongoose ORM.
  *
- * This file contains the user schema for mongodb user collection
+ * This file contains the user dbSchema for mongodb user collection
  */
 import mongoose, { Document, model, Model, Schema } from "mongoose";
 

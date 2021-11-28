@@ -1,10 +1,10 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { postOnlyMiddleware } from "../../../../../utils/nextHandler/postOnlyHandler";
-import { DeviceRegistrationPlugin } from "../../../../../server/plugin/plugins/deviceRegistrationPlugin";
+import { DeviceRegistrationPlugin } from "../../../../../services/dbServices/deviceRegistrationPlugin";
 import { jwtVerificationHandler } from "../../../../../utils/nextHandler/jwtVerificationHandler";
 import Logger from "../../../../../server/logger";
-import { JobResultPlugin } from "../../../../../server/plugin/plugins/jobResultPlugin";
-import { IJobResult } from "../../../../../server/schema/job-result";
+import { JobResultPlugin } from "../../../../../services/dbServices/jobResultPlugin";
+import { IJobResult } from "../../../../../services/dbSchema/job-result";
 import { ObjectId } from "mongodb";
 
 type Data = {

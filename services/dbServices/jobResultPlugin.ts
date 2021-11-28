@@ -1,7 +1,7 @@
-import { DatabasePlugin } from "../basePlugin";
-import { PluginName } from "../pluginName";
+import { DatabasePlugin } from "../../server/plugin/basePlugin";
+import { PluginName } from "../../server/plugin/pluginName";
 import { Model } from "mongoose";
-import { IJobResult, JobResultModel } from "../../schema/job-result";
+import { IJobResult, JobResultModel } from "../dbSchema/job-result";
 import moment from "moment";
 
 export class JobResultPlugin extends DatabasePlugin<IJobResult> {

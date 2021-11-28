@@ -1,14 +1,14 @@
 global.TextEncoder = require("util").TextEncoder;
 global.TextDecoder = require("util").TextDecoder;
 import mongoose from "mongoose";
-import { DeviceModel } from "../../../server/schema/device";
+import { DeviceModel } from "../../../services/dbSchema/device";
 import { MongoMemoryServer } from "mongodb-memory-server";
 import { createMocks } from "node-mocks-http";
 import jwt from "jsonwebtoken";
 import handler from "../../../pages/api/v1/device/status/send-status";
 import { mockDeviceData } from "./mockDeviceData";
 import axios from "axios";
-import { StorageManagementSystemPlugin } from "../../../server/plugin/plugins/storageManagementSystemPlugin";
+import { StorageManagementSystemPlugin } from "../../../services/dbServices/storageManagementSystemPlugin";
 
 jest.mock("axios");
 jest.mock("../../../server/plugin/plugins/storageManagementSystemPlugin");

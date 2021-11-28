@@ -23,8 +23,8 @@ import { DeviceContext, socket } from "../../../model/DeviceProvider";
 import { abbreviateNumber } from "../../../../utils/valueFormatter";
 import { UIProviderContext } from "../../../model/UIProvider";
 import { GetServerSideProps } from "next";
-import { DeviceRegistrationPlugin } from "../../../../server/plugin/plugins/deviceRegistrationPlugin";
-import { IDevice } from "../../../../server/schema/device";
+import { DeviceRegistrationPlugin } from "../../../../services/dbServices/deviceRegistrationPlugin";
+import { IDevice } from "../../../../services/dbSchema/device";
 import { objectExpand } from "../../../../utils/objectExpander";
 import Logger from "../../../../server/logger";
 import moment from "moment";
@@ -155,7 +155,7 @@ export default function DeviceDetail({ device, found }: Props) {
             subtitleColor={"white"}
             iconColor={"white"}
             iconBackgroundColor={"#9704cc"}
-            subtitle={"Docker images"}
+            subtitle={"Docker installation"}
             className={style.detailDataCard}
             onClick={() => setShowImageDetails(true)}
           />

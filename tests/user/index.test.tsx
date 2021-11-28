@@ -1,6 +1,6 @@
 import React from "react";
 import UserPage from "../../pages/user/index";
-import { PaginatedStorageUsers } from "../../server/plugin/plugins/storageManagementSystemPlugin";
+import { PaginatedStorageUsers } from "../../services/dbServices/storageManagementSystemPlugin";
 import "@testing-library/jest-dom";
 import { render, within } from "@testing-library/react";
 import { TestingValues } from "../../server/const/testingValues";

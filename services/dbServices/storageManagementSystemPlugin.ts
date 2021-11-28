@@ -1,11 +1,13 @@
 import { Db, MongoClient } from "mongodb";
-import { Configurations } from "../../const/configurations";
-import { DefaultStorageUser } from "../../const/defaultValues";
+import { Configurations } from "../../server/const/configurations";
+import { DefaultStorageUser } from "../../server/const/defaultValues";
 
 export interface StorageUser {
   _id: string;
   id?: string;
+  // eslint-disable-next-line camelcase
   user_name: string;
+  // eslint-disable-next-line camelcase
   user_id: string;
   coinbase?: string;
   balance?: string;
@@ -23,10 +25,14 @@ export interface PaginatedItems {
   totalDevices: number;
 }
 
+/**
+ * Storage management system plugin
+ */
 export class StorageManagementSystemPlugin {
   db: Db;
   client: MongoClient;
 
+  // eslint-disable-next-line require-jsdoc
   constructor(dbClient?: MongoClient) {
     //@ts-ignore
     this.client = dbClient ?? global.MONGO_CLIENT;
