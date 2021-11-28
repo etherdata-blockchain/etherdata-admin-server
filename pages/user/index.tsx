@@ -9,7 +9,7 @@ import { GetServerSideProps } from "next";
 import {
   PaginatedStorageUsers,
   StorageManagementSystemPlugin,
-} from "../../server/plugin/plugins/storageManagementSystemPlugin";
+} from "../../services/dbServices/storageManagementSystemPlugin";
 import { Pagination } from "@mui/material";
 import { useRouter } from "next/dist/client/router";
 import { TestingValues } from "../../server/const/testingValues";

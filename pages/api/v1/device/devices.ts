@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { DeviceRegistrationPlugin } from "../../../../server/plugin/plugins/deviceRegistrationPlugin";
+import { DeviceRegistrationPlugin } from "../../../../services/dbServices/deviceRegistrationPlugin";
 import { jwtVerificationHandler } from "../../../../utils/nextHandler/jwtVerificationHandler";
 
 /**

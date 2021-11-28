@@ -7,8 +7,8 @@ import { createMocks } from "node-mocks-http";
 import jwt from "jsonwebtoken";
 import handler from "../../../pages/api/v1/device/job/get-job";
 import { mockDeviceData } from "./mockDeviceData";
-import { PendingJobModel } from "../../../server/schema/pending-job";
-import { StorageManagementSystemPlugin } from "../../../server/plugin/plugins/storageManagementSystemPlugin";
+import { PendingJobModel } from "../../../services/dbSchema/pending-job";
+import { StorageManagementSystemPlugin } from "../../../services/dbServices/storageManagementSystemPlugin";
 
 jest.mock("../../../server/plugin/plugins/storageManagementSystemPlugin");
 

@@ -1,8 +1,8 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { postOnlyMiddleware } from "../../../../../utils/nextHandler/postOnlyHandler";
-import { DeviceRegistrationPlugin } from "../../../../../server/plugin/plugins/deviceRegistrationPlugin";
+import { DeviceRegistrationPlugin } from "../../../../../services/dbServices/deviceRegistrationPlugin";
 import { jwtVerificationHandler } from "../../../../../utils/nextHandler/jwtVerificationHandler";
-import { IDevice } from "../../../../../server/schema/device";
+import { IDevice } from "../../../../../services/dbSchema/device";
 import moment from "moment";
 import Logger from "../../../../../server/logger";
 

@@ -1,6 +1,6 @@
 import { Web3DataInfo } from "./node_data";
 import moment, { Moment } from "moment";
-import { IDevice } from "../schema/device";
+import { IDevice } from "../../services/dbSchema/device";
 
 export class NodeClient {
   in_time: Moment;

@@ -27,7 +27,7 @@ export abstract class BaseSocketIOPlugin extends BasePlugin<RegisteredPlugins> {
 
   async startPlugin(server: Server) {
     let count = 0;
-    for (let job of this.periodicJobs) {
+    for (const job of this.periodicJobs) {
       job.timer = setInterval(async () => {
         await job.job();
       }, job.interval * 1000);
@@ -37,7 +37,7 @@ export abstract class BaseSocketIOPlugin extends BasePlugin<RegisteredPlugins> {
   }
 
   stopPeriodicJobByName(name: string) {
-    let job = this.periodicJobs.find((j) => j.name === name);
+    const job = this.periodicJobs.find((j) => j.name === name);
     if (job) {
       clearInterval(job.timer!);
     } else {
@@ -46,7 +46,7 @@ export abstract class BaseSocketIOPlugin extends BasePlugin<RegisteredPlugins> {
   }
 
   connectPlugins(plugins: BaseSocketIOPlugin[]) {
-    for (let plugin of plugins) {
+    for (const plugin of plugins) {
       if (plugin.pluginName !== this.pluginName) {
         this.otherPlugins[plugin.pluginName] = plugin;
       }
@@ -102,13 +102,13 @@ export abstract class BaseSocketAuthIOPlugin extends BaseSocketIOPlugin {
     } else {
       this.server.on("connection", (socket) => {
         const token = socket.handshake.auth.token;
-        let authenticated = this.auth(token);
+        const authenticated = this.auth(token);
         if (authenticated) {
           Logger.info(
             `[${this.pluginName}]: Client ${socket.id} is authenticated!`
           );
           this.onAuthenticated(socket, token);
-          for (let handle of this.handlers) {
+          for (const handle of this.handlers) {
             handle(socket);
           }
         } else {
@@ -132,7 +132,7 @@ export abstract class DatabasePlugin<
   protected abstract model: Model<T>;
 
   async get(id: string): Promise<T | undefined> {
-    let result = await this.performGet(id).exec();
+    const result = await this.performGet(id).exec();
     if (result) {
       return result;
     } else {
@@ -141,8 +141,8 @@ export abstract class DatabasePlugin<
   }
 
   async list(pageNumber: number, pageSize: number): Promise<T[] | undefined> {
-    let results = this.performList();
-    let pageResults = this.doPagination(results, pageNumber, pageSize);
+    const results = this.performList();
+    const pageResults = this.doPagination(results, pageNumber, pageSize);
 
     return await pageResults.exec();
   }
@@ -163,7 +163,7 @@ export abstract class DatabasePlugin<
   }
 
   async performPatch(data: T): Promise<T> {
-    let result = await this.model.findOneAndUpdate(
+    const result = await this.model.findOneAndUpdate(
       { _id: data._id },
       //@ts-ignore
       data,
@@ -196,8 +196,8 @@ export abstract class DatabasePlugin<
     pageNumber: number,
     pageSize: number
   ): Query<T[], T[]> {
-    let skip = Math.max(0, (pageNumber ?? 0 - 1) * (pageSize ?? 20));
-    let limit = pageSize ?? 20;
+    const skip = Math.max(0, (pageNumber ?? 0 - 1) * (pageSize ?? 20));
+    const limit = pageSize ?? 20;
 
     return model.skip(skip).limit(limit);
   }

@@ -5,7 +5,7 @@ import axios from "axios";
 import {
   PaginatedItems,
   StorageManagementSystemPlugin,
-} from "../../server/plugin/plugins/storageManagementSystemPlugin";
+} from "../../services/dbServices/storageManagementSystemPlugin";
 import { useRouter } from "next/dist/client/router";
 import PageHeader from "../../components/PageHeader";
 import Spacer from "../../components/Spacer";
@@ -24,7 +24,7 @@ import {
   DefaultStorageUser,
 } from "../../server/const/defaultValues";
 import { Configurations } from "../../server/const/configurations";
-import { IDevice } from "../../server/schema/device";
+import { IDevice } from "../../services/dbSchema/device";
 import StorageIcon from "@material-ui/icons/Storage";
 import style from "../../styles/Device.module.css";
 import ComputerIcon from "@material-ui/icons/Computer";

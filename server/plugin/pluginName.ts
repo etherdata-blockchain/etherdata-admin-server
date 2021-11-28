@@ -2,4 +2,6 @@ export type PluginName =
   | "deviceRegistration"
   | "transaction"
   | "pendingJob"
-  | "jobResult";
+  | "jobResult"
+  | "staticNode"
+  | "dockerImage";

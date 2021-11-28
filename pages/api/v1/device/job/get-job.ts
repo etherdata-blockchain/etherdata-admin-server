@@ -1,9 +1,9 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { DeviceRegistrationPlugin } from "../../../../../server/plugin/plugins/deviceRegistrationPlugin";
+import { DeviceRegistrationPlugin } from "../../../../../services/dbServices/deviceRegistrationPlugin";
 import { jwtVerificationHandler } from "../../../../../utils/nextHandler/jwtVerificationHandler";
 import Logger from "../../../../../server/logger";
-import { IPendingJob } from "../../../../../server/schema/pending-job";
-import { PendingJobPlugin } from "../../../../../server/plugin/plugins/pendingJobPlugin";
+import { IPendingJob } from "../../../../../services/dbSchema/pending-job";
+import { PendingJobPlugin } from "../../../../../services/dbServices/pendingJobPlugin";
 
 type Data = {
   error?: string;

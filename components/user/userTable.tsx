@@ -3,7 +3,7 @@ import * as React from "react";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { useRouter } from "next/dist/client/router";
 import { Button } from "@mui/material";
-import { PaginatedStorageUsers } from "../../server/plugin/plugins/storageManagementSystemPlugin";
+import { PaginatedStorageUsers } from "../../services/dbServices/storageManagementSystemPlugin";
 import { Configurations } from "../../server/const/configurations";
 import { DefaultStorageUser } from "../../server/const/defaultValues";
 import queryString from "querystring";

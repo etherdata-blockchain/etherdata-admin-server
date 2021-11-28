@@ -5,7 +5,7 @@ import { MongoMemoryServer } from "mongodb-memory-server";
 import { createMocks } from "node-mocks-http";
 import jwt from "jsonwebtoken";
 import handler from "../../../pages/api/v1/device/result/submit-result";
-import { StorageManagementSystemPlugin } from "../../../server/plugin/plugins/storageManagementSystemPlugin";
+import { StorageManagementSystemPlugin } from "../../../services/dbServices/storageManagementSystemPlugin";
 import mongoose from "mongoose";
 
 jest.mock("../../../server/plugin/plugins/storageManagementSystemPlugin");

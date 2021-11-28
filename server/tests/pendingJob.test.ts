@@ -4,8 +4,8 @@ global.TextDecoder = require("util").TextDecoder;
 import { MongoClient } from "mongodb";
 import mongoose from "mongoose";
 import { MongoMemoryServer } from "mongodb-memory-server";
-import { PendingJobModel } from "../schema/pending-job";
-import { PendingJobPlugin } from "../plugin/plugins/pendingJobPlugin";
+import { PendingJobModel } from "../../services/dbSchema/pending-job";
+import { PendingJobPlugin } from "../../services/dbServices/pendingJobPlugin";
 
 describe("Pending job tests", () => {
   let dbServer: MongoMemoryServer;
