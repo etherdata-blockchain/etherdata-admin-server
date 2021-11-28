@@ -6,6 +6,11 @@ import PopupState, { bindMenu, bindTrigger } from "material-ui-popup-state";
 
 type Props = {};
 
+/**
+ * Pick duration for display. [TODO]
+ * @param props
+ * @constructor
+ */
 export function DurationSelectorBtn(props: Props) {
   return (
     <PopupState variant={"popover"}>

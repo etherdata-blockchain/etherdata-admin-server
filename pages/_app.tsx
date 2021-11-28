@@ -5,13 +5,7 @@ import "../styles/globals.css";
 import UIProviderProvider from "./model/UIProvider";
 import React from "react";
 import * as Realm from "realm-web";
-import {
-  DevicesOther,
-  Home,
-  Person,
-  PieChart,
-  Receipt,
-} from "@mui/icons-material";
+import { Home, Person, PieChart, Receipt } from "@mui/icons-material";
 import NextNprogress from "nextjs-progressbar";
 
 // Setup realm for login
@@ -73,6 +67,11 @@ const darkTheme = createTheme({
   },
 });
 
+/**
+ * Main entrypoint for app
+ * @param {any} props props
+ * @constructor
+ */
 function MyApp(props: AppProps) {
   const { Component, pageProps } = props;
 

@@ -4,4 +4,5 @@ export const Configurations = {
   storageDBName: "storage-management-system",
   storageItemCollectionName: "storage_management_item",
   storageUserCollectionName: "storage_management_owner",
+  drawerSize: 60,
 };

@@ -13,6 +13,11 @@ import { ETDContext } from "../../pages/model/ETDProvider";
 
 type Props = {};
 
+/**
+ * Block time history display
+ * @param props
+ * @constructor
+ */
 export function BlockTimeHistoryDisplay(props: Props) {
   const { history } = React.useContext(ETDContext);
 

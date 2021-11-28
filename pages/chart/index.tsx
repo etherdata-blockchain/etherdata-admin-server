@@ -18,17 +18,14 @@ type Props = {
   colors: string[];
 };
 
-export default function Transaction({
-  adminVersions,
-  nodeVersions,
-  colors,
-}: Props) {
+// eslint-disable-next-line require-jsdoc
+export default function Chart({ adminVersions, nodeVersions, colors }: Props) {
   return (
     <div>
       <PageHeader title={"Chart"} description={"List of charts"} />
       <Spacer height={20} />
       <Grid container spacing={5}>
-        <Grid item md={6}>
+        <Grid item md={6} sm={12}>
           <ResponsiveCard style={{ height: 600 }} title={"Admin versions"}>
             <ResponsiveContainer width="100%" height="80%">
               <PieChart>
@@ -52,7 +49,7 @@ export default function Transaction({
             </ResponsiveContainer>
           </ResponsiveCard>
         </Grid>
-        <Grid item md={6}>
+        <Grid item md={6} sm={12}>
           <ResponsiveCard style={{ height: 600 }} title={"Node versions"}>
             <ResponsiveContainer width="100%" height="80%">
               <PieChart>
@@ -84,11 +81,11 @@ export default function Transaction({
 export const getServerSideProps: GetServerSideProps<Props> = async (
   context
 ) => {
-  let plugin = new DeviceRegistrationPlugin();
-  let adminVersions = await plugin.getListOfAdminVersions();
-  let nodeVersions = await plugin.getListOfNodeVersion();
-  let size = Math.max(adminVersions.length, nodeVersions.length);
-  let colors = randomColor({ count: size });
+  const plugin = new DeviceRegistrationPlugin();
+  const adminVersions = await plugin.getListOfAdminVersions();
+  const nodeVersions = await plugin.getListOfNodeVersion();
+  const size = Math.max(adminVersions.length, nodeVersions.length);
+  const colors = randomColor({ count: size });
   return {
     props: {
       adminVersions,

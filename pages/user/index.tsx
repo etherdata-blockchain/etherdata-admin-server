@@ -12,14 +12,16 @@ import {
 } from "../../server/plugin/plugins/storageManagementSystemPlugin";
 import { Pagination } from "@mui/material";
 import { useRouter } from "next/dist/client/router";
+import { TestingValues } from "../../server/const/testingValues";
 
 type Props = {
   paginationResult: PaginatedStorageUsers;
   currentPage: number;
 };
 
+// eslint-disable-next-line require-jsdoc
 export default function User({ paginationResult, currentPage }: Props) {
-  const { users, totalUsers, totalPage } = paginationResult;
+  const { totalPage } = paginationResult;
   const router = useRouter();
 
   const handlePageChange = React.useCallback(async (page: number) => {
@@ -36,6 +38,7 @@ export default function User({ paginationResult, currentPage }: Props) {
       <Spacer height={20} />
       <ResponsiveCard>
         <Pagination
+          data-testid={TestingValues.pagination}
           color={"primary"}
           onChange={async (e, cur) => {
             await handlePageChange(cur - 1);

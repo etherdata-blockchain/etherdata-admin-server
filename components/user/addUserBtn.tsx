@@ -15,6 +15,7 @@ import { Formik } from "formik";
 
 type Props = {};
 
+// eslint-disable-next-line require-jsdoc
 export function AddUserBtn(props: Props) {
   const [show, setShow] = React.useState(false);
   return (

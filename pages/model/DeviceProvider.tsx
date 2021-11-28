@@ -5,9 +5,7 @@ import {
   ClientFilter,
   PaginationResult,
 } from "../../server/client/browserClient";
-import { IDevice } from "../../server/schema/device";
 import { ObjectId } from "bson";
-import { VersionInfo } from "../../server/plugin/plugins/deviceRegistrationPlugin";
 
 interface DockerValue {
   method: "logs" | "start" | "stop" | "remove" | "restart" | "exec";
@@ -28,15 +26,19 @@ interface DeviceInterface {
   clearFilter(): void;
 }
 
-//@ts-ignore
+// @ts-ignore
 export const DeviceContext = React.createContext<DeviceInterface>({});
 
 export let socket: Socket | undefined = undefined;
 
+/**
+ * Device provider for using devices
+ * @param props
+ * @constructor
+ */
 export default function DeviceProvider(props: any) {
   const { children } = props;
   const { showSnackBarMessage } = React.useContext(UIProviderContext);
-  const [devices, setDevices] = React.useState<IDevice[]>([]);
   const [loadingData, setLoadingData] = React.useState(false);
   const [filterKeyword, setFilterKeyword] = React.useState<string>("");
   const [paginationResult, setPaginationResult] =

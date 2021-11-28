@@ -47,8 +47,8 @@ export class BrowserClient {
     let devicePlugin = new DeviceRegistrationPlugin();
     let storageSystem = new StorageManagementSystemPlugin();
     let onlineDevicesCount = await devicePlugin.getOnlineDevicesCount(
-        this.deviceIds,
-        this.currentFilter
+      this.deviceIds,
+      this.currentFilter
     );
 
     if (!this.deviceIds || this.deviceIds.length === 0) {

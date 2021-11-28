@@ -19,6 +19,7 @@ import { UIProviderContext } from "../../../pages/model/UIProvider";
 import { CircularProgress } from "@mui/material";
 
 declare module "react" {
+  // eslint-disable-next-line no-unused-vars
   interface CSSProperties {
     "--tree-view-color"?: string;
     "--tree-view-bg-color"?: string;
@@ -64,6 +65,7 @@ export const StyledTreeItemRoot = styled(TreeItem)(({ theme }) => ({
   },
 }));
 
+// eslint-disable-next-line require-jsdoc
 export function StyledTreeItem(props: StyledTreeItemProps) {
   const {
     bgColor,
@@ -75,7 +77,7 @@ export function StyledTreeItem(props: StyledTreeItemProps) {
   } = props;
 
   return (
-    //@ts-ignore
+    // @ts-ignore
     <StyledTreeItemRoot
       label={
         <Box sx={{ display: "flex", alignItems: "center", p: 0.5, pr: 0 }}>
@@ -100,6 +102,11 @@ export function StyledTreeItem(props: StyledTreeItemProps) {
   );
 }
 
+/**
+ * Show list of containers
+ * @param containers
+ * @constructor
+ */
 export default function ContainerTreeView({
   containers,
 }: {

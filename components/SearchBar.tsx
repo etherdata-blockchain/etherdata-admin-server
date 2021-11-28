@@ -3,6 +3,11 @@ import { useRouter } from "next/dist/client/router";
 import Web3 from "web3";
 import { CircularProgress, InputBase } from "@mui/material";
 
+/**
+ * Search bar will perform a search operation
+ * by inputting user's coinbase or a tx id
+ * @constructor
+ */
 export default function SearchBar() {
   const router = useRouter();
   const [value, setValue] = React.useState("");

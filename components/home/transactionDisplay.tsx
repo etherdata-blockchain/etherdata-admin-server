@@ -12,6 +12,11 @@ import { ETDContext } from "../../pages/model/ETDProvider";
 
 type Props = {};
 
+/**
+ * List of transactions
+ * @param props
+ * @constructor
+ */
 export function TransactionDisplay(props: Props) {
   const { transactions } = React.useContext(ETDContext);
 

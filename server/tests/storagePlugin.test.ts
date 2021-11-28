@@ -1,11 +1,13 @@
-import { Configurations } from "../const/configurations";
-
 global.TextEncoder = require("util").TextEncoder;
 global.TextDecoder = require("util").TextDecoder;
 
-import { MongoClient, Db } from "mongodb";
+import { Configurations } from "../const/configurations";
+import { Db, MongoClient } from "mongodb";
 import { MongoMemoryServer } from "mongodb-memory-server";
 import { StorageManagementSystemPlugin } from "../plugin/plugins/storageManagementSystemPlugin";
+
+global.TextEncoder = require("util").TextEncoder;
+global.TextDecoder = require("util").TextDecoder;
 
 let dbServer: MongoMemoryServer;
 let db: Db;

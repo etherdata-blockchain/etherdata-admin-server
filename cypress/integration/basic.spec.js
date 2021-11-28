@@ -1,5 +1,3 @@
-import * as cypress from "cypress";
-
 describe("Test navigation", () => {
   it("Can navigate to pages by side menus", () => {
     /* ==== Generated with Cypress Studio ==== */

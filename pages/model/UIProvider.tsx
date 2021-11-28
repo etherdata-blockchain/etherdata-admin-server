@@ -15,9 +15,15 @@ interface UIProviderInterface {
   hideAppBarTitle(): void;
 }
 
-//@ts-ignore
+// @ts-ignore
 export const UIProviderContext = React.createContext<UIProviderInterface>({});
 
+/**
+ * UI Provider provides an easy way to control the UI components
+ * in the layout
+ * @param {jsx} props The children of the Provider
+ * @constructor
+ */
 export default function UIProviderProvider(props: any) {
   const { children } = props;
   const [drawerOpen, setDrawerOpen] = React.useState(false);

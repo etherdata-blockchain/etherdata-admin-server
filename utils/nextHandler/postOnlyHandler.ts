@@ -1,11 +1,11 @@
-import {NextApiHandler, NextApiRequest, NextApiResponse} from "next";
+import { NextApiHandler, NextApiRequest, NextApiResponse } from "next";
 
 /**
  * Post Only Middleware. Only accept post request
  * @param fn
  * @constructor
  */
-export const PostOnlyMiddleware =
+export const postOnlyMiddleware =
   (fn: NextApiHandler) => async (req: NextApiRequest, res: NextApiResponse) => {
     if (req.method === "POST") {
       return fn(req, res);
