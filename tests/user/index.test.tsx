@@ -1,7 +1,13 @@
 import UserPage from "../../pages/user/index";
 import { PaginatedStorageUsers } from "../../server/plugin/plugins/storageManagementSystemPlugin";
 import "@testing-library/jest-dom";
-import { render, fireEvent, waitFor, screen } from "@testing-library/react";
+import {
+  render,
+  fireEvent,
+  waitFor,
+  screen,
+  within,
+} from "@testing-library/react";
 import { TestingValues } from "../../server/const/testingValues";
 import UIProviderProvider from "../../pages/model/UIProvider";
 import { createMatchMedia } from "../utils/utils";
@@ -14,8 +20,8 @@ describe("Given a user homepage", () => {
 
   test("When go to the first default page", async () => {
     const paginatedStorageUsers: PaginatedStorageUsers = {
-      totalUsers: 2,
-      totalPage: 1,
+      totalUsers: 4,
+      totalPage: 2,
       users: [
         {
           _id: "1",
@@ -41,7 +47,10 @@ describe("Given a user homepage", () => {
         <UserPage paginationResult={paginatedStorageUsers} currentPage={0} />
       </UIProviderProvider>
     );
-    const pagination = await screen.findByTestId(TestingValues.pagination);
-    expect(pagination).toBeDefined();
+    const { getByText } = within(
+      await screen.findByTestId(TestingValues.pagination)
+    );
+    expect(getByText("1")).toBeInTheDocument();
+    expect(getByText("2")).toBeInTheDocument();
   });
 });
