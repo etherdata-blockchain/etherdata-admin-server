@@ -4,4 +4,5 @@ export type PluginName =
   | "pendingJob"
   | "jobResult"
   | "staticNode"
-  | "dockerImage";
+  | "dockerImage"
+  | "dockerCompose";

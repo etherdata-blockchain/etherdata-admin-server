@@ -4,7 +4,7 @@ import AdmZip from "adm-zip";
 import { postOnlyMiddleware } from "../../../../utils/nextHandler/postOnlyHandler";
 
 /**
- * Health checking
+ * Generate a script which contains installation steps
  * @param req
  * @param res
  */

@@ -2,7 +2,7 @@
  * Generate relative data for install script.
  * The generated output will be a zip file
  */
-import { DockerComposeInterface } from "./docker-compose-interface";
+
 import { stringify } from "envfile";
 import YAML from "yaml";
 
@@ -21,7 +21,7 @@ export class InstallScriptService {
    * @return {string} Generated docker-compose file in yaml format
    */
   generateDockerComposeFile(): string {
-    const dockerCompose: DockerComposeInterface = {
+    const dockerCompose: any = {
       services: {
         worker: {
           network_mode: "host",

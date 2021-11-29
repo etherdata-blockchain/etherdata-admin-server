@@ -2,10 +2,11 @@ import React from "react";
 import { IDockerImage } from "../../services/dbSchema/docker-image";
 import ResponsiveCard from "../ResponsiveCard";
 import { DataGrid } from "@mui/x-data-grid";
-import { columns, schemas } from "../../services/dbSchema/docker-image-utils";
+import { columns } from "../../services/dbSchema/docker-image-utils";
 import { Box, Button, Dialog, DialogContent, DialogTitle } from "@mui/material";
 import Form from "@rjsf/bootstrap-4";
 import axios from "axios";
+import { getSchemaWithImage } from "../../services/dbSchema/docker-compose-schema";
 
 interface Props {
   dockerImages: IDockerImage[];
@@ -30,11 +31,11 @@ export default function DockerImagesPanel({ dockerImages }: Props) {
         })}
         autoHeight
       />
-      <Dialog open={showDialog} fullWidth>
+      <Dialog open={showDialog} onClose={() => setShowDialog(false)} fullWidth>
         <DialogTitle>Add Docker Image</DialogTitle>
         <DialogContent>
           <Form
-            schema={schemas}
+            schema={getSchemaWithImage(dockerImages)}
             onSubmit={async (data) => {
               const url = "api/v1/installation/docker-image";
               try {
