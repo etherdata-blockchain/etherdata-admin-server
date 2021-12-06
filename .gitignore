@@ -35,6 +35,7 @@ yarn-error.log*
 .vercel
 dist
 app.json
+package-lock.json
 
 .idea
 .idea/workspace.xml

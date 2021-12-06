@@ -10,6 +10,7 @@ on:
   pull_request:
     branches:
       - "main"
+      - "dev"
 
 jobs:
   dependencies:
@@ -19,7 +20,6 @@ jobs:
       - uses: actions/setup-node@v2
         with:
           node-version: "16"
-      - uses: tinovyatkin/action-check-deprecated-js-deps@v1
       - run: yarn
       - run: yarn lint
         name: Lint

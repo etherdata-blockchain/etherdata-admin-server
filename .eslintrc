@@ -21,7 +21,8 @@
     "quote-props": "off",
     "operator-linebreak": "off",
     "space-before-function-paren": "off",
-    "spaced-comment": "off"
+    "spaced-comment": "off",
+    "linebreak-style": "off"
   },
   "ignorePatterns": ["cypress"]
 }
