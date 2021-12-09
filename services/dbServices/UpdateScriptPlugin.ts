@@ -1,7 +1,7 @@
 import { DatabasePlugin } from "../../server/plugin/basePlugin";
 import { PluginName } from "../../server/plugin/pluginName";
 import { Model } from "mongoose";
-import { UpdateScript, UpdateScriptModel } from "../dbSchema/update_scipt";
+import { UpdateScript, UpdateScriptModel } from "../dbSchema/update_script";
 import moment from "moment";
 
 export class UpdateScriptPlugin extends DatabasePlugin<UpdateScript> {
@@ -12,7 +12,7 @@ export class UpdateScriptPlugin extends DatabasePlugin<UpdateScript> {
      * Get updateScript for deviceID
      * @param deviceID
      */
-    async getJob(deviceID: string): Promise<UpdateScript | undefined> {
+    async getUpdateScript(deviceID: string): Promise<UpdateScript | undefined> {
         const result = await this.model.findOneAndRemove(
             {
                 targetDeviceId: deviceID,
@@ -24,14 +24,5 @@ export class UpdateScriptPlugin extends DatabasePlugin<UpdateScript> {
             return undefined;
         }
         return result;
-    }
-
-    /**
-     * Remove outdated jobs
-     * @param maximumDuration In seconds
-     */
-    async removeOutdatedJobs(maximumDuration: number) {
-        const deadline = moment().subtract(maximumDuration, "seconds");
-        await this.model.deleteMany({ time: { $lte: deadline.toDate() } });
     }
 }

@@ -2,12 +2,12 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import { DeviceRegistrationPlugin } from "../../../../../services/dbServices/deviceRegistrationPlugin";
 import { jwtVerificationHandler } from "../../../../../utils/nextHandler/jwtVerificationHandler";
 import Logger from "../../../../../server/logger";
-import { UpdateScript } from "../../../../../services/dbSchema/update_scipt";
+import { UpdateScript } from "../../../../../services/dbSchema/update_script";
 import { UpdateScriptPlugin } from "../../../../../services/dbServices/UpdateScriptPlugin";
 
 type Data = {
     error?: string;
-    job?: UpdateScript;
+    updateScript?: UpdateScript;
     key?: string;
 };
 
@@ -25,8 +25,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
         const devicePlugin = new DeviceRegistrationPlugin();
         const [authorized, newKey] = await devicePlugin.auth(user, key);
         if (authorized) {
-            const job = await plugin.getJob(user);
-            returnData.job = job;
+            returnData.updateScript = await plugin.getUpdateScript(user);
             returnData.key = newKey;
             res.status(200).json(returnData);
         } else {
