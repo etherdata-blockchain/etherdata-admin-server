@@ -2,16 +2,26 @@
  * Create template for install script
  */
 import mongoose, { Document, model, Schema } from "mongoose";
+import { IDockerImage } from "../docker/docker-image";
 
-export interface IInstallScript extends Document {
+/**
+ * This template is used to generate a docker-compose file
+ */
+export interface IInstallationTemplate extends Document {
   version: string;
   services: { [key: string]: Service };
-  selected: boolean;
+  /**
+   * Template tag used to identify the template
+   */
+  // eslint-disable-next-line camelcase
+  template_tag: string;
+  // eslint-disable-next-line camelcase
+  created_by: string;
 }
 
 interface Service {
-  image: any;
-  restart: "always";
+  image: IDockerImage;
+  restart: string;
   environment: string[];
   // eslint-disable-next-line camelcase
   network_mode: string;
@@ -28,7 +38,7 @@ const serviceSchema = new Schema<Service>({
   labels: ["String"],
 });
 
-export const installScriptSchema = new Schema<IInstallScript>(
+export const installationTemplateSchema = new Schema<IInstallationTemplate>(
   {
     _id: {
       type: mongoose.Schema.Types.ObjectId,
@@ -36,12 +46,16 @@ export const installScriptSchema = new Schema<IInstallScript>(
       required: true,
       auto: true,
     },
-    selected: "boolean",
+    template_tag: { type: String, unique: true },
     services: { type: mongoose.Schema.Types.Map, of: serviceSchema },
+    created_by: "string",
   },
   { timestamps: true }
 );
 
-export const InstallScriptModel = mongoose.models.dockerCompose
-  ? mongoose.models.installScript
-  : model<IInstallScript>("installScriptModel", installScriptSchema);
+export const InstallationTemplateModel =
+  mongoose.models.installationTemplate ??
+  model<IInstallationTemplate>(
+    "installationTemplate",
+    installationTemplateSchema
+  );

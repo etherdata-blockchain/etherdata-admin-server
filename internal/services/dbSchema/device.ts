@@ -36,6 +36,5 @@ export const deviceSchema = new Schema<IDevice>({
  * A user model. Mongoose will use this model to do CRUD operations.
  */
 
-export const DeviceModel = mongoose.models.device
-  ? mongoose.models.device
-  : model<IDevice>("device", deviceSchema);
+export const DeviceModel =
+  mongoose.models.device ?? model<IDevice>("device", deviceSchema);

@@ -4,6 +4,9 @@ import { Configurations } from "../const/configurations";
 
 /**
  * Handle list requests with pagination. Only will do the pagination on Get request.
+ * If the request is a get request, then it will include **page** and **pageSize** fields.
+ * It will check if **page** and **pageSize** query parameter
+ * in the request body. If not, the default value will be used.
  * @param {NextApiHandler} fn
  * @constructor
  */
@@ -16,12 +19,6 @@ export const paginationHandler =
       return fn(req, res);
     }
 
-    if (page === undefined || pageSize === undefined) {
-      res
-        .status(StatusCodes.BAD_REQUEST)
-        .json({ err: "Invalid pagination request" });
-      return;
-    }
     try {
       const pageNumber = parseInt(page);
       const pageSizeNumber = parseInt(pageSize);

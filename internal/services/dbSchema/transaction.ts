@@ -29,6 +29,6 @@ export const transactionSchema = new Schema<ITransaction>({
  * A transaction model. Mongoose will use this model to do CRUD operations.
  */
 
-export const TransactionModel = mongoose.models.transaction
-  ? mongoose.models.transaction
-  : model<ITransaction>("transaction", transactionSchema);
+export const TransactionModel =
+  mongoose.models.transaction ??
+  model<ITransaction>("transaction", transactionSchema);

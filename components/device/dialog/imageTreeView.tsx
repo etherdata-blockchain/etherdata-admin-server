@@ -23,7 +23,7 @@ function bytesToSize(bytes: number) {
 }
 
 /**
- * Show list of docker installation
+ * Show list of docker installation-template
  * @param images
  * @constructor
  */

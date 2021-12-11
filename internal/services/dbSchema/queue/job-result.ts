@@ -33,6 +33,6 @@ export const jobResultSchema = new Schema<IJobResult>({
 /**
  *
  */
-export const JobResultModel: Model<IJobResult> = mongoose.models.job_result
-  ? mongoose.models.job_result
-  : model<IJobResult>("job_result", jobResultSchema);
+export const JobResultModel: Model<IJobResult> =
+  mongoose.models.job_result ??
+  model<IJobResult>("job_result", jobResultSchema);

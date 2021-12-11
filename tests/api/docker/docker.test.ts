@@ -1,4 +1,4 @@
-import { PaginationResult } from "../../../server/plugin/basePlugin";
+import { MockConstant } from "../data/mock_constant";
 
 global.TextEncoder = require("util").TextEncoder;
 global.TextDecoder = require("util").TextDecoder;
@@ -11,17 +11,21 @@ import { StatusCodes } from "http-status-codes";
 import { createMocks } from "node-mocks-http";
 import { MockWebHookData } from "../data/mock_docker_data";
 import jwt from "jsonwebtoken";
+import { PaginationResult } from "../../../server/plugin/basePlugin";
 
 describe("Given a docker handler", () => {
   let dbServer: MongoMemoryServer;
   const oldEnv = process.env;
-  const token = jwt.sign({ user: "test-user" }, "test");
+  const token = jwt.sign(
+    { user: MockConstant.mockTestingUser },
+    MockConstant.mockTestingSecret
+  );
 
   beforeAll(async () => {
     //@ts-ignore
     process.env = {
       ...oldEnv,
-      PUBLIC_SECRET: "test",
+      PUBLIC_SECRET: MockConstant.mockTestingSecret,
     };
     dbServer = await MongoMemoryServer.create();
     await mongoose.connect(dbServer.getUri().concat("etd"));

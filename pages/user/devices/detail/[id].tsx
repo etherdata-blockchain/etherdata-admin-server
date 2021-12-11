@@ -155,7 +155,7 @@ export default function DeviceDetail({ device, found }: Props) {
             subtitleColor={"white"}
             iconColor={"white"}
             iconBackgroundColor={"#9704cc"}
-            subtitle={"Docker installation"}
+            subtitle={"Docker installation-template"}
             className={style.detailDataCard}
             onClick={() => setShowImageDetails(true)}
           />

@@ -22,6 +22,6 @@ export const dockerImageSchema = new Schema<IDockerImage>(
   { timestamps: true }
 );
 
-export const DockerImageModel = mongoose.models.dockerImage
-  ? mongoose.models.dockerImage
-  : model<IDockerImage>("dockerImage", dockerImageSchema);
+export const DockerImageModel =
+  mongoose.models.dockerImage ??
+  model<IDockerImage>("dockerImage", dockerImageSchema);

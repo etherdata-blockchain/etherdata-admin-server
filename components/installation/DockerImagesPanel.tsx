@@ -37,7 +37,7 @@ export default function DockerImagesPanel({ dockerImages }: Props) {
           <Form
             schema={getSchemaWithImage(dockerImages)}
             onSubmit={async (data) => {
-              const url = "api/v1/installation/docker-image";
+              const url = "api/v1/installation-template/docker-image";
               try {
                 //TODO: Add auto generated _id
                 await axios.post(url, data.formData, {

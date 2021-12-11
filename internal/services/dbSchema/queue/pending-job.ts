@@ -33,6 +33,6 @@ export const pendingJobSchema = new Schema<IPendingJob>({
 /**
  *
  */
-export const PendingJobModel: Model<IPendingJob> = mongoose.models.pending_job
-  ? mongoose.models.pending_job
-  : model<IPendingJob>("pending_job", pendingJobSchema);
+export const PendingJobModel: Model<IPendingJob> =
+  mongoose.models.pending_job ??
+  model<IPendingJob>("pending_job", pendingJobSchema);

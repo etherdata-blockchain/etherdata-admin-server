@@ -1,5 +1,5 @@
 /**
- * Create static node object used in the installation script generation
+ * Create static node object used in the installation-template script generation
  */
 import mongoose, { Document, model, Schema } from "mongoose";
 
