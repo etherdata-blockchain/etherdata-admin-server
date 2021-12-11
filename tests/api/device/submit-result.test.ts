@@ -25,6 +25,10 @@ describe("Test submit result", () => {
 
   afterEach(async () => {});
 
+  afterAll(() => {
+    dbServer.stop();
+  });
+
   test("Submit a result if user exist", async () => {
     //@ts-ignore
     StorageManagementSystemPlugin.mockImplementation(() => {

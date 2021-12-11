@@ -28,11 +28,11 @@ import { IDevice } from "../../../../internal/services/dbSchema/device";
 import { objectExpand } from "../../../../internal/utils/objectExpander";
 import Logger from "../../../../server/logger";
 import moment from "moment";
-import { CONFIG } from "../../../../server/config/config";
 import AllInboxIcon from "@mui/icons-material/AllInbox";
 import AlbumIcon from "@mui/icons-material/Album";
 import { ContainerDialog } from "../../../../components/device/dialog/containerDialog";
 import { ImageDialog } from "../../../../components/device/dialog/imageDialog";
+import { Configurations } from "../../../../internal/const/configurations";
 
 type Props = {
   device: IDevice | null;
@@ -53,7 +53,7 @@ export default function DeviceDetail({ device, found }: Props) {
   );
   const online =
     Math.abs(moment(foundDevice?.lastSeen).diff(moment(), "seconds")) <
-    CONFIG.maximumNotSeenDuration;
+    Configurations.maximumNotSeenDuration;
 
   React.useEffect(() => {
     console.log("Joining room", device?.id);

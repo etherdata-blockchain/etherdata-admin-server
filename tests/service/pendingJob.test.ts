@@ -1,7 +1,6 @@
 global.TextEncoder = require("util").TextEncoder;
 global.TextDecoder = require("util").TextDecoder;
 
-import { MongoClient } from "mongodb";
 import mongoose from "mongoose";
 import { MongoMemoryServer } from "mongodb-memory-server";
 import { PendingJobModel } from "../../internal/services/dbSchema/queue/pending-job";
@@ -9,8 +8,6 @@ import { PendingJobPlugin } from "../../internal/services/dbServices/pending-job
 
 describe("Pending job tests", () => {
   let dbServer: MongoMemoryServer;
-  let connection: MongoClient;
-
   beforeAll(async () => {
     dbServer = await MongoMemoryServer.create();
     await mongoose.connect(dbServer.getUri().concat("etd"));
@@ -18,6 +15,10 @@ describe("Pending job tests", () => {
 
   afterEach(async () => {
     await PendingJobModel.collection.drop();
+  });
+
+  afterAll(() => {
+    dbServer.stop();
   });
 
   test("Get a job", async () => {

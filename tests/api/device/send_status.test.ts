@@ -6,7 +6,7 @@ import { MongoMemoryServer } from "mongodb-memory-server";
 import { createMocks } from "node-mocks-http";
 import jwt from "jsonwebtoken";
 import handler from "../../../pages/api/v1/device/status/send-status";
-import { mockDeviceData } from "./mockDeviceData";
+import { mockDeviceData } from "../data/mockDeviceData";
 import axios from "axios";
 import { StorageManagementSystemPlugin } from "../../../internal/services/dbServices/storage-management-system-plugin";
 

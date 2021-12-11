@@ -28,6 +28,10 @@ afterEach(async () => {
   await db.dropDatabase();
 });
 
+afterAll(() => {
+  dbServer.stop();
+});
+
 test("Get storage item count", async () => {
   const plugin = new StorageManagementSystemPlugin(mongoClient);
   const itemCol = db.collection(Configurations.storageItemCollectionName);

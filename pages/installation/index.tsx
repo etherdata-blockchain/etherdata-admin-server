@@ -77,8 +77,8 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
   );
 
   const data: Props = {
-    images: images ?? [],
-    staticNodes: staticNodes ?? [],
+    images: images?.results ?? [],
+    staticNodes: staticNodes?.results ?? [],
   };
 
   return {

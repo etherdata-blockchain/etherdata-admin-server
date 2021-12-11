@@ -1,4 +1,7 @@
-import { DatabasePlugin } from "../../../server/plugin/basePlugin";
+import {
+  DatabasePlugin,
+  PaginationResult,
+} from "../../../server/plugin/basePlugin";
 import { DeviceModel, IDevice } from "../dbSchema/device";
 import { PluginName } from "../../../server/plugin/pluginName";
 import { Model, Query } from "mongoose";
@@ -34,7 +37,7 @@ export class DeviceRegistrationPlugin extends DatabasePlugin<any> {
     pageSize: number,
     deviceIds: string[],
     filter?: ClientFilter
-  ): Promise<IDevice[] | undefined> {
+  ): Promise<PaginationResult<IDevice> | undefined> {
     let results = this.model.find({
       id: { $in: deviceIds },
     });
@@ -49,7 +52,7 @@ export class DeviceRegistrationPlugin extends DatabasePlugin<any> {
     //@ts-ignore
     const pageResults = this.doPagination(results, pageNumber, pageSize);
 
-    return await pageResults.exec();
+    return await pageResults;
   }
 
   // eslint-disable-next-line require-jsdoc
@@ -272,15 +275,9 @@ export class DeviceRegistrationPlugin extends DatabasePlugin<any> {
     miner: string,
     pageNumber: number,
     pageSize: number
-  ): Promise<[IDevice[], number, number]> {
+  ): Promise<PaginationResult<IDevice>> {
     const devices = this.model.find({ "data.miner": miner });
-    //@ts-ignore
-    const results = this.doPagination(devices, pageNumber, pageSize);
-    const devicesResults = await results.exec();
-    const totalCount = await this.model.find({ "data.miner": miner }).count();
-    const totalPageNumber = Math.ceil(totalCount / pageSize);
-
-    return [devicesResults, totalCount, totalPageNumber];
+    return this.doPagination(devices as any, pageNumber, pageSize);
   }
 
   // eslint-disable-next-line require-jsdoc

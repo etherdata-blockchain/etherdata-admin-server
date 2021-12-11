@@ -18,6 +18,10 @@ describe("DB Plugin Tests", () => {
     await DeviceModel.collection.drop();
   });
 
+  afterAll(() => {
+    dbServer.stop();
+  });
+
   test("Get Data By ID", async () => {
     const device = await new DeviceModel({
       name: "a",
@@ -50,6 +54,7 @@ describe("DB Plugin Tests", () => {
 
     const plugin = new DeviceRegistrationPlugin();
     const pluginResult = await plugin.list(0, 200);
-    expect(pluginResult?.length).toBe(2);
+    expect(pluginResult?.results.length).toBe(2);
+    expect(pluginResult?.count).toBe(2);
   });
 });

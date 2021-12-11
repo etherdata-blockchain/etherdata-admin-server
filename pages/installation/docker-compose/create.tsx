@@ -37,12 +37,12 @@ export default function Index({ images }: Props) {
 export const getServerSideProps: GetServerSideProps<Props> = async (
   context
 ) => {
-  const dockerImagePlugin = new DockerImagePluginPlugin();
+  // const dockerImagePlugin = new DockerImagePluginPlugin();
 
-  const images = await dockerImagePlugin.list(0, Configurations.numberPerPage);
+  // const images = await dockerImagePlugin.list(0, Configurations.numberPerPage);
 
   const data: Props = {
-    images: images ?? [],
+    images: [],
   };
 
   return {

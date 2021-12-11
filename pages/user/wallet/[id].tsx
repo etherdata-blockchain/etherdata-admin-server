@@ -141,14 +141,17 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
   );
   const userResultPromise = axios.get(txURL.toString());
 
-  const [[devices, totalNumRows, totalPageNumber], result, userResult] =
-    await Promise.all([devicesPromise, resultPromise, userResultPromise]);
+  const [paginationResult, result, userResult] = await Promise.all([
+    devicesPromise,
+    resultPromise,
+    userResultPromise,
+  ]);
 
   return {
     props: {
-      devices: JSON.parse(JSON.stringify(devices)),
-      totalNumRows,
-      totalPageNumber,
+      devices: JSON.parse(JSON.stringify(paginationResult.results)),
+      totalNumRows: paginationResult.count,
+      totalPageNumber: paginationResult.totalPage,
       currentPage: parseInt((pageNumber as string) ?? "0"),
       id: id as string,
       rewards: result.data.rewards,

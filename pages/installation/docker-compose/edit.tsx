@@ -42,7 +42,7 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
   const images = await dockerImagePlugin.list(0, Configurations.numberPerPage);
 
   const data: Props = {
-    images: images ?? [],
+    images: images?.results ?? [],
   };
 
   return {

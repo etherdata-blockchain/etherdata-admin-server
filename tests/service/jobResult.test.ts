@@ -22,6 +22,10 @@ describe("Job Result Test", () => {
     await JobResultModel.collection.drop();
   });
 
+  afterAll(() => {
+    dbServer.stop();
+  });
+
   test("Get a result", async () => {
     //@ts-ignore
     StorageManagementSystemPlugin.mockImplementation(() => {
