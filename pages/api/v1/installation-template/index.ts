@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import AdmZip from "adm-zip";
-import { jwtVerificationHandler } from "../../../../internal/nextHandler/jwtVerificationHandler";
+import { jwtVerificationHandler } from "../../../../internal/nextHandler/jwt_verification_handler";
 import { paginationHandler } from "../../../../internal/nextHandler/paginationHandler";
 import { InstallScriptPlugin } from "../../../../internal/services/dbServices/install-script-plugin";
 import { StatusCodes } from "http-status-codes";

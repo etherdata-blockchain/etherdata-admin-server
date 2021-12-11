@@ -5,11 +5,12 @@ global.TextDecoder = require("util").TextDecoder;
 
 import { DockerImageModel } from "../../../internal/services/dbSchema/docker/docker-image";
 import handler from "../../../pages/api/v1/docker/index";
+import webhookHandler from "../../../pages/api/v1/docker/webhook";
 import mongoose from "mongoose";
 import { MongoMemoryServer } from "mongodb-memory-server";
 import { StatusCodes } from "http-status-codes";
 import { createMocks } from "node-mocks-http";
-import { MockWebHookData } from "../data/mock_docker_data";
+import { MockDockerImage, MockWebHookData } from "../data/mock_docker_data";
 import jwt from "jsonwebtoken";
 import { PaginationResult } from "../../../server/plugin/basePlugin";
 
@@ -41,13 +42,13 @@ describe("Given a docker handler", () => {
     dbServer.stop();
   });
 
-  test("When trying to make a post request without any image data before", async () => {
+  test("When making a post request", async () => {
     const { req, res } = createMocks({
       method: "POST",
       headers: {
         Authorization: "Bearer " + token,
       },
-      body: MockWebHookData,
+      body: MockDockerImage,
     });
 
     //@ts-ignore
@@ -56,7 +57,22 @@ describe("Given a docker handler", () => {
     expect(await DockerImageModel.countDocuments()).toBe(1);
   });
 
-  test("When trying make a post request with existing image data", async () => {
+  test("When trying to make a post request to webhook without any image data before", async () => {
+    const { req, res } = createMocks({
+      method: "POST",
+      query: {
+        token: token,
+      },
+      body: MockWebHookData,
+    });
+
+    //@ts-ignore
+    await webhookHandler(req, res);
+    expect(res._getStatusCode()).toBe(StatusCodes.CREATED);
+    expect(await DockerImageModel.countDocuments()).toBe(1);
+  });
+
+  test("When trying make a post request to webhook with existing image data", async () => {
     const data = {
       imageName: MockWebHookData.repository.repo_name,
       tags: ["v1.0"],
@@ -64,14 +80,14 @@ describe("Given a docker handler", () => {
     await DockerImageModel.create(data);
     const { req, res } = createMocks({
       method: "POST",
-      headers: {
-        Authorization: "Bearer " + token,
+      query: {
+        token: token,
       },
       body: MockWebHookData,
     });
 
     //@ts-ignore
-    await handler(req, res);
+    await webhookHandler(req, res);
     expect(res._getStatusCode()).toBe(StatusCodes.CREATED);
     const dockerData = await DockerImageModel.findOne({
       imageName: "test/testhook",

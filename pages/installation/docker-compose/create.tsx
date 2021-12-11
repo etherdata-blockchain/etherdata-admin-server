@@ -1,7 +1,5 @@
 import * as React from "react";
 import { GetServerSideProps } from "next";
-import { DockerImagePluginPlugin } from "../../../internal/services/dbServices/docker-image-plugin";
-import { Configurations } from "../../../internal/const/configurations";
 import { IDockerImage } from "../../../internal/services/dbSchema/docker/docker-image";
 import PageHeader from "../../../components/PageHeader";
 import ResponsiveCard from "../../../components/ResponsiveCard";
@@ -16,7 +14,7 @@ type Props = {
 
 /**
  * Installation related pages
- * @param props
+ * @param{Props} props
  * @constructor
  */
 export default function Index({ images }: Props) {

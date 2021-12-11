@@ -27,3 +27,8 @@ export const MockWebHookData = {
     status: "Active",
   },
 };
+
+export const MockDockerImage = {
+  imageName: "test",
+  tags: ["v1.0"],
+};
