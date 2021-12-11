@@ -6,8 +6,6 @@ import mongoose, { Document, model, Schema } from "mongoose";
 export interface IDockerImage extends Document {
   imageName: string;
   tags: string[];
-  selectedTag: string | undefined;
-  selected: boolean;
 }
 
 export const dockerImageSchema = new Schema<IDockerImage>(
@@ -20,8 +18,6 @@ export const dockerImageSchema = new Schema<IDockerImage>(
     },
     imageName: { type: "String", required: true },
     tags: ["String"],
-    selected: "boolean",
-    selectedTag: { type: "String", required: false },
   },
   { timestamps: true }
 );

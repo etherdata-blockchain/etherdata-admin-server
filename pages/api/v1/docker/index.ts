@@ -23,8 +23,8 @@ type Response =
  * such image, otherwise, we will update the current image version to the latest one.
  * - **List**: When a list request is sent by user, then we will return the list of docker images,
  * with their versions to the user.
- * @param req
- * @param res
+ * @param {NextApiRequest} req
+ * @param {NextApiResponse} res
  */
 async function handler(req: NextApiRequest, res: NextApiResponse<Response>) {
   const dockerPlugin = new DockerImagePluginPlugin();
