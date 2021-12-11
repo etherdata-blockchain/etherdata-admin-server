@@ -190,7 +190,7 @@ export abstract class DatabasePlugin<
     pageNumber: number,
     pageSize: number
   ): Promise<PaginationResult<T> | undefined> {
-    const results = this.model.find(query as any);
+    const results = () => this.model.find(query as any);
     return this.doPagination(results as any, pageNumber, pageSize);
   }
 

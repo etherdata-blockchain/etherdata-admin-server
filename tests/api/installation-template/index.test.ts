@@ -8,16 +8,16 @@ import jwt from "jsonwebtoken";
 import mongoose from "mongoose";
 import { DockerImageModel } from "../../../internal/services/dbSchema/docker/docker-image";
 import { MongoMemoryServer } from "mongodb-memory-server";
-import AdmZip from "adm-zip";
 import handler from "../../../pages/api/v1/installation-template/index";
 import { createMocks } from "node-mocks-http";
-import { MockWebHookData } from "../data/mock_docker_data";
+
 import {
   MockDockerImage,
   MockInstallationTemplateData,
 } from "../data/mock_template_data";
 import { StatusCodes } from "http-status-codes";
 import { InstallationTemplateModel } from "../../../internal/services/dbSchema/install-script/install-script";
+import { expect } from "@jest/globals";
 
 mock("adm-zip");
 
@@ -84,11 +84,45 @@ describe("Given a installation template handler", () => {
         Authorization: "Bearer " + token,
       },
       query: {
-        template_tag: MockInstallationTemplateData.template_tag,
+        template: MockInstallationTemplateData.template_tag,
       },
     });
     //@ts-ignore
     await handler(req, res);
     expect(res._getData()).toBeDefined();
+    expect(res._getStatusCode()).toBe(StatusCodes.OK);
+  });
+
+  test("When sending a get request to server with template_tag set but no template in db", async () => {
+    const { req, res } = createMocks({
+      method: "GET",
+      headers: {
+        Authorization: "Bearer " + token,
+      },
+      query: {
+        template: MockInstallationTemplateData.template_tag,
+      },
+    });
+    //@ts-ignore
+    await handler(req, res);
+    expect(res._getStatusCode()).toBe(StatusCodes.NOT_FOUND);
+  });
+
+  test("When sending a list request to the server", async () => {
+    const result = await DockerImageModel.create(MockDockerImage);
+    const reqData = JSON.parse(JSON.stringify(MockInstallationTemplateData));
+    reqData.services.worker.image = result._id;
+
+    await InstallationTemplateModel.create(reqData);
+    const { req, res } = createMocks({
+      method: "GET",
+      headers: {
+        Authorization: "Bearer " + token,
+      },
+    });
+    //@ts-ignore
+    await handler(req, res);
+    expect(res._getStatusCode()).toBe(StatusCodes.OK);
+    expect(res._getJSONData()).toBeDefined();
   });
 });

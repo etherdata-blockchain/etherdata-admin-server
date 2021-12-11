@@ -77,19 +77,13 @@ async function handler(req: NextApiRequest, res: NextApiResponse<Response>) {
    */
   const handlePostRequest = async () => {
     const { user } = req.body;
-    try {
-      const data = {
-        ...req.body,
-        created_by: user,
-      };
-      await installScriptPlugin.create(data, { upsert: false });
-      res.status(StatusCodes.CREATED).json({ message: "OK" });
-      return;
-    } catch (e) {
-      res
-        .status(StatusCodes.INTERNAL_SERVER_ERROR)
-        .json({ err: "Cannot create the template: " + e });
-    }
+
+    const data = {
+      ...req.body,
+      created_by: user,
+    };
+    await installScriptPlugin.create(data, { upsert: false });
+    res.status(StatusCodes.CREATED).json({ message: "OK" });
   };
 
   switch (req.method) {
