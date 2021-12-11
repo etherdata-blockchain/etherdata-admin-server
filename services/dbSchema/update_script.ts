@@ -1,16 +1,13 @@
 /**
- * Create a user object for mongoose ORM.
- *
- * This file contains the user dbSchema for mongodb user collection
+ * Create a update script of device for mongoose ORM.
  */
 import mongoose, { Document, model, Model, Schema } from "mongoose";
 // contents of mongodb have to be completed
 interface Task {
-    /**
-     * To be changed
-     */
-    type: string;
-    value: any;
+    imageName: string;
+    imageTag: string;
+    containerName: string;
+    env: string;
 }
 
 export interface UpdateScript extends Document {
@@ -28,14 +25,16 @@ export const UpdateScriptSchema = new Schema<UpdateScript>({
     time: { type: Date, required: true },
     from: { type: String, required: true },
     task: {
-        type: { type: String, required: true },
-        value: { type: Schema.Types.Mixed, required: true },
+        imageName: { type: String, required: true },
+        imageTag: { type: String, required: true },
+        containerName: { type: String, required: true },
+        env: { type: String, required: true },
     },
 });
 
 /**
  *
  */
-export const UpdateScriptModel: Model<UpdateScript> = mongoose.models.pending_job
-    ? mongoose.models.pending_job
+export const UpdateScriptModel: Model<UpdateScript> = mongoose.models.update_script
+    ? mongoose.models.update_script
     : model<UpdateScript>("update_script", UpdateScriptSchema);
