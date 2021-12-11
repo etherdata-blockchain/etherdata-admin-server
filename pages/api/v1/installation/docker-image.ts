@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { clientOnlyHandler } from "../../../../utils/nextHandler/clientOnlyHandler";
-import { DockerImagePluginPlugin } from "../../../../services/dbServices/dockerImagePlugin";
+import { clientOnlyHandler } from "../../../../internal/nextHandler/clientOnlyHandler";
+import { DockerImagePluginPlugin } from "../../../../internal/services/dbServices/docker-image-plugin";
 
 /**
  * Health checking

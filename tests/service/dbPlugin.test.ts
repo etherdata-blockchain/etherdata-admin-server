@@ -3,8 +3,8 @@ global.TextDecoder = require("util").TextDecoder;
 
 import { MongoMemoryServer } from "mongodb-memory-server";
 import mongoose from "mongoose";
-import { DeviceModel } from "../../services/dbSchema/device";
-import { DeviceRegistrationPlugin } from "../../services/dbServices/deviceRegistrationPlugin";
+import { DeviceModel } from "../../internal/services/dbSchema/device";
+import { DeviceRegistrationPlugin } from "../../internal/services/dbServices/device-registration-plugin";
 
 describe("DB Plugin Tests", () => {
   let dbServer: MongoMemoryServer;
@@ -30,7 +30,7 @@ describe("DB Plugin Tests", () => {
     const plugin = new DeviceRegistrationPlugin();
     const pluginResult = await plugin.get("a");
     expect(pluginResult?.name).toBe("a");
-    expect(pluginResult?.id).toBe("a");
+    expect(pluginResult?.id).toBeDefined();
   });
 
   test("List All Items", async () => {

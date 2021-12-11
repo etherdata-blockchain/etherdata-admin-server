@@ -108,7 +108,7 @@ jobs:
         uses: JamesIves/github-pages-deploy-action@4.1.5
         with:
           branch: k8s-release
-          folder: k8s
+          folder: example_configs/k8s
 
   publish-k8s-dev:
     runs-on: ubuntu-latest
@@ -121,4 +121,4 @@ jobs:
         uses: JamesIves/github-pages-deploy-action@4.1.5
         with:
           branch: k8s-release-dev
-          folder: k8s
+          folder: example_configs/k8s

@@ -4,7 +4,7 @@
  * This file contains the user dbSchema for mongodb user collection
  */
 import mongoose, { Document, model, Schema } from "mongoose";
-import { Web3DataInfo } from "../../server/client/node_data";
+import { Web3DataInfo } from "../../../server/client/node_data";
 import { ContainerInfo, ImageInfo } from "dockerode";
 
 interface Docker {

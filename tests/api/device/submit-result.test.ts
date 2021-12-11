@@ -5,10 +5,12 @@ import { MongoMemoryServer } from "mongodb-memory-server";
 import { createMocks } from "node-mocks-http";
 import jwt from "jsonwebtoken";
 import handler from "../../../pages/api/v1/device/result/submit-result";
-import { StorageManagementSystemPlugin } from "../../../services/dbServices/storageManagementSystemPlugin";
+import { StorageManagementSystemPlugin } from "../../../internal/services/dbServices/storage-management-system-plugin";
 import mongoose from "mongoose";
 
-jest.mock("../../../services/dbServices/storageManagementSystemPlugin");
+jest.mock(
+  "../../../internal/services/dbServices/storage-management-system-plugin"
+);
 
 describe("Test submit result", () => {
   let dbServer: MongoMemoryServer;

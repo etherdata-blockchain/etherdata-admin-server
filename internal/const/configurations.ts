@@ -5,4 +5,5 @@ export const Configurations = {
   storageItemCollectionName: "storage_management_item",
   storageUserCollectionName: "storage_management_owner",
   drawerSize: 60,
+  maximumNotSeenDuration: 300,
 };

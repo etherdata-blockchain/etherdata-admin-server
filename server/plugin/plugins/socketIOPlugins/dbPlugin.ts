@@ -4,12 +4,12 @@
 
 import { BaseSocketIOPlugin } from "../../basePlugin";
 import { RegisteredPlugins } from "./registeredPlugins";
-import { JobResultModel } from "../../../../services/dbSchema/job-result";
-import { DeviceModel } from "../../../../services/dbSchema/device";
-import { DeviceRegistrationPlugin } from "../../../../services/dbServices/deviceRegistrationPlugin";
+import { JobResultModel } from "../../../../internal/services/dbSchema/queue/job-result";
+import { DeviceModel } from "../../../../internal/services/dbSchema/device";
+import { DeviceRegistrationPlugin } from "../../../../internal/services/dbServices/device-registration-plugin";
 import { ClientPlugin } from "./clientPlugin";
-import { PendingJobPlugin } from "../../../../services/dbServices/pendingJobPlugin";
-import { JobResultPlugin } from "../../../../services/dbServices/jobResultPlugin";
+import { PendingJobPlugin } from "../../../../internal/services/dbServices/pending-job-plugin";
+import { JobResultPlugin } from "../../../../internal/services/dbServices/job-result-plugin";
 
 /**
  * Watch for database changes

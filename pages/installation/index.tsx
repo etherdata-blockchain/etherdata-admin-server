@@ -2,11 +2,11 @@
 import * as React from "react";
 import PageHeader from "../../components/PageHeader";
 import { GetServerSideProps } from "next";
-import { IDockerImage } from "../../services/dbSchema/docker-image";
-import { IStaticNode } from "../../services/dbSchema/static-node";
-import { DockerImagePluginPlugin } from "../../services/dbServices/dockerImagePlugin";
-import { StaticNodePlugin } from "../../services/dbServices/staticNodePlugin";
-import { Configurations } from "../../server/const/configurations";
+import { IDockerImage } from "../../internal/services/dbSchema/docker/docker-image";
+import { IStaticNode } from "../../internal/services/dbSchema/install-script/static-node";
+import { DockerImagePluginPlugin } from "../../internal/services/dbServices/docker-image-plugin";
+import { StaticNodePlugin } from "../../internal/services/dbServices/static-node-plugin";
+import { Configurations } from "../../internal/const/configurations";
 import Spacer from "../../components/Spacer";
 import Box from "@mui/material/Box";
 import Tabs from "@mui/material/Tabs";

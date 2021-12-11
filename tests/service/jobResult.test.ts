@@ -2,11 +2,13 @@ global.TextEncoder = require("util").TextEncoder;
 global.TextDecoder = require("util").TextDecoder;
 import mongoose from "mongoose";
 import { MongoMemoryServer } from "mongodb-memory-server";
-import { JobResultModel } from "../../services/dbSchema/job-result";
-import { JobResultPlugin } from "../../services/dbServices/jobResultPlugin";
-import { StorageManagementSystemPlugin } from "../../services/dbServices/storageManagementSystemPlugin";
+import { JobResultModel } from "../../internal/services/dbSchema/queue/job-result";
+import { JobResultPlugin } from "../../internal/services/dbServices/job-result-plugin";
+import { StorageManagementSystemPlugin } from "../../internal/services/dbServices/storage-management-system-plugin";
 
-jest.mock("../../services/dbServices/storageManagementSystemPlugin");
+jest.mock(
+  "../../internal/services/dbServices/storage-management-system-plugin"
+);
 
 describe("Job Result Test", () => {
   let dbServer: MongoMemoryServer;

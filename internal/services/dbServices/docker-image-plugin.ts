@@ -1,7 +1,10 @@
-import { DatabasePlugin } from "../../server/plugin/basePlugin";
-import { PluginName } from "../../server/plugin/pluginName";
+import { DatabasePlugin } from "../../../server/plugin/basePlugin";
+import { PluginName } from "../../../server/plugin/pluginName";
 import { Model } from "mongoose";
-import { DockerImageModel, IDockerImage } from "../dbSchema/docker-image";
+import {
+  DockerImageModel,
+  IDockerImage,
+} from "../dbSchema/docker/docker-image";
 
 /**
  * Docker image db plugin

@@ -1,7 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { InstallScriptService } from "../../../../services/installScript/installScript";
+import { InstallScriptService } from "../../../../internal/services/installScript/install-script";
 import AdmZip from "adm-zip";
-import { postOnlyMiddleware } from "../../../../utils/nextHandler/postOnlyHandler";
+import { postOnlyMiddleware } from "../../../../internal/nextHandler/postOnlyHandler";
 
 /**
  * Generate a script which contains installation steps

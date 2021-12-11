@@ -11,7 +11,7 @@ import { BlockMinerDisplay } from "../../components/home/blockMinerDisplay";
 import { TransactionDisplay } from "../../components/home/transactionDisplay";
 import { DifficultyHistoryDisplay } from "../../components/home/difficultyHistoryDisplay";
 import { ETDContext } from "../model/ETDProvider";
-import { abbreviateNumber } from "../../utils/valueFormatter";
+import { abbreviateNumber } from "../../internal/utils/valueFormatter";
 import { LargeDataCard } from "../../components/cards/largeDataCard";
 import style from "../../styles/Device.module.css";
 
@@ -20,7 +20,7 @@ import AppsIcon from "@material-ui/icons/Apps";
 import HourglassEmptyIcon from "@material-ui/icons/HourglassEmpty";
 import FunctionsIcon from "@material-ui/icons/Functions";
 import { DeviceContext } from "../model/DeviceProvider";
-import { DefaultPaginationResult } from "../../server/const/defaultValues";
+import { DefaultPaginationResult } from "../../internal/const/defaultValues";
 
 type Props = {};
 

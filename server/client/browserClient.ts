@@ -1,10 +1,10 @@
 import {
   DeviceRegistrationPlugin,
   VersionInfo,
-} from "../../services/dbServices/deviceRegistrationPlugin";
-import { IDevice } from "../../services/dbSchema/device";
-import { StorageManagementSystemPlugin } from "../../services/dbServices/storageManagementSystemPlugin";
-import { Configurations } from "../const/configurations";
+} from "../../internal/services/dbServices/device-registration-plugin";
+import { IDevice } from "../../internal/services/dbSchema/device";
+import { StorageManagementSystemPlugin } from "../../internal/services/dbServices/storage-management-system-plugin";
+import { Configurations } from "../../internal/const/configurations";
 
 export interface ClientFilter {
   key: string;

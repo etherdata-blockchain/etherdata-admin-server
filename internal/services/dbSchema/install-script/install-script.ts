@@ -1,9 +1,9 @@
 /**
- * Create a image object for storing required information used in generate script
+ * Create template for install script
  */
 import mongoose, { Document, model, Schema } from "mongoose";
 
-export interface IDockerCompose extends Document {
+export interface IInstallScript extends Document {
   version: string;
   services: { [key: string]: Service };
   selected: boolean;
@@ -28,7 +28,7 @@ const serviceSchema = new Schema<Service>({
   labels: ["String"],
 });
 
-export const dockerComposeSchema = new Schema<IDockerCompose>(
+export const installScriptSchema = new Schema<IInstallScript>(
   {
     _id: {
       type: mongoose.Schema.Types.ObjectId,
@@ -42,6 +42,6 @@ export const dockerComposeSchema = new Schema<IDockerCompose>(
   { timestamps: true }
 );
 
-export const DockerComposeModel = mongoose.models.dockerCompose
-  ? mongoose.models.dockerCompose
-  : model<IDockerCompose>("dockerComposeModel", dockerComposeSchema);
+export const InstallScriptModel = mongoose.models.dockerCompose
+  ? mongoose.models.installScript
+  : model<IInstallScript>("installScriptModel", installScriptSchema);

@@ -1,21 +1,5 @@
 import { JSONSchema7 } from "json-schema";
-import { IDockerImage } from "./docker-image";
-
-// export interface IDockerCompose extends Document {
-//     version: string;
-//     services: { [key: string]: Service };
-//     selected: boolean;
-// }
-//
-// interface Service {
-//     image: any;
-//     restart: "always";
-//     environment: string[];
-//     // eslint-disable-next-line camelcase
-//     network_mode: string;
-//     volumes: string[];
-//     labels: string[];
-// }
+import { IDockerImage } from "../dbSchema/docker/docker-image";
 
 const dockerComposeSchema: JSONSchema7 = {
   title: "Docker Compose File",

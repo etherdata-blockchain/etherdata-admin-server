@@ -1,23 +1,34 @@
-import { DatabasePlugin } from "../../server/plugin/basePlugin";
+import { DatabasePlugin } from "../../../server/plugin/basePlugin";
 import { DeviceModel, IDevice } from "../dbSchema/device";
-import { PluginName } from "../../server/plugin/pluginName";
+import { PluginName } from "../../../server/plugin/pluginName";
 import { Model, Query } from "mongoose";
 import axios, { AxiosError } from "axios";
 import moment from "moment";
 import jwt from "jsonwebtoken";
-import { ClientFilter } from "../../server/client/browserClient";
-import Logger from "../../server/logger";
-import { StorageManagementSystemPlugin } from "./storageManagementSystemPlugin";
+import { ClientFilter } from "../../../server/client/browserClient";
+import Logger from "../../../server/logger";
+import { StorageManagementSystemPlugin } from "./storage-management-system-plugin";
 
 export interface VersionInfo {
   version: string;
   count: number;
 }
 
-export class DeviceRegistrationPlugin extends DatabasePlugin<IDevice> {
+/**
+ * Device registration plugin will register,
+ * update, and query the info of devices
+ */
+export class DeviceRegistrationPlugin extends DatabasePlugin<any> {
   pluginName: PluginName = "deviceRegistration";
   protected model: Model<IDevice> = DeviceModel;
 
+  /**
+   * List devices with custom filter
+   * @param pageNumber
+   * @param pageSize
+   * @param deviceIds
+   * @param filter
+   */
   async listWithFilter(
     pageNumber: number,
     pageSize: number,
@@ -28,7 +39,7 @@ export class DeviceRegistrationPlugin extends DatabasePlugin<IDevice> {
       id: { $in: deviceIds },
     });
     if (filter) {
-      let queryFilter: { [key: string]: any } = {
+      const queryFilter: { [key: string]: any } = {
         id: { $in: deviceIds },
       };
       queryFilter[filter.key] = filter.value;
@@ -36,13 +47,14 @@ export class DeviceRegistrationPlugin extends DatabasePlugin<IDevice> {
     }
 
     //@ts-ignore
-    let pageResults = this.doPagination(results, pageNumber, pageSize);
+    const pageResults = this.doPagination(results, pageNumber, pageSize);
 
     return await pageResults.exec();
   }
 
+  // eslint-disable-next-line require-jsdoc
   async performPatch(data: IDevice): Promise<IDevice> {
-    let result = await this.model.findOneAndUpdate(
+    const result = await this.model.findOneAndUpdate(
       { id: data.id },
       //@ts-ignore
       data,
@@ -57,24 +69,24 @@ export class DeviceRegistrationPlugin extends DatabasePlugin<IDevice> {
    * Return true if the user is registered in storage server.
    * If provided key, then will use that key for authorization
    * @param device
-   * @param prev_key Previous assigned key
+   * @param prevKey Previous assigned key
    * @return [is_authorized, auth_key]
    */
   async auth(
     device: string,
-    prev_key: string | undefined
+    prevKey: string | undefined
   ): Promise<[boolean, string | undefined]> {
     /// If no previous key
-    if (!prev_key) {
+    if (!prevKey) {
       try {
         return await this.authFromDB(device);
       } catch (e) {
-        /// Cannot cannot to the db
+        /// Cannot connect to the db
         return [false, undefined];
       }
     } else {
       try {
-        jwt.verify(prev_key, process.env.PUBLIC_SECRET!);
+        jwt.verify(prevKey, process.env.PUBLIC_SECRET!);
         /// verified key
         const newKey = jwt.sign({ device }, process.env.PUBLIC_SECRET!, {
           expiresIn: 600,
@@ -124,12 +136,17 @@ export class DeviceRegistrationPlugin extends DatabasePlugin<IDevice> {
     }
   }
 
+  /**
+   * Get number of online devices
+   * @param deviceIds
+   * @param filter
+   */
   async getOnlineDevicesCount(
     deviceIds: string[],
     filter?: ClientFilter
   ): Promise<number> {
-    let time = moment().subtract(10, "minutes");
-    let query = this.model.find({
+    const time = moment().subtract(10, "minutes");
+    const query = this.model.find({
       lastSeen: { $gt: time.toDate() },
     });
     // if (filter) {
@@ -142,9 +159,13 @@ export class DeviceRegistrationPlugin extends DatabasePlugin<IDevice> {
     return query.count();
   }
 
+  /**
+   * Get device by device id
+   * @param deviceID
+   */
   async findDeviceByDeviceID(deviceID: string): Promise<IDevice | null> {
-    let query = this.model.findOne({ id: deviceID });
-    let result = await query.exec();
+    const query = this.model.findOne({ id: deviceID });
+    const result = await query.exec();
     if (result?.data?.systemInfo.isSyncing) {
       //@ts-ignore
       result.data.systemInfo.isSyncing = true;
@@ -163,7 +184,7 @@ export class DeviceRegistrationPlugin extends DatabasePlugin<IDevice> {
     try {
       const path = "storage_management/user?user=" + encodeURIComponent(user);
       const url = new URL(path, process.env.STORAGE_MANAGEMENT_URL);
-      let resp = await axios.get(url.toString(), {
+      const resp = await axios.get(url.toString(), {
         headers: {
           Authorization: `Bearer ${process.env.STORAGE_MANAGEMENT_API_TOKEN}`,
         },
@@ -174,9 +195,13 @@ export class DeviceRegistrationPlugin extends DatabasePlugin<IDevice> {
     }
   }
 
+  /**
+   * Return the admin version distribution
+   */
   async getListOfAdminVersions(): Promise<VersionInfo[]> {
     const pipeline = this.model.aggregate([
       {
+        //@ts-ignore
         $group: {
           _id: "$adminVersion",
           count: { $sum: 1 },
@@ -195,12 +220,16 @@ export class DeviceRegistrationPlugin extends DatabasePlugin<IDevice> {
       },
     ]);
 
-    return await pipeline.exec();
+    return pipeline.exec();
   }
 
+  /**
+   * Return a list of node's etd version
+   */
   async getListOfNodeVersion(): Promise<VersionInfo[]> {
     const pipeline = this.model.aggregate([
       {
+        // @ts-ignore
         $group: {
           _id: "$data.systemInfo.nodeVersion",
           count: { $sum: 1 },
@@ -222,12 +251,14 @@ export class DeviceRegistrationPlugin extends DatabasePlugin<IDevice> {
     return await pipeline.exec();
   }
 
+  /**
+   * Return the count result with custom filter
+   * @param deviceIds
+   * @param filter
+   */
   async countWithFilter(deviceIds: string[], filter?: ClientFilter) {
-    let queryFilter: { [key: string]: any } = {};
-    // if (filter) {
-    //   queryFilter[filter.key] = filter.value;
-    // }
-    let results = this.model.find(queryFilter);
+    const queryFilter: { [key: string]: any } = {};
+    const results = this.model.find(queryFilter);
     return results.count();
   }
 
@@ -242,9 +273,9 @@ export class DeviceRegistrationPlugin extends DatabasePlugin<IDevice> {
     pageNumber: number,
     pageSize: number
   ): Promise<[IDevice[], number, number]> {
-    let devices = this.model.find({ "data.miner": miner });
+    const devices = this.model.find({ "data.miner": miner });
     //@ts-ignore
-    let results = this.doPagination(devices, pageNumber, pageSize);
+    const results = this.doPagination(devices, pageNumber, pageSize);
     const devicesResults = await results.exec();
     const totalCount = await this.model.find({ "data.miner": miner }).count();
     const totalPageNumber = Math.ceil(totalCount / pageSize);
@@ -252,6 +283,7 @@ export class DeviceRegistrationPlugin extends DatabasePlugin<IDevice> {
     return [devicesResults, totalCount, totalPageNumber];
   }
 
+  // eslint-disable-next-line require-jsdoc
   protected performGet(id: string): Query<IDevice, IDevice> {
     //@ts-ignore
     return this.model.findOne({ id: id });

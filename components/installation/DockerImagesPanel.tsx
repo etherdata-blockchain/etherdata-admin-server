@@ -1,12 +1,12 @@
 import React from "react";
-import { IDockerImage } from "../../services/dbSchema/docker-image";
+import { IDockerImage } from "../../internal/services/dbSchema/docker/docker-image";
 import ResponsiveCard from "../ResponsiveCard";
 import { DataGrid } from "@mui/x-data-grid";
-import { columns } from "../../services/dbSchema/docker-image-utils";
+import { columns } from "../../internal/services/dbSchema/docker/docker-image-utils";
 import { Box, Button, Dialog, DialogContent, DialogTitle } from "@mui/material";
 import Form from "@rjsf/bootstrap-4";
 import axios from "axios";
-import { getSchemaWithImage } from "../../services/dbSchema/docker-compose-schema";
+import { getSchemaWithImage } from "../../internal/services/installScript/docker-compose-schema";
 
 interface Props {
   dockerImages: IDockerImage[];

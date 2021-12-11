@@ -1,19 +1,21 @@
 global.TextEncoder = require("util").TextEncoder;
 global.TextDecoder = require("util").TextDecoder;
 import mongoose from "mongoose";
-import { DeviceModel } from "../../../services/dbSchema/device";
+import { DeviceModel } from "../../../internal/services/dbSchema/device";
 import { MongoMemoryServer } from "mongodb-memory-server";
 import { createMocks } from "node-mocks-http";
 import jwt from "jsonwebtoken";
 import handler from "../../../pages/api/v1/device/status/send-status";
 import { mockDeviceData } from "./mockDeviceData";
 import axios from "axios";
-import { StorageManagementSystemPlugin } from "../../../services/dbServices/storageManagementSystemPlugin";
+import { StorageManagementSystemPlugin } from "../../../internal/services/dbServices/storage-management-system-plugin";
 
 jest.mock("axios");
-jest.mock("../../../services/dbServices/storageManagementSystemPlugin");
+jest.mock(
+  "../../../internal/services/dbServices/storage-management-system-plugin"
+);
 
-describe("Test send user status", () => {
+describe("Test sending a user status", () => {
   let dbServer: MongoMemoryServer;
   const oldEnv = process.env;
 

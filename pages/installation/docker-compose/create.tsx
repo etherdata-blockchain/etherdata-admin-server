@@ -1,12 +1,12 @@
 import * as React from "react";
 import { GetServerSideProps } from "next";
-import { DockerImagePluginPlugin } from "../../../services/dbServices/dockerImagePlugin";
-import { Configurations } from "../../../server/const/configurations";
-import { IDockerImage } from "../../../services/dbSchema/docker-image";
+import { DockerImagePluginPlugin } from "../../../internal/services/dbServices/docker-image-plugin";
+import { Configurations } from "../../../internal/const/configurations";
+import { IDockerImage } from "../../../internal/services/dbSchema/docker/docker-image";
 import PageHeader from "../../../components/PageHeader";
 import ResponsiveCard from "../../../components/ResponsiveCard";
 import Form from "@rjsf/bootstrap-4";
-import { getSchemaWithImage } from "../../../services/dbSchema/docker-compose-schema";
+import { getSchemaWithImage } from "../../../internal/services/installScript/docker-compose-schema";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Spacer from "../../../components/Spacer";
 

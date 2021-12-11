@@ -1,6 +1,6 @@
 import { Db, MongoClient } from "mongodb";
-import { Configurations } from "../../server/const/configurations";
-import { DefaultStorageUser } from "../../server/const/defaultValues";
+import { Configurations } from "../../const/configurations";
+import { DefaultStorageUser } from "../../const/defaultValues";
 
 export interface StorageUser {
   _id: string;

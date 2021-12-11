@@ -1,7 +1,7 @@
-import { DatabasePlugin } from "../../server/plugin/basePlugin";
-import { PluginName } from "../../server/plugin/pluginName";
+import { DatabasePlugin } from "../../../server/plugin/basePlugin";
+import { PluginName } from "../../../server/plugin/pluginName";
 import { Model } from "mongoose";
-import { IPendingJob, PendingJobModel } from "../dbSchema/pending-job";
+import { IPendingJob, PendingJobModel } from "../dbSchema/queue/pending-job";
 import moment from "moment";
 
 export class PendingJobPlugin extends DatabasePlugin<IPendingJob> {
