@@ -13,6 +13,6 @@ export const staticNodeSchema = new Schema<IStaticNode>({
   nodeURL: { type: "string", required: true },
 });
 
-export const StaticNodeModel = mongoose.models.staticNode
-  ? mongoose.models.staticNode
-  : model<IStaticNode>("staticNode", staticNodeSchema);
+export const StaticNodeModel =
+  mongoose.models.staticNode ??
+  model<IStaticNode>("staticNode", staticNodeSchema);
