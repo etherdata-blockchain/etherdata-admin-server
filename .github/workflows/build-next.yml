@@ -21,8 +21,11 @@ jobs:
         with:
           node-version: "16"
       - run: yarn
-      - run: yarn lint
-        name: Lint
+      - name: Run linters
+        uses: wearerequired/lint-action@v1
+        with:
+          eslint: true
+          prettier: true
 
   test:
     runs-on: ubuntu-latest
