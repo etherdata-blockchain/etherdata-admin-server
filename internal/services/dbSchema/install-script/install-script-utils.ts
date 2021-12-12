@@ -1,34 +1,10 @@
 /**
  * Utils for installation script
  */
-import {IDockerImage} from "../docker/docker-image";
-import {GridColDef} from "@mui/x-data-grid";
-import {JSONSchema7} from "json-schema";
-
-/**
- * This template is used to generate a docker-compose file
- */
-export interface IInstallationTemplate extends Document {
-  version: string;
-  services: { [key: string]: Service };
-  /**
-   * Template tag used to identify the template
-   */
-  // eslint-disable-next-line camelcase
-  template_tag: string;
-  // eslint-disable-next-line camelcase
-  created_by: string;
-}
-
-interface Service {
-  image: IDockerImage;
-  restart: string;
-  environment: string[];
-  // eslint-disable-next-line camelcase
-  network_mode: string;
-  volumes: string[];
-  labels: string[];
-}
+import { IDockerImage } from "../docker/docker-image";
+import { GridColDef } from "@mui/x-data-grid";
+import { JSONSchema7 } from "json-schema";
+import { IInstallationTemplate } from "./install-script";
 
 export const jsonSchema: JSONSchema7 = {
   title: "Installation template",
@@ -132,4 +108,42 @@ export function getSchemaWithDockerImages(images: IDockerImage[]): JSONSchema7 {
   schema.properties.services.items.properties.service.properties.image.enum =
     imageWithTags;
   return schema;
+}
+
+/**
+ * Postprocess data.
+ * When we have a data from our json form, the services is a list.
+ * However, we need services to be a map where key is the service name
+ * and value is the actual script.
+ * @param{any} data data from json schema form
+ */
+export function postprocessData(data: {
+  services: { title: string; service: any }[];
+}): IInstallationTemplate {
+  const services: { [key: string]: any } = {};
+  for (const service of data.services) {
+    services[service.title] = service.service;
+  }
+  const copied = JSON.parse(JSON.stringify(data));
+  copied.services = services;
+  return copied;
+}
+
+/**
+ * Preprocess Data
+ * When we provide a data for our database, then
+ * we want to convert the format to the format we used in our json schema form.
+ * Since our database use map to represent the services attribute,
+ * and our json schema used list to represent the services attribute.
+ * @param{any} data Data from database
+ * @return{any} data will be used in json schema form
+ */
+export function preprocessData(data: IInstallationTemplate): any {
+  const services: any[] = [];
+  for (const [key, value] of Object.entries(data.services)) {
+    services.push({ title: key, service: value });
+  }
+  const copied = JSON.parse(JSON.stringify(data));
+  copied.services = services;
+  return copied;
 }

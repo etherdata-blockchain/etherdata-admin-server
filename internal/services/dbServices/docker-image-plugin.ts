@@ -63,7 +63,7 @@ export class DockerImagePlugin extends DatabasePlugin<IDockerImage> {
   async createWithDockerWebhookData(data: DockerWebhook): Promise<void> {
     const dockerData = {
       imageName: data.repository.repo_name,
-      tags: [data.push_data.tag],
+      tags: [{ tag: data.push_data.tag }],
       selectedTag: undefined,
       selected: false,
     };
@@ -74,7 +74,7 @@ export class DockerImagePlugin extends DatabasePlugin<IDockerImage> {
     if (prevImage) {
       await this.model.updateOne(
         { imageName: data.repository.repo_name },
-        { $push: { tags: data.push_data.tag } }
+        { $push: { tags: { tag: data.push_data.tag } } }
       );
     } else {
       await this.model.create(dockerData);

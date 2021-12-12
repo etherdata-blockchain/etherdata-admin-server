@@ -8,7 +8,7 @@ export const MockWebHookData = {
     ],
     pushed_at: 1.417566161e9,
     pusher: "trustedbuilder",
-    tag: "v1.1",
+    tag: "v1.0",
   },
   repository: {
     comment_count: 0,
@@ -30,5 +30,5 @@ export const MockWebHookData = {
 
 export const MockDockerImage = {
   imageName: "test",
-  tags: ["v1.0"],
+  tags: [{ tag: "v1.0" }],
 };

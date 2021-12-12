@@ -2,15 +2,15 @@ global.TextEncoder = require("util").TextEncoder;
 global.TextDecoder = require("util").TextDecoder;
 
 import { InstallationTemplateModel } from "../../../internal/services/dbSchema/install-script/install-script";
-import { MockConstant } from "../data/mock_constant";
+import { MockConstant } from "../../data/mock_constant";
 import jwt from "jsonwebtoken";
 import mongoose from "mongoose";
 import { MongoMemoryServer } from "mongodb-memory-server";
 import { createMocks } from "node-mocks-http";
 import { StatusCodes } from "http-status-codes";
-import { MockStaticNode } from "../data/mock_static_node";
+import { MockStaticNode } from "../../data/mock_static_node";
 import handler from "../../../pages/api/v1/docker/[id]";
-import { MockDockerImage } from "../data/mock_template_data";
+import { MockDockerImage } from "../../data/mock_template_data";
 import {
   DockerImageModel,
   IDockerImage,

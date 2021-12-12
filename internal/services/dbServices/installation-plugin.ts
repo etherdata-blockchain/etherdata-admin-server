@@ -1,10 +1,7 @@
-import { DatabasePlugin } from "../../../server/plugin/basePlugin";
-import { PluginName } from "../../../server/plugin/pluginName";
-import { Model } from "mongoose";
-import {
-  IInstallationTemplate,
-  InstallationTemplateModel,
-} from "../dbSchema/install-script/install-script";
+import {DatabasePlugin} from "../../../server/plugin/basePlugin";
+import {PluginName} from "../../../server/plugin/pluginName";
+import {Model} from "mongoose";
+import {IInstallationTemplate, InstallationTemplateModel} from "../dbSchema/install-script/install-script";
 import YAML from "yaml";
 
 /**
@@ -27,5 +24,19 @@ export class InstallationPlugin extends DatabasePlugin<IInstallationTemplate> {
     delete deepCopiedTemplate.template_tag;
 
     return YAML.stringify(deepCopiedTemplate);
+  }
+
+  /**
+   * Create a installation template with image name.
+   * When a client provides a template with image name,
+   * we will first find the image with that name.
+   * If fail, we will return false
+   * @param{IInstallationTemplate} data Image is in image name:image tag format
+   * @return{boolean} create status
+   */
+  async createWithImageName(
+    data: IInstallationTemplate
+  ): Promise<IInstallationTemplate | undefined> {
+    return undefined;
   }
 }

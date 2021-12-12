@@ -31,3 +31,9 @@ export const getAxiosClient = () =>
       Authorization: `Bearer ${token()}`,
     },
   });
+
+export const DefaultInstallationScriptTag = {
+  dockerImage: 0,
+  staticNode: 1,
+  installationTemplate: 2,
+};

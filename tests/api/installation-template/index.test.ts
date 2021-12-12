@@ -3,7 +3,7 @@ import mock = jest.mock;
 global.TextEncoder = require("util").TextEncoder;
 global.TextDecoder = require("util").TextDecoder;
 
-import { MockConstant } from "../data/mock_constant";
+import { MockConstant } from "../../data/mock_constant";
 import jwt from "jsonwebtoken";
 import mongoose from "mongoose";
 import { DockerImageModel } from "../../../internal/services/dbSchema/docker/docker-image";
@@ -14,7 +14,7 @@ import { createMocks } from "node-mocks-http";
 import {
   MockDockerImage,
   MockInstallationTemplateData,
-} from "../data/mock_template_data";
+} from "../../data/mock_template_data";
 import { StatusCodes } from "http-status-codes";
 import { InstallationTemplateModel } from "../../../internal/services/dbSchema/install-script/install-script";
 import { expect } from "@jest/globals";

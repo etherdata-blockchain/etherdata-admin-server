@@ -1,15 +1,18 @@
 global.TextEncoder = require("util").TextEncoder;
 global.TextDecoder = require("util").TextDecoder;
 
-import { MockConstant } from "../data/mock_constant";
-import { DockerImageModel } from "../../../internal/services/dbSchema/docker/docker-image";
+import { MockConstant } from "../../data/mock_constant";
+import {
+  DockerImageModel,
+  IDockerImage,
+} from "../../../internal/services/dbSchema/docker/docker-image";
 import handler from "../../../pages/api/v1/docker/index";
 import webhookHandler from "../../../pages/api/v1/docker/webhook";
 import mongoose from "mongoose";
 import { MongoMemoryServer } from "mongodb-memory-server";
 import { StatusCodes } from "http-status-codes";
 import { createMocks } from "node-mocks-http";
-import { MockDockerImage, MockWebHookData } from "../data/mock_docker_data";
+import { MockDockerImage, MockWebHookData } from "../../data/mock_docker_data";
 import jwt from "jsonwebtoken";
 import { PaginationResult } from "../../../server/plugin/basePlugin";
 
@@ -54,6 +57,10 @@ describe("Given a docker handler", () => {
     await handler(req, res);
     expect(res._getStatusCode()).toBe(StatusCodes.CREATED);
     expect(await DockerImageModel.countDocuments()).toBe(1);
+
+    const data: IDockerImage = await DockerImageModel.findOne({}).exec();
+    expect(data.tags[0].tag).toBe(MockDockerImage.tags[0].tag);
+    expect(data.tags[0]._id).toBeDefined();
   });
 
   test("When trying to make a post request to webhook without any image data before", async () => {
@@ -69,12 +76,16 @@ describe("Given a docker handler", () => {
     await webhookHandler(req, res);
     expect(res._getStatusCode()).toBe(StatusCodes.CREATED);
     expect(await DockerImageModel.countDocuments()).toBe(1);
+
+    const data: IDockerImage = await DockerImageModel.findOne({}).exec();
+    expect(data.tags[0].tag).toBe(MockDockerImage.tags[0].tag);
+    expect(data.tags[0]._id).toBeDefined();
   });
 
   test("When trying make a post request to webhook with existing image data", async () => {
     const data = {
       imageName: MockWebHookData.repository.repo_name,
-      tags: ["v1.0"],
+      tags: [{ tag: "v1.0" }],
     };
     await DockerImageModel.create(data);
     const { req, res } = createMocks({
@@ -98,17 +109,17 @@ describe("Given a docker handler", () => {
   test("When making a get request", async () => {
     const data1 = {
       imageName: "test_data_1",
-      tags: ["v1.0"],
+      tags: [{ tag: "v1.0" }],
     };
 
     const data2 = {
       imageName: "test_data_2",
-      tags: ["v1.0"],
+      tags: [{ tag: "v1.0" }],
     };
 
     const data3 = {
       imageName: "test_data_3",
-      tags: ["v1.0"],
+      tags: [{ tag: "v1.0" }],
     };
     await DockerImageModel.create(data1);
     await DockerImageModel.create(data2);
@@ -156,7 +167,7 @@ describe("Given a docker handler", () => {
   test("When making a get request exceeds maximum page number", async () => {
     const data1 = {
       imageName: "test_data_1",
-      tags: ["v1.0"],
+      tags: [{ tag: "v1.0" }],
     };
 
     await DockerImageModel.create(data1);

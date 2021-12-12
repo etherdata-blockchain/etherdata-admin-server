@@ -2,14 +2,14 @@ global.TextEncoder = require("util").TextEncoder;
 global.TextDecoder = require("util").TextDecoder;
 
 import { PaginationResult } from "../../../server/plugin/basePlugin";
-import { MockConstant } from "../data/mock_constant";
+import { MockConstant } from "../../data/mock_constant";
 import jwt from "jsonwebtoken";
 import mongoose from "mongoose";
 import { MongoMemoryServer } from "mongodb-memory-server";
-import handler from "../../../pages/api/v1/static_nodes/index";
+import handler from "../../../pages/api/v1/static-node/index";
 import { createMocks } from "node-mocks-http";
 import { StatusCodes } from "http-status-codes";
-import { MockStaticNode } from "../data/mock_static_node";
+import { MockStaticNode } from "../../data/mock_static_node";
 import { StaticNodeModel } from "../../../internal/services/dbSchema/install-script/static-node";
 
 describe("Given a static node handler", () => {

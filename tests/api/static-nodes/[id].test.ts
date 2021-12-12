@@ -1,14 +1,14 @@
 global.TextEncoder = require("util").TextEncoder;
 global.TextDecoder = require("util").TextDecoder;
 
-import { MockConstant } from "../data/mock_constant";
+import { MockConstant } from "../../data/mock_constant";
 import jwt from "jsonwebtoken";
 import mongoose from "mongoose";
 import { MongoMemoryServer } from "mongodb-memory-server";
-import handler from "../../../pages/api/v1/static_nodes/[id]";
+import handler from "../../../pages/api/v1/static-node/[id]";
 import { createMocks } from "node-mocks-http";
 import { StatusCodes } from "http-status-codes";
-import { MockStaticNode } from "../data/mock_static_node";
+import { MockStaticNode } from "../../data/mock_static_node";
 import {
   IStaticNode,
   StaticNodeModel,

@@ -6,7 +6,7 @@ import { MongoMemoryServer } from "mongodb-memory-server";
 import { createMocks } from "node-mocks-http";
 import jwt from "jsonwebtoken";
 import handler from "../../../pages/api/v1/device/job/get-job";
-import { mockDeviceData } from "../data/mockDeviceData";
+import { mockDeviceData } from "../../data/mockDeviceData";
 import { PendingJobModel } from "../../../internal/services/dbSchema/queue/pending-job";
 import { StorageManagementSystemPlugin } from "../../../internal/services/dbServices/storage-management-system-plugin";
 

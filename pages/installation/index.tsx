@@ -19,8 +19,10 @@ import InstallationTemplatePanel from "../../components/installation/Installatio
 import { Button } from "@mui/material";
 import { Routes } from "../../internal/const/routes";
 import { useRouter } from "next/dist/client/router";
+import StaticNodePanel from "../../components/installation/StaticNodePanel";
 
 type Props = {
+  index: any;
   images: IDockerImage[];
   staticNodes: IStaticNode[];
   installationTemplates: IInstallationTemplate[];
@@ -32,11 +34,12 @@ type Props = {
  * @constructor
  */
 export default function Index({
+  index,
   images,
   staticNodes,
   installationTemplates,
 }: Props) {
-  const [value, setValue] = React.useState(0);
+  const [value, setValue] = React.useState(parseInt(index));
   const router = useRouter();
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
@@ -50,7 +53,12 @@ export default function Index({
     >
       Add Image{" "}
     </Button>,
-    <Button key={`button-1`}></Button>,
+    <Button
+      key={`button-1`}
+      onClick={() => router.push(Routes.staticNodeCreate)}
+    >
+      Add Static Node
+    </Button>,
     <Button
       key={`button-2`}
       onClick={() => router.push(Routes.installationTemplatesCreate)}
@@ -89,6 +97,9 @@ export default function Index({
         <TabPanel value={value} index={0}>
           <DockerImagesPanel dockerImages={images} />
         </TabPanel>
+        <TabPanel value={value} index={1}>
+          <StaticNodePanel staticNodes={staticNodes} />
+        </TabPanel>
         <TabPanel value={value} index={2}>
           <InstallationTemplatePanel
             installationTemplates={installationTemplates}
@@ -102,22 +113,31 @@ export default function Index({
 export const getServerSideProps: GetServerSideProps<Props> = async (
   context
 ) => {
+  const index = context.query.index ?? "0";
+
   //TODO: Add pagination
   const dockerImagePlugin = new DockerImagePlugin();
   const staticNodePlugin = new StaticNodePlugin();
   const installationPlugin = new InstallationPlugin();
 
-  const images = await dockerImagePlugin.list(0, Configurations.numberPerPage);
-  const staticNodes = await staticNodePlugin.list(
+  const imagePromise = dockerImagePlugin.list(0, Configurations.numberPerPage);
+  const staticNodePromise = staticNodePlugin.list(
     0,
     Configurations.numberPerPage
   );
-  const installationTemplates = await installationPlugin.list(
+  const installationTemplatePromise = installationPlugin.list(
     0,
     Configurations.numberPerPage
   );
 
+  const [images, staticNodes, installationTemplates] = await Promise.all([
+    imagePromise,
+    staticNodePromise,
+    installationTemplatePromise,
+  ]);
+
   const data: Props = {
+    index: index,
     images: images?.results ?? [],
     staticNodes: staticNodes?.results ?? [],
     installationTemplates: installationTemplates?.results ?? [],

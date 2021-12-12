@@ -5,8 +5,22 @@ import mongoose, { Document, model, Schema } from "mongoose";
 
 export interface IDockerImage extends Document {
   imageName: string;
-  tags: string[];
+  tags: IDOckerImageVersion[];
 }
+
+interface IDOckerImageVersion extends Document {
+  tag: string;
+}
+
+const versionSchema = new Schema<IDOckerImageVersion>({
+  _id: {
+    type: mongoose.Schema.Types.ObjectId,
+    index: true,
+    required: true,
+    auto: true,
+  },
+  tag: "String",
+});
 
 export const dockerImageSchema = new Schema<IDockerImage>(
   {
@@ -17,9 +31,11 @@ export const dockerImageSchema = new Schema<IDockerImage>(
       auto: true,
     },
     imageName: { type: "String", required: true },
-    tags: ["String"],
+    tags: [versionSchema],
   },
-  { timestamps: true }
+  {
+    timestamps: true,
+  }
 );
 
 export const DockerImageModel =

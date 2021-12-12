@@ -5,19 +5,21 @@ import PageHeader from "../../../../components/PageHeader";
 import Spacer from "../../../../components/Spacer";
 import Form from "@rjsf/bootstrap-4";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { jsonSchema } from "../../../../internal/services/dbSchema/docker/docker-image-utils";
+import { jsonSchema } from "../../../../internal/services/dbSchema/install-script/static-node-utils";
 import { UIProviderContext } from "../../../model/UIProvider";
-import { getAxiosClient } from "../../../../internal/const/defaultValues";
+import {
+  DefaultInstallationScriptTag,
+  getAxiosClient,
+} from "../../../../internal/const/defaultValues";
 import { Routes } from "../../../../internal/const/routes";
 import { Backdrop, Button, CircularProgress } from "@mui/material";
 import { useRouter } from "next/dist/client/router";
 import { GetServerSideProps } from "next";
-import { IDockerImage } from "../../../../internal/services/dbSchema/docker/docker-image";
-import { DockerImagePlugin } from "../../../../internal/services/dbServices/docker-image-plugin";
-import Logger from "../../../../server/logger";
+import { IStaticNode } from "../../../../internal/services/dbSchema/install-script/static-node";
+import { StaticNodePlugin } from "../../../../internal/services/dbServices/static-node-plugin";
 
 type Props = {
-  dockerImage: IDockerImage;
+  staticNode: IStaticNode;
 };
 
 /**
@@ -25,18 +27,19 @@ type Props = {
  * @param{Props} props
  * @constructor
  */
-export default function Index({ dockerImage }: Props) {
+export default function Index({ staticNode }: Props) {
   const [isLoading, setIsLoading] = React.useState(false);
   const { showSnackBarMessage } = React.useContext(UIProviderContext);
-  const [formData, setFormData] = React.useState(dockerImage);
   const router = useRouter();
-  const url = `${Routes.dockerImageAPICreate}/${dockerImage._id}`;
+  const url = `${Routes.staticNodeAPIEdit}/${staticNode._id}`;
 
   const submitData = async (data: any) => {
     setIsLoading(true);
     try {
       await getAxiosClient().patch(url, data);
-      await router.push(Routes.installation);
+      await router.push(
+        `${Routes.installation}?index=${DefaultInstallationScriptTag.installationTemplate}`
+      );
     } catch (e) {
       showSnackBarMessage(`${e}`);
     } finally {
@@ -63,8 +66,8 @@ export default function Index({ dockerImage }: Props) {
   return (
     <div>
       <PageHeader
-        title={"Installation"}
-        description={`Configurations for installation script`}
+        title={"Static Node"}
+        description={`Update Static Node`}
         action={<Button onClick={deleteData}>Delete</Button>}
       />
       <Spacer height={20} />
@@ -78,8 +81,7 @@ export default function Index({ dockerImage }: Props) {
       >
         <Form
           schema={jsonSchema}
-          formData={formData}
-          onChange={(v) => setFormData(v.formData)}
+          formData={staticNode}
           onSubmit={async (data) => {
             await submitData(data.formData);
           }}
@@ -98,10 +100,9 @@ export default function Index({ dockerImage }: Props) {
 export const getServerSideProps: GetServerSideProps<Props> = async (
   context
 ) => {
-  Logger.info("Getting docker");
   const id = context.query.id;
-  const dockerPlugin = new DockerImagePlugin();
-  const foundImage = await dockerPlugin.get(id as string);
+  const staticNodePlugin = new StaticNodePlugin();
+  const foundImage = await staticNodePlugin.get(id as string);
   if (!foundImage) {
     return {
       notFound: true,
@@ -109,7 +110,7 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
   }
 
   const data: Props = {
-    dockerImage: foundImage,
+    staticNode: foundImage,
   };
   return {
     props: JSON.parse(JSON.stringify(data)),

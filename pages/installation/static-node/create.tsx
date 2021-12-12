@@ -5,9 +5,12 @@ import PageHeader from "../../../components/PageHeader";
 import Spacer from "../../../components/Spacer";
 import Form from "@rjsf/bootstrap-4";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { jsonSchema } from "../../../internal/services/dbSchema/docker/docker-image-utils";
+import { jsonSchema } from "../../../internal/services/dbSchema/install-script/static-node-utils";
 import { UIProviderContext } from "../../model/UIProvider";
-import { getAxiosClient } from "../../../internal/const/defaultValues";
+import {
+  DefaultInstallationScriptTag,
+  getAxiosClient,
+} from "../../../internal/const/defaultValues";
 import { Routes } from "../../../internal/const/routes";
 import { Backdrop, CircularProgress } from "@mui/material";
 import { useRouter } from "next/dist/client/router";
@@ -15,21 +18,23 @@ import { useRouter } from "next/dist/client/router";
 type Props = {};
 
 /**
- * Installation related pages
+ * Static Node creation page
  * @param{Props} props
  * @constructor
  */
 export default function Index({}: Props) {
   const [isLoading, setIsLoading] = React.useState(false);
-  const [formData, setFormData] = React.useState();
   const { showSnackBarMessage } = React.useContext(UIProviderContext);
+  const [formData, setFormData] = React.useState();
   const router = useRouter();
 
   const submitData = async (data: any) => {
     setIsLoading(true);
     try {
-      await getAxiosClient().post(Routes.dockerImageAPICreate, data);
-      await router.push(Routes.installation);
+      await getAxiosClient().post(Routes.staticNodeAPICreate, data);
+      await router.push(
+        `${Routes.installation}?index=${DefaultInstallationScriptTag.staticNode}`
+      );
     } catch (e) {
       showSnackBarMessage(`${e}`);
     } finally {
@@ -40,8 +45,8 @@ export default function Index({}: Props) {
   return (
     <div>
       <PageHeader
-        title={"Installation"}
-        description={`Configurations for installation script`}
+        title={"Static Node"}
+        description={`Create a new static node`}
       />
       <Spacer height={20} />
       <Box
@@ -56,6 +61,12 @@ export default function Index({}: Props) {
           schema={jsonSchema}
           formData={formData}
           onChange={(v) => setFormData(v.formData)}
+          validate={(data, errors) => {
+            if (!data.nodeURL.startsWith("enode://")) {
+              errors.addError("Enode URL should start with enode");
+            }
+            return errors;
+          }}
           onSubmit={async (data) => {
             await submitData(data.formData);
           }}
