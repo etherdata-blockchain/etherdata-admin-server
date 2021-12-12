@@ -42,3 +42,4 @@ globalConfig.json
 .idea
 coverage
 *.mp4
+yarn.lock
