@@ -1,3 +1,6 @@
+global.TextEncoder = require("util").TextEncoder;
+global.TextDecoder = require("util").TextDecoder;
+
 import { MockConstant } from "../data/mock_constant";
 import { DockerImageModel } from "../../../internal/services/dbSchema/docker/docker-image";
 import handler from "../../../pages/api/v1/docker/index";
@@ -9,9 +12,6 @@ import { createMocks } from "node-mocks-http";
 import { MockDockerImage, MockWebHookData } from "../data/mock_docker_data";
 import jwt from "jsonwebtoken";
 import { PaginationResult } from "../../../server/plugin/basePlugin";
-
-global.TextEncoder = require("util").TextEncoder;
-global.TextDecoder = require("util").TextDecoder;
 
 describe("Given a docker handler", () => {
   let dbServer: MongoMemoryServer;

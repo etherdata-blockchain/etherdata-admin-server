@@ -1,3 +1,6 @@
+global.TextEncoder = require("util").TextEncoder;
+global.TextDecoder = require("util").TextDecoder;
+
 import { PaginationResult } from "../../../server/plugin/basePlugin";
 import { MockConstant } from "../data/mock_constant";
 import jwt from "jsonwebtoken";
@@ -8,9 +11,6 @@ import { createMocks } from "node-mocks-http";
 import { StatusCodes } from "http-status-codes";
 import { MockStaticNode } from "../data/mock_static_node";
 import { StaticNodeModel } from "../../../internal/services/dbSchema/install-script/static-node";
-
-global.TextEncoder = require("util").TextEncoder;
-global.TextDecoder = require("util").TextDecoder;
 
 describe("Given a static node handler", () => {
   let dbServer: MongoMemoryServer;
