@@ -17,15 +17,15 @@ type Data = {
  * @param res
  */
 async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
-    const { user, key } = req.body;
+    const { user: deviceId, key } = req.body;
     const returnData: Data = {};
 
     try {
         const plugin = new UpdateScriptPlugin();
         const devicePlugin = new DeviceRegistrationPlugin();
-        const [authorized, newKey] = await devicePlugin.auth(user, key);
+        const [authorized, newKey] = await devicePlugin.auth(deviceId, key);
         if (authorized) {
-            returnData.updateScript = await plugin.getUpdateScript(user);
+            returnData.updateScript = await plugin.getUpdateScript(deviceId);
             returnData.key = newKey;
             res.status(200).json(returnData);
         } else {

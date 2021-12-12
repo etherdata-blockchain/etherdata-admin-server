@@ -28,7 +28,7 @@ export class DeviceRegistrationPlugin extends DatabasePlugin<IDevice> {
       id: { $in: deviceIds },
     });
     if (filter) {
-      let queryFilter: { [key: string]: any } = {
+      const queryFilter: { [key: string]: any } = {
         id: { $in: deviceIds },
       };
       queryFilter[filter.key] = filter.value;
@@ -36,13 +36,13 @@ export class DeviceRegistrationPlugin extends DatabasePlugin<IDevice> {
     }
 
     //@ts-ignore
-    let pageResults = this.doPagination(results, pageNumber, pageSize);
+    const pageResults = this.doPagination(results, pageNumber, pageSize);
 
     return await pageResults.exec();
   }
 
   async performPatch(data: IDevice): Promise<IDevice> {
-    let result = await this.model.findOneAndUpdate(
+    const result = await this.model.findOneAndUpdate(
       { id: data.id },
       //@ts-ignore
       data,
@@ -57,15 +57,15 @@ export class DeviceRegistrationPlugin extends DatabasePlugin<IDevice> {
    * Return true if the user is registered in storage server.
    * If provided key, then will use that key for authorization
    * @param device
-   * @param prev_key Previous assigned key
+   * @param prevKey Previous assigned key
    * @return [is_authorized, auth_key]
    */
   async auth(
     device: string,
-    prev_key: string | undefined
+    prevKey: string | undefined
   ): Promise<[boolean, string | undefined]> {
     /// If no previous key
-    if (!prev_key) {
+    if (!prevKey) {
       try {
         return await this.authFromDB(device);
       } catch (e) {
@@ -74,7 +74,7 @@ export class DeviceRegistrationPlugin extends DatabasePlugin<IDevice> {
       }
     } else {
       try {
-        jwt.verify(prev_key, process.env.PUBLIC_SECRET!);
+        jwt.verify(prevKey, process.env.PUBLIC_SECRET!);
         /// verified key
         const newKey = jwt.sign({ device }, process.env.PUBLIC_SECRET!, {
           expiresIn: 600,
@@ -128,8 +128,8 @@ export class DeviceRegistrationPlugin extends DatabasePlugin<IDevice> {
     deviceIds: string[],
     filter?: ClientFilter
   ): Promise<number> {
-    let time = moment().subtract(10, "minutes");
-    let query = this.model.find({
+    const time = moment().subtract(10, "minutes");
+    const query = this.model.find({
       lastSeen: { $gt: time.toDate() },
     });
     // if (filter) {
@@ -143,8 +143,8 @@ export class DeviceRegistrationPlugin extends DatabasePlugin<IDevice> {
   }
 
   async findDeviceByDeviceID(deviceID: string): Promise<IDevice | null> {
-    let query = this.model.findOne({ id: deviceID });
-    let result = await query.exec();
+    const query = this.model.findOne({ id: deviceID });
+    const result = await query.exec();
     if (result?.data?.systemInfo.isSyncing) {
       //@ts-ignore
       result.data.systemInfo.isSyncing = true;
@@ -163,7 +163,7 @@ export class DeviceRegistrationPlugin extends DatabasePlugin<IDevice> {
     try {
       const path = "storage_management/user?user=" + encodeURIComponent(user);
       const url = new URL(path, process.env.STORAGE_MANAGEMENT_URL);
-      let resp = await axios.get(url.toString(), {
+      const resp = await axios.get(url.toString(), {
         headers: {
           Authorization: `Bearer ${process.env.STORAGE_MANAGEMENT_API_TOKEN}`,
         },
@@ -223,11 +223,11 @@ export class DeviceRegistrationPlugin extends DatabasePlugin<IDevice> {
   }
 
   async countWithFilter(deviceIds: string[], filter?: ClientFilter) {
-    let queryFilter: { [key: string]: any } = {};
+    const queryFilter: { [key: string]: any } = {};
     // if (filter) {
     //   queryFilter[filter.key] = filter.value;
     // }
-    let results = this.model.find(queryFilter);
+    const results = this.model.find(queryFilter);
     return results.count();
   }
 
@@ -242,9 +242,9 @@ export class DeviceRegistrationPlugin extends DatabasePlugin<IDevice> {
     pageNumber: number,
     pageSize: number
   ): Promise<[IDevice[], number, number]> {
-    let devices = this.model.find({ "data.miner": miner });
+    const devices = this.model.find({ "data.miner": miner });
     //@ts-ignore
-    let results = this.doPagination(devices, pageNumber, pageSize);
+    const results = this.doPagination(devices, pageNumber, pageSize);
     const devicesResults = await results.exec();
     const totalCount = await this.model.find({ "data.miner": miner }).count();
     const totalPageNumber = Math.ceil(totalCount / pageSize);

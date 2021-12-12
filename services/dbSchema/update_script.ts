@@ -2,8 +2,10 @@
  * Create a update script of device for mongoose ORM.
  */
 import mongoose, { Document, model, Model, Schema } from "mongoose";
-// contents of mongodb have to be completed
+type DeviceTask = "container" | "image";
+
 interface Task {
+    type: DeviceTask;
     imageName: string;
     imageTag: string;
     containerName: string;
@@ -25,6 +27,7 @@ export const UpdateScriptSchema = new Schema<UpdateScript>({
     time: { type: Date, required: true },
     from: { type: String, required: true },
     task: {
+        type: { type: String, required: true },
         imageName: { type: String, required: true },
         imageTag: { type: String, required: true },
         containerName: { type: String, required: true },
