@@ -24,7 +24,7 @@ export const MockJSONSchemaFormInstallationTemplateData = {
   version: "3",
   services: [
     {
-      title: "worker",
+      name: "worker",
       service: {
         image: 0,
         restart: "always",

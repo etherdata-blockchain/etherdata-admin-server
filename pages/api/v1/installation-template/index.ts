@@ -84,7 +84,15 @@ async function handler(req: NextApiRequest, res: NextApiResponse<Response>) {
       ...req.body,
       created_by: user,
     };
-    await installScriptPlugin.create(data, { upsert: false });
+    const result = await installScriptPlugin.createWithValidation(data, {
+      upsert: false,
+    });
+    if (!result) {
+      res
+        .status(StatusCodes.NOT_FOUND)
+        .json({ err: "image is not in docker image collection" });
+      return;
+    }
     res.status(StatusCodes.CREATED).json({ message: "OK" });
   };
 

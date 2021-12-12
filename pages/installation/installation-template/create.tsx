@@ -16,24 +16,48 @@ import { useRouter } from "next/dist/client/router";
 import { GetServerSideProps } from "next";
 import { Configurations } from "../../../internal/const/configurations";
 import { DockerImagePlugin } from "../../../internal/services/dbServices/docker-image-plugin";
-import { JSONSchema7 } from "json-schema";
 import {
-  getSchemaWithDockerImages,
+  expandImages,
+  jsonSchema,
   postprocessData,
 } from "../../../internal/services/dbSchema/install-script/install-script-utils";
 import { IDockerImage } from "../../../internal/services/dbSchema/docker/docker-image";
+import { Form as BForm } from "react-bootstrap";
 
 type Props = {
-  schema: JSONSchema7;
+  expandImages: any[];
   images: IDockerImage[];
 };
+
+// eslint-disable-next-line require-jsdoc
+export function ImageField(props: any) {
+  //TODO: Use auto complete field in the future. Dynamically fetch image with tag
+  const { label, id, onChange, placeholder, options, value } = props;
+  return (
+    <BForm.Group>
+      <BForm.Label>{label}</BForm.Label>
+      <BForm.Select
+        aria-label="Default select example"
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+      >
+        <option>{placeholder}</option>
+        {options.selections.map((v: any, i: number) => (
+          <option value={v.tag._id} key={`${id}-${i}`}>
+            {v.image.imageName}:{v.tag.tag}
+          </option>
+        ))}
+      </BForm.Select>
+    </BForm.Group>
+  );
+}
 
 /**
  * Installation template page
  * @param{Props} props
  * @constructor
  */
-export default function Index({ schema }: Props) {
+export default function Index({ expandImages, images }: Props) {
   const [isLoading, setIsLoading] = React.useState(false);
   const { showSnackBarMessage } = React.useContext(UIProviderContext);
   const [formData, setFormData] = React.useState();
@@ -72,13 +96,29 @@ export default function Index({ schema }: Props) {
         }}
       >
         <Form
-          schema={schema}
+          schema={jsonSchema}
+          liveValidate={true}
           formData={formData}
           onChange={(value) => {
             setFormData(value.formData);
           }}
           onSubmit={async (data) => {
             await submitData(data.formData);
+          }}
+          widgets={{ image: ImageField }}
+          uiSchema={{
+            services: {
+              items: {
+                service: {
+                  image: {
+                    "ui:widget": "image",
+                    "ui:options": {
+                      selections: expandImages,
+                    },
+                  },
+                },
+              },
+            },
           }}
         />
       </Box>
@@ -101,8 +141,8 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
   const images = await dockerImagePlugin.list(0, Configurations.numberPerPage);
 
   const data: Props = {
-    schema: getSchemaWithDockerImages(images?.results ?? []),
     images: images?.results ?? [],
+    expandImages: expandImages(images?.results ?? []),
   };
 
   return {

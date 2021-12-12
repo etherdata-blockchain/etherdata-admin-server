@@ -11,7 +11,7 @@ describe("Given a install script utils", () => {
   test("When calling preprocess handler", () => {
     const result = preprocessData(MockInstallationTemplateData as any);
     expect(result.services.length).toBe(1);
-    expect(result.services[0].title).toBe("worker");
+    expect(result.services[0].name).toBe("worker");
     expect(result.services[0].service).toBe(
       MockInstallationTemplateData.services.worker
     );

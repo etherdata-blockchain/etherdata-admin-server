@@ -20,9 +20,10 @@ export default function InstallationTemplatePanel({
   return (
     <Box style={{ minHeight: "85vh", width: "100%" }}>
       <DataGrid
+        isRowSelectable={() => false}
         columns={columns}
         rows={installationTemplates.map((d, index) => {
-          return { id: index, ...d };
+          return { id: index, ...d, details: d._id };
         })}
         autoHeight
       />

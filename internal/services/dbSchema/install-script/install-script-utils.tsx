@@ -5,10 +5,14 @@ import { IDockerImage } from "../docker/docker-image";
 import { GridColDef } from "@mui/x-data-grid";
 import { JSONSchema7 } from "json-schema";
 import { IInstallationTemplate } from "./install-script";
+import { Button } from "@mui/material";
+import { Routes } from "../../../const/routes";
+import React from "react";
 
 export const jsonSchema: JSONSchema7 = {
   title: "Installation template",
   description: "Create a installation template for devices",
+  required: ["template_tag"],
   properties: {
     version: {
       type: "string",
@@ -28,6 +32,7 @@ export const jsonSchema: JSONSchema7 = {
       description: "Docker compose services",
       items: {
         type: "object",
+        required: ["name", "service"],
         properties: {
           name: {
             type: "string",
@@ -86,28 +91,46 @@ export const columns: GridColDef[] = [
     flex: 2,
   },
   {
-    field: "timestamp",
-    headerName: "Created time",
+    field: "createdAt",
+    headerName: "Creation time",
     flex: 3,
+  },
+  {
+    field: "updatedAt",
+    headerName: "Updated time",
+    flex: 3,
+  },
+  {
+    field: "details",
+    headerName: "Details",
+    flex: 2,
+    renderCell: (param) => {
+      return (
+        <Button
+          onClick={() =>
+            (window.location.pathname = `${Routes.installationTemplatesEdit}/${param.value}`)
+          }
+        >
+          Details
+        </Button>
+      );
+    },
   },
 ];
 
 /**
- * Will add docker images info to the docker image field
+ * Expand image with tags
  * @param{IDockerImage[]} images
- * @return{JSONSchema7}
+ * @return{any}
  */
-export function getSchemaWithDockerImages(images: IDockerImage[]): JSONSchema7 {
-  const imageWithTags: string[] = [];
+export function expandImages(images: IDockerImage[]): any[] {
+  const imageWithTags: any[] = [];
   for (const image of images) {
     for (const tag of image.tags) {
-      imageWithTags.push(`${image.imageName}:${tag}`);
+      imageWithTags.push({ image: image, tag: tag });
     }
   }
-  const schema = JSON.parse(JSON.stringify(jsonSchema));
-  schema.properties.services.items.properties.service.properties.image.enum =
-    imageWithTags;
-  return schema;
+  return imageWithTags;
 }
 
 /**
@@ -118,11 +141,11 @@ export function getSchemaWithDockerImages(images: IDockerImage[]): JSONSchema7 {
  * @param{any} data data from json schema form
  */
 export function postprocessData(data: {
-  services: { title: string; service: any }[];
+  services: { name: string; service: any }[];
 }): IInstallationTemplate {
   const services: { [key: string]: any } = {};
   for (const service of data.services) {
-    services[service.title] = service.service;
+    services[service.name] = service.service;
   }
   const copied = JSON.parse(JSON.stringify(data));
   copied.services = services;
@@ -141,7 +164,10 @@ export function postprocessData(data: {
 export function preprocessData(data: IInstallationTemplate): any {
   const services: any[] = [];
   for (const [key, value] of Object.entries(data.services)) {
-    services.push({ title: key, service: value });
+    services.push({
+      name: key ?? "",
+      service: value,
+    });
   }
   const copied = JSON.parse(JSON.stringify(data));
   copied.services = services;

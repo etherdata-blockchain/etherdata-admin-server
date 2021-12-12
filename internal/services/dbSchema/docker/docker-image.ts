@@ -12,7 +12,7 @@ interface IDOckerImageVersion extends Document {
   tag: string;
 }
 
-const versionSchema = new Schema<IDOckerImageVersion>({
+export const versionSchema = new Schema<IDOckerImageVersion>({
   _id: {
     type: mongoose.Schema.Types.ObjectId,
     index: true,

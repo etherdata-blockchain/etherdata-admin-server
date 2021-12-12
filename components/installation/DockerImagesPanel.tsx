@@ -25,6 +25,7 @@ export default function DockerImagesPanel({ dockerImages }: Props) {
             id: index,
             ...d,
             details: d._id,
+            tags: d.tags.map((t) => t.tag),
           };
         })}
         autoHeight

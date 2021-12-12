@@ -3,6 +3,8 @@ import {PluginName} from "../../../server/plugin/pluginName";
 import {Model} from "mongoose";
 import {IInstallationTemplate, InstallationTemplateModel} from "../dbSchema/install-script/install-script";
 import YAML from "yaml";
+import {DockerImageModel} from "../dbSchema/docker/docker-image";
+import Logger from "../../../server/logger";
 
 /**
  * Installation template plugin
@@ -27,16 +29,25 @@ export class InstallationPlugin extends DatabasePlugin<IInstallationTemplate> {
   }
 
   /**
-   * Create a installation template with image name.
-   * When a client provides a template with image name,
-   * we will first find the image with that name.
-   * If fail, we will return false
-   * @param{IInstallationTemplate} data Image is in image name:image tag format
-   * @return{boolean} create status
+   * Validate if image exist.
+   * @param{IInstallationTemplate} data
+   * @param{boolean} upsert
    */
-  async createWithImageName(
-    data: IInstallationTemplate
+  async createWithValidation(
+    data: IInstallationTemplate,
+    { upsert }: { upsert: boolean }
   ): Promise<IInstallationTemplate | undefined> {
-    return undefined;
+    const imageIds = Object.values(data.services).map(
+      (v) => v.image as unknown as string
+    );
+    const foundIdsNumber = await DockerImageModel.countDocuments({
+      "tags._id": { $in: imageIds },
+    }).exec();
+    if (foundIdsNumber !== imageIds.length) {
+      Logger.error("Some id doesn't exist");
+      return undefined;
+    }
+
+    return super.create(data, { upsert });
   }
 }
