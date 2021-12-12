@@ -1,30 +1,30 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { jwtVerificationHandler } from "../../../../internal/nextHandler/jwt_verification_handler";
+import { InstallScriptPlugin } from "../../../../internal/services/dbServices/install-script-plugin";
 import { StatusCodes } from "http-status-codes";
+import { IInstallationTemplate } from "../../../../internal/services/dbSchema/install-script/install-script";
 import { methodAllowedHandler } from "../../../../internal/nextHandler/method_allowed_handler";
 import HTTPMethod from "http-method-enum";
-import { DockerImagePlugin } from "../../../../internal/services/dbServices/docker-image-plugin";
-import { IDockerImage } from "../../../../internal/services/dbSchema/docker/docker-image";
 
-type Response = { err?: string; message?: string } | IDockerImage;
+type Response = { err?: string; message?: string } | IInstallationTemplate;
 
 /**
- * This will handle docker request by id.
+ * This will handle installation template request by id.
  *
- * - **Patch**: will update specific docker image
- * - **Delete**: Will try to delete a docker image
- * - **Get**: Will try to return the docker image by id
+ * - **Patch**: will update specific installation template
+ * - **Delete**: Will try to delete a template
+ * - **Get**: Will try to return the template by id
  * @param {NextApiRequest} req
  * @param {NextApiResponse} res
  */
 async function handler(req: NextApiRequest, res: NextApiResponse<Response>) {
   const id = req.query.id;
-  const dockerImagePlugin = new DockerImagePlugin();
-  const dockerImage = await dockerImagePlugin.get(id as string);
-  if (dockerImage === undefined) {
+  const installScriptPlugin = new InstallScriptPlugin();
+  const template = await installScriptPlugin.get(id as string);
+  if (template === undefined) {
     res
       .status(StatusCodes.NOT_FOUND)
-      .json({ err: `Cannot find docker image with id: ${id}` });
+      .json({ err: `Cannot find template with id: ${id}` });
     return;
   }
 
@@ -35,18 +35,18 @@ async function handler(req: NextApiRequest, res: NextApiResponse<Response>) {
 
   switch (req.method) {
     case "GET":
-      res.status(StatusCodes.OK).json(dockerImage);
+      res.status(StatusCodes.OK).json(template);
       break;
 
     case "PATCH":
-      const patchResult = await dockerImagePlugin.create(data, {
+      const patchResult = await installScriptPlugin.create(data, {
         upsert: true,
       });
       res.status(StatusCodes.OK).json(patchResult!);
       break;
 
     case "DELETE":
-      await dockerImagePlugin.delete(data);
+      await installScriptPlugin.delete(data);
       res.status(StatusCodes.OK).json({ message: "OK" });
       break;
   }

@@ -65,7 +65,6 @@ describe("Given a installation template handler", () => {
     });
     //@ts-ignore
     await handler(req, res);
-    console.log(res._getJSONData());
     expect(res._getStatusCode()).toBe(StatusCodes.CREATED);
     expect(await InstallationTemplateModel.countDocuments()).toBe(1);
     const data = await InstallationTemplateModel.findOne({}).exec();

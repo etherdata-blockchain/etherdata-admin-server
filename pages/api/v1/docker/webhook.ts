@@ -1,11 +1,13 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { IDockerImage } from "../../../../internal/services/dbSchema/docker/docker-image";
-import { DockerImagePluginPlugin } from "../../../../internal/services/dbServices/docker-image-plugin";
+import { DockerImagePlugin } from "../../../../internal/services/dbServices/docker-image-plugin";
 import { PaginationResult } from "../../../../server/plugin/basePlugin";
 import { StatusCodes } from "http-status-codes";
 import Logger from "../../../../server/logger";
 import { paginationHandler } from "../../../../internal/nextHandler/paginationHandler";
 import { jwtVerificationQueryHandler } from "../../../../internal/nextHandler/jwt_verification_query_handler";
+import { methodAllowedHandler } from "../../../../internal/nextHandler/method_allowed_handler";
+import HTTPMethod from "http-method-enum";
 
 type Response =
   | { err?: string; message?: string }
@@ -27,26 +29,17 @@ type Response =
  * @param {NextApiResponse} res
  */
 async function handler(req: NextApiRequest, res: NextApiResponse<Response>) {
-  const dockerPlugin = new DockerImagePluginPlugin();
+  const dockerPlugin = new DockerImagePlugin();
 
-  try {
-    switch (req.method) {
-      case "POST":
-        await dockerPlugin.createWithDockerWebhookData(req.body);
-        res.status(StatusCodes.CREATED).json({});
-        break;
-      case "GET":
-        const { page, pageSize } = req.body;
-        const result = await dockerPlugin.list(page, pageSize);
-        res.status(StatusCodes.OK).json(result!);
-        break;
-    }
-  } catch (e) {
-    Logger.error(e);
-    res
-      .status(StatusCodes.INTERNAL_SERVER_ERROR)
-      .json({ message: "Cannot handle this request" });
+  switch (req.method) {
+    case "POST":
+      await dockerPlugin.createWithDockerWebhookData(req.body);
+      res.status(StatusCodes.CREATED).json({});
+      break;
   }
 }
 
-export default jwtVerificationQueryHandler(paginationHandler(handler));
+export default methodAllowedHandler(
+  jwtVerificationQueryHandler(paginationHandler(handler)),
+  [HTTPMethod.POST]
+);

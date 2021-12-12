@@ -49,6 +49,7 @@ export const installationTemplateSchema = new Schema<IInstallationTemplate>(
     template_tag: { type: String, unique: true },
     services: { type: mongoose.Schema.Types.Map, of: serviceSchema },
     created_by: "string",
+    version: "string",
   },
   { timestamps: true }
 );

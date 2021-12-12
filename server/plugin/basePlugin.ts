@@ -237,10 +237,18 @@ export abstract class DatabasePlugin<
     { upsert }: { upsert: boolean }
   ): Promise<T | undefined> {
     if (upsert) {
-      return await this.performPatch(data);
+      return this.performPatch(data);
     } else {
-      return await this.performCreate(data);
+      return this.performCreate(data);
     }
+  }
+
+  /**
+   * Delete data
+   * @param{any} data
+   */
+  async delete(data: T) {
+    return this.model.findOneAndRemove({ _id: data._id }).exec();
   }
 
   /**

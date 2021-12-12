@@ -3,28 +3,28 @@ import { jwtVerificationHandler } from "../../../../internal/nextHandler/jwt_ver
 import { StatusCodes } from "http-status-codes";
 import { methodAllowedHandler } from "../../../../internal/nextHandler/method_allowed_handler";
 import HTTPMethod from "http-method-enum";
-import { DockerImagePlugin } from "../../../../internal/services/dbServices/docker-image-plugin";
-import { IDockerImage } from "../../../../internal/services/dbSchema/docker/docker-image";
+import { StaticNodePlugin } from "../../../../internal/services/dbServices/static-node-plugin";
+import { IStaticNode } from "../../../../internal/services/dbSchema/install-script/static-node";
 
-type Response = { err?: string; message?: string } | IDockerImage;
+type Response = { err?: string; message?: string } | IStaticNode;
 
 /**
- * This will handle docker request by id.
+ * This will handle static node request by id;
  *
- * - **Patch**: will update specific docker image
- * - **Delete**: Will try to delete a docker image
- * - **Get**: Will try to return the docker image by id
+ * - **Patch**: will update a specific static node
+ * - **Delete**: Will try to delete a static node
+ * - **Get**: Will try to return the static node by id
  * @param {NextApiRequest} req
  * @param {NextApiResponse} res
  */
 async function handler(req: NextApiRequest, res: NextApiResponse<Response>) {
   const id = req.query.id;
-  const dockerImagePlugin = new DockerImagePlugin();
-  const dockerImage = await dockerImagePlugin.get(id as string);
-  if (dockerImage === undefined) {
+  const staticNodePlugin = new StaticNodePlugin();
+  const staticNode = await staticNodePlugin.get(id as string);
+  if (staticNode === undefined) {
     res
       .status(StatusCodes.NOT_FOUND)
-      .json({ err: `Cannot find docker image with id: ${id}` });
+      .json({ err: `Cannot find static node with id: ${id}` });
     return;
   }
 
@@ -35,18 +35,18 @@ async function handler(req: NextApiRequest, res: NextApiResponse<Response>) {
 
   switch (req.method) {
     case "GET":
-      res.status(StatusCodes.OK).json(dockerImage);
+      res.status(StatusCodes.OK).json(staticNode);
       break;
 
     case "PATCH":
-      const patchResult = await dockerImagePlugin.create(data, {
+      const patchResult = await staticNodePlugin.create(data, {
         upsert: true,
       });
       res.status(StatusCodes.OK).json(patchResult!);
       break;
 
     case "DELETE":
-      await dockerImagePlugin.delete(data);
+      await staticNodePlugin.delete(data);
       res.status(StatusCodes.OK).json({ message: "OK" });
       break;
   }

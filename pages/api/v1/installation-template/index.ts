@@ -6,6 +6,8 @@ import { InstallScriptPlugin } from "../../../../internal/services/dbServices/in
 import { StatusCodes } from "http-status-codes";
 import { IInstallationTemplate } from "../../../../internal/services/dbSchema/install-script/install-script";
 import { PaginationResult } from "../../../../server/plugin/basePlugin";
+import { methodAllowedHandler } from "../../../../internal/nextHandler/method_allowed_handler";
+import HTTPMethod from "http-method-enum";
 
 type Response =
   | { err?: string; message?: string }
@@ -101,4 +103,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse<Response>) {
   }
 }
 
-export default jwtVerificationHandler(paginationHandler(handler));
+export default methodAllowedHandler(
+  jwtVerificationHandler(paginationHandler(handler)),
+  [HTTPMethod.GET, HTTPMethod.POST]
+);

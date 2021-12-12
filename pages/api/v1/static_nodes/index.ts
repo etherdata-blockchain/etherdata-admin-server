@@ -3,6 +3,8 @@ import { jwtVerificationHandler } from "../../../../internal/nextHandler/jwt_ver
 import { StaticNodePlugin } from "../../../../internal/services/dbServices/static-node-plugin";
 import { paginationHandler } from "../../../../internal/nextHandler/paginationHandler";
 import { StatusCodes } from "http-status-codes";
+import { methodAllowedHandler } from "../../../../internal/nextHandler/method_allowed_handler";
+import HTTPMethod from "http-method-enum";
 
 /**
  * Sttaic node api will provide follow functionalities
@@ -26,4 +28,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
   }
 }
 
-export default jwtVerificationHandler(paginationHandler(handler));
+export default methodAllowedHandler(
+  jwtVerificationHandler(paginationHandler(handler)),
+  [HTTPMethod.GET, HTTPMethod.POST]
+);

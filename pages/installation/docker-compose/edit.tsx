@@ -1,6 +1,6 @@
 import * as React from "react";
 import { GetServerSideProps } from "next";
-import { DockerImagePluginPlugin } from "../../../internal/services/dbServices/docker-image-plugin";
+import { DockerImagePlugin } from "../../../internal/services/dbServices/docker-image-plugin";
 import { Configurations } from "../../../internal/const/configurations";
 import { IDockerImage } from "../../../internal/services/dbSchema/docker/docker-image";
 import PageHeader from "../../../components/PageHeader";
@@ -37,7 +37,7 @@ export default function Index({ images }: Props) {
 export const getServerSideProps: GetServerSideProps<Props> = async (
   context
 ) => {
-  const dockerImagePlugin = new DockerImagePluginPlugin();
+  const dockerImagePlugin = new DockerImagePlugin();
 
   const images = await dockerImagePlugin.list(0, Configurations.numberPerPage);
 

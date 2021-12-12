@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { IDockerImage } from "../../../../internal/services/dbSchema/docker/docker-image";
-import { DockerImagePluginPlugin } from "../../../../internal/services/dbServices/docker-image-plugin";
+import { DockerImagePlugin } from "../../../../internal/services/dbServices/docker-image-plugin";
 import { PaginationResult } from "../../../../server/plugin/basePlugin";
 import { StatusCodes } from "http-status-codes";
 import { paginationHandler } from "../../../../internal/nextHandler/paginationHandler";
@@ -24,7 +24,7 @@ type Response =
  * @param {NextApiResponse} res
  */
 async function handler(req: NextApiRequest, res: NextApiResponse<Response>) {
-  const dockerPlugin = new DockerImagePluginPlugin();
+  const dockerPlugin = new DockerImagePlugin();
   switch (req.method) {
     case "POST":
       await dockerPlugin.create(req.body, { upsert: false });

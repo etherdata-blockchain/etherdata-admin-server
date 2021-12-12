@@ -48,6 +48,7 @@
     "etd-react-ui": "^2.0.1",
     "express": "^4.17.1",
     "formik": "^2.2.9",
+    "http-method-enum": "^1.0.0",
     "http-status-codes": "^2.1.4",
     "jsonwebtoken": "^8.5.1",
     "material-ui-popup-state": "^2.0.0",

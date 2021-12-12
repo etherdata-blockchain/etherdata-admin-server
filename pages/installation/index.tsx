@@ -4,7 +4,7 @@ import PageHeader from "../../components/PageHeader";
 import { GetServerSideProps } from "next";
 import { IDockerImage } from "../../internal/services/dbSchema/docker/docker-image";
 import { IStaticNode } from "../../internal/services/dbSchema/install-script/static-node";
-import { DockerImagePluginPlugin } from "../../internal/services/dbServices/docker-image-plugin";
+import { DockerImagePlugin } from "../../internal/services/dbServices/docker-image-plugin";
 import { StaticNodePlugin } from "../../internal/services/dbServices/static-node-plugin";
 import { Configurations } from "../../internal/const/configurations";
 import Spacer from "../../components/Spacer";
@@ -67,7 +67,7 @@ export default function Index({ images, staticNodes }: Props) {
 export const getServerSideProps: GetServerSideProps<Props> = async (
   context
 ) => {
-  const dockerImagePlugin = new DockerImagePluginPlugin();
+  const dockerImagePlugin = new DockerImagePlugin();
   const staticNodePlugin = new StaticNodePlugin();
 
   const images = await dockerImagePlugin.list(0, Configurations.numberPerPage);

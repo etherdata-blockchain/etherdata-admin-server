@@ -52,7 +52,7 @@ interface Repository {
 /**
  * Docker image db plugin
  */
-export class DockerImagePluginPlugin extends DatabasePlugin<IDockerImage> {
+export class DockerImagePlugin extends DatabasePlugin<IDockerImage> {
   pluginName: PluginName = "dockerImage";
   protected model: Model<IDockerImage> = DockerImageModel;
 
