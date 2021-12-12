@@ -1,9 +1,15 @@
-import {DatabasePlugin} from "../../../server/plugin/basePlugin";
-import {PluginName} from "../../../server/plugin/pluginName";
-import {Model} from "mongoose";
-import {IInstallationTemplate, InstallationTemplateModel} from "../dbSchema/install-script/install-script";
+import { DatabasePlugin } from "../../../server/plugin/basePlugin";
+import { PluginName } from "../../../server/plugin/pluginName";
+import { Model } from "mongoose";
+import {
+  IInstallationTemplate,
+  InstallationTemplateModel,
+} from "../dbSchema/install-script/install-script";
 import YAML from "yaml";
-import {DockerImageModel} from "../dbSchema/docker/docker-image";
+import {
+  DockerImageModel,
+  IDockerImage,
+} from "../dbSchema/docker/docker-image";
 import Logger from "../../../server/logger";
 
 /**
@@ -66,5 +72,51 @@ export class InstallationPlugin extends DatabasePlugin<IInstallationTemplate> {
     }
 
     return super.create(data, { upsert });
+  }
+
+  /**
+   * Get template with docker images.
+   * This will turn a docker image version id into a docker image object
+   * @param{string} id template id
+   */
+  async getTemplateWithDockerImages(
+    id: string
+  ): Promise<IInstallationTemplate | undefined> {
+    const template = await this.model.findOne({ _id: id }).exec();
+    if (template) {
+      const object = template.toJSON();
+      const imageIds = Object.values(object.services).map((s) => s.image);
+      const images: IDockerImage[] = await DockerImageModel.find({
+        "tags._id": { $in: imageIds },
+      }).exec();
+      const outputImages: any[] = [];
+      for (const image of images) {
+        for (const tag of image.toJSON().tags) {
+          const found = imageIds.find(
+            (t) => t.toString() === tag._id?.toString()
+          );
+          if (found) {
+            const dockerImage: any = image;
+            dockerImage.tag = tag;
+            dockerImage.tags = [tag];
+            outputImages.push(dockerImage);
+            break;
+          }
+        }
+      }
+      const templateJSON = template.toJSON();
+      for (const [key, value] of Object.entries(templateJSON.services)) {
+        for (const image of outputImages) {
+          if (image.tag._id.toString() === value.image.toString()) {
+            value.image = image.toJSON();
+            templateJSON.services[key] = value;
+          }
+        }
+      }
+
+      return templateJSON as unknown as IInstallationTemplate;
+    }
+
+    return undefined;
   }
 }

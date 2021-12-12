@@ -7,7 +7,7 @@ export const MockInstallationTemplateData = {
   version: "3",
   services: {
     worker: {
-      image: 0,
+      image: MockDockerImage,
       restart: "always",
       environment: [],
       volumes: [],

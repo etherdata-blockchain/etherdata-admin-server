@@ -12,16 +12,6 @@ interface IDOckerImageVersion extends Document {
   tag: string;
 }
 
-export const versionSchema = new Schema<IDOckerImageVersion>({
-  _id: {
-    type: mongoose.Schema.Types.ObjectId,
-    index: true,
-    required: true,
-    auto: true,
-  },
-  tag: "String",
-});
-
 export const dockerImageSchema = new Schema<IDockerImage>(
   {
     _id: {
@@ -31,7 +21,17 @@ export const dockerImageSchema = new Schema<IDockerImage>(
       auto: true,
     },
     imageName: { type: "String", required: true },
-    tags: [versionSchema],
+    tags: [
+      {
+        _id: {
+          type: mongoose.Schema.Types.ObjectId,
+          index: true,
+          required: true,
+          auto: true,
+        },
+        tag: "String",
+      },
+    ],
   },
   {
     timestamps: true,

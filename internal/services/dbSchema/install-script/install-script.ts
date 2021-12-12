@@ -30,7 +30,7 @@ interface Service {
 }
 
 const serviceSchema = new Schema<Service>({
-  image: { type: Schema.Types.ObjectId, ref: "dockerImage.tags" },
+  image: { type: Schema.Types.ObjectId },
   restart: "String",
   environment: { type: [String] },
   network_mode: "String",

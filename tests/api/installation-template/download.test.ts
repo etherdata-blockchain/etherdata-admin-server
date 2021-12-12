@@ -6,7 +6,10 @@ global.TextDecoder = require("util").TextDecoder;
 import { MockConstant } from "../../data/mock_constant";
 import jwt from "jsonwebtoken";
 import mongoose from "mongoose";
-import { DockerImageModel } from "../../../internal/services/dbSchema/docker/docker-image";
+import {
+  DockerImageModel,
+  IDockerImage,
+} from "../../../internal/services/dbSchema/docker/docker-image";
 import { MongoMemoryServer } from "mongodb-memory-server";
 import handler from "../../../pages/api/v1/installation-template/download/index";
 import { createMocks } from "node-mocks-http";
@@ -81,11 +84,29 @@ describe("Given a installation template download handler", () => {
   });
 
   test("When generating a docker compose file", async () => {
-    const result = await DockerImageModel.create(MockDockerImage);
+    await DockerImageModel.create(MockDockerImage);
     const reqData = JSON.parse(JSON.stringify(MockInstallationTemplateData));
-    reqData.services.worker.image = result._id;
+    reqData.services.worker.image = MockDockerImage;
 
     const returnResult = plguin.generateDockerComposeFile(reqData);
     expect(returnResult).toBeDefined();
+  });
+
+  test("When calling get template with docker images", async () => {
+    const result: IDockerImage = await DockerImageModel.create(MockDockerImage);
+    const reqData = JSON.parse(JSON.stringify(MockInstallationTemplateData));
+    reqData.services.worker.image = result.tags[0]._id;
+
+    const templateResult = await InstallationTemplateModel.create(reqData);
+    const templateWithDockerImage = await plguin.getTemplateWithDockerImages(
+      templateResult._id
+    );
+    expect(templateWithDockerImage).toBeDefined();
+    expect(templateWithDockerImage?.template_tag).toBe(
+      MockInstallationTemplateData.template_tag
+    );
+    expect(templateWithDockerImage?.services["worker"].image!.imageName).toBe(
+      MockInstallationTemplateData.services.worker.image.imageName
+    );
   });
 });
