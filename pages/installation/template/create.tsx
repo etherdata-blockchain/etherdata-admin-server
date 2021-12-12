@@ -1,13 +1,15 @@
+// @flow
 import * as React from "react";
+import Box from "@mui/material/Box";
+import { IDockerImage } from "../../../internal/services/dbSchema/docker/docker-image";
+import PageHeader from "../../../components/PageHeader";
+import Spacer from "../../../components/Spacer";
 import { GetServerSideProps } from "next";
 import { DockerImagePlugin } from "../../../internal/services/dbServices/docker-image-plugin";
 import { Configurations } from "../../../internal/const/configurations";
-import { IDockerImage } from "../../../internal/services/dbSchema/docker/docker-image";
-import PageHeader from "../../../components/PageHeader";
-import ResponsiveCard from "../../../components/ResponsiveCard";
-// import Form from "@rjsf/bootstrap-4";
+import { getSchemaWithDockerImages } from "../../../internal/services/dbSchema/install-script/install-script-utils";
+import Form from "@rjsf/bootstrap-4";
 import "bootstrap/dist/css/bootstrap.min.css";
-import Spacer from "../../../components/Spacer";
 
 type Props = {
   images: IDockerImage[];
@@ -19,16 +21,29 @@ type Props = {
  * @constructor
  */
 export default function Index({ images }: Props) {
+  const [value, setValue] = React.useState(0);
+
+  const handleChange = (event: React.SyntheticEvent, newValue: number) => {
+    setValue(newValue);
+  };
+
   return (
     <div>
       <PageHeader
-        title={"Docker compose"}
-        description={"Edit a docker compose template"}
+        title={"Installation"}
+        description={`Configurations for installation script`}
       />
       <Spacer height={20} />
-      <ResponsiveCard>
-        {/*<Form schema={getSchemaWithImage(images)} />*/}
-      </ResponsiveCard>
+      <Box
+        sx={{
+          flexGrow: 1,
+          bgcolor: "background.paper",
+          display: "flex",
+          padding: 3,
+        }}
+      >
+        <Form schema={getSchemaWithDockerImages(images)} />
+      </Box>
     </div>
   );
 }
@@ -36,6 +51,7 @@ export default function Index({ images }: Props) {
 export const getServerSideProps: GetServerSideProps<Props> = async (
   context
 ) => {
+  //TODO: Add pagination
   const dockerImagePlugin = new DockerImagePlugin();
 
   const images = await dockerImagePlugin.list(0, Configurations.numberPerPage);

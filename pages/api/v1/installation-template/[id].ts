@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { jwtVerificationHandler } from "../../../../internal/nextHandler/jwt_verification_handler";
-import { InstallScriptPlugin } from "../../../../internal/services/dbServices/install-script-plugin";
+import { InstallationPlugin } from "../../../../internal/services/dbServices/installation-plugin";
 import { StatusCodes } from "http-status-codes";
 import { IInstallationTemplate } from "../../../../internal/services/dbSchema/install-script/install-script";
 import { methodAllowedHandler } from "../../../../internal/nextHandler/method_allowed_handler";
@@ -19,7 +19,7 @@ type Response = { err?: string; message?: string } | IInstallationTemplate;
  */
 async function handler(req: NextApiRequest, res: NextApiResponse<Response>) {
   const id = req.query.id;
-  const installScriptPlugin = new InstallScriptPlugin();
+  const installScriptPlugin = new InstallationPlugin();
   const template = await installScriptPlugin.get(id as string);
   if (template === undefined) {
     res

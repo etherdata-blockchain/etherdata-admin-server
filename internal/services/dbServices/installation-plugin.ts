@@ -1,13 +1,16 @@
-import {DatabasePlugin} from "../../../server/plugin/basePlugin";
-import {PluginName} from "../../../server/plugin/pluginName";
-import {Model} from "mongoose";
-import {IInstallationTemplate, InstallationTemplateModel,} from "../dbSchema/install-script/install-script";
+import { DatabasePlugin } from "../../../server/plugin/basePlugin";
+import { PluginName } from "../../../server/plugin/pluginName";
+import { Model } from "mongoose";
+import {
+  IInstallationTemplate,
+  InstallationTemplateModel,
+} from "../dbSchema/install-script/install-script";
 import YAML from "yaml";
 
 /**
  * Installation template plugin
  */
-export class InstallScriptPlugin extends DatabasePlugin<IInstallationTemplate> {
+export class InstallationPlugin extends DatabasePlugin<IInstallationTemplate> {
   pluginName: PluginName = "installScript";
   protected model: Model<IInstallationTemplate> = InstallationTemplateModel;
 

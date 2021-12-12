@@ -100,7 +100,7 @@ function MyApp(props: AppProps) {
     {
       title: "Installation",
       icon: <DownloadingIcon />,
-      link: "/installation-template",
+      link: "/installation",
     },
   ];
 

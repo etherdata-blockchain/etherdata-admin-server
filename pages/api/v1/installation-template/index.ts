@@ -2,7 +2,7 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import AdmZip from "adm-zip";
 import { jwtVerificationHandler } from "../../../../internal/nextHandler/jwt_verification_handler";
 import { paginationHandler } from "../../../../internal/nextHandler/paginationHandler";
-import { InstallScriptPlugin } from "../../../../internal/services/dbServices/install-script-plugin";
+import { InstallationPlugin } from "../../../../internal/services/dbServices/installation-plugin";
 import { StatusCodes } from "http-status-codes";
 import { IInstallationTemplate } from "../../../../internal/services/dbSchema/install-script/install-script";
 import { PaginationResult } from "../../../../server/plugin/basePlugin";
@@ -23,7 +23,7 @@ type Response =
  * @param {NextApiResponse} res
  */
 async function handler(req: NextApiRequest, res: NextApiResponse<Response>) {
-  const installScriptPlugin = new InstallScriptPlugin();
+  const installScriptPlugin = new InstallationPlugin();
 
   /**
    * Handle get request. Will try to find template by template tag
