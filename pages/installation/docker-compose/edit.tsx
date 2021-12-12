@@ -5,8 +5,7 @@ import { Configurations } from "../../../internal/const/configurations";
 import { IDockerImage } from "../../../internal/services/dbSchema/docker/docker-image";
 import PageHeader from "../../../components/PageHeader";
 import ResponsiveCard from "../../../components/ResponsiveCard";
-import Form from "@rjsf/bootstrap-4";
-import { getSchemaWithImage } from "../../../internal/services/installScript/docker-compose-schema";
+// import Form from "@rjsf/bootstrap-4";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Spacer from "../../../components/Spacer";
 
@@ -28,7 +27,7 @@ export default function Index({ images }: Props) {
       />
       <Spacer height={20} />
       <ResponsiveCard>
-        <Form schema={getSchemaWithImage(images)} />
+        {/*<Form schema={getSchemaWithImage(images)} />*/}
       </ResponsiveCard>
     </div>
   );

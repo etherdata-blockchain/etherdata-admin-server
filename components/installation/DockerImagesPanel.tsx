@@ -4,9 +4,8 @@ import ResponsiveCard from "../ResponsiveCard";
 import { DataGrid } from "@mui/x-data-grid";
 import { columns } from "../../internal/services/dbSchema/docker/docker-image-utils";
 import { Box, Button, Dialog, DialogContent, DialogTitle } from "@mui/material";
-import Form from "@rjsf/bootstrap-4";
-import axios from "axios";
-import { getSchemaWithImage } from "../../internal/services/installScript/docker-compose-schema";
+// import Form from "@rjsf/bootstrap-4";
+// import axios from "axios";
 
 interface Props {
   dockerImages: IDockerImage[];
@@ -34,23 +33,23 @@ export default function DockerImagesPanel({ dockerImages }: Props) {
       <Dialog open={showDialog} onClose={() => setShowDialog(false)} fullWidth>
         <DialogTitle>Add Docker Image</DialogTitle>
         <DialogContent>
-          <Form
-            schema={getSchemaWithImage(dockerImages)}
-            onSubmit={async (data) => {
-              const url = "api/v1/installation-template/docker-image";
-              try {
-                //TODO: Add auto generated _id
-                await axios.post(url, data.formData, {
-                  headers: {
-                    authorization: process.env.NEXT_PUBLIC_CLIENT_PASSWORD,
-                  },
-                });
-                setShowDialog(false);
-              } catch (e) {
-                alert(e);
-              }
-            }}
-          />
+          {/*<Form*/}
+          {/*  schema={getSchemaWithImage(dockerImages)}*/}
+          {/*  onSubmit={async (data) => {*/}
+          {/*    const url = "api/v1/installation-template/docker-image";*/}
+          {/*    try {*/}
+          {/*      //TODO: Add auto generated _id*/}
+          {/*      await axios.post(url, data.formData, {*/}
+          {/*        headers: {*/}
+          {/*          authorization: process.env.NEXT_PUBLIC_CLIENT_PASSWORD,*/}
+          {/*        },*/}
+          {/*      });*/}
+          {/*      setShowDialog(false);*/}
+          {/*    } catch (e) {*/}
+          {/*      alert(e);*/}
+          {/*    }*/}
+          {/*  }}*/}
+          {/*/>*/}
         </DialogContent>
       </Dialog>
     </ResponsiveCard>

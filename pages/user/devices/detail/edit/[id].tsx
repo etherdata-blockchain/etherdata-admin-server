@@ -13,10 +13,13 @@ import {
   Clique,
   Debug,
   Etd,
+  // eslint-disable-next-line camelcase
   Json_rpc,
+  // eslint-disable-next-line camelcase
   Json_rpc_methods,
   Miner,
   Personal,
+  // eslint-disable-next-line camelcase
   Real_time,
   Txpool,
 } from "etd-react-ui";
