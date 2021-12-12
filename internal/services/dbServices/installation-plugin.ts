@@ -29,6 +29,23 @@ export class InstallationPlugin extends DatabasePlugin<IInstallationTemplate> {
   }
 
   /**
+   * Generate an env file from envs.
+   * For example, if an envs looks like this:
+   * {name: "Hello", value: "123"},
+   * then the generated content will be
+   * name=Hello
+   * value=123
+   * @param{any} envs
+   */
+  generateEnvFile(envs: { [key: string]: any }): string {
+    let content = "";
+    for (const [key, value] of Object.entries(envs)) {
+      content += `${key}=${value}\n`;
+    }
+    return content;
+  }
+
+  /**
    * Validate if image exist.
    * @param{IInstallationTemplate} data
    * @param{boolean} upsert

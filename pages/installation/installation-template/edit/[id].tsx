@@ -78,7 +78,7 @@ export default function Index({ installationTemplate, expandImages }: Props) {
   return (
     <div>
       <PageHeader
-        title={"Installation template"}
+        title={`Update template ${installationTemplate.template_tag}`}
         description={`Update installation template`}
         action={<Button onClick={deleteData}>Delete</Button>}
       />
