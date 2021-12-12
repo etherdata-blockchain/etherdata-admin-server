@@ -99,7 +99,7 @@ jobs:
   publish-k8s-release:
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/main'
-    needs: [deploy]
+    needs: [ deploy ]
     steps:
       - name: Checkout 🛎️
         uses: actions/checkout@v2

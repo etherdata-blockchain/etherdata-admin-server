@@ -1,12 +1,8 @@
-import { SocketHandler } from "../../basePlugin";
-import { Server, Socket } from "socket.io";
-import { AppPlugin } from "./appPlugin";
-import {
-  BrowserClient,
-  ClientFilter,
-  PaginationResult,
-} from "../../../client/browserClient";
-import { RegisteredPlugins } from "./registeredPlugins";
+import {SocketHandler} from "../../basePlugin";
+import {Server, Socket} from "socket.io";
+import {AppPlugin} from "./appPlugin";
+import {BrowserClient, ClientFilter, PaginationResult,} from "../../../client/browserClient";
+import {RegisteredPlugins} from "./registeredPlugins";
 
 /**
  * Web Browser socket io plugin

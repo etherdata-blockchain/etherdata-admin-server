@@ -1,68 +1,73 @@
 # Changelog
 
-All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
+All notable changes to this project will be documented in this file.
+See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
 ### [1.8.2](https://github.com/etherdata-blockchain/etherdata-admin-server/compare/v1.8.1...v1.8.2) (2021-11-28)
 
 ### [1.8.1](https://github.com/etherdata-blockchain/etherdata-admin-server/compare/v1.8.0...v1.8.1) (2021-11-22)
 
-
 ### Bug Fixes
 
-* Test ([85017e6](https://github.com/etherdata-blockchain/etherdata-admin-server/commit/85017e602f8f3feb3e11143a62b4b8e75fefa5b7))
+*
+Test ([85017e6](https://github.com/etherdata-blockchain/etherdata-admin-server/commit/85017e602f8f3feb3e11143a62b4b8e75fefa5b7))
 
 ## [1.8.0](https://github.com/etherdata-blockchain/etherdata-admin-server/compare/v1.7.3...v1.8.0) (2021-11-22)
 
-
 ### Features
 
-* Integration tests ([f76c4ed](https://github.com/etherdata-blockchain/etherdata-admin-server/commit/f76c4edd812bf2752ba4a5f9ec4ec8fc47414a2c))
+* Integration
+  tests ([f76c4ed](https://github.com/etherdata-blockchain/etherdata-admin-server/commit/f76c4edd812bf2752ba4a5f9ec4ec8fc47414a2c))
 
 ### [1.7.3](https://github.com/etherdata-blockchain/etherdata-admin-server/compare/v1.7.2...v1.7.3) (2021-11-22)
 
-
 ### Bug Fixes
 
-* Edit button ([3c7719a](https://github.com/etherdata-blockchain/etherdata-admin-server/commit/3c7719a94dc08c8f654eaba8e6d94a8cc78cc8b6))
-* Github action ([7b1e71c](https://github.com/etherdata-blockchain/etherdata-admin-server/commit/7b1e71c1c2b64b66f4b9b45fda740063f740c802))
+* Edit
+  button ([3c7719a](https://github.com/etherdata-blockchain/etherdata-admin-server/commit/3c7719a94dc08c8f654eaba8e6d94a8cc78cc8b6))
+* Github
+  action ([7b1e71c](https://github.com/etherdata-blockchain/etherdata-admin-server/commit/7b1e71c1c2b64b66f4b9b45fda740063f740c802))
 
 ### [1.7.2](https://github.com/etherdata-blockchain/etherdata-admin-server/compare/v1.7.0...v1.7.2) (2021-11-21)
 
-
 ### Bug Fixes
 
-* Action ([d63d9ab](https://github.com/etherdata-blockchain/etherdata-admin-server/commit/d63d9abe323b2e9d7988f65cc435dcc4d8bdec1e))
-* Update online devices display ([d61749b](https://github.com/etherdata-blockchain/etherdata-admin-server/commit/d61749b872e1682517be7b5f7a17e769efa56c82))
+*
+Action ([d63d9ab](https://github.com/etherdata-blockchain/etherdata-admin-server/commit/d63d9abe323b2e9d7988f65cc435dcc4d8bdec1e))
+* Update online devices
+  display ([d61749b](https://github.com/etherdata-blockchain/etherdata-admin-server/commit/d61749b872e1682517be7b5f7a17e769efa56c82))
 
 ### [1.7.1](https://github.com/etherdata-blockchain/etherdata-admin-server/compare/v1.7.0...v1.7.1) (2021-11-21)
 
-
 ### Bug Fixes
 
-* Update online devices display ([d61749b](https://github.com/etherdata-blockchain/etherdata-admin-server/commit/d61749b872e1682517be7b5f7a17e769efa56c82))
+* Update online devices
+  display ([d61749b](https://github.com/etherdata-blockchain/etherdata-admin-server/commit/d61749b872e1682517be7b5f7a17e769efa56c82))
 
 ## [1.7.0](https://github.com/etherdata-blockchain/etherdata-admin-server/compare/v1.6.6...v1.7.0) (2021-11-21)
 
-
 ### Features
 
-* Update action now support dev build ([6b6ee92](https://github.com/etherdata-blockchain/etherdata-admin-server/commit/6b6ee929fb42ff0cbbd716343a2743d084804286))
+* Update action now support dev
+  build ([6b6ee92](https://github.com/etherdata-blockchain/etherdata-admin-server/commit/6b6ee929fb42ff0cbbd716343a2743d084804286))
 
 ### [1.6.6](https://github.com/etherdata-blockchain/etherdata-admin-server/compare/v1.6.5...v1.6.6) (2021-11-18)
 
-
 ### Bug Fixes
 
-* Add v in k8s tag ([d913135](https://github.com/etherdata-blockchain/etherdata-admin-server/commit/d913135b02e360e4c88137502df635289bdf2b17))
+* Add v in k8s
+  tag ([d913135](https://github.com/etherdata-blockchain/etherdata-admin-server/commit/d913135b02e360e4c88137502df635289bdf2b17))
 
 ### [1.6.5](https://github.com/etherdata-blockchain/etherdata-admin-server/compare/v1.6.4...v1.6.5) (2021-11-18)
 
-
 ### Bug Fixes
 
-* Update error ([#14](https://github.com/etherdata-blockchain/etherdata-admin-server/issues/14)) ([250db94](https://github.com/etherdata-blockchain/etherdata-admin-server/commit/250db944fff18cd5ad02466f1b78e4cb9fb551b7))
-* Update next js version and add new field in device ([bcb75c9](https://github.com/etherdata-blockchain/etherdata-admin-server/commit/bcb75c978f29a036e66f1d2d29b1115f6a099db0))
-* Won't update package json version ([953bc5f](https://github.com/etherdata-blockchain/etherdata-admin-server/commit/953bc5f780a73ac77c8f3c6984cc104e5a65cd0d))
+* Update
+  error ([#14](https://github.com/etherdata-blockchain/etherdata-admin-server/issues/14)) ([250db94](https://github.com/etherdata-blockchain/etherdata-admin-server/commit/250db944fff18cd5ad02466f1b78e4cb9fb551b7))
+* Update next js version and add new field in
+  device ([bcb75c9](https://github.com/etherdata-blockchain/etherdata-admin-server/commit/bcb75c978f29a036e66f1d2d29b1115f6a099db0))
+* Won't update package json
+  version ([953bc5f](https://github.com/etherdata-blockchain/etherdata-admin-server/commit/953bc5f780a73ac77c8f3c6984cc104e5a65cd0d))
 
 ### [1.6.4](https://github.com/etherdata-blockchain/etherdata-admin-server/compare/v1.6.3...v1.6.4) (2021-10-24)
 
@@ -141,6 +146,7 @@ All notable changes to this project will be documented in this file. See [standa
 ### Bug Fixes
 
 *
+
 Dockerfile ([0c7da09](https://github.com/etherdata-blockchain/etherdata-admin-server/commit/0c7da0936226fee7153fa2778f33690e385fb760))
 
 ## [1.4.0](https://github.com/etherdata-blockchain/etherdata-admin-server/compare/v1.3.0...v1.4.0) (2021-10-14)
@@ -164,6 +170,7 @@ Dockerfile ([0c7da09](https://github.com/etherdata-blockchain/etherdata-admin-se
 * JWT Sign
   function ([5df1315](https://github.com/etherdata-blockchain/etherdata-admin-server/commit/5df1315adede960a42eaf7a41b333185edd94a25))
 *
+
 Tests ([8d0fa7d](https://github.com/etherdata-blockchain/etherdata-admin-server/commit/8d0fa7decb3ab3c51169003b59308bf649049b27))
 
 ## [1.2.0](https://github.com/etherdata-blockchain/etherdata-admin-server/compare/v1.1.0...v1.2.0) (2021-10-07)

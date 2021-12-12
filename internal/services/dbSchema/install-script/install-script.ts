@@ -1,8 +1,8 @@
 /**
  * Create template for install script
  */
-import mongoose, { Document, model, Schema } from "mongoose";
-import { IDockerImage } from "../docker/docker-image";
+import mongoose, {Document, model, Schema} from "mongoose";
+import {IDockerImage} from "../docker/docker-image";
 
 /**
  * This template is used to generate a docker-compose file

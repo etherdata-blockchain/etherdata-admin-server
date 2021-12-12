@@ -1,10 +1,7 @@
-import { DatabasePlugin } from "../../../server/plugin/basePlugin";
-import { PluginName } from "../../../server/plugin/pluginName";
-import { Model } from "mongoose";
-import {
-  InstallationTemplateModel,
-  IInstallationTemplate,
-} from "../dbSchema/install-script/install-script";
+import {DatabasePlugin} from "../../../server/plugin/basePlugin";
+import {PluginName} from "../../../server/plugin/pluginName";
+import {Model} from "mongoose";
+import {IInstallationTemplate, InstallationTemplateModel,} from "../dbSchema/install-script/install-script";
 import YAML from "yaml";
 
 /**

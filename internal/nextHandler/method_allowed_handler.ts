@@ -1,6 +1,6 @@
-import { NextApiHandler, NextApiRequest, NextApiResponse } from "next";
-import { StatusCodes } from "http-status-codes";
-import { HTTPMethod } from "http-method-enum";
+import {NextApiHandler, NextApiRequest, NextApiResponse} from "next";
+import {StatusCodes} from "http-status-codes";
+import {HTTPMethod} from "http-method-enum";
 
 /**
  * Post Only Middleware. Only accept post request.

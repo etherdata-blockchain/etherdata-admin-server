@@ -1,6 +1,6 @@
-import { NextApiHandler, NextApiRequest, NextApiResponse } from "next";
+import {NextApiHandler, NextApiRequest, NextApiResponse} from "next";
 import jwt from "jsonwebtoken";
-import { StatusCodes } from "http-status-codes";
+import {StatusCodes} from "http-status-codes";
 
 /**
  * Will verify the user token from query parameter.

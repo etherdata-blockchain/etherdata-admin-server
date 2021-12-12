@@ -3,7 +3,6 @@ import { IDockerImage } from "../../../../internal/services/dbSchema/docker/dock
 import { DockerImagePlugin } from "../../../../internal/services/dbServices/docker-image-plugin";
 import { PaginationResult } from "../../../../server/plugin/basePlugin";
 import { StatusCodes } from "http-status-codes";
-import Logger from "../../../../server/logger";
 import { paginationHandler } from "../../../../internal/nextHandler/paginationHandler";
 import { jwtVerificationQueryHandler } from "../../../../internal/nextHandler/jwt_verification_query_handler";
 import { methodAllowedHandler } from "../../../../internal/nextHandler/method_allowed_handler";

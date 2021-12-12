@@ -16,13 +16,21 @@ interface DeviceInterface {
   loadingData: boolean;
   paginationResult?: PaginationResult;
   filterKeyword: string;
+
   setFilterKeyword(v: string): void;
+
   sendDockerCommand(v: DockerValue): Promise<any>;
+
   joinDetail(deviceId: string): void;
+
   leaveDetail(deviceId: string): void;
+
   sendCommand(methodName: string, params: any[]): Promise<any>;
+
   handlePageChange(deviceIds: string[]): Promise<any>;
+
   applyFilter(filter: ClientFilter): void;
+
   clearFilter(): void;
 }
 

@@ -1,7 +1,7 @@
-import { DatabasePlugin } from "../../../server/plugin/basePlugin";
-import { PluginName } from "../../../server/plugin/pluginName";
-import { Model } from "mongoose";
-import { IJobResult, JobResultModel } from "../dbSchema/queue/job-result";
+import {DatabasePlugin} from "../../../server/plugin/basePlugin";
+import {PluginName} from "../../../server/plugin/pluginName";
+import {Model} from "mongoose";
+import {IJobResult, JobResultModel} from "../dbSchema/queue/job-result";
 import moment from "moment";
 
 // eslint-disable-next-line require-jsdoc

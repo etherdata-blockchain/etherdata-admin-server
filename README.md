@@ -4,8 +4,6 @@
 
 [![CodeFactor](https://www.codefactor.io/repository/github/etherdata-blockchain/etherdata-admin-server/badge)](https://www.codefactor.io/repository/github/etherdata-blockchain/etherdata-admin-server)
 
-
-
 This is the ETDStats Server
 
 ## Run

@@ -23,5 +23,7 @@
     "space-before-function-paren": "off",
     "spaced-comment": "off"
   },
-  "ignorePatterns": ["cypress"]
+  "ignorePatterns": [
+    "cypress"
+  ]
 }
