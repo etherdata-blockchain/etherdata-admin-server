@@ -8,9 +8,6 @@ import { JSONSchema7 } from "json-schema";
 import { IInstallationTemplate } from "./install-script";
 import { Button } from "@mui/material";
 import { Routes } from "../../../const/routes";
-import { getAxiosClient } from "../../../const/defaultValues";
-import { saveAs } from "file-saver";
-import { UIProviderContext } from "../../../../pages/model/UIProvider";
 import DownloadTemplateButton from "../../../../components/installation/DownloadTemplateButton";
 
 export const jsonSchema: JSONSchema7 = {

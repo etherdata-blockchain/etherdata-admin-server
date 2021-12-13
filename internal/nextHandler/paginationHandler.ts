@@ -1,6 +1,6 @@
-import {NextApiHandler, NextApiRequest, NextApiResponse} from "next";
-import {StatusCodes} from "http-status-codes";
-import {Configurations} from "../const/configurations";
+import { NextApiHandler, NextApiRequest, NextApiResponse } from "next";
+import { StatusCodes } from "http-status-codes";
+import { Configurations } from "../const/configurations";
 
 /**
  * Handle list requests with pagination. Only will do the pagination on Get request.

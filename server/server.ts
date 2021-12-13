@@ -1,5 +1,5 @@
-import {BaseSocketIOPlugin} from "./plugin/basePlugin";
-import {Server as SocketServer} from "socket.io";
+import { BaseSocketIOPlugin } from "./plugin/basePlugin";
+import { Server as SocketServer } from "socket.io";
 
 /**
  * Start a socket server with plugins

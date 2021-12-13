@@ -1,7 +1,7 @@
-import {DatabasePlugin} from "../../../server/plugin/basePlugin";
-import {ITransaction, TransactionModel} from "../dbSchema/transaction";
-import {PluginName} from "../../../server/plugin/pluginName";
-import {Model, Query} from "mongoose";
+import { DatabasePlugin } from "../../../server/plugin/basePlugin";
+import { ITransaction, TransactionModel } from "../dbSchema/transaction";
+import { PluginName } from "../../../server/plugin/pluginName";
+import { Model, Query } from "mongoose";
 
 /**
  * Transaction db plugin
