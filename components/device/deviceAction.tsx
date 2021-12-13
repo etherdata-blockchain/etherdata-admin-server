@@ -11,7 +11,7 @@ import {
 
 import ArrowRightIcon from "@material-ui/icons/ArrowRight";
 import moment from "moment";
-import { DefaultPaginationResult } from "../../server/const/defaultValues";
+import { DefaultPaginationResult } from "../../internal/const/defaultValues";
 
 type Props = {};
 

@@ -1,0 +1,82 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: admin-server-deployment
+  namespace: etd
+  labels:
+    app: admin-server
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: admin-server
+  template:
+    metadata:
+      labels:
+        app: admin-server
+    spec:
+      containers:
+        - name: admin-server
+          image: sirily11/etd-remote-admin-server:v1.9.1
+          ports:
+            - containerPort: 8080
+              protocol: TCP
+          resources:
+            requests:
+              memory: 500Mi
+              cpu: 500m
+            limits:
+              memory: 1000Mi
+              cpu: 1000m
+          env:
+            - name: NEXT_PUBLIC_VERSION
+              value: v1.9.1
+            - name: PORT
+              value: "8080"
+            - name: NEXT_PUBLIC_APP_ID
+              valueFrom:
+                secretKeyRef:
+                  name: admin
+                  key: NEXT_PUBLIC_APP_ID
+            - name: NEXT_PUBLIC_STATS_SERVER
+              valueFrom:
+                secretKeyRef:
+                  name: admin
+                  key: NEXT_PUBLIC_STATS_SERVER
+            - name: STATS_SERVER
+              valueFrom:
+                secretKeyRef:
+                  key: STATS_SERVER
+                  name: admin
+            - name: STORAGE_MANAGEMENT_API_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  key: STORAGE_MANAGEMENT_API_TOKEN
+                  name: admin
+            - name: MONGODB_URL
+              valueFrom:
+                secretKeyRef:
+                  name: admin
+                  key: MONGODB_URL
+            - name: PUBLIC_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: admin
+                  key: PUBLIC_SECRET
+            - name: NEXT_PUBLIC_CLIENT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: admin
+                  key: NEXT_PUBLIC_CLIENT_PASSWORD
+            - name: NEXT_PUBLIC_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: admin
+                  key: NEXT_PUBLIC_SECRET
+            - name: STORAGE_MANAGEMENT_URL
+              valueFrom:
+                secretKeyRef:
+                  name: admin
+                  key: STORAGE_MANAGEMENT_URL
+      restartPolicy: Always
+      terminationGracePeriodSeconds: 30

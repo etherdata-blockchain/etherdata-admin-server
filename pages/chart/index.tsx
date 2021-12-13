@@ -8,7 +8,7 @@ import { GetServerSideProps } from "next";
 import {
   DeviceRegistrationPlugin,
   VersionInfo,
-} from "../../server/plugin/plugins/deviceRegistrationPlugin";
+} from "../../internal/services/dbServices/device-registration-plugin";
 import { Cell, Pie, PieChart, ResponsiveContainer, Tooltip } from "recharts";
 import randomColor from "randomcolor";
 
