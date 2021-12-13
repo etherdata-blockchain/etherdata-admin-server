@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.9.1](https://github.com/etherdata-blockchain/etherdata-admin-server/compare/v1.9.0...v1.9.1) (2021-12-13)
+
+
+### Bug Fixes
+
+* eslint issues ([4577a31](https://github.com/etherdata-blockchain/etherdata-admin-server/commit/4577a3113697730faf59dbe4848f130a8c992b4b))
+
 ## [1.9.0](https://github.com/etherdata-blockchain/etherdata-admin-server/compare/v1.8.2...v1.9.0) (2021-12-13)
 
 
