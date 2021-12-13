@@ -11,3 +11,4 @@ node_modules
 app.json
 dist
 .env
+yarn.lock

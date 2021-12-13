@@ -1,21 +1,23 @@
 global.TextEncoder = require("util").TextEncoder;
 global.TextDecoder = require("util").TextDecoder;
 import mongoose from "mongoose";
-import { DeviceModel } from "../../../server/schema/device";
+import { DeviceModel } from "../../../internal/services/dbSchema/device";
 import { MongoMemoryServer } from "mongodb-memory-server";
 import { createMocks } from "node-mocks-http";
 import jwt from "jsonwebtoken";
 import handler from "../../../pages/api/v1/device/status/send-status";
-import { mockDeviceData } from "./mockDeviceData";
+import { mockDeviceData } from "../../data/mockDeviceData";
 import axios from "axios";
-import { StorageManagementSystemPlugin } from "../../../server/plugin/plugins/storageManagementSystemPlugin";
+import { StorageManagementSystemPlugin } from "../../../internal/services/dbServices/storage-management-system-plugin";
 
 jest.mock("axios");
-jest.mock("../../../server/plugin/plugins/storageManagementSystemPlugin");
+jest.mock(
+  "../../../internal/services/dbServices/storage-management-system-plugin"
+);
 
-describe("Test send user status", () => {
+describe("Test sending a user status", () => {
   let dbServer: MongoMemoryServer;
-  let oldEnv = process.env;
+  const oldEnv = process.env;
 
   beforeAll(async () => {
     //@ts-ignore
@@ -44,7 +46,7 @@ describe("Test send user status", () => {
       };
     });
 
-    let token = jwt.sign({ user: "test-user" }, "test");
+    const token = jwt.sign({ user: "test-user" }, "test");
     const { req, res } = createMocks({
       method: "POST",
       headers: {
@@ -66,7 +68,7 @@ describe("Test send user status", () => {
       };
     });
 
-    let token = jwt.sign({ user: "test-user" }, "test1");
+    const token = jwt.sign({ user: "test-user" }, "test1");
     const { req, res } = createMocks({
       method: "POST",
       headers: {

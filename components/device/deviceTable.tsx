@@ -3,12 +3,12 @@ import * as React from "react";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { Button, Pagination } from "@mui/material";
 import { useRouter } from "next/dist/client/router";
-import { IDevice } from "../../server/schema/device";
+import { IDevice } from "../../internal/services/dbSchema/device";
 import moment from "moment";
-import { CONFIG } from "../../server/config/config";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 import Spacer from "../Spacer";
+import { Configurations } from "../../internal/const/configurations";
 
 type Props = {
   devices: IDevice[];
@@ -79,7 +79,7 @@ export function DeviceTable({
       deviceId: d.id,
       online: d.lastSeen
         ? Math.abs(moment(d.lastSeen).diff(moment(), "seconds")) <
-          CONFIG.maximumNotSeenDuration
+          Configurations.maximumNotSeenDuration
         : false,
       blockNumber: d.data?.number,
       name: d.name,

@@ -7,8 +7,8 @@ import { Server, Socket } from "socket.io";
 import jwt from "jsonwebtoken";
 import Logger from "../../../logger";
 import { RegisteredPlugins } from "./registeredPlugins";
-import { DeviceRegistrationPlugin } from "../deviceRegistrationPlugin";
-import { PendingJobPlugin } from "../pendingJobPlugin";
+import { DeviceRegistrationPlugin } from "../../../../internal/services/dbServices/device-registration-plugin";
+import { PendingJobPlugin } from "../../../../internal/services/dbServices/pending-job-plugin";
 import mongoose from "mongoose";
 
 interface RPCCommand {

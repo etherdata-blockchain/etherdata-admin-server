@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { DeviceRegistrationPlugin } from "../../../../server/plugin/plugins/deviceRegistrationPlugin";
-import { jwtVerificationHandler } from "../../../../utils/nextHandler/jwtVerificationHandler";
+import { DeviceRegistrationPlugin } from "../../../../internal/services/dbServices/device-registration-plugin";
+import { jwtVerificationHandler } from "../../../../internal/nextHandler/jwt_verification_handler";
 
 /**
  * Found user by given user

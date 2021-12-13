@@ -3,9 +3,9 @@ import * as React from "react";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { useRouter } from "next/dist/client/router";
 import { Button } from "@mui/material";
-import { PaginatedStorageUsers } from "../../server/plugin/plugins/storageManagementSystemPlugin";
-import { Configurations } from "../../server/const/configurations";
-import { DefaultStorageUser } from "../../server/const/defaultValues";
+import { PaginatedStorageUsers } from "../../internal/services/dbServices/storage-management-system-plugin";
+import { Configurations } from "../../internal/const/configurations";
+import { DefaultStorageUser } from "../../internal/const/defaultValues";
 import queryString from "querystring";
 
 type Props = {
