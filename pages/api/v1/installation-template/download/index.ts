@@ -9,6 +9,8 @@ import { StatusCodes } from "http-status-codes";
 import { methodAllowedHandler } from "../../../../../internal/nextHandler/method_allowed_handler";
 import { paginationHandler } from "../../../../../internal/nextHandler/paginationHandler";
 import { jwtVerificationHandler } from "../../../../../internal/nextHandler/jwt_verification_handler";
+import { StaticNodePlugin } from "../../../../../internal/services/dbServices/static-node-plugin";
+import { Configurations } from "../../../../../internal/const/configurations";
 
 type Response =
   | { err?: string; message?: string }
@@ -25,6 +27,7 @@ type Response =
  */
 async function handler(req: NextApiRequest, res: NextApiResponse<Response>) {
   const installScriptPlugin = new InstallationPlugin();
+  const staticNodePlugins = new StaticNodePlugin();
 
   /**
    * Handle get request. Will try to find template by template tag
@@ -34,43 +37,66 @@ async function handler(req: NextApiRequest, res: NextApiResponse<Response>) {
     const templateName = req.body.template;
     const envs = req.body.envs;
     const template = await installScriptPlugin.filter(
-        {
-          template_tag: templateName,
-        },
-        0,
-        1
+      {
+        template_tag: templateName,
+      },
+      0,
+      1
+    );
+    //TODO: Added random pick function
+    const staticNodes = await staticNodePlugins.list(
+      0,
+      Configurations.numberPerPage
     );
 
     if (template?.count === 0) {
       res
-          .status(StatusCodes.NOT_FOUND)
-          .json({err: "Cannot find a template with name: " + templateName});
+        .status(StatusCodes.NOT_FOUND)
+        .json({ err: "Cannot find a template with name: " + templateName });
       return;
     }
 
     const zip = new AdmZip();
+    await installScriptPlugin.getTemplateWithDockerImages(
+      template!.results[0].id
+    );
+    const templateWithDockerCompose =
+      await installScriptPlugin.getTemplateWithDockerImages(
+        template!.results[0].id
+      );
 
     zip.addFile(
-        "docker-compose.yml",
-        Buffer.from(
-            installScriptPlugin.generateDockerComposeFile(template!.results![0]),
-            "utf-8"
-        )
+      "docker-compose.yml",
+      Buffer.from(
+        installScriptPlugin.generateDockerComposeFile(
+          templateWithDockerCompose!
+        ),
+        "utf-8"
+      )
     );
 
     if (envs) {
       zip.addFile(
-          ".env",
-          Buffer.from(installScriptPlugin.generateEnvFile(envs), "utf-8")
+        ".env",
+        Buffer.from(installScriptPlugin.generateEnvFile(envs), "utf-8")
       );
     }
 
+    if (staticNodes) {
+      zip.addFile(
+        "static-nodes.json",
+        Buffer.from(
+          staticNodePlugins.staticNodesToJSON(staticNodes.results),
+          "utf-8"
+        )
+      );
+    }
 
     const data = zip.toBuffer();
     res.setHeader("Content-Type", "application/zip");
     res.setHeader(
-        "content-disposition",
-        "attachment; filename=installation-template-script.zip"
+      "content-disposition",
+      "attachment; filename=installation-template-script.zip"
     );
     res.send(data);
   };
@@ -83,6 +109,6 @@ async function handler(req: NextApiRequest, res: NextApiResponse<Response>) {
 }
 
 export default methodAllowedHandler(
-    jwtVerificationHandler(paginationHandler(handler)),
-    [HTTPMethod.POST]
+  jwtVerificationHandler(paginationHandler(handler)),
+  [HTTPMethod.POST]
 );

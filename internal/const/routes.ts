@@ -5,6 +5,7 @@ export const Routes = {
   installationTemplatesEdit: "/installation/installation-template/edit",
   installationTemplatesAPICreate: "/api/v1/installation-template",
   installationTemplatesAPIEdit: "/api/v1/installation-template",
+  installationTemplateAPIDownload: "/api/v1/installation-template/download",
   // Docker image related
   dockerImageCreate: "/installation/docker/create",
   dockerImageEdit: "/installation/docker/edit",

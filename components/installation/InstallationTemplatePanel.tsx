@@ -1,8 +1,8 @@
 import React from "react";
-import {DataGrid} from "@mui/x-data-grid";
-import {columns} from "../../internal/services/dbSchema/install-script/install-script-utils";
-import {IInstallationTemplate} from "../../internal/services/dbSchema/install-script/install-script";
-import {Box} from "@mui/material";
+import { DataGrid } from "@mui/x-data-grid";
+import { columns } from "../../internal/services/dbSchema/install-script/install-script-utils";
+import { IInstallationTemplate } from "../../internal/services/dbSchema/install-script/install-script";
+import { Box } from "@mui/material";
 // import Form from "@rjsf/bootstrap-4";
 // import axios from "axios";
 
@@ -23,7 +23,7 @@ export default function InstallationTemplatePanel({
         isRowSelectable={() => false}
         columns={columns}
         rows={installationTemplates.map((d, index) => {
-          return { id: index, ...d, details: d._id };
+          return { id: index, ...d, details: d._id, download: d.template_tag };
         })}
         autoHeight
       />

@@ -13,15 +13,17 @@ import {
 import { MongoMemoryServer } from "mongodb-memory-server";
 import handler from "../../../pages/api/v1/installation-template/download/index";
 import { createMocks } from "node-mocks-http";
-
 import {
+  MockComplicatedTemplateData,
   MockDockerImage,
+  MockDockerImage2,
   MockInstallationTemplateData,
 } from "../../data/mock_template_data";
 import { StatusCodes } from "http-status-codes";
 import { InstallationTemplateModel } from "../../../internal/services/dbSchema/install-script/install-script";
 import { expect } from "@jest/globals";
 import { InstallationPlugin } from "../../../internal/services/dbServices/installation-plugin";
+import YAML from "yaml";
 
 mock("adm-zip");
 
@@ -62,10 +64,10 @@ describe("Given a installation template download handler", () => {
     expect(result).toBe("name=hello\nvalue=1\n");
   });
 
-  test("When sending a list request to the server", async () => {
+  test("When sending a post request to the server", async () => {
     const result = await DockerImageModel.create(MockDockerImage);
     const reqData = JSON.parse(JSON.stringify(MockInstallationTemplateData));
-    reqData.services.worker.image = result._id;
+    reqData.services.worker.image = result.tags[0]._id;
 
     await InstallationTemplateModel.create(reqData);
     const { req, res } = createMocks({
@@ -90,9 +92,17 @@ describe("Given a installation template download handler", () => {
 
     const returnResult = plguin.generateDockerComposeFile(reqData);
     expect(returnResult).toBeDefined();
+    const parsedObject = YAML.parse(returnResult);
+    expect(parsedObject.version).toBe(MockInstallationTemplateData.version);
+    expect(parsedObject._id).toBeUndefined();
+    expect(parsedObject.createdAt).toBeUndefined();
+    expect(parsedObject.updatedAt).toBeUndefined();
+    expect(parsedObject.services.worker.image).toBe(
+      `${MockDockerImage.imageName}:${MockDockerImage.tags[0].tag}`
+    );
   });
 
-  test("When calling get template with docker images", async () => {
+  test("When calling get a template with docker image", async () => {
     const result: IDockerImage = await DockerImageModel.create(MockDockerImage);
     const reqData = JSON.parse(JSON.stringify(MockInstallationTemplateData));
     reqData.services.worker.image = result.tags[0]._id;
@@ -107,6 +117,34 @@ describe("Given a installation template download handler", () => {
     );
     expect(templateWithDockerImage?.services["worker"].image!.imageName).toBe(
       MockInstallationTemplateData.services.worker.image.imageName
+    );
+  });
+
+  test("When calling get a template with multiple docker image", async () => {
+    const result1: IDockerImage = await DockerImageModel.create(
+      MockDockerImage
+    );
+    const result2: IDockerImage = await DockerImageModel.create(
+      MockDockerImage2
+    );
+
+    const reqData = JSON.parse(JSON.stringify(MockComplicatedTemplateData));
+    reqData.services.worker.image = result1.tags[0]._id;
+    reqData.services.admin.image = result2.tags[0]._id;
+
+    const templateResult = await InstallationTemplateModel.create(reqData);
+    const templateWithDockerImage = await plguin.getTemplateWithDockerImages(
+      templateResult._id
+    );
+    expect(templateWithDockerImage).toBeDefined();
+    expect(templateWithDockerImage?.template_tag).toBe(
+      MockComplicatedTemplateData.template_tag
+    );
+    expect(templateWithDockerImage?.services.worker.image!.imageName).toBe(
+      MockComplicatedTemplateData.services.worker.image.imageName
+    );
+    expect(templateWithDockerImage?.services.admin.image!.imageName).toBe(
+      MockComplicatedTemplateData.services.admin.image.imageName
     );
   });
 });

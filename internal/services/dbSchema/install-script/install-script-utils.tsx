@@ -1,13 +1,17 @@
 /**
  * Utils for installation script
  */
+import React from "react";
 import { IDockerImage } from "../docker/docker-image";
 import { GridColDef } from "@mui/x-data-grid";
 import { JSONSchema7 } from "json-schema";
 import { IInstallationTemplate } from "./install-script";
 import { Button } from "@mui/material";
 import { Routes } from "../../../const/routes";
-import React from "react";
+import { getAxiosClient } from "../../../const/defaultValues";
+import { saveAs } from "file-saver";
+import { UIProviderContext } from "../../../../pages/model/UIProvider";
+import DownloadTemplateButton from "../../../../components/installation/DownloadTemplateButton";
 
 export const jsonSchema: JSONSchema7 = {
   title: "Installation template",
@@ -101,6 +105,14 @@ export const columns: GridColDef[] = [
     flex: 3,
   },
   {
+    field: "download",
+    headerName: "Download",
+    flex: 2,
+    renderCell: (param) => {
+      return <DownloadTemplateButton templateName={param.value} />;
+    },
+  },
+  {
     field: "details",
     headerName: "Details",
     flex: 2,
@@ -163,7 +175,7 @@ export function postprocessData(data: {
  */
 export function preprocessData(data: IInstallationTemplate): any {
   const services: any[] = [];
-  for (const [key, value] of Object.entries(data.services)) {
+  for (const [key, value] of Object.entries(data.services ?? {})) {
     services.push({
       name: key ?? "",
       service: value,
