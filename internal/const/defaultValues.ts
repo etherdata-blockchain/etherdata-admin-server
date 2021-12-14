@@ -2,6 +2,7 @@ import { PaginationResult } from "../../server/client/browserClient";
 import { StorageUser } from "../services/dbServices/storage-management-system-plugin";
 import axios from "axios";
 import jwt from "jsonwebtoken";
+import { Environments } from "./environments";
 
 export const DefaultPaginationResult: PaginationResult = {
   adminVersions: [],
@@ -22,7 +23,7 @@ export const DefaultStorageUser: StorageUser = {
 const token = () =>
   jwt.sign(
     { user: "admin" },
-    process.env.PUBLIC_SECRET ?? process.env.NEXT_PUBLIC_SECRET!
+    Environments.ClientSideEnvironments.NEXT_PUBLIC_SECRET
   );
 
 export const getAxiosClient = () =>

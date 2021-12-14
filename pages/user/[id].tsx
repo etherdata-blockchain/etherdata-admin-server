@@ -29,6 +29,7 @@ import StorageIcon from "@material-ui/icons/Storage";
 import style from "../../styles/Device.module.css";
 import ComputerIcon from "@material-ui/icons/Computer";
 import { DeviceAction } from "../../components/device/deviceAction";
+import { Environments } from "../../internal/const/environments";
 
 interface Props {
   coinbase: string | undefined;
@@ -230,14 +231,14 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
       `api/v2/miningReward/${coinbase}?start=${prev.format(
         "YYYY-MM-DD"
       )}&end=${moment().format("YYYY-MM-DD")}`,
-      process.env.STATS_SERVER!
+      Environments.ServerSideEnvironments.STATS_SERVER!
     );
     const miningRewardsPromise = axios.get(miningUrl.toString());
 
     // Get recent transactions
     const txURL = new URL(
       `/api/v2/transactions/${coinbase}`,
-      process.env.STATS_SERVER!
+      Environments.ServerSideEnvironments.STATS_SERVER!
     );
     const userResultPromise = axios.get(txURL.toString());
 

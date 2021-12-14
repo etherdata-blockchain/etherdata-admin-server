@@ -8,6 +8,7 @@ import { createServer } from "http";
 import { AppPlugin } from "./plugin/plugins/socketIOPlugins/appPlugin";
 import { DBChangePlugin } from "./plugin/plugins/socketIOPlugins/dbPlugin";
 import { MongoClient } from "mongodb";
+import { Environments } from "../internal/const/environments";
 
 const port = parseInt(process.env.PORT!, 10) || 3000;
 const dev = process.env.NODE_ENV !== "production";
@@ -15,7 +16,9 @@ const nextApp = next({ dev });
 const nextHandler = nextApp.getRequestHandler();
 
 nextApp.prepare().then(async () => {
-  const client = new MongoClient(process.env.MONGODB_URL!);
+  const client = new MongoClient(
+    Environments.ServerSideEnvironments.MONGODB_URL!
+  );
   await client.connect();
   // @ts-ignore
   global.MONGO_CLIENT = client;
@@ -32,7 +35,7 @@ nextApp.prepare().then(async () => {
   // @ts-ignore
   global.nodePlugin = plugins[0];
 
-  await mongoose.connect(process.env.MONGODB_URL!);
+  await mongoose.connect(Environments.ServerSideEnvironments.MONGODB_URL);
   Logger.info("Connected to database");
 
   await socketIOServer.start(httpServer);
