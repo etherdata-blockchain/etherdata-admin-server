@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.10.2](https://github.com/etherdata-blockchain/etherdata-admin-server/compare/v1.10.1...v1.10.2) (2021-12-14)
+
+
+### Bug Fixes
+
+* Cannot add environment in docker template ([89d7d2c](https://github.com/etherdata-blockchain/etherdata-admin-server/commit/89d7d2c91e758b5836fe2de18e1f24496c5f1528))
+
 ### [1.10.1](https://github.com/etherdata-blockchain/etherdata-admin-server/compare/v1.10.0...v1.10.1) (2021-12-14)
 
 
