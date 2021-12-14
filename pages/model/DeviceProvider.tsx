@@ -6,6 +6,7 @@ import {
   PaginationResult,
 } from "../../server/client/browserClient";
 import { ObjectId } from "bson";
+import { Environments } from "../../internal/const/environments";
 
 interface DockerValue {
   method: "logs" | "start" | "stop" | "remove" | "restart" | "exec";
@@ -54,7 +55,9 @@ export default function DeviceProvider(props: any) {
 
   React.useEffect(() => {
     socket = io("/clients", {
-      auth: { token: process.env.NEXT_PUBLIC_CLIENT_PASSWORD },
+      auth: {
+        token: Environments.ClientSideEnvironments.NEXT_PUBLIC_CLIENT_PASSWORD,
+      },
       transports: ["websocket"],
     });
 
