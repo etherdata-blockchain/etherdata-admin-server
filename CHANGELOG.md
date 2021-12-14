@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.10.1](https://github.com/etherdata-blockchain/etherdata-admin-server/compare/v1.10.0...v1.10.1) (2021-12-14)
+
+
+### Bug Fixes
+
+* Docker issue ([c75975c](https://github.com/etherdata-blockchain/etherdata-admin-server/commit/c75975c5c16586104e34a15af4845ad5758fa4b3))
+
 ## [1.10.0](https://github.com/etherdata-blockchain/etherdata-admin-server/compare/v1.9.3...v1.10.0) (2021-12-14)
 
 
