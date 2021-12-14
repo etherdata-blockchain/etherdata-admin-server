@@ -8,11 +8,11 @@ import * as Realm from "realm-web";
 import { Home, Person, PieChart, Receipt } from "@mui/icons-material";
 import NextNprogress from "nextjs-progressbar";
 import DownloadingIcon from "@mui/icons-material/Downloading";
-import { getEnvironments } from "../internal/const/environments";
+import { Environments } from "../internal/const/environments";
 
 // Setup realm for login
 export const realmApp = new Realm.App({
-  id: getEnvironments.NEXT_PUBLIC_APP_ID,
+  id: Environments.ClientSideEnvironments.NEXT_PUBLIC_APP_ID,
 });
 const darkTheme = createTheme({
   components: {
