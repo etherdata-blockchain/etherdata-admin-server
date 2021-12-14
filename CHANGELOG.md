@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.10.0](https://github.com/etherdata-blockchain/etherdata-admin-server/compare/v1.9.3...v1.10.0) (2021-12-14)
+
+
+### Features
+
+* Migrate process to Environments ([2de68ee](https://github.com/etherdata-blockchain/etherdata-admin-server/commit/2de68ee1ddedb3dd623db05e13fc0e53885a2ca9))
+
 ### [1.9.3](https://github.com/etherdata-blockchain/etherdata-admin-server/compare/v1.9.2...v1.9.3) (2021-12-14)
 
 
