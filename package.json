@@ -7,7 +7,7 @@
     "build:next": "next build",
     "build": "npm run build:next && npm run build:server",
     "dev": "ts-node --project tsconfig.server.json server/app.ts",
-    "start": "NODE_ENV=production node --max_old_space_size=8192 dist/app.js",
+    "start": "NODE_ENV=production node --max_old_space_size=8192 dist/server/app.js",
     "lint": "next lint",
     "test": "jest --forceExit --env=jsdom",
     "release": "standard-version",
