@@ -50,7 +50,7 @@ export const jsonSchema: JSONSchema7 = {
                 type: "string",
                 default: "always",
               },
-              environments: {
+              environment: {
                 type: "array",
                 items: {
                   type: "string",
