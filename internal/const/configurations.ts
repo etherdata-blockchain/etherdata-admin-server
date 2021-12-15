@@ -6,4 +6,6 @@ export const Configurations = {
   storageUserCollectionName: "storage_management_owner",
   drawerSize: 60,
   maximumNotSeenDuration: 300,
+  defaultExpireDuration: 365,
+  defaultWebhookUser: "dockerhub",
 };

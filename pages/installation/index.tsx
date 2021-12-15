@@ -20,12 +20,16 @@ import { Button } from "@mui/material";
 import { Routes } from "../../internal/const/routes";
 import { useRouter } from "next/dist/client/router";
 import StaticNodePanel from "../../components/installation/StaticNodePanel";
+import WebhookPanel from "../../components/installation/WebhookPanel";
+import qs from "query-string";
+import join from "url-join";
 
 type Props = {
   index: any;
   images: IDockerImage[];
   staticNodes: IStaticNode[];
   installationTemplates: IInstallationTemplate[];
+  host: string;
 };
 
 /**
@@ -38,11 +42,19 @@ export default function Index({
   images,
   staticNodes,
   installationTemplates,
+  host,
 }: Props) {
+  // eslint-disable-next-line no-unused-vars
   const [value, setValue] = React.useState(parseInt(index));
   const router = useRouter();
 
-  const handleChange = (event: React.SyntheticEvent, newValue: number) => {
+  const handleChange = async (
+    event: React.SyntheticEvent,
+    newValue: number
+  ) => {
+    await router.push(
+      qs.stringifyUrl({ url: Routes.installation, query: { index: newValue } })
+    );
     setValue(newValue);
   };
 
@@ -93,6 +105,7 @@ export default function Index({
           <Tab label="Docker Images" {...a11yProps(0)} />
           <Tab label="Static Nodes" {...a11yProps(1)} />
           <Tab label="Installation Templates" {...a11yProps(2)} />
+          <Tab label="Webhook" {...a11yProps(3)} />
         </Tabs>
         <TabPanel value={value} index={0}>
           <DockerImagesPanel dockerImages={images} />
@@ -104,6 +117,9 @@ export default function Index({
           <InstallationTemplatePanel
             installationTemplates={installationTemplates}
           />
+        </TabPanel>
+        <TabPanel value={value} index={3}>
+          <WebhookPanel host={host} />
         </TabPanel>
       </Box>
     </div>
@@ -141,6 +157,7 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
     images: images?.results ?? [],
     staticNodes: staticNodes?.results ?? [],
     installationTemplates: installationTemplates?.results ?? [],
+    host: context.req.headers.host ?? "",
   };
 
   return {
