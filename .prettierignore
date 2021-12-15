@@ -12,3 +12,4 @@ tsconfig.server.json
 .gitlab-ci.yml
 .eslintrc
 CHANGELOG.md
+dist
