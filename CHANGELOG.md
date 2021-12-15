@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.10.3](https://github.com/etherdata-blockchain/etherdata-admin-server/compare/v1.10.2...v1.10.3) (2021-12-15)
+
+
+### Features
+
+* Add web hook URL in admin panel ([#25](https://github.com/etherdata-blockchain/etherdata-admin-server/issues/25)) ([aacbe95](https://github.com/etherdata-blockchain/etherdata-admin-server/commit/aacbe9505d47a5a49aa9db12f1d7d3c9d3f91ac4))
+
 ### [1.10.2](https://github.com/etherdata-blockchain/etherdata-admin-server/compare/v1.10.1...v1.10.2) (2021-12-14)
 
 
