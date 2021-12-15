@@ -22,7 +22,9 @@ interface Props {
 export default function WebhookPanel({ host }: Props) {
   const [webhookURL, setWebhookURL] = React.useState("");
   const [err, setErr] = React.useState<string>();
-  const url = join(`${location.protocol}//${host}`, Routes.dockerWebhookAPI);
+  const url = host.startsWith("http")
+    ? join(host, Routes.dockerWebhookAPI)
+    : join(`${location.protocol}//${host}`, Routes.dockerWebhookAPI);
   const [formData, setFormData] = React.useState();
 
   React.useEffect(() => {
@@ -61,7 +63,11 @@ export default function WebhookPanel({ host }: Props) {
       </Form>
       <RForm.Group>
         <RForm.Label>Webhook URL</RForm.Label>
-        <RForm.Control type="url" value={webhookURL} />
+        <RForm.Control
+          type="url"
+          value={webhookURL}
+          data-testid={"webhook-url"}
+        />
       </RForm.Group>
     </Box>
   );
