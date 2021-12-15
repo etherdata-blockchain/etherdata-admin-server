@@ -1,9 +1,13 @@
 import React from "react";
 import UserPage from "../../pages/user/index";
+<<<<<<< HEAD
 import { PaginatedStorageUsers } from "../../services/dbServices/storageManagementSystemPlugin";
+=======
+import { PaginatedStorageUsers } from "../../internal/services/dbServices/storage-management-system-plugin";
+>>>>>>> upstream/install-script
 import "@testing-library/jest-dom";
 import { render, within } from "@testing-library/react";
-import { TestingValues } from "../../server/const/testingValues";
+import { TestingValues } from "../../internal/const/testingValues";
 import UIProviderProvider from "../../pages/model/UIProvider";
 import { createMatchMedia } from "../utils/utils";
 

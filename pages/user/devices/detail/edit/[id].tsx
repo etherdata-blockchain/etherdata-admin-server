@@ -7,7 +7,11 @@ import PageHeader from "../../../../../components/PageHeader";
 import Spacer from "../../../../../components/Spacer";
 import { GeneralPanel } from "../../../../../components/device/generalPanel";
 import { GetServerSideProps } from "next";
+<<<<<<< HEAD
 import { DeviceRegistrationPlugin } from "../../../../../services/dbServices/deviceRegistrationPlugin";
+=======
+import { DeviceRegistrationPlugin } from "../../../../../internal/services/dbServices/device-registration-plugin";
+>>>>>>> upstream/install-script
 import {
   Admin,
   Clique,
@@ -27,7 +31,11 @@ import { UIProviderContext } from "../../../../model/UIProvider";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { DeviceContext, socket } from "../../../../model/DeviceProvider";
 import { DockerPanel } from "../../../../../components/device/dockerPanel";
+<<<<<<< HEAD
 import { IDevice } from "../../../../../services/dbSchema/device";
+=======
+import { IDevice } from "../../../../../internal/services/dbSchema/device";
+>>>>>>> upstream/install-script
 
 interface Props {
   user: string | null;

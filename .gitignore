@@ -39,9 +39,8 @@ package-lock.json
 
 .idea
 .idea/workspace.xml
-yarn.lock
-yarn.lock
 globalConfig.json
 .idea
 coverage
 *.mp4
+yarn.lock

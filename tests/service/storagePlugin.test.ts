@@ -3,12 +3,19 @@ import { Configurations } from "../../server/const/configurations";
 global.TextEncoder = require("util").TextEncoder;
 global.TextDecoder = require("util").TextDecoder;
 
+<<<<<<< HEAD:tests/service/storagePlugin.test.ts
 import { Db, MongoClient } from "mongodb";
 import { MongoMemoryServer } from "mongodb-memory-server";
 import { StorageManagementSystemPlugin } from "../../services/dbServices/storageManagementSystemPlugin";
 
 global.TextEncoder = require("util").TextEncoder;
 global.TextDecoder = require("util").TextDecoder;
+=======
+import { Configurations } from "../../internal/const/configurations";
+import { Db, MongoClient } from "mongodb";
+import { MongoMemoryServer } from "mongodb-memory-server";
+import { StorageManagementSystemPlugin } from "../../internal/services/dbServices/storage-management-system-plugin";
+>>>>>>> upstream/install-script:server/tests/storagePlugin.test.ts
 
 let dbServer: MongoMemoryServer;
 let db: Db;
@@ -26,6 +33,10 @@ beforeEach(async () => {
 
 afterEach(async () => {
   await db.dropDatabase();
+});
+
+afterAll(() => {
+  dbServer.stop();
 });
 
 test("Get storage item count", async () => {

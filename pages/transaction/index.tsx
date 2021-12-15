@@ -6,8 +6,13 @@ import { TransactionTable } from "../../components/transaction/transactionTable"
 import Spacer from "../../components/Spacer";
 import { SendTransactionBtn } from "../../components/transaction/sendTransactionBtn";
 import { GetServerSideProps } from "next";
+<<<<<<< HEAD
 import { TransactionDBPlugin } from "../../services/dbServices/transactionPlugin";
 import { ITransaction } from "../../services/dbSchema/transaction";
+=======
+import { TransactionDBPlugin } from "../../internal/services/dbServices/transaction-plugin";
+import { ITransaction } from "../../internal/services/dbSchema/transaction";
+>>>>>>> upstream/install-script
 
 type Props = {
   transactions: ITransaction[];

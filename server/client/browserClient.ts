@@ -1,10 +1,11 @@
 import {
   DeviceRegistrationPlugin,
   VersionInfo,
-} from "../../services/dbServices/deviceRegistrationPlugin";
-import { IDevice } from "../../services/dbSchema/device";
-import { StorageManagementSystemPlugin } from "../../services/dbServices/storageManagementSystemPlugin";
-import { Configurations } from "../const/configurations";
+
+} from "../../internal/services/dbServices/device-registration-plugin";
+import { IDevice } from "../../internal/services/dbSchema/device";
+import { StorageManagementSystemPlugin } from "../../internal/services/dbServices/storage-management-system-plugin";
+import { Configurations } from "../../internal/const/configurations";
 
 export interface ClientFilter {
   key: string;
@@ -30,6 +31,9 @@ export interface PaginationResult {
   clientFilter?: ClientFilter;
 }
 
+/**
+ * Browser client
+ */
 export class BrowserClient {
   numPerPage: number = Configurations.numberPerPage;
   currentPage: number = 0;
@@ -44,9 +48,9 @@ export class BrowserClient {
    * Generate pagination results based on current page number
    */
   async generatePaginationResult(): Promise<PaginationResult> {
-    let devicePlugin = new DeviceRegistrationPlugin();
-    let storageSystem = new StorageManagementSystemPlugin();
-    let onlineDevicesCount = await devicePlugin.getOnlineDevicesCount(
+    const devicePlugin = new DeviceRegistrationPlugin();
+    const storageSystem = new StorageManagementSystemPlugin();
+    const onlineDevicesCount = await devicePlugin.getOnlineDevicesCount(
       this.deviceIds,
       this.currentFilter
     );
@@ -63,24 +67,23 @@ export class BrowserClient {
       };
     }
 
-    let devices =
-      (await devicePlugin.listWithFilter(
-        this.currentPage,
-        this.numPerPage,
-        this.deviceIds,
-        this.currentFilter
-      )) ?? [];
+    const devices = await devicePlugin.listWithFilter(
+      this.currentPage,
+      this.numPerPage,
+      this.deviceIds,
+      this.currentFilter
+    );
 
-    let totalNumDevices = await devicePlugin.countWithFilter(
+    const totalNumDevices = await devicePlugin.countWithFilter(
       this.deviceIds,
       this.currentFilter
     );
     const adminVersions = await devicePlugin.getListOfAdminVersions();
     const nodeVersions = await devicePlugin.getListOfNodeVersion();
 
-    let paginationResult: PaginationResult = {
+    const paginationResult: PaginationResult = {
       totalStorageNumber: await storageSystem.countItems(),
-      devices: devices,
+      devices: devices?.results ?? [],
       totalNumberDevices: totalNumDevices,
       totalOnlineDevices: onlineDevicesCount,
       adminVersions,

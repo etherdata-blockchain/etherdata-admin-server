@@ -24,5 +24,7 @@
     "spaced-comment": "off",
     "linebreak-style": "off"
   },
-  "ignorePatterns": ["cypress"]
+  "ignorePatterns": [
+    "cypress"
+  ]
 }

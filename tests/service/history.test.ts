@@ -10,7 +10,7 @@ const twoDay = moment("2020-03-03", "YYYY-MM-DD");
 const threeDay = moment("2020-03-04", "YYYY-MM-DD");
 
 test("Test add block time", () => {
-  let history = new ETDHistory(3);
+  const history = new ETDHistory(3);
   history.addBlockTime(
     { blockTime: 2000, time: now, blockNumber: 10, avgBlockTime: 100 },
     1

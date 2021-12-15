@@ -6,9 +6,9 @@ import AccessTimeFilledIcon from "@mui/icons-material/AccessTimeFilled";
 import ArrowRightIcon from "@mui/icons-material/ArrowRight";
 import BuildIcon from "@mui/icons-material/Build";
 import AlbumIcon from "@mui/icons-material/Album";
-import { ImageInfo } from "dockerode";
+import {ImageInfo} from "dockerode";
 import moment from "moment";
-import { StyledTreeItem } from "./containerTreeView";
+import {StyledTreeItem} from "./containerTreeView";
 
 /**
  * Convert bytes to MB, GB, TB accordingly
@@ -23,7 +23,11 @@ function bytesToSize(bytes: number) {
 }
 
 /**
+<<<<<<< HEAD
  * Show list of docker installation
+=======
+ * Show list of docker installation-template
+>>>>>>> upstream/install-script
  * @param images
  * @constructor
  */

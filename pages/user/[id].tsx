@@ -5,7 +5,11 @@ import axios from "axios";
 import {
   PaginatedItems,
   StorageManagementSystemPlugin,
+<<<<<<< HEAD
 } from "../../services/dbServices/storageManagementSystemPlugin";
+=======
+} from "../../internal/services/dbServices/storage-management-system-plugin";
+>>>>>>> upstream/install-script
 import { useRouter } from "next/dist/client/router";
 import PageHeader from "../../components/PageHeader";
 import Spacer from "../../components/Spacer";
@@ -15,16 +19,22 @@ import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
 import queryString from "querystring";
 import ResponsiveCard from "../../components/ResponsiveCard";
 import { RewardDisplay } from "../../components/user/rewardDisplay";
-import { weiToETD } from "../../utils/weiToETD";
+import { weiToETD } from "../../internal/utils/weiToETD";
 import { DeviceTable } from "../../components/device/deviceTable";
 import { ETDContext } from "../model/ETDProvider";
 import { DeviceContext } from "../model/DeviceProvider";
 import {
   DefaultPaginationResult,
   DefaultStorageUser,
+<<<<<<< HEAD
 } from "../../server/const/defaultValues";
 import { Configurations } from "../../server/const/configurations";
 import { IDevice } from "../../services/dbSchema/device";
+=======
+} from "../../internal/const/defaultValues";
+import { Configurations } from "../../internal/const/configurations";
+import { IDevice } from "../../internal/services/dbSchema/device";
+>>>>>>> upstream/install-script
 import StorageIcon from "@material-ui/icons/Storage";
 import style from "../../styles/Device.module.css";
 import ComputerIcon from "@material-ui/icons/Computer";

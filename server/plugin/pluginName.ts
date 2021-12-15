@@ -1,9 +1,10 @@
 export type PluginName =
-    | "deviceRegistration"
-    | "transaction"
-    | "pendingJob"
-    | "jobResult"
-    | "staticNode"
-    | "dockerImage"
-    | "updateScript"
-    | "dockerCompose";
+  | "deviceRegistration"
+  | "transaction"
+  | "pendingJob"
+  | "jobResult"
+  | "staticNode"
+  | "dockerImage"
+  | "updateScript"
+  | "installScript";
+

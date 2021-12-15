@@ -1,6 +1,10 @@
 // @flow
 import * as React from "react";
+<<<<<<< HEAD
 import { IDevice } from "../../services/dbSchema/device";
+=======
+import { IDevice } from "../../internal/services/dbSchema/device";
+>>>>>>> upstream/install-script
 import {
   List,
   ListItemButton,

@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { DeviceRegistrationPlugin } from "../../../../../services/dbServices/deviceRegistrationPlugin";
-import { jwtVerificationHandler } from "../../../../../utils/nextHandler/jwtVerificationHandler";
+import { jwtVerificationHandler } from "../../../../../internal/nextHandler/jwt_verification_handler";
 import Logger from "../../../../../server/logger";
 import { UpdateScript } from "../../../../../services/dbSchema/update_script";
 import { UpdateScriptPlugin } from "../../../../../services/dbServices/UpdateScriptPlugin";

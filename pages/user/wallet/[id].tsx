@@ -14,9 +14,15 @@ import Spacer from "../../../components/Spacer";
 import { RewardDisplay } from "../../../components/user/rewardDisplay";
 import { LargeDataCard } from "../../../components/cards/largeDataCard";
 import PageHeader from "../../../components/PageHeader";
+<<<<<<< HEAD
 import { IDevice } from "../../../services/dbSchema/device";
 import { DeviceRegistrationPlugin } from "../../../services/dbServices/deviceRegistrationPlugin";
 import { weiToETD } from "../../../utils/weiToETD";
+=======
+import { IDevice } from "../../../internal/services/dbSchema/device";
+import { DeviceRegistrationPlugin } from "../../../internal/services/dbServices/device-registration-plugin";
+import { weiToETD } from "../../../internal/utils/weiToETD";
+>>>>>>> upstream/install-script
 
 const pageSize = 20;
 
@@ -141,14 +147,17 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
   );
   const userResultPromise = axios.get(txURL.toString());
 
-  const [[devices, totalNumRows, totalPageNumber], result, userResult] =
-    await Promise.all([devicesPromise, resultPromise, userResultPromise]);
+  const [paginationResult, result, userResult] = await Promise.all([
+    devicesPromise,
+    resultPromise,
+    userResultPromise,
+  ]);
 
   return {
     props: {
-      devices: JSON.parse(JSON.stringify(devices)),
-      totalNumRows,
-      totalPageNumber,
+      devices: JSON.parse(JSON.stringify(paginationResult.results)),
+      totalNumRows: paginationResult.count,
+      totalPageNumber: paginationResult.totalPage,
       currentPage: parseInt((pageNumber as string) ?? "0"),
       id: id as string,
       rewards: result.data.rewards,

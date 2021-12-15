@@ -3,8 +3,13 @@ global.TextDecoder = require("util").TextDecoder;
 
 import { MongoMemoryServer } from "mongodb-memory-server";
 import mongoose from "mongoose";
+<<<<<<< HEAD:tests/service/dbPlugin.test.ts
 import { DeviceModel } from "../../services/dbSchema/device";
 import { DeviceRegistrationPlugin } from "../../services/dbServices/deviceRegistrationPlugin";
+=======
+import { DeviceModel } from "../../internal/services/dbSchema/device";
+import { DeviceRegistrationPlugin } from "../../internal/services/dbServices/device-registration-plugin";
+>>>>>>> upstream/install-script:server/tests/dbPlugin.test.ts
 
 describe("DB Plugin Tests", () => {
   let dbServer: MongoMemoryServer;
@@ -16,6 +21,10 @@ describe("DB Plugin Tests", () => {
 
   afterEach(async () => {
     await DeviceModel.collection.drop();
+  });
+
+  afterAll(() => {
+    dbServer.stop();
   });
 
   test("Get Data By ID", async () => {
@@ -30,7 +39,7 @@ describe("DB Plugin Tests", () => {
     const plugin = new DeviceRegistrationPlugin();
     const pluginResult = await plugin.get("a");
     expect(pluginResult?.name).toBe("a");
-    expect(pluginResult?.id).toBe("a");
+    expect(pluginResult?.id).toBeDefined();
   });
 
   test("List All Items", async () => {
@@ -50,6 +59,7 @@ describe("DB Plugin Tests", () => {
 
     const plugin = new DeviceRegistrationPlugin();
     const pluginResult = await plugin.list(0, 200);
-    expect(pluginResult?.length).toBe(2);
+    expect(pluginResult?.results.length).toBe(2);
+    expect(pluginResult?.count).toBe(2);
   });
 });

@@ -9,10 +9,14 @@ import { GetServerSideProps } from "next";
 import {
   PaginatedStorageUsers,
   StorageManagementSystemPlugin,
+<<<<<<< HEAD
 } from "../../services/dbServices/storageManagementSystemPlugin";
+=======
+} from "../../internal/services/dbServices/storage-management-system-plugin";
+>>>>>>> upstream/install-script
 import { Pagination } from "@mui/material";
 import { useRouter } from "next/dist/client/router";
-import { TestingValues } from "../../server/const/testingValues";
+import { TestingValues } from "../../internal/const/testingValues";
 
 type Props = {
   paginationResult: PaginatedStorageUsers;
