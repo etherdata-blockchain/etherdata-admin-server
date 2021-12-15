@@ -22,7 +22,6 @@ import { useRouter } from "next/dist/client/router";
 import StaticNodePanel from "../../components/installation/StaticNodePanel";
 import WebhookPanel from "../../components/installation/WebhookPanel";
 import qs from "query-string";
-import join from "url-join";
 
 type Props = {
   index: any;
