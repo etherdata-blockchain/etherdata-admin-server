@@ -4,10 +4,14 @@ import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { Button, Pagination } from "@mui/material";
 import { useRouter } from "next/dist/client/router";
 <<<<<<< HEAD
+<<<<<<< HEAD
 import { IDevice } from "../../services/dbSchema/device";
 =======
 import { IDevice } from "../../internal/services/dbSchema/device";
 >>>>>>> upstream/install-script
+=======
+import { IDevice } from "../../internal/services/dbSchema/device";
+>>>>>>> upstream/dev
 import moment from "moment";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import HighlightOffIcon from "@mui/icons-material/HighlightOff";

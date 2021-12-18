@@ -5,6 +5,10 @@ export type PluginName =
   | "jobResult"
   | "staticNode"
   | "dockerImage"
+<<<<<<< HEAD
   | "updateScript"
   | "installScript";
 
+=======
+  | "installScript";
+>>>>>>> upstream/dev

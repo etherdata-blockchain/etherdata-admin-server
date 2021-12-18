@@ -115,7 +115,7 @@ export default function Layout(props: Props) {
   const appbar = (
     <AppBar elevation={0} position={"fixed"}>
       <Toolbar style={{ marginLeft: Configurations.drawerSize }}>
-        <div style={{ width: 200 }}>
+        <div style={{ width: 400 }}>
           <Collapse
             in={appBarTitleShow}
             timeout={150}

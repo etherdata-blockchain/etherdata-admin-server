@@ -15,6 +15,7 @@ import { RewardDisplay } from "../../../components/user/rewardDisplay";
 import { LargeDataCard } from "../../../components/cards/largeDataCard";
 import PageHeader from "../../../components/PageHeader";
 <<<<<<< HEAD
+<<<<<<< HEAD
 import { IDevice } from "../../../services/dbSchema/device";
 import { DeviceRegistrationPlugin } from "../../../services/dbServices/deviceRegistrationPlugin";
 import { weiToETD } from "../../../utils/weiToETD";
@@ -23,6 +24,12 @@ import { IDevice } from "../../../internal/services/dbSchema/device";
 import { DeviceRegistrationPlugin } from "../../../internal/services/dbServices/device-registration-plugin";
 import { weiToETD } from "../../../internal/utils/weiToETD";
 >>>>>>> upstream/install-script
+=======
+import { IDevice } from "../../../internal/services/dbSchema/device";
+import { DeviceRegistrationPlugin } from "../../../internal/services/dbServices/device-registration-plugin";
+import { weiToETD } from "../../../internal/utils/weiToETD";
+import { Environments } from "../../../internal/const/environments";
+>>>>>>> upstream/dev
 
 const pageSize = 20;
 
@@ -136,14 +143,14 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
     `api/v2/miningReward/${id}?start=${prev.format(
       "YYYY-MM-DD"
     )}&end=${now.format("YYYY-MM-DD")}`,
-    process.env.STATS_SERVER!
+    Environments.ServerSideEnvironments.STATS_SERVER
   );
   const resultPromise = axios.get(url.toString());
 
   // Get recent transactions
   const txURL = new URL(
     `/api/v2/transactions/${minerAddress}`,
-    process.env.STATS_SERVER!
+    Environments.ServerSideEnvironments.STATS_SERVER
   );
   const userResultPromise = axios.get(txURL.toString());
 

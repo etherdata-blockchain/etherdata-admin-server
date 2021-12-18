@@ -3,18 +3,24 @@ import * as React from "react";
 import PageHeader from "../../components/PageHeader";
 import { GetServerSideProps } from "next";
 <<<<<<< HEAD
+<<<<<<< HEAD
 import { IDockerImage } from "../../services/dbSchema/docker-image";
 import { IStaticNode } from "../../services/dbSchema/static-node";
 import { DockerImagePluginPlugin } from "../../services/dbServices/dockerImagePlugin";
 import { StaticNodePlugin } from "../../services/dbServices/staticNodePlugin";
 import { Configurations } from "../../server/const/configurations";
 =======
+=======
+>>>>>>> upstream/dev
 import { IDockerImage } from "../../internal/services/dbSchema/docker/docker-image";
 import { IStaticNode } from "../../internal/services/dbSchema/install-script/static-node";
 import { DockerImagePlugin } from "../../internal/services/dbServices/docker-image-plugin";
 import { StaticNodePlugin } from "../../internal/services/dbServices/static-node-plugin";
 import { Configurations } from "../../internal/const/configurations";
+<<<<<<< HEAD
 >>>>>>> upstream/install-script
+=======
+>>>>>>> upstream/dev
 import Spacer from "../../components/Spacer";
 import Box from "@mui/material/Box";
 import Tabs from "@mui/material/Tabs";
@@ -22,11 +28,14 @@ import Tab from "@mui/material/Tab";
 import { a11yProps, TabPanel } from "../user/devices/detail/edit/[id]";
 import DockerImagesPanel from "../../components/installation/DockerImagesPanel";
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 type Props = {
   images: IDockerImage[];
   staticNodes: IStaticNode[];
 =======
+=======
+>>>>>>> upstream/dev
 import { InstallationPlugin } from "../../internal/services/dbServices/installation-plugin";
 import { IInstallationTemplate } from "../../internal/services/dbSchema/install-script/install-script";
 import InstallationTemplatePanel from "../../components/installation/InstallationTemplatePanel";
@@ -40,7 +49,10 @@ type Props = {
   images: IDockerImage[];
   staticNodes: IStaticNode[];
   installationTemplates: IInstallationTemplate[];
+<<<<<<< HEAD
 >>>>>>> upstream/install-script
+=======
+>>>>>>> upstream/dev
 };
 
 /**
@@ -49,9 +61,12 @@ type Props = {
  * @constructor
  */
 <<<<<<< HEAD
+<<<<<<< HEAD
 export default function Index({ images, staticNodes }: Props) {
   const [value, setValue] = React.useState(0);
 =======
+=======
+>>>>>>> upstream/dev
 export default function Index({
   index,
   images,
@@ -60,14 +75,20 @@ export default function Index({
 }: Props) {
   const [value, setValue] = React.useState(parseInt(index));
   const router = useRouter();
+<<<<<<< HEAD
 >>>>>>> upstream/install-script
+=======
+>>>>>>> upstream/dev
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
   };
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> upstream/dev
   const actions: React.ReactElement[] = [
     <Button
       key={`button-0`}
@@ -89,16 +110,23 @@ export default function Index({
     </Button>,
   ];
 
+<<<<<<< HEAD
 >>>>>>> upstream/install-script
+=======
+>>>>>>> upstream/dev
   return (
     <div>
       <PageHeader
         title={"Installation"}
         description={`Configurations for installation script`}
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
         action={actions[value]}
 >>>>>>> upstream/install-script
+=======
+        action={actions[value]}
+>>>>>>> upstream/dev
       />
       <Spacer height={20} />
       <Box
@@ -119,15 +147,22 @@ export default function Index({
           <Tab label="Docker Images" {...a11yProps(0)} />
           <Tab label="Static Nodes" {...a11yProps(1)} />
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
           <Tab label="Installation Templates" {...a11yProps(2)} />
 >>>>>>> upstream/install-script
+=======
+          <Tab label="Installation Templates" {...a11yProps(2)} />
+>>>>>>> upstream/dev
         </Tabs>
         <TabPanel value={value} index={0}>
           <DockerImagesPanel dockerImages={images} />
         </TabPanel>
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> upstream/dev
         <TabPanel value={value} index={1}>
           <StaticNodePanel staticNodes={staticNodes} />
         </TabPanel>
@@ -136,7 +171,10 @@ export default function Index({
             installationTemplates={installationTemplates}
           />
         </TabPanel>
+<<<<<<< HEAD
 >>>>>>> upstream/install-script
+=======
+>>>>>>> upstream/dev
       </Box>
     </div>
   );
@@ -145,6 +183,7 @@ export default function Index({
 export const getServerSideProps: GetServerSideProps<Props> = async (
   context
 ) => {
+<<<<<<< HEAD
 <<<<<<< HEAD
   const dockerImagePlugin = new DockerImagePluginPlugin();
   const staticNodePlugin = new StaticNodePlugin();
@@ -159,6 +198,8 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
     images: images ?? [],
     staticNodes: staticNodes ?? [],
 =======
+=======
+>>>>>>> upstream/dev
   const index = context.query.index ?? "0";
 
   //TODO: Add pagination
@@ -187,7 +228,10 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
     images: images?.results ?? [],
     staticNodes: staticNodes?.results ?? [],
     installationTemplates: installationTemplates?.results ?? [],
+<<<<<<< HEAD
 >>>>>>> upstream/install-script
+=======
+>>>>>>> upstream/dev
   };
 
   return {

@@ -6,6 +6,7 @@ import { createMocks } from "node-mocks-http";
 import jwt from "jsonwebtoken";
 import handler from "../../../pages/api/v1/device/result/submit-result";
 <<<<<<< HEAD
+<<<<<<< HEAD
 import { StorageManagementSystemPlugin } from "../../../services/dbServices/storageManagementSystemPlugin";
 import mongoose from "mongoose";
 
@@ -18,6 +19,14 @@ jest.mock(
   "../../../internal/services/dbServices/storage-management-system-plugin"
 );
 >>>>>>> upstream/install-script
+=======
+import { StorageManagementSystemPlugin } from "../../../internal/services/dbServices/storage-management-system-plugin";
+import mongoose from "mongoose";
+
+jest.mock(
+  "../../../internal/services/dbServices/storage-management-system-plugin"
+);
+>>>>>>> upstream/dev
 
 describe("Test submit result", () => {
   let dbServer: MongoMemoryServer;

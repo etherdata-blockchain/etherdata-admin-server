@@ -21,6 +21,10 @@ import HourglassEmptyIcon from "@material-ui/icons/HourglassEmpty";
 import FunctionsIcon from "@material-ui/icons/Functions";
 import { DeviceContext } from "../model/DeviceProvider";
 import { DefaultPaginationResult } from "../../internal/const/defaultValues";
+<<<<<<< HEAD
+=======
+import { Environments } from "../../internal/const/environments";
+>>>>>>> upstream/dev
 
 type Props = {};
 
@@ -44,7 +48,7 @@ export default function Index(props: Props) {
     <div>
       <PageHeader
         title={"Dashboard"}
-        description={`Version ${process.env.NEXT_PUBLIC_VERSION}`}
+        description={`Version ${Environments.ClientSideEnvironments.NEXT_PUBLIC_VERSION}`}
       />
       <Spacer height={10} />
       <Grid container spacing={3}>

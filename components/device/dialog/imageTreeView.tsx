@@ -24,10 +24,14 @@ function bytesToSize(bytes: number) {
 
 /**
 <<<<<<< HEAD
+<<<<<<< HEAD
  * Show list of docker installation
 =======
  * Show list of docker installation-template
 >>>>>>> upstream/install-script
+=======
+ * Show list of docker installation-template
+>>>>>>> upstream/dev
  * @param images
  * @constructor
  */

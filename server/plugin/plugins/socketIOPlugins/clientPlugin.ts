@@ -1,8 +1,21 @@
+<<<<<<< HEAD
 import {SocketHandler} from "../../basePlugin";
 import {Server, Socket} from "socket.io";
 import {AppPlugin} from "./appPlugin";
 import {BrowserClient, ClientFilter, PaginationResult,} from "../../../client/browserClient";
 import {RegisteredPlugins} from "./registeredPlugins";
+=======
+import { SocketHandler } from "../../basePlugin";
+import { Server, Socket } from "socket.io";
+import { AppPlugin } from "./appPlugin";
+import {
+  BrowserClient,
+  ClientFilter,
+  PaginationResult,
+} from "../../../client/browserClient";
+import { RegisteredPlugins } from "./registeredPlugins";
+import { Environments } from "../../../../internal/const/environments";
+>>>>>>> upstream/dev
 
 /**
  * Web Browser socket io plugin
@@ -29,7 +42,10 @@ export class ClientPlugin extends AppPlugin {
   }
 
   auth(password: string): boolean {
-    return process.env.NEXT_PUBLIC_CLIENT_PASSWORD === password;
+    return (
+      Environments.ClientSideEnvironments.NEXT_PUBLIC_CLIENT_PASSWORD ===
+      password
+    );
     // return true;
   }
 

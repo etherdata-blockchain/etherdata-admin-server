@@ -22,7 +22,8 @@
     "operator-linebreak": "off",
     "space-before-function-paren": "off",
     "spaced-comment": "off",
-    "linebreak-style": "off"
+    "linebreak-style": "off",
+    "camelcase": "warn"
   },
   "ignorePatterns": [
     "cypress"

@@ -5,6 +5,7 @@ import { ETDHistoryInterface } from "../../server";
 import { realmApp } from "../_app";
 import { TransactionSummary } from "../../server/interfaces/transaction";
 import { UIProviderContext } from "./UIProvider";
+import { Environments } from "../../internal/const/environments";
 
 interface ETDInterface {
   clients: any[];
@@ -40,7 +41,8 @@ export default function ETDProvider(props: any) {
   const { showSnackBarMessage } = React.useContext(UIProviderContext);
 
   React.useEffect(() => {
-    const url = process.env.NEXT_PUBLIC_STATS_SERVER + "/clients";
+    const url =
+      Environments.ClientSideEnvironments.NEXT_PUBLIC_STATS_SERVER + "/clients";
     showSnackBarMessage("Loading Data");
     console.log(url);
     socket = io(url);

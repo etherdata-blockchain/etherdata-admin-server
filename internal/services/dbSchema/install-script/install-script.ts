@@ -1,8 +1,13 @@
 /**
  * Create template for install script
  */
+<<<<<<< HEAD
 import mongoose, {Document, model, Schema} from "mongoose";
 import {IDockerImage} from "../docker/docker-image";
+=======
+import mongoose, { Document, model, Schema } from "mongoose";
+import { IDockerImage } from "../docker/docker-image";
+>>>>>>> upstream/dev
 
 /**
  * This template is used to generate a docker-compose file
@@ -30,9 +35,15 @@ interface Service {
 }
 
 const serviceSchema = new Schema<Service>({
+<<<<<<< HEAD
   image: { type: Schema.Types.ObjectId, ref: "dockerImage" },
   restart: "String",
   environment: { type: [String] },
+=======
+  image: { type: Schema.Types.ObjectId },
+  restart: "String",
+  environment: ["String"],
+>>>>>>> upstream/dev
   network_mode: "String",
   volumes: ["String"],
   labels: ["String"],

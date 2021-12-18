@@ -1,6 +1,7 @@
-import {NextApiHandler, NextApiRequest, NextApiResponse} from "next";
+import { NextApiHandler, NextApiRequest, NextApiResponse } from "next";
 import jwt from "jsonwebtoken";
-import {StatusCodes} from "http-status-codes";
+import { StatusCodes } from "http-status-codes";
+import { Environments } from "../const/environments";
 
 /**
  * Post Only Middleware. Only accept post request.
@@ -10,7 +11,7 @@ import {StatusCodes} from "http-status-codes";
  */
 export const jwtVerificationHandler =
   (fn: NextApiHandler) => async (req: NextApiRequest, res: NextApiResponse) => {
-    const secret = process.env.PUBLIC_SECRET;
+    const secret = Environments.ServerSideEnvironments.PUBLIC_SECRET;
     let user = req.headers.authorization;
 
     if (user === undefined) {

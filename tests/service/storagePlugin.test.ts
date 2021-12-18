@@ -4,6 +4,7 @@ global.TextEncoder = require("util").TextEncoder;
 global.TextDecoder = require("util").TextDecoder;
 
 <<<<<<< HEAD:tests/service/storagePlugin.test.ts
+<<<<<<< HEAD:tests/service/storagePlugin.test.ts
 import { Db, MongoClient } from "mongodb";
 import { MongoMemoryServer } from "mongodb-memory-server";
 import { StorageManagementSystemPlugin } from "../../services/dbServices/storageManagementSystemPlugin";
@@ -16,6 +17,12 @@ import { Db, MongoClient } from "mongodb";
 import { MongoMemoryServer } from "mongodb-memory-server";
 import { StorageManagementSystemPlugin } from "../../internal/services/dbServices/storage-management-system-plugin";
 >>>>>>> upstream/install-script:server/tests/storagePlugin.test.ts
+=======
+import { Configurations } from "../../internal/const/configurations";
+import { Db, MongoClient } from "mongodb";
+import { MongoMemoryServer } from "mongodb-memory-server";
+import { StorageManagementSystemPlugin } from "../../internal/services/dbServices/storage-management-system-plugin";
+>>>>>>> upstream/dev:server/tests/storagePlugin.test.ts
 
 let dbServer: MongoMemoryServer;
 let db: Db;

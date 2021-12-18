@@ -206,6 +206,10 @@ export abstract class DatabasePlugin<
       return undefined;
     }
   }
+<<<<<<< HEAD
+=======
+
+>>>>>>> upstream/dev
   /**
    * Get list of documents by page number
    * @param pageNumber current page

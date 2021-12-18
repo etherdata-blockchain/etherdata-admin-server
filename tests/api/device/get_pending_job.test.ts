@@ -7,6 +7,7 @@ import { createMocks } from "node-mocks-http";
 import jwt from "jsonwebtoken";
 import handler from "../../../pages/api/v1/device/job/get-job";
 <<<<<<< HEAD
+<<<<<<< HEAD
 import { mockDeviceData } from "./mockDeviceData";
 import { PendingJobModel } from "../../../services/dbSchema/pending-job";
 import { StorageManagementSystemPlugin } from "../../../services/dbServices/storageManagementSystemPlugin";
@@ -23,6 +24,17 @@ jest.mock(
 );
 >>>>>>> upstream/install-script
 
+=======
+import { mockDeviceData } from "../../data/mockDeviceData";
+import { PendingJobModel } from "../../../internal/services/dbSchema/queue/pending-job";
+import { StorageManagementSystemPlugin } from "../../../internal/services/dbServices/storage-management-system-plugin";
+
+jest.mock("../../../internal/services/dbSchema/queue/pending-job");
+jest.mock(
+  "../../../internal/services/dbServices/storage-management-system-plugin"
+);
+
+>>>>>>> upstream/dev
 describe("Test getting a pending job", () => {
   let dbServer: MongoMemoryServer;
   const oldEnv = process.env;

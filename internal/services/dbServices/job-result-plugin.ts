@@ -1,7 +1,20 @@
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD:services/dbServices/jobResultPlugin.ts
+>>>>>>> upstream/dev
 import {DatabasePlugin} from "../../../server/plugin/basePlugin";
 import {PluginName} from "../../../server/plugin/pluginName";
 import {Model} from "mongoose";
 import {IJobResult, JobResultModel} from "../dbSchema/queue/job-result";
+<<<<<<< HEAD
+=======
+=======
+import { DatabasePlugin } from "../../../server/plugin/basePlugin";
+import { PluginName } from "../../../server/plugin/pluginName";
+import { Model } from "mongoose";
+import { IJobResult, JobResultModel } from "../dbSchema/queue/job-result";
+>>>>>>> upstream/dev:internal/services/dbServices/job-result-plugin.ts
+>>>>>>> upstream/dev
 import moment from "moment";
 
 // eslint-disable-next-line require-jsdoc

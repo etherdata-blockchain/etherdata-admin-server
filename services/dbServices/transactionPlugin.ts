@@ -1,7 +1,14 @@
+<<<<<<< HEAD:services/dbServices/transactionPlugin.ts
 import {DatabasePlugin} from "../../../server/plugin/basePlugin";
 import {ITransaction, TransactionModel} from "../dbSchema/transaction";
 import {PluginName} from "../../../server/plugin/pluginName";
 import {Model, Query} from "mongoose";
+=======
+import { DatabasePlugin } from "../../../server/plugin/basePlugin";
+import { ITransaction, TransactionModel } from "../dbSchema/transaction";
+import { PluginName } from "../../../server/plugin/pluginName";
+import { Model, Query } from "mongoose";
+>>>>>>> upstream/dev:internal/services/dbServices/transaction-plugin.ts
 
 /**
  * Transaction db plugin

@@ -1,9 +1,18 @@
+<<<<<<< HEAD
 import type {NextApiRequest, NextApiResponse} from "next";
 import {jwtVerificationHandler} from "../../../../internal/nextHandler/jwt_verification_handler";
 import {StaticNodePlugin} from "../../../../internal/services/dbServices/static-node-plugin";
 import {paginationHandler} from "../../../../internal/nextHandler/paginationHandler";
 import {StatusCodes} from "http-status-codes";
 import {methodAllowedHandler} from "../../../../internal/nextHandler/method_allowed_handler";
+=======
+import type { NextApiRequest, NextApiResponse } from "next";
+import { jwtVerificationHandler } from "../../../../internal/nextHandler/jwt_verification_handler";
+import { StaticNodePlugin } from "../../../../internal/services/dbServices/static-node-plugin";
+import { paginationHandler } from "../../../../internal/nextHandler/paginationHandler";
+import { StatusCodes } from "http-status-codes";
+import { methodAllowedHandler } from "../../../../internal/nextHandler/method_allowed_handler";
+>>>>>>> upstream/dev
 import HTTPMethod from "http-method-enum";
 
 /**

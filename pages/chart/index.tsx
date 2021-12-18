@@ -9,10 +9,14 @@ import {
   DeviceRegistrationPlugin,
   VersionInfo,
 <<<<<<< HEAD
+<<<<<<< HEAD
 } from "../../services/dbServices/deviceRegistrationPlugin";
 =======
 } from "../../internal/services/dbServices/device-registration-plugin";
 >>>>>>> upstream/install-script
+=======
+} from "../../internal/services/dbServices/device-registration-plugin";
+>>>>>>> upstream/dev
 import { Cell, Pie, PieChart, ResponsiveContainer, Tooltip } from "recharts";
 import randomColor from "randomcolor";
 

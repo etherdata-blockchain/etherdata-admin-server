@@ -2,10 +2,14 @@
 import * as React from "react";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 <<<<<<< HEAD
+<<<<<<< HEAD
 import { ITransaction } from "../../services/dbSchema/transaction";
 =======
 import { ITransaction } from "../../internal/services/dbSchema/transaction";
 >>>>>>> upstream/install-script
+=======
+import { ITransaction } from "../../internal/services/dbSchema/transaction";
+>>>>>>> upstream/dev
 import ResponsiveCard from "../ResponsiveCard";
 import styles from "../../styles/Transactions.module.css";
 

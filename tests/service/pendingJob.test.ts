@@ -4,12 +4,17 @@ global.TextDecoder = require("util").TextDecoder;
 import mongoose from "mongoose";
 import { MongoMemoryServer } from "mongodb-memory-server";
 <<<<<<< HEAD:tests/service/pendingJob.test.ts
+<<<<<<< HEAD:tests/service/pendingJob.test.ts
 import { PendingJobModel } from "../../services/dbSchema/pending-job";
 import { PendingJobPlugin } from "../../services/dbServices/pendingJobPlugin";
 =======
 import { PendingJobModel } from "../../internal/services/dbSchema/queue/pending-job";
 import { PendingJobPlugin } from "../../internal/services/dbServices/pending-job-plugin";
 >>>>>>> upstream/install-script:server/tests/pendingJob.test.ts
+=======
+import { PendingJobModel } from "../../internal/services/dbSchema/queue/pending-job";
+import { PendingJobPlugin } from "../../internal/services/dbServices/pending-job-plugin";
+>>>>>>> upstream/dev:server/tests/pendingJob.test.ts
 
 describe("Pending job tests", () => {
   let dbServer: MongoMemoryServer;

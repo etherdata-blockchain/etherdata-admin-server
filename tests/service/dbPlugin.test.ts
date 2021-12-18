@@ -4,12 +4,17 @@ global.TextDecoder = require("util").TextDecoder;
 import { MongoMemoryServer } from "mongodb-memory-server";
 import mongoose from "mongoose";
 <<<<<<< HEAD:tests/service/dbPlugin.test.ts
+<<<<<<< HEAD:tests/service/dbPlugin.test.ts
 import { DeviceModel } from "../../services/dbSchema/device";
 import { DeviceRegistrationPlugin } from "../../services/dbServices/deviceRegistrationPlugin";
 =======
 import { DeviceModel } from "../../internal/services/dbSchema/device";
 import { DeviceRegistrationPlugin } from "../../internal/services/dbServices/device-registration-plugin";
 >>>>>>> upstream/install-script:server/tests/dbPlugin.test.ts
+=======
+import { DeviceModel } from "../../internal/services/dbSchema/device";
+import { DeviceRegistrationPlugin } from "../../internal/services/dbServices/device-registration-plugin";
+>>>>>>> upstream/dev:server/tests/dbPlugin.test.ts
 
 describe("DB Plugin Tests", () => {
   let dbServer: MongoMemoryServer;

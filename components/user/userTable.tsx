@@ -4,6 +4,7 @@ import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { useRouter } from "next/dist/client/router";
 import { Button } from "@mui/material";
 <<<<<<< HEAD
+<<<<<<< HEAD
 import { PaginatedStorageUsers } from "../../services/dbServices/storageManagementSystemPlugin";
 import { Configurations } from "../../server/const/configurations";
 import { DefaultStorageUser } from "../../server/const/defaultValues";
@@ -12,6 +13,11 @@ import { PaginatedStorageUsers } from "../../internal/services/dbServices/storag
 import { Configurations } from "../../internal/const/configurations";
 import { DefaultStorageUser } from "../../internal/const/defaultValues";
 >>>>>>> upstream/install-script
+=======
+import { PaginatedStorageUsers } from "../../internal/services/dbServices/storage-management-system-plugin";
+import { Configurations } from "../../internal/const/configurations";
+import { DefaultStorageUser } from "../../internal/const/defaultValues";
+>>>>>>> upstream/dev
 import queryString from "querystring";
 
 type Props = {

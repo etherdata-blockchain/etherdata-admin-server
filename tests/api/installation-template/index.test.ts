@@ -55,7 +55,11 @@ describe("Given a installation template handler", () => {
   test("When sending a post request to the server with correct data", async () => {
     const result = await DockerImageModel.create(MockDockerImage);
     const reqData = JSON.parse(JSON.stringify(MockInstallationTemplateData));
+<<<<<<< HEAD
     reqData.services.worker.image = result._id;
+=======
+    reqData.services.worker.image = result.tags[0]._id;
+>>>>>>> upstream/dev
     const { req, res } = createMocks({
       method: "POST",
       headers: {
@@ -71,6 +75,7 @@ describe("Given a installation template handler", () => {
     expect(data.created_by).toBe(MockConstant.mockTestingUser);
   });
 
+<<<<<<< HEAD
   test("When sending a get request to server with template_tag set", async () => {
     const result = await DockerImageModel.create(MockDockerImage);
     const reqData = JSON.parse(JSON.stringify(MockInstallationTemplateData));
@@ -101,6 +106,18 @@ describe("Given a installation template handler", () => {
       query: {
         template: MockInstallationTemplateData.template_tag,
       },
+=======
+  test("When sending a post request to the server with incorrect image id but in right format", async () => {
+    const result = await DockerImageModel.create(MockDockerImage);
+    const reqData = JSON.parse(JSON.stringify(MockInstallationTemplateData));
+    reqData.services.worker.image = result._id;
+    const { req, res } = createMocks({
+      method: "POST",
+      headers: {
+        Authorization: "Bearer " + token,
+      },
+      body: reqData,
+>>>>>>> upstream/dev
     });
     //@ts-ignore
     await handler(req, res);

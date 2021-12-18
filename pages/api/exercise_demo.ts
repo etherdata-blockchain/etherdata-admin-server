@@ -1,5 +1,5 @@
 import type {NextApiRequest, NextApiResponse} from "next";
-import { jwtVerificationHandler} from "../../utils/nextHandler/jwtVerificationHandler";
+import { jwtVerificationHandler} from "../../../internal/nextHandler/jwt_verification_handler";
 
 type Data = {
     err?: string;

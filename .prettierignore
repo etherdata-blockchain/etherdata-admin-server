@@ -1,0 +1,14 @@
+.devcontainer
+.github
+.vscode
+coverage
+cypress
+example_configs
+.next
+styles
+public
+tsconfig.json
+tsconfig.server.json
+.gitlab-ci.yml
+.eslintrc
+CHANGELOG.md

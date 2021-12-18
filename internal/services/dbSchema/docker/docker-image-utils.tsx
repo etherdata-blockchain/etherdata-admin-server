@@ -17,7 +17,19 @@ export const jsonSchema: JSONSchema7 = {
     tags: {
       title: "Image tags",
       type: "array",
+<<<<<<< HEAD
       items: { title: "Tag", type: "string" },
+=======
+      items: {
+        type: "object",
+        properties: {
+          tag: {
+            title: "Tag",
+            type: "string",
+          },
+        },
+      },
+>>>>>>> upstream/dev
     },
   },
 };

@@ -3,6 +3,69 @@
 All notable changes to this project will be documented in this file.
 See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.10.2](https://github.com/etherdata-blockchain/etherdata-admin-server/compare/v1.10.1...v1.10.2) (2021-12-14)
+
+
+### Bug Fixes
+
+* Cannot add environment in docker template ([89d7d2c](https://github.com/etherdata-blockchain/etherdata-admin-server/commit/89d7d2c91e758b5836fe2de18e1f24496c5f1528))
+
+### [1.10.1](https://github.com/etherdata-blockchain/etherdata-admin-server/compare/v1.10.0...v1.10.1) (2021-12-14)
+
+
+### Bug Fixes
+
+* Docker issue ([c75975c](https://github.com/etherdata-blockchain/etherdata-admin-server/commit/c75975c5c16586104e34a15af4845ad5758fa4b3))
+
+## [1.10.0](https://github.com/etherdata-blockchain/etherdata-admin-server/compare/v1.9.3...v1.10.0) (2021-12-14)
+
+
+### Features
+
+* Migrate process to Environments ([2de68ee](https://github.com/etherdata-blockchain/etherdata-admin-server/commit/2de68ee1ddedb3dd623db05e13fc0e53885a2ca9))
+
+### [1.9.3](https://github.com/etherdata-blockchain/etherdata-admin-server/compare/v1.9.2...v1.9.3) (2021-12-14)
+
+
+### Bug Fixes
+
+* Missing environments ([c8b6d55](https://github.com/etherdata-blockchain/etherdata-admin-server/commit/c8b6d5505485cb2b42afde87d435c55f04ef380b))
+
+### [1.9.2](https://github.com/etherdata-blockchain/etherdata-admin-server/compare/v1.9.1...v1.9.2) (2021-12-14)
+
+
+### Bug Fixes
+
+* Yarn start ([a4c304c](https://github.com/etherdata-blockchain/etherdata-admin-server/commit/a4c304c95d55bbaa8bd1338acd165466e2571490))
+
+### [1.9.1](https://github.com/etherdata-blockchain/etherdata-admin-server/compare/v1.9.0...v1.9.1) (2021-12-13)
+
+
+### Bug Fixes
+
+* eslint issues ([4577a31](https://github.com/etherdata-blockchain/etherdata-admin-server/commit/4577a3113697730faf59dbe4848f130a8c992b4b))
+
+## [1.9.0](https://github.com/etherdata-blockchain/etherdata-admin-server/compare/v1.8.2...v1.9.0) (2021-12-13)
+
+
+### Features
+
+* Add docker image ui ([9508f6c](https://github.com/etherdata-blockchain/etherdata-admin-server/commit/9508f6cdbaac9ab132c907fc9a31114e6b4f19df))
+* Add download handler ([311240c](https://github.com/etherdata-blockchain/etherdata-admin-server/commit/311240c791b8c2a142cd80279d1342cebeca5ab0))
+* Add get, delete, patch method for docker, installation script, and static nodes ([1c840ce](https://github.com/etherdata-blockchain/etherdata-admin-server/commit/1c840cef7b750f1670e1a6bc1363b1c0efe58a5f))
+* add get/create docker image handler ([b47ba65](https://github.com/etherdata-blockchain/etherdata-admin-server/commit/b47ba657aa1a585e3aa81472073c8e67d9b207ad))
+* Add static node handler ([28b6af0](https://github.com/etherdata-blockchain/etherdata-admin-server/commit/28b6af0906f293162ff82ede60f82e5b7093406c))
+* Add webhook api for docker ([7effc65](https://github.com/etherdata-blockchain/etherdata-admin-server/commit/7effc65a039ef598ecdb90c33041ac4fb0eaba0b))
+* Added download template function in ui ([9995f0c](https://github.com/etherdata-blockchain/etherdata-admin-server/commit/9995f0c5941e8e378e4f457dc2809a39df1b6a19))
+
+
+### Bug Fixes
+
+* Linting issues ([cf5561d](https://github.com/etherdata-blockchain/etherdata-admin-server/commit/cf5561d8731dbe4da0fc462149ab07c1fccf17fd))
+* remove errored dependencies checking ([f21b86f](https://github.com/etherdata-blockchain/etherdata-admin-server/commit/f21b86fc1e7a3058e9a47cf61ec39dfedc6f9393))
+* Service name is undefined issue ([4521386](https://github.com/etherdata-blockchain/etherdata-admin-server/commit/45213865551924f1104bba2b47f6cd99c9130605))
+* Update version schema: string to DockerImageVersion ([8e60c1e](https://github.com/etherdata-blockchain/etherdata-admin-server/commit/8e60c1e7f01ecc58275e698adf27bccccc896da0))
+
 ### [1.8.2](https://github.com/etherdata-blockchain/etherdata-admin-server/compare/v1.8.1...v1.8.2) (2021-11-28)
 
 ### [1.8.1](https://github.com/etherdata-blockchain/etherdata-admin-server/compare/v1.8.0...v1.8.1) (2021-11-22)

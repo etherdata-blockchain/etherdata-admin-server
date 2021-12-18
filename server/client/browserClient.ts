@@ -1,7 +1,10 @@
 import {
   DeviceRegistrationPlugin,
   VersionInfo,
+<<<<<<< HEAD
 
+=======
+>>>>>>> upstream/dev
 } from "../../internal/services/dbServices/device-registration-plugin";
 import { IDevice } from "../../internal/services/dbSchema/device";
 import { StorageManagementSystemPlugin } from "../../internal/services/dbServices/storage-management-system-plugin";

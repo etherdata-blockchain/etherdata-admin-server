@@ -11,6 +11,10 @@ import jwt from "jsonwebtoken";
 import { ClientFilter } from "../../../server/client/browserClient";
 import Logger from "../../../server/logger";
 import { StorageManagementSystemPlugin } from "./storage-management-system-plugin";
+<<<<<<< HEAD:services/dbServices/deviceRegistrationPlugin.ts
+=======
+import { Environments } from "../../const/environments";
+>>>>>>> upstream/dev:internal/services/dbServices/device-registration-plugin.ts
 
 export interface VersionInfo {
   version: string;
@@ -89,11 +93,19 @@ export class DeviceRegistrationPlugin extends DatabasePlugin<any> {
       }
     } else {
       try {
+<<<<<<< HEAD:services/dbServices/deviceRegistrationPlugin.ts
         jwt.verify(prevKey, process.env.PUBLIC_SECRET!);
+=======
+        jwt.verify(prevKey, Environments.ServerSideEnvironments.PUBLIC_SECRET);
+>>>>>>> upstream/dev:internal/services/dbServices/device-registration-plugin.ts
         /// verified key
-        const newKey = jwt.sign({ device }, process.env.PUBLIC_SECRET!, {
-          expiresIn: 600,
-        });
+        const newKey = jwt.sign(
+          { device },
+          Environments.ServerSideEnvironments.PUBLIC_SECRET,
+          {
+            expiresIn: 600,
+          }
+        );
         return [true, newKey];
       } catch (e) {
         /// Token is expired
@@ -122,13 +134,16 @@ export class DeviceRegistrationPlugin extends DatabasePlugin<any> {
   ): Promise<[boolean, string | undefined]> {
     try {
       const path = "storage_management/user/register";
-      const url = new URL(path, process.env.STORAGE_MANAGEMENT_URL);
+      const url = new URL(
+        path,
+        Environments.ServerSideEnvironments.STORAGE_MANAGEMENT_URL
+      );
       await axios.post(
         url.toString(),
         { user, device },
         {
           headers: {
-            Authorization: `Bearer ${process.env.STORAGE_MANAGEMENT_API_TOKEN}`,
+            Authorization: `Bearer ${Environments.ServerSideEnvironments.STORAGE_MANAGEMENT_API_TOKEN}`,
           },
         }
       );
@@ -186,10 +201,17 @@ export class DeviceRegistrationPlugin extends DatabasePlugin<any> {
   ): Promise<[boolean, string | undefined, any[]]> {
     try {
       const path = "storage_management/user?user=" + encodeURIComponent(user);
+<<<<<<< HEAD:services/dbServices/deviceRegistrationPlugin.ts
       const url = new URL(path, process.env.STORAGE_MANAGEMENT_URL);
+=======
+      const url = new URL(
+        path,
+        Environments.ServerSideEnvironments.STORAGE_MANAGEMENT_URL
+      );
+>>>>>>> upstream/dev:internal/services/dbServices/device-registration-plugin.ts
       const resp = await axios.get(url.toString(), {
         headers: {
-          Authorization: `Bearer ${process.env.STORAGE_MANAGEMENT_API_TOKEN}`,
+          Authorization: `Bearer ${Environments.ServerSideEnvironments.STORAGE_MANAGEMENT_API_TOKEN}`,
         },
       });
       return [true, undefined, resp.data];

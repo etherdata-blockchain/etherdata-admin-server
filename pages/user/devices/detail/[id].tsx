@@ -24,6 +24,7 @@ import { abbreviateNumber } from "../../../../internal/utils/valueFormatter";
 import { UIProviderContext } from "../../../model/UIProvider";
 import { GetServerSideProps } from "next";
 <<<<<<< HEAD
+<<<<<<< HEAD
 import { DeviceRegistrationPlugin } from "../../../../services/dbServices/deviceRegistrationPlugin";
 import { IDevice } from "../../../../services/dbSchema/device";
 import { objectExpand } from "../../../../utils/objectExpander";
@@ -32,6 +33,11 @@ import { DeviceRegistrationPlugin } from "../../../../internal/services/dbServic
 import { IDevice } from "../../../../internal/services/dbSchema/device";
 import { objectExpand } from "../../../../internal/utils/objectExpander";
 >>>>>>> upstream/install-script
+=======
+import { DeviceRegistrationPlugin } from "../../../../internal/services/dbServices/device-registration-plugin";
+import { IDevice } from "../../../../internal/services/dbSchema/device";
+import { objectExpand } from "../../../../internal/utils/objectExpander";
+>>>>>>> upstream/dev
 import Logger from "../../../../server/logger";
 import moment from "moment";
 import AllInboxIcon from "@mui/icons-material/AllInbox";
@@ -162,10 +168,14 @@ export default function DeviceDetail({ device, found }: Props) {
             iconColor={"white"}
             iconBackgroundColor={"#9704cc"}
 <<<<<<< HEAD
+<<<<<<< HEAD
             subtitle={"Docker installation"}
 =======
             subtitle={"Docker installation-template"}
 >>>>>>> upstream/install-script
+=======
+            subtitle={"Docker installation-template"}
+>>>>>>> upstream/dev
             className={style.detailDataCard}
             onClick={() => setShowImageDetails(true)}
           />

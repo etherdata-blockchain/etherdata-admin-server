@@ -1,10 +1,14 @@
 import React from "react";
 import UserPage from "../../pages/user/index";
 <<<<<<< HEAD
+<<<<<<< HEAD
 import { PaginatedStorageUsers } from "../../services/dbServices/storageManagementSystemPlugin";
 =======
 import { PaginatedStorageUsers } from "../../internal/services/dbServices/storage-management-system-plugin";
 >>>>>>> upstream/install-script
+=======
+import { PaginatedStorageUsers } from "../../internal/services/dbServices/storage-management-system-plugin";
+>>>>>>> upstream/dev
 import "@testing-library/jest-dom";
 import { render, within } from "@testing-library/react";
 import { TestingValues } from "../../internal/const/testingValues";

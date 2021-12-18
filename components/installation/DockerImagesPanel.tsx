@@ -1,5 +1,6 @@
 import React from "react";
 <<<<<<< HEAD
+<<<<<<< HEAD
 import { IDockerImage } from "../../services/dbSchema/docker-image";
 import ResponsiveCard from "../ResponsiveCard";
 import { DataGrid } from "@mui/x-data-grid";
@@ -16,6 +17,14 @@ import {Box} from "@mui/material";
 // import Form from "@rjsf/bootstrap-4";
 // import axios from "axios";
 >>>>>>> upstream/install-script
+=======
+import { IDockerImage } from "../../internal/services/dbSchema/docker/docker-image";
+import { DataGrid } from "@mui/x-data-grid";
+import { columns } from "../../internal/services/dbSchema/docker/docker-image-utils";
+import { Box } from "@mui/material";
+// import Form from "@rjsf/bootstrap-4";
+// import axios from "axios";
+>>>>>>> upstream/dev
 
 interface Props {
   dockerImages: IDockerImage[];
@@ -26,6 +35,7 @@ interface Props {
  * @constructor
  */
 export default function DockerImagesPanel({ dockerImages }: Props) {
+<<<<<<< HEAD
 <<<<<<< HEAD
   const [showDialog, setShowDialog] = React.useState(false);
 
@@ -65,6 +75,8 @@ export default function DockerImagesPanel({ dockerImages }: Props) {
       </Dialog>
     </ResponsiveCard>
 =======
+=======
+>>>>>>> upstream/dev
   return (
     <Box style={{ minHeight: "85vh", width: "100%" }}>
       <DataGrid
@@ -75,11 +87,18 @@ export default function DockerImagesPanel({ dockerImages }: Props) {
             id: index,
             ...d,
             details: d._id,
+<<<<<<< HEAD
+=======
+            tags: d.tags.map((t) => t.tag),
+>>>>>>> upstream/dev
           };
         })}
         autoHeight
       />
     </Box>
+<<<<<<< HEAD
 >>>>>>> upstream/install-script
+=======
+>>>>>>> upstream/dev
   );
 }

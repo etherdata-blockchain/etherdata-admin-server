@@ -6,10 +6,14 @@ import {
   PaginatedItems,
   StorageManagementSystemPlugin,
 <<<<<<< HEAD
+<<<<<<< HEAD
 } from "../../services/dbServices/storageManagementSystemPlugin";
 =======
 } from "../../internal/services/dbServices/storage-management-system-plugin";
 >>>>>>> upstream/install-script
+=======
+} from "../../internal/services/dbServices/storage-management-system-plugin";
+>>>>>>> upstream/dev
 import { useRouter } from "next/dist/client/router";
 import PageHeader from "../../components/PageHeader";
 import Spacer from "../../components/Spacer";
@@ -27,6 +31,7 @@ import {
   DefaultPaginationResult,
   DefaultStorageUser,
 <<<<<<< HEAD
+<<<<<<< HEAD
 } from "../../server/const/defaultValues";
 import { Configurations } from "../../server/const/configurations";
 import { IDevice } from "../../services/dbSchema/device";
@@ -35,10 +40,16 @@ import { IDevice } from "../../services/dbSchema/device";
 import { Configurations } from "../../internal/const/configurations";
 import { IDevice } from "../../internal/services/dbSchema/device";
 >>>>>>> upstream/install-script
+=======
+} from "../../internal/const/defaultValues";
+import { Configurations } from "../../internal/const/configurations";
+import { IDevice } from "../../internal/services/dbSchema/device";
+>>>>>>> upstream/dev
 import StorageIcon from "@material-ui/icons/Storage";
 import style from "../../styles/Device.module.css";
 import ComputerIcon from "@material-ui/icons/Computer";
 import { DeviceAction } from "../../components/device/deviceAction";
+import { Environments } from "../../internal/const/environments";
 
 interface Props {
   coinbase: string | undefined;
@@ -240,14 +251,14 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
       `api/v2/miningReward/${coinbase}?start=${prev.format(
         "YYYY-MM-DD"
       )}&end=${moment().format("YYYY-MM-DD")}`,
-      process.env.STATS_SERVER!
+      Environments.ServerSideEnvironments.STATS_SERVER!
     );
     const miningRewardsPromise = axios.get(miningUrl.toString());
 
     // Get recent transactions
     const txURL = new URL(
       `/api/v2/transactions/${coinbase}`,
-      process.env.STATS_SERVER!
+      Environments.ServerSideEnvironments.STATS_SERVER!
     );
     const userResultPromise = axios.get(txURL.toString());
 

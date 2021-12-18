@@ -7,12 +7,17 @@ import Spacer from "../../components/Spacer";
 import { SendTransactionBtn } from "../../components/transaction/sendTransactionBtn";
 import { GetServerSideProps } from "next";
 <<<<<<< HEAD
+<<<<<<< HEAD
 import { TransactionDBPlugin } from "../../services/dbServices/transactionPlugin";
 import { ITransaction } from "../../services/dbSchema/transaction";
 =======
 import { TransactionDBPlugin } from "../../internal/services/dbServices/transaction-plugin";
 import { ITransaction } from "../../internal/services/dbSchema/transaction";
 >>>>>>> upstream/install-script
+=======
+import { TransactionDBPlugin } from "../../internal/services/dbServices/transaction-plugin";
+import { ITransaction } from "../../internal/services/dbSchema/transaction";
+>>>>>>> upstream/dev
 
 type Props = {
   transactions: ITransaction[];

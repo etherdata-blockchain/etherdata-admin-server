@@ -1,5 +1,8 @@
 import type { NextApiRequest, NextApiResponse } from "next";
+<<<<<<< HEAD
 import AdmZip from "adm-zip";
+=======
+>>>>>>> upstream/dev
 import { jwtVerificationHandler } from "../../../../internal/nextHandler/jwt_verification_handler";
 import { paginationHandler } from "../../../../internal/nextHandler/paginationHandler";
 import { InstallationPlugin } from "../../../../internal/services/dbServices/installation-plugin";
@@ -17,8 +20,13 @@ type Response =
 /**
  * This will handle installation template request.
  *
+<<<<<<< HEAD
  * - **Post**: Will create a new template based on user request
  * - **Get**: Will either get template by template_tag or list templates
+=======
+ * - **Post**: Will create a new template based on user request.
+ * - **Get**: Will list templates
+>>>>>>> upstream/dev
  * @param {NextApiRequest} req
  * @param {NextApiResponse} res
  */
@@ -26,6 +34,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse<Response>) {
   const installScriptPlugin = new InstallationPlugin();
 
   /**
+<<<<<<< HEAD
    * Handle get request. Will try to find template by template tag
    * and generate a zip file contains all required files
    */
@@ -66,6 +75,8 @@ async function handler(req: NextApiRequest, res: NextApiResponse<Response>) {
   };
 
   /**
+=======
+>>>>>>> upstream/dev
    * Will list templates by page number and page size
    */
   const handleListRequest = async () => {
@@ -84,17 +95,33 @@ async function handler(req: NextApiRequest, res: NextApiResponse<Response>) {
       ...req.body,
       created_by: user,
     };
+<<<<<<< HEAD
     await installScriptPlugin.create(data, { upsert: false });
+=======
+    const result = await installScriptPlugin.createWithValidation(data, {
+      upsert: false,
+    });
+    if (!result) {
+      res
+        .status(StatusCodes.NOT_FOUND)
+        .json({ err: "image is not in docker image collection" });
+      return;
+    }
+>>>>>>> upstream/dev
     res.status(StatusCodes.CREATED).json({ message: "OK" });
   };
 
   switch (req.method) {
     case "GET":
+<<<<<<< HEAD
       if (req.query.template) {
         await handleGetRequest();
       } else {
         await handleListRequest();
       }
+=======
+      await handleListRequest();
+>>>>>>> upstream/dev
       break;
 
     case "POST":

@@ -8,22 +8,23 @@ import Spacer from "../../../../../components/Spacer";
 import { GeneralPanel } from "../../../../../components/device/generalPanel";
 import { GetServerSideProps } from "next";
 <<<<<<< HEAD
+<<<<<<< HEAD
 import { DeviceRegistrationPlugin } from "../../../../../services/dbServices/deviceRegistrationPlugin";
 =======
 import { DeviceRegistrationPlugin } from "../../../../../internal/services/dbServices/device-registration-plugin";
 >>>>>>> upstream/install-script
+=======
+import { DeviceRegistrationPlugin } from "../../../../../internal/services/dbServices/device-registration-plugin";
+>>>>>>> upstream/dev
 import {
   Admin,
   Clique,
   Debug,
   Etd,
-  // eslint-disable-next-line camelcase
   Json_rpc,
-  // eslint-disable-next-line camelcase
   Json_rpc_methods,
   Miner,
   Personal,
-  // eslint-disable-next-line camelcase
   Real_time,
   Txpool,
 } from "etd-react-ui";
@@ -32,10 +33,14 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { DeviceContext, socket } from "../../../../model/DeviceProvider";
 import { DockerPanel } from "../../../../../components/device/dockerPanel";
 <<<<<<< HEAD
+<<<<<<< HEAD
 import { IDevice } from "../../../../../services/dbSchema/device";
 =======
 import { IDevice } from "../../../../../internal/services/dbSchema/device";
 >>>>>>> upstream/install-script
+=======
+import { IDevice } from "../../../../../internal/services/dbSchema/device";
+>>>>>>> upstream/dev
 
 interface Props {
   user: string | null;
