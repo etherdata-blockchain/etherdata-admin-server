@@ -14,6 +14,7 @@ export const Routes = {
   dockerImageEdit: "/installation/docker/edit",
   dockerImageAPICreate: "/api/v1/docker",
   dockerImageAPIEdit: "/api/v1/docker",
+  dockerWebhookAPI: "api/v1/docker/webhook",
   // Static Nodes related
   staticNodeCreate: "/installation/static-node/create",
   staticNodeEdit: "/installation/static-node/edit",

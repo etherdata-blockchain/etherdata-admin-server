@@ -43,16 +43,15 @@ import { Button } from "@mui/material";
 import { Routes } from "../../internal/const/routes";
 import { useRouter } from "next/dist/client/router";
 import StaticNodePanel from "../../components/installation/StaticNodePanel";
+import WebhookPanel from "../../components/installation/WebhookPanel";
+import qs from "query-string";
 
 type Props = {
   index: any;
   images: IDockerImage[];
   staticNodes: IStaticNode[];
   installationTemplates: IInstallationTemplate[];
-<<<<<<< HEAD
->>>>>>> upstream/install-script
-=======
->>>>>>> upstream/dev
+  host: string;
 };
 
 /**
@@ -72,7 +71,9 @@ export default function Index({
   images,
   staticNodes,
   installationTemplates,
+  host,
 }: Props) {
+  // eslint-disable-next-line no-unused-vars
   const [value, setValue] = React.useState(parseInt(index));
   const router = useRouter();
 <<<<<<< HEAD
@@ -80,7 +81,13 @@ export default function Index({
 =======
 >>>>>>> upstream/dev
 
-  const handleChange = (event: React.SyntheticEvent, newValue: number) => {
+  const handleChange = async (
+    event: React.SyntheticEvent,
+    newValue: number
+  ) => {
+    await router.push(
+      qs.stringifyUrl({ url: Routes.installation, query: { index: newValue } })
+    );
     setValue(newValue);
   };
 
@@ -153,7 +160,7 @@ export default function Index({
 >>>>>>> upstream/install-script
 =======
           <Tab label="Installation Templates" {...a11yProps(2)} />
->>>>>>> upstream/dev
+          <Tab label="Webhook" {...a11yProps(3)} />
         </Tabs>
         <TabPanel value={value} index={0}>
           <DockerImagesPanel dockerImages={images} />
@@ -171,10 +178,9 @@ export default function Index({
             installationTemplates={installationTemplates}
           />
         </TabPanel>
-<<<<<<< HEAD
->>>>>>> upstream/install-script
-=======
->>>>>>> upstream/dev
+        <TabPanel value={value} index={3}>
+          <WebhookPanel host={host} />
+        </TabPanel>
       </Box>
     </div>
   );
@@ -228,10 +234,7 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
     images: images?.results ?? [],
     staticNodes: staticNodes?.results ?? [],
     installationTemplates: installationTemplates?.results ?? [],
-<<<<<<< HEAD
->>>>>>> upstream/install-script
-=======
->>>>>>> upstream/dev
+    host: context.req.headers.host ?? "",
   };
 
   return {
