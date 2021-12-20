@@ -77,12 +77,12 @@ test("Find devices by user", async () => {
     {
       name: "test",
       qr_code: "1",
-      owner_id: 1,
+      owner_id: "1",
     },
     {
       name: "test1",
       qr_code: "2",
-      owner_id: 1,
+      owner_id: "1",
     },
     {
       name: "test2",
