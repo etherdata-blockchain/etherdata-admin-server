@@ -224,7 +224,7 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
 
   const storagePlugin = new StorageManagementSystemPlugin();
 
-  if (coinbase) {
+  if (coinbase && coinbase.startsWith("0x")) {
     // mining reward
     const prev = moment().subtract(7, "days");
     const miningUrl = new URL(
