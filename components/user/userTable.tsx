@@ -3,10 +3,10 @@ import * as React from "react";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { useRouter } from "next/dist/client/router";
 import { Button } from "@mui/material";
-import { PaginatedStorageUsers } from "../../server/plugin/plugins/storageManagementSystemPlugin";
-import { Configurations } from "../../server/const/configurations";
-import { DefaultStorageUser } from "../../server/const/defaultValues";
-import queryString from "querystring";
+import { PaginatedStorageUsers } from "../../internal/services/dbServices/storage-management-system-plugin";
+import { Configurations } from "../../internal/const/configurations";
+import { DefaultStorageUser } from "../../internal/const/defaultValues";
+import qs from "query-string";
 
 type Props = {
   storageUser: PaginatedStorageUsers;
@@ -38,15 +38,15 @@ export function UserTable({
       headerName: "Detail",
       flex: 2,
       renderCell: (params) => {
-        const user = users.find((u) => u.id === params.value);
+        const user = users.find((u) => u.user_id === params.value);
         return (
           <Button
             onClick={async () => {
               if (params.value === DefaultStorageUser.id) {
-                const query = queryString.stringify({ name: user?.user_id });
+                const query = qs.stringify({ name: user?.user_name });
                 await router.push(`/user/${params.value}?${query}`);
               } else {
-                const query = queryString.stringify({
+                const query = qs.stringify({
                   name: user?.user_name,
                   coinbase: user?.coinbase,
                 });
@@ -61,10 +61,10 @@ export function UserTable({
     },
   ];
 
-  const rows = users.map((u) => {
+  const rows = users.map((u, index) => {
     return {
-      id: u.id,
-      detail: u.id,
+      id: index,
+      detail: u.user_id,
       user_name: u.user_name,
       coinbase: u.coinbase,
     };

@@ -10,6 +10,7 @@ on:
   pull_request:
     branches:
       - "main"
+      - "dev"
 
 jobs:
   dependencies:
@@ -20,8 +21,11 @@ jobs:
         with:
           node-version: "16"
       - run: yarn
-      - run: yarn lint
-        name: Lint
+      - name: Run linters
+        uses: wearerequired/lint-action@v1
+        with:
+          eslint: true
+          prettier: true
 
   test:
     runs-on: ubuntu-latest
@@ -36,7 +40,6 @@ jobs:
         uses: codecov/codecov-action@v1
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
-
 
   deploy:
     runs-on: ubuntu-latest
@@ -93,12 +96,13 @@ jobs:
             APP_ID=${{ secrets.APP_ID }}
             PUBLIC_CLIENT_PASSWORD=${{secrets.PUBLIC_CLIENT_PASSWORD}}
             PUBLIC_STATS_SERVER=${{secrets.PUBLIC_STATS_SERVER}}
+            NEXT_PUBLIC_SECRET=${{secrets.NEXT_PUBLIC_SECRET}}
             VERSION=${{ steps.prep.outputs.tags }}
 
   publish-k8s-release:
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/main'
-    needs: [deploy]
+    needs: [ deploy ]
     steps:
       - name: Checkout 🛎️
         uses: actions/checkout@v2
@@ -107,7 +111,7 @@ jobs:
         uses: JamesIves/github-pages-deploy-action@4.1.5
         with:
           branch: k8s-release
-          folder: k8s
+          folder: example_configs/k8s
 
   publish-k8s-dev:
     runs-on: ubuntu-latest
@@ -120,4 +124,4 @@ jobs:
         uses: JamesIves/github-pages-deploy-action@4.1.5
         with:
           branch: k8s-release-dev
-          folder: k8s
+          folder: example_configs/k8s

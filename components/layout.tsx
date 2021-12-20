@@ -24,7 +24,7 @@ import React from "react";
 import Spacer from "./Spacer";
 import { UIProviderContext } from "../pages/model/UIProvider";
 import SearchBar from "./SearchBar";
-import { Configurations } from "../server/const/configurations";
+import { Configurations } from "../internal/const/configurations";
 import { realmApp } from "../pages/_app";
 import ETDProvider from "../pages/model/ETDProvider";
 import DeviceProvider from "../pages/model/DeviceProvider";
@@ -115,7 +115,7 @@ export default function Layout(props: Props) {
   const appbar = (
     <AppBar elevation={0} position={"fixed"}>
       <Toolbar style={{ marginLeft: Configurations.drawerSize }}>
-        <div style={{ width: 200 }}>
+        <div style={{ width: 400 }}>
           <Collapse
             in={appBarTitleShow}
             timeout={150}

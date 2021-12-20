@@ -7,19 +7,16 @@ import PageHeader from "../../../../../components/PageHeader";
 import Spacer from "../../../../../components/Spacer";
 import { GeneralPanel } from "../../../../../components/device/generalPanel";
 import { GetServerSideProps } from "next";
-import { DeviceRegistrationPlugin } from "../../../../../server/plugin/plugins/deviceRegistrationPlugin";
+import { DeviceRegistrationPlugin } from "../../../../../internal/services/dbServices/device-registration-plugin";
 import {
   Admin,
   Clique,
   Debug,
   Etd,
-  // eslint-disable-next-line camelcase
   Json_rpc,
-  // eslint-disable-next-line camelcase
   Json_rpc_methods,
   Miner,
   Personal,
-  // eslint-disable-next-line camelcase
   Real_time,
   Txpool,
 } from "etd-react-ui";
@@ -27,7 +24,7 @@ import { UIProviderContext } from "../../../../model/UIProvider";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { DeviceContext, socket } from "../../../../model/DeviceProvider";
 import { DockerPanel } from "../../../../../components/device/dockerPanel";
-import { IDevice } from "../../../../../server/schema/device";
+import { IDevice } from "../../../../../internal/services/dbSchema/device";
 
 interface Props {
   user: string | null;
@@ -42,7 +39,7 @@ interface TabPanelProps {
 }
 
 // eslint-disable-next-line require-jsdoc
-function TabPanel(props: TabPanelProps) {
+export function TabPanel(props: TabPanelProps) {
   const { children, value, index, ...other } = props;
 
   return (
@@ -64,7 +61,7 @@ function TabPanel(props: TabPanelProps) {
 }
 
 // eslint-disable-next-line require-jsdoc
-function a11yProps(index: number) {
+export function a11yProps(index: number) {
   return {
     id: `vertical-tab-${index}`,
     "aria-controls": `vertical-tabpanel-${index}`,

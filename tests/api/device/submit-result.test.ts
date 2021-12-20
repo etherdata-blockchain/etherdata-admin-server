@@ -5,10 +5,12 @@ import { MongoMemoryServer } from "mongodb-memory-server";
 import { createMocks } from "node-mocks-http";
 import jwt from "jsonwebtoken";
 import handler from "../../../pages/api/v1/device/result/submit-result";
-import { StorageManagementSystemPlugin } from "../../../server/plugin/plugins/storageManagementSystemPlugin";
+import { StorageManagementSystemPlugin } from "../../../internal/services/dbServices/storage-management-system-plugin";
 import mongoose from "mongoose";
 
-jest.mock("../../../server/plugin/plugins/storageManagementSystemPlugin");
+jest.mock(
+  "../../../internal/services/dbServices/storage-management-system-plugin"
+);
 
 describe("Test submit result", () => {
   let dbServer: MongoMemoryServer;
@@ -22,6 +24,10 @@ describe("Test submit result", () => {
   });
 
   afterEach(async () => {});
+
+  afterAll(() => {
+    dbServer.stop();
+  });
 
   test("Submit a result if user exist", async () => {
     //@ts-ignore

@@ -6,6 +6,7 @@ import {
   PaginationResult,
 } from "../../server/client/browserClient";
 import { ObjectId } from "bson";
+import { Environments } from "../../internal/const/environments";
 
 interface DockerValue {
   method: "logs" | "start" | "stop" | "remove" | "restart" | "exec";
@@ -16,13 +17,21 @@ interface DeviceInterface {
   loadingData: boolean;
   paginationResult?: PaginationResult;
   filterKeyword: string;
+
   setFilterKeyword(v: string): void;
+
   sendDockerCommand(v: DockerValue): Promise<any>;
+
   joinDetail(deviceId: string): void;
+
   leaveDetail(deviceId: string): void;
+
   sendCommand(methodName: string, params: any[]): Promise<any>;
+
   handlePageChange(deviceIds: string[]): Promise<any>;
+
   applyFilter(filter: ClientFilter): void;
+
   clearFilter(): void;
 }
 
@@ -46,7 +55,9 @@ export default function DeviceProvider(props: any) {
 
   React.useEffect(() => {
     socket = io("/clients", {
-      auth: { token: process.env.NEXT_PUBLIC_CLIENT_PASSWORD },
+      auth: {
+        token: Environments.ClientSideEnvironments.NEXT_PUBLIC_CLIENT_PASSWORD,
+      },
       transports: ["websocket"],
     });
 
