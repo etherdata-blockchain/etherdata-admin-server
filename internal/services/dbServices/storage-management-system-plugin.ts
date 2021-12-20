@@ -78,7 +78,7 @@ export class StorageManagementSystemPlugin {
       Configurations.storageItemCollectionName
     );
     const deviceIdsQuery = deviceCol.find({
-      owner_id: userID ? parseInt(userID) : undefined,
+      owner_id: userID,
     });
 
     const devices = await deviceIdsQuery

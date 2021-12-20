@@ -63,7 +63,12 @@ export default function PageHeader({ title, description, action }: Props) {
           {action && (
             <Fade in={appBarTitleShow}>
               <Fab
-                style={{ position: "fixed", bottom: 20, right: 20 }}
+                style={{
+                  position: "fixed",
+                  bottom: 20,
+                  right: 20,
+                  zIndex: 1000,
+                }}
                 variant="extended"
                 size="medium"
                 //@ts-ignore
