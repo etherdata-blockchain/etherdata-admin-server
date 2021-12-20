@@ -88,7 +88,7 @@ export class StorageManagementSystemPlugin {
       .toArray();
 
     const totalDevices = await deviceCol.count({
-      owner_id: userID ? parseInt(userID) : undefined,
+      owner_id: userID,
     });
     const totalPage = Math.ceil(totalDevices / Configurations.numberPerPage);
 
