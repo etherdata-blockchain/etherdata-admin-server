@@ -7,15 +7,20 @@ import { Server, Socket } from "socket.io";
 import jwt from "jsonwebtoken";
 import Logger from "../../../logger";
 import { RegisteredPlugins } from "./registeredPlugins";
-import { DeviceRegistrationPlugin } from "../deviceRegistrationPlugin";
-import { PendingJobPlugin } from "../pendingJobPlugin";
+
+import { PendingJobPlugin } from "../../../../internal/services/dbServices/pending-job-plugin";
 import mongoose from "mongoose";
+import { Environments } from "../../../../internal/const/environments";
 
 interface RPCCommand {
   methodName: string;
   params: any[];
 }
 
+// eslint-disable-next-line valid-jsdoc
+/**
+ * App plugin is used for mobile app
+ */
 export class AppPlugin extends BaseSocketAuthIOPlugin {
   pluginName: RegisteredPlugins = "app";
   /**
@@ -24,6 +29,7 @@ export class AppPlugin extends BaseSocketAuthIOPlugin {
    */
   protected user: { [key: string]: string } = {};
 
+  // eslint-disable-next-line require-jsdoc
   constructor() {
     super();
     this.handlers = [
@@ -35,9 +41,10 @@ export class AppPlugin extends BaseSocketAuthIOPlugin {
     ];
   }
 
+  // eslint-disable-next-line require-jsdoc
   auth(password: string): boolean {
     // Use jwt authentication
-    let secret = process.env.PUBLIC_SECRET!;
+    const secret = Environments.ServerSideEnvironments.PUBLIC_SECRET;
     try {
       jwt.verify(password, secret);
 
@@ -65,9 +72,7 @@ export class AppPlugin extends BaseSocketAuthIOPlugin {
    * @param socket
    */
   joinRoomHandler: SocketHandler = (socket) => {
-    let plugin = new DeviceRegistrationPlugin();
     socket.on("join-room", async (roomId: string) => {
-      let found = false;
       if (socket.rooms.size > 2) {
         socket.emit("join-room-error", {
           err: "You have already joined another room. You need to leave first!",
@@ -99,9 +104,9 @@ export class AppPlugin extends BaseSocketAuthIOPlugin {
       "rpc-command",
       async (command: RPCCommand, uuid: number | undefined) => {
         const pendingJobPlugin = new PendingJobPlugin();
-        let selectedRoom = this.canSubmitJob(socket);
+        const selectedRoom = this.canSubmitJob(socket);
         if (selectedRoom) {
-          let job = {
+          const job = {
             id: uuid,
             targetDeviceId: selectedRoom,
             from: socket.id,
@@ -114,6 +119,7 @@ export class AppPlugin extends BaseSocketAuthIOPlugin {
           /// Add id if user defined
           if (uuid) {
             //@ts-ignore
+            // eslint-disable-next-line new-cap
             job._id = mongoose.mongo.ObjectId(uuid);
           }
           //@ts-ignore
@@ -136,9 +142,10 @@ export class AppPlugin extends BaseSocketAuthIOPlugin {
     socket.on("docker-command", async (value: any, uuid: string) => {
       console.log("Getting docker command", value, uuid);
       const pendingJobPlugin = new PendingJobPlugin();
-      let selectedRoom = this.canSubmitJob(socket);
+      // eslint-disable-next-line no-invalid-this
+      const selectedRoom = this.canSubmitJob(socket);
       if (selectedRoom) {
-        let job = {
+        const job = {
           id: uuid,
           targetDeviceId: selectedRoom,
           from: socket.id,
@@ -151,6 +158,7 @@ export class AppPlugin extends BaseSocketAuthIOPlugin {
         /// Add id if user defined
         if (uuid) {
           //@ts-ignore
+          // eslint-disable-next-line new-cap
           job._id = mongoose.mongo.ObjectId(uuid);
         }
         //@ts-ignore
@@ -169,9 +177,10 @@ export class AppPlugin extends BaseSocketAuthIOPlugin {
       "push-update",
       async (imageName: string, version: string, uuid: number | undefined) => {
         const pendingJobPlugin = new PendingJobPlugin();
-        let selectedRoom = this.canSubmitJob(socket);
+        // eslint-disable-next-line no-invalid-this
+        const selectedRoom = this.canSubmitJob(socket);
         if (selectedRoom) {
-          let job = {
+          const job = {
             targetDeviceId: selectedRoom,
             from: socket.id,
             time: new Date(),
@@ -184,6 +193,7 @@ export class AppPlugin extends BaseSocketAuthIOPlugin {
             },
           };
           //@ts-ignore
+          // eslint-disable-next-line new-cap
           job._id = mongoose.mongo.ObjectId(uuid);
           //@ts-ignore
           await pendingJobPlugin.create(job, {});
@@ -198,14 +208,16 @@ export class AppPlugin extends BaseSocketAuthIOPlugin {
   };
 
   protected onAuthenticated(socket: Socket, password: string): void {
-    let data = jwt.decode(password, { json: true });
+    const data = jwt.decode(password, { json: true });
     this.user[socket.id] = data!.user;
   }
 
+  // eslint-disable-next-line require-jsdoc
   protected onUnAuthenticated(socket: Socket): void {}
 
+  // eslint-disable-next-line require-jsdoc
   private canSubmitJob(socket: Socket): string | undefined {
-    let rooms = Array.from(socket.rooms);
+    const rooms = Array.from(socket.rooms);
     if (rooms.length < 2) {
       return undefined;
     } else {

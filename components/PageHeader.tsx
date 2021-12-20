@@ -1,4 +1,4 @@
-import { Divider, Stack, Typography } from "@mui/material";
+import { Divider, Fab, Fade, Stack, Typography } from "@mui/material";
 import React from "react";
 import Head from "next/head";
 import useScrollTrigger from "@mui/material/useScrollTrigger";
@@ -12,7 +12,7 @@ interface Props {
 
 // eslint-disable-next-line require-jsdoc
 export default function PageHeader({ title, description, action }: Props) {
-  const { showAppBarTitle, hideAppBarTitle } =
+  const { showAppBarTitle, hideAppBarTitle, appBarTitleShow } =
     React.useContext(UIProviderContext);
   const trigger = useScrollTrigger({
     disableHysteresis: true,
@@ -60,6 +60,25 @@ export default function PageHeader({ title, description, action }: Props) {
           </div>
           <div style={{ flexGrow: 1 }} />
           {action}
+          {action && (
+            <Fade in={appBarTitleShow}>
+              <Fab
+                style={{
+                  position: "fixed",
+                  bottom: 20,
+                  right: 20,
+                  zIndex: 1000,
+                }}
+                variant="extended"
+                size="medium"
+                //@ts-ignore
+                color="#28a5ed"
+                aria-label="add"
+              >
+                {action}
+              </Fab>
+            </Fade>
+          )}
         </Stack>
         <Divider style={{ width: "100%" }} />
       </Stack>

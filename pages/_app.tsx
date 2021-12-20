@@ -7,9 +7,13 @@ import React from "react";
 import * as Realm from "realm-web";
 import { Home, Person, PieChart, Receipt } from "@mui/icons-material";
 import NextNprogress from "nextjs-progressbar";
+import DownloadingIcon from "@mui/icons-material/Downloading";
+import { Environments } from "../internal/const/environments";
 
 // Setup realm for login
-export const realmApp = new Realm.App({ id: process.env.NEXT_PUBLIC_APP_ID! });
+export const realmApp = new Realm.App({
+  id: Environments.ClientSideEnvironments.NEXT_PUBLIC_APP_ID,
+});
 const darkTheme = createTheme({
   components: {
     MuiAppBar: {
@@ -95,6 +99,11 @@ function MyApp(props: AppProps) {
       title: "Chart",
       icon: <PieChart />,
       link: "/chart",
+    },
+    {
+      title: "Installation",
+      icon: <DownloadingIcon />,
+      link: "/installation",
     },
   ];
 

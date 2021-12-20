@@ -20,19 +20,19 @@ import { LargeDataCard } from "../../../../components/cards/largeDataCard";
 import { GridDataCard } from "../../../../components/cards/gridDataCard";
 import { useRouter } from "next/dist/client/router";
 import { DeviceContext, socket } from "../../../model/DeviceProvider";
-import { abbreviateNumber } from "../../../../utils/valueFormatter";
+import { abbreviateNumber } from "../../../../internal/utils/valueFormatter";
 import { UIProviderContext } from "../../../model/UIProvider";
 import { GetServerSideProps } from "next";
-import { DeviceRegistrationPlugin } from "../../../../server/plugin/plugins/deviceRegistrationPlugin";
-import { IDevice } from "../../../../server/schema/device";
-import { objectExpand } from "../../../../utils/objectExpander";
+import { DeviceRegistrationPlugin } from "../../../../internal/services/dbServices/device-registration-plugin";
+import { IDevice } from "../../../../internal/services/dbSchema/device";
+import { objectExpand } from "../../../../internal/utils/objectExpander";
 import Logger from "../../../../server/logger";
 import moment from "moment";
-import { CONFIG } from "../../../../server/config/config";
 import AllInboxIcon from "@mui/icons-material/AllInbox";
 import AlbumIcon from "@mui/icons-material/Album";
 import { ContainerDialog } from "../../../../components/device/dialog/containerDialog";
 import { ImageDialog } from "../../../../components/device/dialog/imageDialog";
+import { Configurations } from "../../../../internal/const/configurations";
 
 type Props = {
   device: IDevice | null;
@@ -53,7 +53,7 @@ export default function DeviceDetail({ device, found }: Props) {
   );
   const online =
     Math.abs(moment(foundDevice?.lastSeen).diff(moment(), "seconds")) <
-    CONFIG.maximumNotSeenDuration;
+    Configurations.maximumNotSeenDuration;
 
   React.useEffect(() => {
     console.log("Joining room", device?.id);
@@ -155,7 +155,7 @@ export default function DeviceDetail({ device, found }: Props) {
             subtitleColor={"white"}
             iconColor={"white"}
             iconBackgroundColor={"#9704cc"}
-            subtitle={"Docker images"}
+            subtitle={"Docker installation-template"}
             className={style.detailDataCard}
             onClick={() => setShowImageDetails(true)}
           />

@@ -11,7 +11,7 @@ import { BlockMinerDisplay } from "../../components/home/blockMinerDisplay";
 import { TransactionDisplay } from "../../components/home/transactionDisplay";
 import { DifficultyHistoryDisplay } from "../../components/home/difficultyHistoryDisplay";
 import { ETDContext } from "../model/ETDProvider";
-import { abbreviateNumber } from "../../utils/valueFormatter";
+import { abbreviateNumber } from "../../internal/utils/valueFormatter";
 import { LargeDataCard } from "../../components/cards/largeDataCard";
 import style from "../../styles/Device.module.css";
 
@@ -20,7 +20,8 @@ import AppsIcon from "@material-ui/icons/Apps";
 import HourglassEmptyIcon from "@material-ui/icons/HourglassEmpty";
 import FunctionsIcon from "@material-ui/icons/Functions";
 import { DeviceContext } from "../model/DeviceProvider";
-import { DefaultPaginationResult } from "../../server/const/defaultValues";
+import { DefaultPaginationResult } from "../../internal/const/defaultValues";
+import { Environments } from "../../internal/const/environments";
 
 type Props = {};
 
@@ -44,7 +45,7 @@ export default function Index(props: Props) {
     <div>
       <PageHeader
         title={"Dashboard"}
-        description={`Version ${process.env.NEXT_PUBLIC_VERSION}`}
+        description={`Version ${Environments.ClientSideEnvironments.NEXT_PUBLIC_VERSION}`}
       />
       <Spacer height={10} />
       <Grid container spacing={3}>

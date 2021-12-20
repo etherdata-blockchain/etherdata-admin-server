@@ -5,7 +5,7 @@ import axios from "axios";
 import {
   PaginatedItems,
   StorageManagementSystemPlugin,
-} from "../../server/plugin/plugins/storageManagementSystemPlugin";
+} from "../../internal/services/dbServices/storage-management-system-plugin";
 import { useRouter } from "next/dist/client/router";
 import PageHeader from "../../components/PageHeader";
 import Spacer from "../../components/Spacer";
@@ -15,20 +15,21 @@ import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
 import queryString from "querystring";
 import ResponsiveCard from "../../components/ResponsiveCard";
 import { RewardDisplay } from "../../components/user/rewardDisplay";
-import { weiToETD } from "../../utils/weiToETD";
+import { weiToETD } from "../../internal/utils/weiToETD";
 import { DeviceTable } from "../../components/device/deviceTable";
 import { ETDContext } from "../model/ETDProvider";
 import { DeviceContext } from "../model/DeviceProvider";
 import {
   DefaultPaginationResult,
   DefaultStorageUser,
-} from "../../server/const/defaultValues";
-import { Configurations } from "../../server/const/configurations";
-import { IDevice } from "../../server/schema/device";
+} from "../../internal/const/defaultValues";
+import { Configurations } from "../../internal/const/configurations";
+import { IDevice } from "../../internal/services/dbSchema/device";
 import StorageIcon from "@material-ui/icons/Storage";
 import style from "../../styles/Device.module.css";
 import ComputerIcon from "@material-ui/icons/Computer";
 import { DeviceAction } from "../../components/device/deviceAction";
+import { Environments } from "../../internal/const/environments";
 
 interface Props {
   coinbase: string | undefined;
@@ -223,21 +224,21 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
 
   const storagePlugin = new StorageManagementSystemPlugin();
 
-  if (coinbase) {
+  if (coinbase && coinbase.startsWith("0x")) {
     // mining reward
     const prev = moment().subtract(7, "days");
     const miningUrl = new URL(
       `api/v2/miningReward/${coinbase}?start=${prev.format(
         "YYYY-MM-DD"
       )}&end=${moment().format("YYYY-MM-DD")}`,
-      process.env.STATS_SERVER!
+      Environments.ServerSideEnvironments.STATS_SERVER!
     );
     const miningRewardsPromise = axios.get(miningUrl.toString());
 
     // Get recent transactions
     const txURL = new URL(
       `/api/v2/transactions/${coinbase}`,
-      process.env.STATS_SERVER!
+      Environments.ServerSideEnvironments.STATS_SERVER!
     );
     const userResultPromise = axios.get(txURL.toString());
 
