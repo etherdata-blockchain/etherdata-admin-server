@@ -3,20 +3,23 @@ import * as React from "react";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { useRouter } from "next/dist/client/router";
 import { Button } from "@mui/material";
-import { PaginatedStorageUsers } from "../../internal/services/dbServices/storage-management-system-plugin";
 import { Configurations } from "../../internal/const/configurations";
 import { DefaultStorageUser } from "../../internal/const/defaultValues";
 import qs from "query-string";
+import {
+  PaginationResult,
+  StorageUser,
+} from "../../internal/const/common_interfaces";
 
 type Props = {
-  storageUser: PaginatedStorageUsers;
+  storageUser: PaginationResult<StorageUser>;
   handlePageChange(number: number): Promise<void>;
   currentPage: number;
 };
 
 /**
  * Show user
- * @param {PaginatedStorageUsers} storageUser data to be shown
+ * @param {PaginationResult} storageUser data to be shown
  * @param {function} handlePageChange Go to next page
  * @param {number}currentPage Current page number
  * @constructor
@@ -26,7 +29,7 @@ export function UserTable({
   handlePageChange,
   currentPage,
 }: Props) {
-  const { totalUsers, users } = storageUser;
+  const { results, count } = storageUser;
   const router = useRouter();
 
   const columns: GridColDef[] = [
@@ -38,11 +41,11 @@ export function UserTable({
       headerName: "Detail",
       flex: 2,
       renderCell: (params) => {
-        const user = users.find((u) => u.user_id === params.value);
+        const user = results.find((u) => u.user_id === params.value);
         return (
           <Button
             onClick={async () => {
-              if (params.value === DefaultStorageUser.id) {
+              if (params.value === DefaultStorageUser.user_id) {
                 const query = qs.stringify({ name: user?.user_name });
                 await router.push(`/user/${params.value}?${query}`);
               } else {
@@ -61,7 +64,7 @@ export function UserTable({
     },
   ];
 
-  const rows = users.map((u, index) => {
+  const rows = results.map((u, index) => {
     return {
       id: index,
       detail: u.user_id,
@@ -78,7 +81,7 @@ export function UserTable({
       disableSelectionOnClick
       paginationMode={"server"}
       page={currentPage}
-      rowCount={totalUsers}
+      rowCount={count}
       pageSize={Configurations.numberPerPage}
       onPageChange={async (page) => {
         await handlePageChange(page);

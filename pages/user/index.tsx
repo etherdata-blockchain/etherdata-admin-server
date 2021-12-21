@@ -6,16 +6,17 @@ import { UserTable } from "../../components/user/userTable";
 import ResponsiveCard from "../../components/ResponsiveCard";
 import { AddUserBtn } from "../../components/user/addUserBtn";
 import { GetServerSideProps } from "next";
-import {
-  PaginatedStorageUsers,
-  StorageManagementSystemPlugin,
-} from "../../internal/services/dbServices/storage-management-system-plugin";
+import { StorageManagementSystemPlugin } from "../../internal/services/dbServices/storage-management-system-plugin";
 import { Pagination } from "@mui/material";
 import { useRouter } from "next/dist/client/router";
 import { TestingValues } from "../../internal/const/testingValues";
+import {
+  PaginationResult,
+  StorageUser,
+} from "../../internal/const/common_interfaces";
 
 type Props = {
-  paginationResult: PaginatedStorageUsers;
+  paginationResult: PaginationResult<StorageUser>;
   currentPage: number;
 };
 
@@ -41,10 +42,10 @@ export default function User({ paginationResult, currentPage }: Props) {
           data-testid={TestingValues.pagination}
           color={"primary"}
           onChange={async (e, cur) => {
-            await handlePageChange(cur - 1);
+            await handlePageChange(cur);
           }}
           count={totalPage}
-          page={currentPage + 1}
+          page={currentPage}
         />
         <Spacer height={10} />
         <UserTable
@@ -60,7 +61,7 @@ export default function User({ paginationResult, currentPage }: Props) {
 export const getServerSideProps: GetServerSideProps<Props> = async (
   context
 ) => {
-  const currentPage = parseInt((context.query.page as string) ?? "0");
+  const currentPage = parseInt((context.query.page as string) ?? "1");
   const plugin = new StorageManagementSystemPlugin();
   const users = await plugin.getUsers(currentPage);
 

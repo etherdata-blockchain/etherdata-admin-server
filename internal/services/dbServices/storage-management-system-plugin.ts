@@ -1,29 +1,18 @@
 import { Db, MongoClient } from "mongodb";
 import { Configurations } from "../../const/configurations";
-import { DefaultStorageUser } from "../../const/defaultValues";
-
-export interface StorageUser {
-  _id: string;
-  id?: string;
-  // eslint-disable-next-line camelcase
-  user_name: string;
-  // eslint-disable-next-line camelcase
-  user_id: string;
-  coinbase?: string;
-  balance?: string;
-}
-
-export interface PaginatedStorageUsers {
-  users: StorageUser[];
-  totalUsers: number;
-  totalPage: number;
-}
-
-export interface PaginatedItems {
-  storageDevices: any[];
-  totalPage: number;
-  totalDevices: number;
-}
+import {
+  DefaultStorageUser,
+  getStorageManagementAxiosClient,
+} from "../../const/defaultValues";
+import qs from "query-string";
+import { Environments } from "../../const/environments";
+import {
+  PaginationResult,
+  StorageItem,
+  StorageUser,
+} from "../../const/common_interfaces";
+import join from "url-join";
+import { Routes } from "../../const/routes";
 
 /**
  * Storage management system plugin
@@ -49,53 +38,60 @@ export class StorageManagementSystemPlugin {
     return coll.countDocuments();
   }
 
-  async getUsers(page: number): Promise<PaginatedStorageUsers> {
-    const ownCol = this.db.collection<StorageUser>(
-      Configurations.storageUserCollectionName
-    );
-    const users = await ownCol
-      .find()
-      .skip(page * Configurations.numberPerPage)
-      .limit(Configurations.numberPerPage)
-      .toArray();
-
-    const totalUsers = (await ownCol.countDocuments()) + 1;
-    const totalPage = Math.ceil(totalUsers / Configurations.numberPerPage);
-    if (page === 0) users.push(DefaultStorageUser);
-
-    return {
-      totalUsers: totalUsers,
-      users: users,
-      totalPage,
+  /**
+   * Get list of users
+   * @param{number} page start from 1
+   */
+  async getUsers(page: number): Promise<PaginationResult<StorageUser>> {
+    const query = {
+      page: page,
     };
+    const response = await getStorageManagementAxiosClient().get(
+      qs.stringifyUrl({
+        url: join(
+          Environments.ServerSideEnvironments.STORAGE_MANAGEMENT_URL,
+          Routes.owner
+        ),
+        query,
+      })
+    );
+
+    const users: PaginationResult<StorageUser> = response.data;
+
+    if (page === 1) users.results.push(DefaultStorageUser);
+
+    return users;
   }
 
+  /**
+   * Get devices by user ID
+   * @param{number} page current page number start from 1
+   * @param{string} userID user's pk
+   */
   async getDevicesByUser(
-    page: number,
+    page: number | string,
     userID?: string
-  ): Promise<PaginatedItems> {
-    const deviceCol = this.db.collection(
-      Configurations.storageItemCollectionName
-    );
-    const deviceIdsQuery = deviceCol.find({
-      owner_id: userID,
-    });
-
-    const devices = await deviceIdsQuery
-      .skip(page * Configurations.numberPerPage)
-      .limit(Configurations.numberPerPage)
-      .project({ qr_code: 1, name: 1 })
-      .toArray();
-
-    const totalDevices = await deviceCol.count({
-      owner_id: userID,
-    });
-    const totalPage = Math.ceil(totalDevices / Configurations.numberPerPage);
-
-    return {
-      storageDevices: devices,
-      totalDevices,
-      totalPage,
+  ): Promise<PaginationResult<StorageItem>> {
+    const query: { [key: string]: any } = {
+      page: page,
     };
+
+    if (userID === DefaultStorageUser.user_id || userID === undefined) {
+      query["no_owner"] = "True";
+    } else {
+      query["owner"] = userID;
+    }
+
+    const result = await getStorageManagementAxiosClient().get(
+      qs.stringifyUrl({
+        url: join(
+          Environments.ServerSideEnvironments.STORAGE_MANAGEMENT_URL,
+          Routes.item
+        ),
+        query,
+      })
+    );
+
+    return result.data;
   }
 }

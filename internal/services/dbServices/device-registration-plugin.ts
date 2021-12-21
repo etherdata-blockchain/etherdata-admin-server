@@ -1,7 +1,4 @@
-import {
-  DatabasePlugin,
-  PaginationResult,
-} from "../../../server/plugin/basePlugin";
+import { DatabasePlugin } from "../../../server/plugin/basePlugin";
 import { DeviceModel, IDevice } from "../dbSchema/device";
 import { PluginName } from "../../../server/plugin/pluginName";
 import { Model, Query } from "mongoose";
@@ -12,6 +9,7 @@ import { ClientFilter } from "../../../server/client/browserClient";
 import Logger from "../../../server/logger";
 import { StorageManagementSystemPlugin } from "./storage-management-system-plugin";
 import { Environments } from "../../const/environments";
+import { PaginationResult, StorageItem } from "../../const/common_interfaces";
 
 export interface VersionInfo {
   version: string;
@@ -39,6 +37,7 @@ export class DeviceRegistrationPlugin extends DatabasePlugin<any> {
     deviceIds: string[],
     filter?: ClientFilter
   ): Promise<PaginationResult<IDevice> | undefined> {
+    //TODO:
     let results = this.model.find({
       id: { $in: deviceIds },
     });
@@ -160,13 +159,6 @@ export class DeviceRegistrationPlugin extends DatabasePlugin<any> {
     const query = this.model.find({
       lastSeen: { $gt: time.toDate() },
     });
-    // if (filter) {
-    //   let queryFilter: { [key: string]: any } = {
-    //     lastSeen: { $gt: time.toDate() },
-    //   };
-    //   queryFilter[filter.key] = filter.value;
-    //   query = this.model.find(queryFilter);
-    // }
     return query.count();
   }
 
@@ -317,5 +309,18 @@ export class DeviceRegistrationPlugin extends DatabasePlugin<any> {
     } else {
       return [false, undefined];
     }
+  }
+
+  /**
+   * Get list of device status by storage item
+   * @param items
+   */
+  async getDeviceStatusByStorageItems(
+    items: StorageItem[]
+  ): Promise<IDevice[]> {
+    let results = this.model.find({
+      id: { $in: items.map((i) => i.qr_code) },
+    });
+    return results;
   }
 }

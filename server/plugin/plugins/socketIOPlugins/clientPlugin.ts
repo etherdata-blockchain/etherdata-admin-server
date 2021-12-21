@@ -70,12 +70,13 @@ export class ClientPlugin extends AppPlugin {
    */
   handleApplyFilter: SocketHandler = (socket) => {
     socket.on("apply-filter", async (filter: ClientFilter) => {
-      let client = this.browserClients[socket.id];
+      // eslint-disable-next-line no-invalid-this
+      const client = this.browserClients[socket.id];
       if (client) {
         client.currentFilter = filter;
         client.currentPage = 0;
         // Send new data to clients
-        let pageResults = await client.generatePaginationResult();
+        const pageResults = await client.generatePaginationResult();
         socket.emit("realtime-info", pageResults);
       }
     });

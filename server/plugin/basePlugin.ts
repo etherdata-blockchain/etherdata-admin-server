@@ -3,13 +3,7 @@ import { Document, Model, Query } from "mongoose";
 import { PluginName } from "./pluginName";
 import Logger from "../logger";
 import { RegisteredPlugins } from "./plugins/socketIOPlugins/registeredPlugins";
-
-export interface PaginationResult<T> {
-  results: T[];
-  count: number;
-  totalPage: number;
-  currentPage: number;
-}
+import { PaginationResult } from "../../internal/const/common_interfaces";
 
 export type SocketHandler = (socket: Socket) => void;
 

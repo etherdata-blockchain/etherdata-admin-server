@@ -2,38 +2,41 @@ import React from "react";
 import { GetServerSideProps } from "next";
 import moment from "moment";
 import axios from "axios";
-import {
-  PaginatedItems,
-  StorageManagementSystemPlugin,
-} from "../../internal/services/dbServices/storage-management-system-plugin";
 import { useRouter } from "next/dist/client/router";
 import PageHeader from "../../components/PageHeader";
 import Spacer from "../../components/Spacer";
-import { Divider, Grid, List, ListItem, ListItemText } from "@mui/material";
+import {
+  Alert,
+  Divider,
+  Grid,
+  List,
+  ListItem,
+  ListItemText,
+} from "@mui/material";
 import { LargeDataCard } from "../../components/cards/largeDataCard";
 import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
-import queryString from "querystring";
+import queryString from "query-string";
 import ResponsiveCard from "../../components/ResponsiveCard";
 import { RewardDisplay } from "../../components/user/rewardDisplay";
 import { weiToETD } from "../../internal/utils/weiToETD";
 import { DeviceTable } from "../../components/device/deviceTable";
 import { ETDContext } from "../model/ETDProvider";
-import { DeviceContext } from "../model/DeviceProvider";
-import {
-  DefaultPaginationResult,
-  DefaultStorageUser,
-} from "../../internal/const/defaultValues";
 import { Configurations } from "../../internal/const/configurations";
-import { IDevice } from "../../internal/services/dbSchema/device";
 import StorageIcon from "@material-ui/icons/Storage";
 import style from "../../styles/Device.module.css";
 import ComputerIcon from "@material-ui/icons/Computer";
 import { DeviceAction } from "../../components/device/deviceAction";
 import { Environments } from "../../internal/const/environments";
+import useSWR from "swr";
+import { getAxiosClient } from "../../internal/const/defaultValues";
+import { Routes } from "../../internal/const/routes";
+import {
+  PaginationResult,
+  StorageItemWithStatus,
+} from "../../internal/const/common_interfaces";
 
 interface Props {
   coinbase: string | undefined;
-  paginatedItems: PaginatedItems;
   currentPage: number;
   userID: string;
   userName: string;
@@ -42,6 +45,7 @@ interface Props {
     balance: string;
     transactions: { from: string; value: string; time: string }[];
   };
+  page: number;
 }
 
 /**
@@ -49,7 +53,6 @@ interface Props {
  * coinbase, mining reward and devices
  * @param rewards
  * @param user
- * @param paginatedItems
  * @param coinbase
  * @param currentPage
  * @param userID
@@ -58,51 +61,28 @@ interface Props {
 export default function ({
   rewards,
   user,
-  paginatedItems,
   coinbase,
   currentPage,
   userID,
   userName,
+  page,
 }: Props) {
-  const { totalPage, totalDevices, storageDevices } = paginatedItems;
   const router = useRouter();
-  const { handlePageChange, paginationResult } =
-    React.useContext(DeviceContext);
   const { history } = React.useContext(ETDContext);
+  const { data, error } = useSWR<PaginationResult<StorageItemWithStatus>>(
+    { userID, page },
+    async (key) => {
+      console.log(key);
+      const result = await getAxiosClient().get(
+        queryString.stringifyUrl({
+          url: Routes.devicesWithStatus,
+          query: { user: encodeURI(key.userID), page: key.page },
+        })
+      );
 
-  const { devices, totalOnlineDevices, totalStorageNumber, clientFilter } =
-    paginationResult ?? DefaultPaginationResult;
-
-  React.useEffect(() => {
-    handlePageChange(storageDevices.map((d) => d.qr_code)).then(() => {});
-  }, []);
-
-  // @ts-ignore
-  const displayDevices: IDevice[] = storageDevices
-    .filter((d) => {
-      // If we apply a filter, then we return devices with realtime status
-      if (clientFilter) {
-        const foundDeviceInfo = devices.find((i) => i.id === d.qr_code);
-        return foundDeviceInfo !== undefined;
-      }
-
-      // Otherwise, we return all
-      return true;
-    })
-    .map((d) => {
-      const foundDeviceInfo = devices.find((i) => i.id === d.qr_code);
-      if (foundDeviceInfo) {
-        // TODO: Add more info from storage device
-        return {
-          ...foundDeviceInfo,
-        };
-      }
-      return {
-        _id: d._id,
-        id: d.qr_code,
-        name: d.name,
-      };
-    });
+      return result.data;
+    }
+  );
 
   return (
     <div>
@@ -124,7 +104,7 @@ export default function ({
         <Grid item md={4} xs={6}>
           <LargeDataCard
             icon={<ComputerIcon />}
-            title={`${totalStorageNumber}`}
+            title={`${data?.count}`}
             color={"#ba03fc"}
             subtitleColor={"white"}
             iconColor={"white"}
@@ -136,7 +116,7 @@ export default function ({
         <Grid item md={4} xs={12}>
           <LargeDataCard
             icon={<ComputerIcon />}
-            title={`${totalOnlineDevices}`}
+            title={`${data?.count}`}
             color={"#ba03fc"}
             subtitleColor={"white"}
             iconColor={"white"}
@@ -192,13 +172,19 @@ export default function ({
 
       <Spacer height={20} />
       <ResponsiveCard title={"Devices"} action={<DeviceAction />}>
+        {error && <Alert severity={"error"}>{error.toString()}</Alert>}
         <DeviceTable
-          devices={displayDevices}
+          devices={data?.results}
+          loading={data === undefined && !error}
           currentPageNumber={currentPage}
-          totalPageNumber={totalPage}
-          totalNumRows={totalDevices}
+          totalPageNumber={data?.totalPage ?? 0}
+          totalNumRows={data?.count ?? 0}
           numPerPage={Configurations.numberPerPage}
           onPageChanged={async (page) => {
+            //TODO
+            if (page < 1) {
+              return;
+            }
             const query = queryString.stringify({
               coinbase: coinbase,
               page: page,
@@ -219,10 +205,8 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
 ) => {
   const user = context.params?.id as string;
   const name = context.query.name as string;
-  const currentPage = parseInt((context.query.page as string) ?? "0");
+  const currentPage = parseInt((context.query.page as string) ?? "1");
   const coinbase = context.query.coinbase as string | undefined;
-
-  const storagePlugin = new StorageManagementSystemPlugin();
 
   if (coinbase && coinbase.startsWith("0x")) {
     // mining reward
@@ -242,26 +226,19 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
     );
     const userResultPromise = axios.get(txURL.toString());
 
-    // Get user devices
-    const paginatedDevicesPromise = storagePlugin.getDevicesByUser(
-      currentPage,
-      user
-    );
-
-    const [miningRewards, userResults, paginatedItems] = await Promise.all([
+    const [miningRewards, userResults] = await Promise.all([
       miningRewardsPromise,
       userResultPromise,
-      paginatedDevicesPromise,
     ]);
 
     const result: Props = {
       userID: user,
-      paginatedItems: paginatedItems,
       currentPage,
       rewards: miningRewards.data.rewards,
       user: userResults.data.user,
       coinbase,
       userName: name,
+      page: currentPage,
     };
 
     return {
@@ -269,20 +246,14 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
     };
   }
 
-  // Get user devices
-  const paginatedDevices = await storagePlugin.getDevicesByUser(
-    currentPage,
-    user === DefaultStorageUser.id ? undefined : user
-  );
-
   const result: Props = {
     userID: user,
-    paginatedItems: paginatedDevices,
     currentPage,
     rewards: [],
     user: undefined,
     coinbase,
     userName: name,
+    page: currentPage,
   };
 
   return {

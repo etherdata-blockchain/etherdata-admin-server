@@ -1,8 +1,8 @@
 import { PaginationResult } from "../../server/client/browserClient";
-import { StorageUser } from "../services/dbServices/storage-management-system-plugin";
 import axios from "axios";
 import jwt from "jsonwebtoken";
 import { Environments } from "./environments";
+import { StorageUser } from "./common_interfaces";
 
 export const DefaultPaginationResult: PaginationResult = {
   adminVersions: [],
@@ -14,8 +14,6 @@ export const DefaultPaginationResult: PaginationResult = {
 };
 
 export const DefaultStorageUser: StorageUser = {
-  _id: "default",
-  id: "default",
   user_id: "default",
   user_name: "Default",
 };
@@ -30,6 +28,13 @@ export const getAxiosClient = () =>
   axios.create({
     headers: {
       Authorization: `Bearer ${token()}`,
+    },
+  });
+
+export const getStorageManagementAxiosClient = () =>
+  axios.create({
+    headers: {
+      Authorization: `Bearer ${Environments.ServerSideEnvironments.STORAGE_MANAGEMENT_API_TOKEN}`,
     },
   });
 

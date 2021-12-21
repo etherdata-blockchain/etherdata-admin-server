@@ -17,4 +17,9 @@ export const Routes = {
   staticNodeEdit: "/installation/static-node/edit",
   staticNodeAPICreate: "/api/v1/static-node",
   staticNodeAPIEdit: "/api/v1/static-node",
+  // Storage
+  item: "/storage_management/item",
+  owner: "/storage_management/owner",
+  // Device
+  devicesWithStatus: "/api/v1/device/devices-with-status",
 };
