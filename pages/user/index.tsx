@@ -26,7 +26,7 @@ export default function User({ paginationResult, currentPage }: Props) {
   const router = useRouter();
 
   const handlePageChange = React.useCallback(async (page: number) => {
-    await router.push("/user?page=" + page);
+    await router?.push("/user?page=" + page);
   }, []);
 
   return (

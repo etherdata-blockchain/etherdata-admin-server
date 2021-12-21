@@ -2,7 +2,7 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import AdmZip from "adm-zip";
 
 import HTTPMethod from "http-method-enum";
-import { PaginationResult } from "../../../../../server/plugin/basePlugin";
+
 import { IInstallationTemplate } from "../../../../../internal/services/dbSchema/install-script/install-script";
 import { InstallationPlugin } from "../../../../../internal/services/dbServices/installation-plugin";
 import { StatusCodes } from "http-status-codes";
@@ -11,6 +11,7 @@ import { paginationHandler } from "../../../../../internal/nextHandler/paginatio
 import { jwtVerificationHandler } from "../../../../../internal/nextHandler/jwt_verification_handler";
 import { StaticNodePlugin } from "../../../../../internal/services/dbServices/static-node-plugin";
 import { Configurations } from "../../../../../internal/const/configurations";
+import { PaginationResult } from "../../../../../internal/const/common_interfaces";
 
 type Response =
   | { err?: string; message?: string }

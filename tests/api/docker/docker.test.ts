@@ -1,3 +1,5 @@
+import { PaginationResult } from "../../../internal/const/common_interfaces";
+
 global.TextEncoder = require("util").TextEncoder;
 global.TextDecoder = require("util").TextDecoder;
 
@@ -14,7 +16,6 @@ import { StatusCodes } from "http-status-codes";
 import { createMocks } from "node-mocks-http";
 import { MockDockerImage, MockWebHookData } from "../../data/mock_docker_data";
 import jwt from "jsonwebtoken";
-import { PaginationResult } from "../../../server/plugin/basePlugin";
 
 describe("Given a docker handler", () => {
   let dbServer: MongoMemoryServer;
