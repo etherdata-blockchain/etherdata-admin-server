@@ -2,13 +2,15 @@
  * Create a update script of device for mongoose ORM.
  */
 import mongoose, { Document, model, Model, Schema } from "mongoose";
-type DeviceTask = "container" | "image";
 
-interface Task {
-    type: DeviceTask;
-    imageName: string;
-    imageTag: string;
+interface ImageStack {
+    image: string;
+    tag: string;
+}
+
+interface ContainerStack {
     containerName: string;
+    image: ImageStack;
     env: string;
 }
 
@@ -19,7 +21,7 @@ export interface UpdateScript extends Document {
      */
     from: string;
     time: Date;
-    task: Task;
+    task: ContainerStack;
 }
 
 export const UpdateScriptSchema = new Schema<UpdateScript>({
@@ -27,9 +29,7 @@ export const UpdateScriptSchema = new Schema<UpdateScript>({
     time: { type: Date, required: true },
     from: { type: String, required: true },
     task: {
-        type: { type: String, required: true },
-        imageName: { type: String, required: true },
-        imageTag: { type: String, required: true },
+        image: { type: Schema.Types.Mixed, required: true },
         containerName: { type: String, required: true },
         env: { type: String, required: true },
     },
