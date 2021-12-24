@@ -72,7 +72,6 @@ export default function ({
   const { data, error } = useSWR<PaginationResult<StorageItemWithStatus>>(
     { userID, page },
     async (key) => {
-      console.log(key);
       const result = await getAxiosClient().get(
         queryString.stringifyUrl({
           url: Routes.devicesWithStatus,
@@ -179,7 +178,7 @@ export default function ({
           currentPageNumber={currentPage}
           totalPageNumber={data?.totalPage ?? 0}
           totalNumRows={data?.count ?? 0}
-          numPerPage={Configurations.numberPerPage}
+          numPerPage={data?.pageSize ?? Configurations.numberPerPage}
           onPageChanged={async (page) => {
             //TODO
             if (page < 1) {

@@ -5,7 +5,6 @@ import { Model, Query } from "mongoose";
 import axios, { AxiosError } from "axios";
 import moment from "moment";
 import jwt from "jsonwebtoken";
-import { ClientFilter } from "../../../server/client/browserClient";
 import Logger from "../../../server/logger";
 import { StorageManagementSystemPlugin } from "./storage-management-system-plugin";
 import { Environments } from "../../const/environments";
@@ -23,37 +22,6 @@ export interface VersionInfo {
 export class DeviceRegistrationPlugin extends DatabasePlugin<any> {
   pluginName: PluginName = "deviceRegistration";
   protected model: Model<IDevice> = DeviceModel;
-
-  /**
-   * List devices with custom filter
-   * @param pageNumber
-   * @param pageSize
-   * @param deviceIds
-   * @param filter
-   */
-  async listWithFilter(
-    pageNumber: number,
-    pageSize: number,
-    deviceIds: string[],
-    filter?: ClientFilter
-  ): Promise<PaginationResult<IDevice> | undefined> {
-    //TODO:
-    let results = this.model.find({
-      id: { $in: deviceIds },
-    });
-    if (filter) {
-      const queryFilter: { [key: string]: any } = {
-        id: { $in: deviceIds },
-      };
-      queryFilter[filter.key] = filter.value;
-      results = this.model.find(queryFilter);
-    }
-
-    //@ts-ignore
-    const pageResults = this.doPagination(results, pageNumber, pageSize);
-
-    return await pageResults;
-  }
 
   // eslint-disable-next-line require-jsdoc
   async performPatch(data: IDevice): Promise<IDevice> {
@@ -151,10 +119,7 @@ export class DeviceRegistrationPlugin extends DatabasePlugin<any> {
    * @param deviceIds
    * @param filter
    */
-  async getOnlineDevicesCount(
-    deviceIds: string[],
-    filter?: ClientFilter
-  ): Promise<number> {
+  async getOnlineDevicesCount(deviceIds: string[]): Promise<number> {
     const time = moment().subtract(10, "minutes");
     const query = this.model.find({
       lastSeen: { $gt: time.toDate() },
@@ -174,31 +139,6 @@ export class DeviceRegistrationPlugin extends DatabasePlugin<any> {
       result.data.systemInfo.isSyncing = true;
     }
     return JSON.parse(JSON.stringify(result));
-  }
-
-  /**
-   * Get devices by user
-   * @param user
-   * @return [success, reason, devices]
-   */
-  async getDevicesByUser(
-    user: string
-  ): Promise<[boolean, string | undefined, any[]]> {
-    try {
-      const path = "storage_management/user?user=" + encodeURIComponent(user);
-      const url = new URL(
-        path,
-        Environments.ServerSideEnvironments.STORAGE_MANAGEMENT_URL
-      );
-      const resp = await axios.get(url.toString(), {
-        headers: {
-          Authorization: `Bearer ${Environments.ServerSideEnvironments.STORAGE_MANAGEMENT_API_TOKEN}`,
-        },
-      });
-      return [true, undefined, resp.data];
-    } catch (e) {
-      return [false, (e as AxiosError).response?.data.err, []];
-    }
   }
 
   /**
@@ -258,17 +198,6 @@ export class DeviceRegistrationPlugin extends DatabasePlugin<any> {
   }
 
   /**
-   * Return the count result with custom filter
-   * @param deviceIds
-   * @param filter
-   */
-  async countWithFilter(deviceIds: string[], filter?: ClientFilter) {
-    const queryFilter: { [key: string]: any } = {};
-    const results = this.model.find(queryFilter);
-    return results.count();
-  }
-
-  /**
    * Get devices by miner address
    * @param miner
    * @param pageNumber
@@ -298,17 +227,17 @@ export class DeviceRegistrationPlugin extends DatabasePlugin<any> {
     device: string
   ): Promise<[boolean, string | undefined]> {
     const storageManagementPlugin = new StorageManagementSystemPlugin();
-    const foundDevice = await storageManagementPlugin.findDeviceById(device);
-
-    if (foundDevice) {
-      // Generate a key for next task
-      const newKey = jwt.sign({ device }, process.env.PUBLIC_SECRET!, {
-        expiresIn: 600,
-      });
-      return [true, newKey];
-    } else {
-      return [false, undefined];
-    }
+    // const foundDevice = await storageManagementPlugin.findDeviceById(device);
+    //
+    // if (foundDevice) {
+    //   // Generate a key for next task
+    //   const newKey = jwt.sign({ device }, process.env.PUBLIC_SECRET!, {
+    //     expiresIn: 600,
+    //   });
+    //   return [true, newKey];
+    // } else {
+    return [false, undefined];
+    // }
   }
 
   /**

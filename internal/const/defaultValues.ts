@@ -1,16 +1,15 @@
-import { PaginationResult } from "../../server/client/browserClient";
 import axios from "axios";
 import jwt from "jsonwebtoken";
 import { Environments } from "./environments";
-import { StorageUser } from "./common_interfaces";
+import { PaginationResult, StorageUser } from "./common_interfaces";
+import { IDevice } from "../services/dbSchema/device";
 
-export const DefaultPaginationResult: PaginationResult = {
-  adminVersions: [],
-  devices: [],
-  nodeVersions: [],
-  totalNumberDevices: 0,
-  totalOnlineDevices: 0,
-  totalStorageNumber: 0,
+export const DefaultPaginationResult: PaginationResult<IDevice> = {
+  count: 0,
+  currentPage: 0,
+  pageSize: 0,
+  results: [],
+  totalPage: 0,
 };
 
 export const DefaultStorageUser: StorageUser = {

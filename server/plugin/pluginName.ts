@@ -5,4 +5,5 @@ export type PluginName =
   | "jobResult"
   | "staticNode"
   | "dockerImage"
-  | "installScript";
+  | "installScript"
+  | "storageItem";

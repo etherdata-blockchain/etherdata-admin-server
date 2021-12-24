@@ -35,7 +35,9 @@ nextApp.prepare().then(async () => {
   // @ts-ignore
   global.nodePlugin = plugins[0];
 
-  await mongoose.connect(Environments.ServerSideEnvironments.MONGODB_URL);
+  await mongoose.connect(Environments.ServerSideEnvironments.MONGODB_URL, {
+    dbName: "etd",
+  });
   Logger.info("Connected to database");
 
   await socketIOServer.start(httpServer);

@@ -5,6 +5,7 @@ export interface PaginationResult<T> {
   count: number;
   totalPage: number;
   currentPage: number;
+  pageSize: number;
 }
 
 export interface StorageUser {

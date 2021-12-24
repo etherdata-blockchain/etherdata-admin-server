@@ -47,8 +47,8 @@ describe("Job Result Test", () => {
       commandType: "",
     }).save();
 
-    let plugin = new JobResultPlugin();
-    let result = await plugin.getResults("a");
+    const plugin = new JobResultPlugin();
+    const result = await plugin.getResults("a");
     expect(result).toBeDefined();
     expect(result?.length).toBe(1);
     expect(await JobResultModel.count()).toBe(0);
@@ -56,8 +56,8 @@ describe("Job Result Test", () => {
 
   test("Get no result", async () => {
     await JobResultModel.createCollection();
-    let plugin = new JobResultPlugin();
-    let result = await plugin.getResults("a");
+    const plugin = new JobResultPlugin();
+    const result = await plugin.getResults("a");
     expect(result?.length).toBe(0);
     expect(await JobResultModel.count()).toBe(0);
   });
@@ -90,8 +90,8 @@ describe("Job Result Test", () => {
       success: true,
     }).save();
 
-    let plugin = new JobResultPlugin();
-    let result = await plugin.getResults("a");
+    const plugin = new JobResultPlugin();
+    const result = await plugin.getResults("a");
     expect(result?.length).toBe(2);
     expect(await JobResultModel.count()).toBe(0);
   });

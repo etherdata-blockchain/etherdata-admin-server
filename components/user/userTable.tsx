@@ -29,7 +29,7 @@ export function UserTable({
   handlePageChange,
   currentPage,
 }: Props) {
-  const { results, count } = storageUser;
+  const { results, count, pageSize } = storageUser;
   const router = useRouter();
 
   const columns: GridColDef[] = [
@@ -80,11 +80,11 @@ export function UserTable({
       autoHeight
       disableSelectionOnClick
       paginationMode={"server"}
-      page={currentPage}
+      page={currentPage - 1}
       rowCount={count}
-      pageSize={Configurations.numberPerPage}
+      pageSize={pageSize}
       onPageChange={async (page) => {
-        await handlePageChange(page);
+        await handlePageChange(page + 1);
       }}
     />
   );

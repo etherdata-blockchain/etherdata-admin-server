@@ -120,13 +120,13 @@ export function DeviceTable({
         paginationMode={"server"}
         rowCount={totalNumRows}
         onPageChange={async (page) => {
-          await onPageChanged(page);
+          await onPageChanged(page + 1);
         }}
         autoHeight
         pageSize={numPerPage}
         disableSelectionOnClick
         pagination
-        page={currentPageNumber}
+        page={currentPageNumber - 1}
       />
     </div>
   );

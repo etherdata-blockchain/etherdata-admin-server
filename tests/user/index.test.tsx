@@ -1,3 +1,6 @@
+global.TextEncoder = require("util").TextEncoder;
+global.TextDecoder = require("util").TextDecoder;
+
 import React from "react";
 import UserPage from "../../pages/user/index";
 import "@testing-library/jest-dom";
@@ -9,6 +12,7 @@ import {
   PaginationResult,
   StorageUser,
 } from "../../internal/const/common_interfaces";
+import { Configurations } from "../../internal/const/configurations";
 
 describe("Given a user homepage", () => {
   beforeAll(() => {
@@ -21,6 +25,7 @@ describe("Given a user homepage", () => {
       count: 4,
       totalPage: 2,
       currentPage: 1,
+      pageSize: Configurations.numberPerPage,
       results: [
         {
           user_id: "1",

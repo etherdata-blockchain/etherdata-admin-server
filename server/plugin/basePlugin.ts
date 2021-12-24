@@ -4,6 +4,7 @@ import { PluginName } from "./pluginName";
 import Logger from "../logger";
 import { RegisteredPlugins } from "./plugins/socketIOPlugins/registeredPlugins";
 import { PaginationResult } from "../../internal/const/common_interfaces";
+import { Configurations } from "../../internal/const/configurations";
 
 export type SocketHandler = (socket: Socket) => void;
 
@@ -304,9 +305,12 @@ export abstract class DatabasePlugin<
     pageNumber: number,
     pageSize: number
   ): Promise<PaginationResult<T>> {
-    const skip = Math.max(0, (pageNumber ?? 0 - 1) * (pageSize ?? 20));
+    const skip = Math.max(
+      0,
+      (pageNumber - 1) * (pageSize ?? Configurations.numberPerPage)
+    );
     const limit = pageSize ?? 20;
-    const count = await model().estimatedDocumentCount();
+    const count = await model().countDocuments();
     const numPages = Math.ceil(count / pageSize);
     const results = await model().skip(skip).limit(limit).exec();
 
@@ -315,6 +319,7 @@ export abstract class DatabasePlugin<
       currentPage: pageNumber,
       results: results,
       totalPage: numPages,
+      pageSize: Configurations.numberPerPage,
     };
   }
 }

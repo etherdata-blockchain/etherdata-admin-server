@@ -6,7 +6,6 @@ import { BaseSocketIOPlugin } from "../../basePlugin";
 import { RegisteredPlugins } from "./registeredPlugins";
 import { JobResultModel } from "../../../../internal/services/dbSchema/queue/job-result";
 import { DeviceModel } from "../../../../internal/services/dbSchema/device";
-import { DeviceRegistrationPlugin } from "../../../../internal/services/dbServices/device-registration-plugin";
 import { ClientPlugin } from "./clientPlugin";
 import { PendingJobPlugin } from "../../../../internal/services/dbServices/pending-job-plugin";
 import { JobResultPlugin } from "../../../../internal/services/dbServices/job-result-plugin";
@@ -17,15 +16,11 @@ import { JobResultPlugin } from "../../../../internal/services/dbServices/job-re
 export class DBChangePlugin extends BaseSocketIOPlugin {
   pluginName: RegisteredPlugins = "dbChangePlugin";
 
+  // eslint-disable-next-line require-jsdoc
   constructor() {
     super();
     this.watchJobChanges();
     this.periodicJobs = [
-      {
-        interval: 10,
-        job: this.periodicSendLatestDevices.bind(this),
-        name: "periodic_device_data",
-      },
       {
         interval: 120,
         job: this.periodicRemoveJobsAndResponses.bind(this),
@@ -34,6 +29,9 @@ export class DBChangePlugin extends BaseSocketIOPlugin {
     ];
   }
 
+  /**
+   * Watch for collection's changes
+   */
   watchJobChanges() {
     JobResultModel.watch([], { fullDocument: "updateLookup" }).on(
       "change",
@@ -41,7 +39,7 @@ export class DBChangePlugin extends BaseSocketIOPlugin {
         const clientPlugin = this.findPlugin<ClientPlugin>("client");
         switch (data.operationType) {
           case "insert":
-            let result = data.fullDocument!;
+            const result = data.fullDocument!;
             if (result.success) {
               switch (result.commandType) {
                 case "docker":
@@ -99,17 +97,9 @@ export class DBChangePlugin extends BaseSocketIOPlugin {
     );
   }
 
-  async periodicSendLatestDevices() {
-    let devicePlugin = new DeviceRegistrationPlugin();
-    let clientPlugin = this.findPlugin<ClientPlugin>("client");
-
-    for (let [id, client] of Object.entries(clientPlugin!.browserClients)) {
-      // Update latest client number and number of online devices
-      let latestResult = await client.generatePaginationResult();
-      clientPlugin?.sendDataToClient(client, id, latestResult);
-    }
-  }
-
+  /**
+   * Periodic remove jobs from db
+   */
   async periodicRemoveJobsAndResponses() {
     const jobPlugin = new PendingJobPlugin();
     const jobResultPlugin = new JobResultPlugin();
