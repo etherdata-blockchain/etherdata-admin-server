@@ -1,14 +1,15 @@
 import { DatabasePlugin } from "../../../server/plugin/basePlugin";
-import { DeviceModel, IDevice } from "../dbSchema/device";
+import { DeviceModel, IDevice } from "../dbSchema/device/device";
 import { PluginName } from "../../../server/plugin/pluginName";
 import { Model, Query } from "mongoose";
 import axios, { AxiosError } from "axios";
 import moment from "moment";
 import jwt from "jsonwebtoken";
 import Logger from "../../../server/logger";
-import { StorageManagementSystemPlugin } from "./storage-management-system-plugin";
+import { StorageManagementItemPlugin } from "./storage-management-item-plugin";
 import { Environments } from "../../const/environments";
 import { PaginationResult, StorageItem } from "../../const/common_interfaces";
+import { Configurations } from "../../const/configurations";
 
 export interface VersionInfo {
   version: string;
@@ -120,10 +121,15 @@ export class DeviceRegistrationPlugin extends DatabasePlugin<any> {
    * @param filter
    */
   async getOnlineDevicesCount(deviceIds: string[]): Promise<number> {
-    const time = moment().subtract(10, "minutes");
-    const query = this.model.find({
-      lastSeen: { $gt: time.toDate() },
-    });
+    const time = moment().subtract(
+      Configurations.maximumNotSeenDuration,
+      "seconds"
+    );
+    const query = this.model
+      .find({
+        lastSeen: { $gt: time.toDate() },
+      })
+      .populate("isOnline");
     return query.count();
   }
 
@@ -226,7 +232,7 @@ export class DeviceRegistrationPlugin extends DatabasePlugin<any> {
   private async authFromDB(
     device: string
   ): Promise<[boolean, string | undefined]> {
-    const storageManagementPlugin = new StorageManagementSystemPlugin();
+    const storageManagementPlugin = new StorageManagementItemPlugin();
     // const foundDevice = await storageManagementPlugin.findDeviceById(device);
     //
     // if (foundDevice) {
@@ -238,18 +244,5 @@ export class DeviceRegistrationPlugin extends DatabasePlugin<any> {
     // } else {
     return [false, undefined];
     // }
-  }
-
-  /**
-   * Get list of device status by storage item
-   * @param items
-   */
-  async getDeviceStatusByStorageItems(
-    items: StorageItem[]
-  ): Promise<IDevice[]> {
-    let results = this.model.find({
-      id: { $in: items.map((i) => i.qr_code) },
-    });
-    return results;
   }
 }

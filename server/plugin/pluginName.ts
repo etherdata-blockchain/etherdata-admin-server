@@ -6,4 +6,5 @@ export type PluginName =
   | "staticNode"
   | "dockerImage"
   | "installScript"
-  | "storageItem";
+  | "storageItem"
+  | "storageOwner";

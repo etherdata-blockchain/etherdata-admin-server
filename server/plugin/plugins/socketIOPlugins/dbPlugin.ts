@@ -5,7 +5,7 @@
 import { BaseSocketIOPlugin } from "../../basePlugin";
 import { RegisteredPlugins } from "./registeredPlugins";
 import { JobResultModel } from "../../../../internal/services/dbSchema/queue/job-result";
-import { DeviceModel } from "../../../../internal/services/dbSchema/device";
+import { DeviceModel } from "../../../../internal/services/dbSchema/device/device";
 import { ClientPlugin } from "./clientPlugin";
 import { PendingJobPlugin } from "../../../../internal/services/dbServices/pending-job-plugin";
 import { JobResultPlugin } from "../../../../internal/services/dbServices/job-result-plugin";

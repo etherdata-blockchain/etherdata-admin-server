@@ -24,7 +24,7 @@ import { UIProviderContext } from "../../../../model/UIProvider";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { DeviceContext, socket } from "../../../../model/DeviceProvider";
 import { DockerPanel } from "../../../../../components/device/dockerPanel";
-import { IDevice } from "../../../../../internal/services/dbSchema/device";
+import { IDevice } from "../../../../../internal/services/dbSchema/device/device";
 
 interface Props {
   user: string | null;

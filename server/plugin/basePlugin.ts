@@ -1,5 +1,5 @@
 import { Namespace, Server, Socket } from "socket.io";
-import { Document, Model, Query } from "mongoose";
+import { Aggregate, Document, Model, Query } from "mongoose";
 import { PluginName } from "./pluginName";
 import Logger from "../logger";
 import { RegisteredPlugins } from "./plugins/socketIOPlugins/registeredPlugins";
@@ -305,6 +305,9 @@ export abstract class DatabasePlugin<
     pageNumber: number,
     pageSize: number
   ): Promise<PaginationResult<T>> {
+    if (pageNumber === 0) {
+      throw Error("Page number should be greater than 0");
+    }
     const skip = Math.max(
       0,
       (pageNumber - 1) * (pageSize ?? Configurations.numberPerPage)
@@ -313,6 +316,42 @@ export abstract class DatabasePlugin<
     const count = await model().countDocuments();
     const numPages = Math.ceil(count / pageSize);
     const results = await model().skip(skip).limit(limit).exec();
+
+    return {
+      count: count,
+      currentPage: pageNumber,
+      results: results,
+      totalPage: numPages,
+      pageSize: Configurations.numberPerPage,
+    };
+  }
+
+  /**
+   * Perform pagination operation on aggregation results
+   * @param aggregation
+   * @param model
+   * @param pageNumber current page number
+   * @param pageSize items per page
+   * @protected
+   */
+  protected async doPaginationForAgg(
+    aggregation: () => Aggregate<any>,
+    model: () => Query<T[], T[]>,
+    pageNumber: number,
+    pageSize: number
+  ): Promise<PaginationResult<T>> {
+    if (pageNumber === 0) {
+      throw Error("Page number should be greater than 0");
+    }
+
+    const skip = Math.max(
+      0,
+      (pageNumber - 1) * (pageSize ?? Configurations.numberPerPage)
+    );
+    const limit = pageSize ?? 20;
+    const count = await model().countDocuments();
+    const numPages = Math.ceil(count / pageSize);
+    const results = await aggregation().skip(skip).limit(limit).exec();
 
     return {
       count: count,

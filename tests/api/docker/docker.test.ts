@@ -16,6 +16,7 @@ import { StatusCodes } from "http-status-codes";
 import { createMocks } from "node-mocks-http";
 import { MockDockerImage, MockWebHookData } from "../../data/mock_docker_data";
 import jwt from "jsonwebtoken";
+import { Configurations } from "../../../internal/const/configurations";
 
 describe("Given a docker handler", () => {
   let dbServer: MongoMemoryServer;
@@ -150,7 +151,7 @@ describe("Given a docker handler", () => {
       method: "GET",
       query: {
         pageSize: "2",
-        page: "0",
+        page: Configurations.defaultPaginationStartingPage,
       },
       headers: {
         Authorization: "Bearer " + token,

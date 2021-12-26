@@ -1,14 +1,13 @@
 global.TextEncoder = require("util").TextEncoder;
 global.TextDecoder = require("util").TextDecoder;
+
 import mongoose from "mongoose";
 import { MongoMemoryServer } from "mongodb-memory-server";
 import { JobResultModel } from "../../internal/services/dbSchema/queue/job-result";
 import { JobResultPlugin } from "../../internal/services/dbServices/job-result-plugin";
-import { StorageManagementSystemPlugin } from "../../internal/services/dbServices/storage-management-system-plugin";
+import { StorageManagementItemPlugin } from "../../internal/services/dbServices/storage-management-item-plugin";
 
-jest.mock(
-  "../../internal/services/dbServices/storage-management-system-plugin"
-);
+jest.mock("../../internal/services/dbServices/storage-management-item-plugin");
 
 describe("Job Result Test", () => {
   let dbServer: MongoMemoryServer;
@@ -28,7 +27,7 @@ describe("Job Result Test", () => {
 
   test("Get a result", async () => {
     //@ts-ignore
-    StorageManagementSystemPlugin.mockImplementation(() => {
+    StorageManagementItemPlugin.mockImplementation(() => {
       return {
         findDeviceById: jest.fn(() => Promise.resolve({ a: "a" })),
       };

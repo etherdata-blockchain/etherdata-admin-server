@@ -1,18 +1,18 @@
 global.TextEncoder = require("util").TextEncoder;
 global.TextDecoder = require("util").TextDecoder;
 import mongoose from "mongoose";
-import { DeviceModel } from "../../../internal/services/dbSchema/device";
+import { DeviceModel } from "../../../internal/services/dbSchema/device/device";
 import { MongoMemoryServer } from "mongodb-memory-server";
 import { createMocks } from "node-mocks-http";
 import jwt from "jsonwebtoken";
 import handler from "../../../pages/api/v1/device/status/send-status";
 import { mockDeviceData } from "../../data/mockDeviceData";
 import axios from "axios";
-import { StorageManagementSystemPlugin } from "../../../internal/services/dbServices/storage-management-system-plugin";
+import { StorageManagementItemPlugin } from "../../../internal/services/dbServices/storage-management-item-plugin";
 
 jest.mock("axios");
 jest.mock(
-  "../../../internal/services/dbServices/storage-management-system-plugin"
+  "../../../internal/services/dbServices/storage-management-item-plugin"
 );
 
 describe("Test sending a user status", () => {
@@ -40,7 +40,7 @@ describe("Test sending a user status", () => {
 
   test("Add new user and update", async () => {
     //@ts-ignore
-    StorageManagementSystemPlugin.mockImplementation(() => {
+    StorageManagementItemPlugin.mockImplementation(() => {
       return {
         findDeviceById: jest.fn(() => Promise.resolve({ a: "a" })),
       };
@@ -62,7 +62,7 @@ describe("Test sending a user status", () => {
 
   test("Add new user without correct token", async () => {
     //@ts-ignore
-    StorageManagementSystemPlugin.mockImplementation(() => {
+    StorageManagementItemPlugin.mockImplementation(() => {
       return {
         findDeviceById: jest.fn(() => Promise.resolve({ a: "a" })),
       };

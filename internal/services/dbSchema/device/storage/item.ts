@@ -2,7 +2,7 @@
  * Create a storage orm
  */
 import mongoose, { Document, model, Model, Schema } from "mongoose";
-import { StorageItem } from "../../../const/common_interfaces";
+import { StorageItem } from "../../../../const/common_interfaces";
 import { IDevice } from "../device";
 
 export interface IStorageItem extends Document, StorageItem {
@@ -12,6 +12,7 @@ export interface IStorageItem extends Document, StorageItem {
 export const storageItemSchema = new Schema<IStorageItem>(
   {
     qr_code: { type: "string", unique: true },
+    owner_id: { type: "string" },
   },
   { collection: "storage_management_item", toJSON: { virtuals: true } }
 );

@@ -1,4 +1,4 @@
-import { IDevice } from "../services/dbSchema/device";
+import { IDevice } from "../services/dbSchema/device/device";
 
 export interface PaginationResult<T> {
   results: T[];
@@ -27,13 +27,15 @@ export interface StorageItem {
   // eslint-disable-next-line camelcase
   created_time: Date;
   // eslint-disable-next-line camelcase
-  owner_name: OwnerName;
+  owner_name?: OwnerName;
   // eslint-disable-next-line camelcase
   machine_type_name: null;
   // eslint-disable-next-line camelcase
   location_name: null;
   // eslint-disable-next-line camelcase
   position_name: null;
+  // eslint-disable-next-line camelcase
+  owner_id: string;
   images: any[];
   uuid: string;
   // eslint-disable-next-line camelcase

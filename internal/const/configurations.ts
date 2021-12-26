@@ -8,4 +8,5 @@ export const Configurations = {
   maximumNotSeenDuration: 300,
   defaultExpireDuration: 365,
   defaultWebhookUser: "dockerhub",
+  defaultPaginationStartingPage: 1,
 };

@@ -24,7 +24,7 @@ import { abbreviateNumber } from "../../../../internal/utils/valueFormatter";
 import { UIProviderContext } from "../../../model/UIProvider";
 import { GetServerSideProps } from "next";
 import { DeviceRegistrationPlugin } from "../../../../internal/services/dbServices/device-registration-plugin";
-import { IDevice } from "../../../../internal/services/dbSchema/device";
+import { IDevice } from "../../../../internal/services/dbSchema/device/device";
 import { objectExpand } from "../../../../internal/utils/objectExpander";
 import Logger from "../../../../server/logger";
 import moment from "moment";

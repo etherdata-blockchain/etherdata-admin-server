@@ -1,14 +1,14 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { DeviceRegistrationPlugin } from "../../../../internal/services/dbServices/device-registration-plugin";
 import { jwtVerificationHandler } from "../../../../internal/nextHandler/jwt_verification_handler";
-import { StorageManagementSystemPlugin } from "../../../../internal/services/dbServices/storage-management-system-plugin";
+import { StorageManagementSystemPlugin } from "../../../../internal/services/dbServices/storage-management-item-plugin.ts";
 import {
   PaginationResult,
   StorageItem,
   StorageItemWithStatus,
 } from "../../../../internal/const/common_interfaces";
 import { StatusCodes } from "http-status-codes";
-import { IDevice } from "../../../../internal/services/dbSchema/device";
+import { IDevice } from "../../../../internal/services/dbSchema/device/device";
 
 /**
  * Merge status

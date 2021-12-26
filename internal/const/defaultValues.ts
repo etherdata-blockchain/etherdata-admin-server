@@ -2,7 +2,7 @@ import axios from "axios";
 import jwt from "jsonwebtoken";
 import { Environments } from "./environments";
 import { PaginationResult, StorageUser } from "./common_interfaces";
-import { IDevice } from "../services/dbSchema/device";
+import { IDevice } from "../services/dbSchema/device/device";
 
 export const DefaultPaginationResult: PaginationResult<IDevice> = {
   count: 0,

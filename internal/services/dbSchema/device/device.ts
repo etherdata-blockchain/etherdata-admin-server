@@ -4,8 +4,10 @@
  * This file contains the user dbSchema for mongodb user collection
  */
 import mongoose, { Document, model, Schema } from "mongoose";
-import { Web3DataInfo } from "../../../server/client/node_data";
+import { Web3DataInfo } from "../../../../server/client/node_data";
 import { ContainerInfo, ImageInfo } from "dockerode";
+import moment from "moment";
+import { Configurations } from "../../../const/configurations";
 
 interface Docker {
   images: ImageInfo[];
@@ -30,6 +32,18 @@ export const deviceSchema = new Schema<IDevice>({
   data: { type: Object, required: false },
   adminVersion: { type: String, required: true },
   docker: { type: Object, required: false },
+});
+
+deviceSchema.virtual("isOnline").get(function () {
+  // @ts-ignore
+  if (!this.lastSeen) {
+    return false;
+  }
+
+  const now = moment();
+  // @ts-ignore
+  const lastSeen = moment(this.lastSeen);
+  return Math.abs(now.diff(lastSeen)) < Configurations.maximumNotSeenDuration;
 });
 
 /**

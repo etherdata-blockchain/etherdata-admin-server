@@ -1,12 +1,15 @@
+import moment from "moment";
+
 global.TextEncoder = require("util").TextEncoder;
 global.TextDecoder = require("util").TextDecoder;
 
 import { MongoMemoryServer } from "mongodb-memory-server";
 import mongoose from "mongoose";
-import { DeviceModel } from "../../internal/services/dbSchema/device";
-import { DeviceRegistrationPlugin } from "../../internal/services/dbServices/device-registration-plugin";
+import { DeviceModel } from "../../../internal/services/dbSchema/device/device";
+import { DeviceRegistrationPlugin } from "../../../internal/services/dbServices/device-registration-plugin";
+import { Configurations } from "../../../internal/const/configurations";
 
-describe("DB Plugin Tests", () => {
+describe("Given a db plugin", () => {
   let dbServer: MongoMemoryServer;
 
   beforeAll(async () => {
@@ -22,11 +25,10 @@ describe("DB Plugin Tests", () => {
     dbServer.stop();
   });
 
-  test("Get Data By ID", async () => {
+  test("When calling get item by id", async () => {
     const device = await new DeviceModel({
       name: "a",
       id: "a",
-      online: true,
       adminVersion: "1.0.0",
     }).save();
     expect(device._id).toBeDefined();
@@ -37,24 +39,38 @@ describe("DB Plugin Tests", () => {
     expect(pluginResult?.id).toBeDefined();
   });
 
-  test("List All Items", async () => {
+  test("When calling list all items", async () => {
     await new DeviceModel({
       name: "a",
       id: "a",
-      online: true,
       adminVersion: "1.0.0",
+      lastSeen: moment()
+        .subtract(Configurations.maximumNotSeenDuration * 2, "seconds")
+        .toDate(),
     }).save();
 
     await new DeviceModel({
       name: "b",
       id: "b",
-      online: true,
+      adminVersion: "1.0.0",
+      lastSeen: new Date(),
+    }).save();
+
+    await new DeviceModel({
+      name: "c",
+      id: "c",
       adminVersion: "1.0.0",
     }).save();
 
     const plugin = new DeviceRegistrationPlugin();
-    const pluginResult = await plugin.list(0, 200);
-    expect(pluginResult?.results.length).toBe(2);
-    expect(pluginResult?.count).toBe(2);
+    const pluginResult = await plugin.list(
+      Configurations.defaultPaginationStartingPage,
+      200
+    );
+    expect(pluginResult?.results.length).toBe(3);
+    expect(pluginResult?.count).toBe(3);
+    expect(pluginResult?.results[0].isOnline).toBeFalsy();
+    expect(pluginResult?.results[1].isOnline).toBeTruthy();
+    expect(pluginResult?.results[2].isOnline).toBeFalsy();
   });
 });

@@ -1,0 +1,32 @@
+import { PaginationResult } from "../../const/common_interfaces";
+import { DatabasePlugin } from "../../../server/plugin/basePlugin";
+import {
+  IStorageItem,
+  StorageItemModel,
+} from "../dbSchema/device/storage/item";
+import { Model } from "mongoose";
+import { PluginName } from "../../../server/plugin/pluginName";
+import { Configurations } from "../../const/configurations";
+
+/**
+ * Storage management system plugin
+ */
+export class StorageManagementItemPlugin extends DatabasePlugin<IStorageItem> {
+  protected model: Model<IStorageItem> = StorageItemModel;
+  pluginName: PluginName = "storageItem";
+
+  /**
+   * Get devices by user ID
+   * @param{number} page current page number start from 1
+   * @param{string} userID user's pk
+   */
+  async getDevicesByUser(
+    page: number,
+    userID?: string
+  ): Promise<PaginationResult<IStorageItem>> {
+    const query = () =>
+      this.model.find({ "owner_name.user_id": userID }).populate("status");
+    //@ts-ignore
+    return this.doPagination(query, page, Configurations.numberPerPage);
+  }
+}

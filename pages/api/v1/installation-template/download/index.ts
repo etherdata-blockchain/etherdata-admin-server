@@ -41,12 +41,12 @@ async function handler(req: NextApiRequest, res: NextApiResponse<Response>) {
       {
         template_tag: templateName,
       },
-      0,
+      1,
       1
     );
     //TODO: Added random pick function
     const staticNodes = await staticNodePlugins.list(
-      0,
+      1,
       Configurations.numberPerPage
     );
 

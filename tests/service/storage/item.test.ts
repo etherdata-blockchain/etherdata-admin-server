@@ -1,19 +1,19 @@
+global.TextEncoder = require("util").TextEncoder;
+global.TextDecoder = require("util").TextDecoder;
+
 import {
   MockDeviceStatus,
   MockDeviceStatus2,
   MockStorageItem,
   MockStorageItem2,
-  MockStorageUser,
+  MockStorageUserId,
 } from "../../data/mock_storage_item";
 
-global.TextEncoder = require("util").TextEncoder;
-global.TextDecoder = require("util").TextDecoder;
-
-import { StorageItemModel } from "../../../internal/services/dbSchema/storage/item";
+import { StorageItemModel } from "../../../internal/services/dbSchema/device/storage/item";
 import mongoose from "mongoose";
 import { MongoMemoryServer } from "mongodb-memory-server";
-import { DeviceModel } from "../../../internal/services/dbSchema/device";
-import { StorageManagementSystemPlugin } from "../../../internal/services/dbServices/storage-management-system-plugin";
+import { DeviceModel } from "../../../internal/services/dbSchema/device/device";
+import { StorageManagementItemPlugin } from "../../../internal/services/dbServices/storage-management-item-plugin";
 import { expect } from "@jest/globals";
 
 describe("Given a storage item", () => {
@@ -39,8 +39,8 @@ describe("Given a storage item", () => {
     await DeviceModel.create(MockDeviceStatus);
     await DeviceModel.create(MockDeviceStatus2);
 
-    const plugin = new StorageManagementSystemPlugin();
-    const results = await plugin.getDevicesByUser(1, MockStorageUser);
+    const plugin = new StorageManagementItemPlugin();
+    const results = await plugin.getDevicesByUser(1, MockStorageUserId);
     expect(results.count).toBe(2);
     expect(results.results.length).toBe(2);
     expect(results.currentPage).toBe(1);
