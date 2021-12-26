@@ -6,6 +6,7 @@ import {
   MockDeviceStatus2,
   MockStorageItem,
   MockStorageItem2,
+  MockStorageItem3,
   MockStorageUserId,
 } from "../../data/mock_storage_item";
 
@@ -38,6 +39,7 @@ describe("Given a storage item", () => {
   test("When calling get devices by user", async () => {
     await StorageItemModel.create(MockStorageItem);
     await StorageItemModel.create(MockStorageItem2);
+    await StorageItemModel.create(MockStorageItem3);
     await DeviceModel.create(MockDeviceStatus);
     await DeviceModel.create(MockDeviceStatus2);
 
@@ -47,7 +49,7 @@ describe("Given a storage item", () => {
     expect(results.results.length).toBe(2);
     expect(results.currentPage).toBe(1);
 
-    expect(results.results[0].status.adminVersion).toBe(
+    expect(results.results[0].deviceStatus.adminVersion).toBe(
       MockDeviceStatus.adminVersion
     );
   });
@@ -63,10 +65,10 @@ describe("Given a storage item", () => {
     const result2 = await plugin.getDeviceByID(MockStorageItem2.qr_code);
 
     expect(result.qr_code).toBe(MockStorageItem.qr_code);
-    expect(result.status.isOnline).toBeTruthy();
+    expect(result.deviceStatus.isOnline).toBeTruthy();
 
     expect(result2.qr_code).toBe(MockStorageItem2.qr_code);
-    expect(result2.status.isOnline).toBeFalsy();
+    expect(result2.deviceStatus.isOnline).toBeFalsy();
   });
 
   test("When calling auth", async () => {

@@ -86,6 +86,7 @@ export class DBChangePlugin extends BaseSocketIOPlugin {
             break;
 
           case "update":
+            console.log("Sending data to", data.fullDocument?.id);
             clientPlugin?.server
               ?.in(data.fullDocument?.id)
               .emit("detail-info", data.fullDocument);

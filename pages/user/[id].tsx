@@ -30,10 +30,8 @@ import { Environments } from "../../internal/const/environments";
 import useSWR from "swr";
 import { getAxiosClient } from "../../internal/const/defaultValues";
 import { Routes } from "../../internal/const/routes";
-import {
-  PaginationResult,
-  StorageItemWithStatus,
-} from "../../internal/const/common_interfaces";
+import { PaginationResult } from "../../internal/const/common_interfaces";
+import { IStorageItem } from "../../internal/services/dbSchema/device/storage/item";
 
 interface Props {
   coinbase: string | undefined;
@@ -69,7 +67,7 @@ export default function ({
 }: Props) {
   const router = useRouter();
   const { history } = React.useContext(ETDContext);
-  const { data, error } = useSWR<PaginationResult<StorageItemWithStatus>>(
+  const { data, error } = useSWR<PaginationResult<IStorageItem>>(
     { userID, page },
     async (key) => {
       const result = await getAxiosClient().get(

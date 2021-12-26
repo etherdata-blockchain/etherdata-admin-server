@@ -6,7 +6,7 @@ import { StorageItem } from "../../../../const/common_interfaces";
 import { IDevice } from "../device";
 
 export interface IStorageItem extends Document, StorageItem {
-  status: IDevice;
+  deviceStatus: IDevice;
 }
 
 export const storageItemSchema = new Schema<IStorageItem>(
@@ -17,7 +17,7 @@ export const storageItemSchema = new Schema<IStorageItem>(
   { collection: "storage_management_item", toJSON: { virtuals: true } }
 );
 
-storageItemSchema.virtual("status", {
+storageItemSchema.virtual("deviceStatus", {
   localField: "qr_code",
   foreignField: "id",
   ref: "device",

@@ -1,35 +1,9 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { DeviceRegistrationPlugin } from "../../../../internal/services/dbServices/device-registration-plugin";
 import { jwtVerificationHandler } from "../../../../internal/nextHandler/jwt_verification_handler";
-import { StorageManagementSystemPlugin } from "../../../../internal/services/dbServices/storage-management-item-plugin.ts";
-import {
-  PaginationResult,
-  StorageItem,
-  StorageItemWithStatus,
-} from "../../../../internal/const/common_interfaces";
+import { StorageManagementItemPlugin } from "../../../../internal/services/dbServices/storage-management-item-plugin";
+import { PaginationResult } from "../../../../internal/const/common_interfaces";
 import { StatusCodes } from "http-status-codes";
-import { IDevice } from "../../../../internal/services/dbSchema/device/device";
-
-/**
- * Merge status
- * @param storageItems
- * @param status
- */
-function getStorageItemsWithStatus(
-  storageItems: PaginationResult<StorageItem>,
-  status: IDevice[]
-) {
-  const itemsWithStatus = storageItems.results.map((i) => {
-    const foundStatus = status.find((s) => s.id === i.qr_code);
-    const storageItemWithStatus: StorageItemWithStatus = {
-      ...i,
-      status: foundStatus,
-    };
-    return storageItemWithStatus;
-  });
-  storageItems.results = itemsWithStatus;
-  return storageItems;
-}
+import { Configurations } from "../../../../internal/const/configurations";
 
 /**
  * Found devices with status from storage management system and etd status database
@@ -39,20 +13,24 @@ function getStorageItemsWithStatus(
 async function handler(req: NextApiRequest, res: NextApiResponse) {
   const { user, page, online, adminVersion, nodeVersion } = req.query;
 
-  const plugin = new DeviceRegistrationPlugin();
-  const storagePlugin = new StorageManagementSystemPlugin();
+  const storagePlugin = new StorageManagementItemPlugin();
 
   try {
+    const pageNum = parseInt(
+      (page ??
+        Configurations.defaultPaginationStartingPage.toString()) as string
+    );
     const storageItems = await storagePlugin.getDevicesByUser(
-      page as string,
+      pageNum,
       user as string
     );
-    const status = await plugin.getDeviceStatusByStorageItems(
-      storageItems.results
-    );
-    const itemsWithStatus = getStorageItemsWithStatus(storageItems, status);
 
-    res.status(StatusCodes.OK).json(itemsWithStatus);
+    if (storageItems === undefined) {
+      res.status(StatusCodes.NOT_FOUND).json({});
+      return;
+    }
+
+    res.status(StatusCodes.OK).json(storageItems);
   } catch (e) {
     // @ts-ignore
     if (e.response.status !== StatusCodes.BAD_REQUEST) {

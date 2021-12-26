@@ -1,10 +1,7 @@
 import React from "react";
 import io, { Socket } from "socket.io-client";
 import { UIProviderContext } from "./UIProvider";
-import {
-  ClientFilter,
-  PaginationResult,
-} from "../../server/client/browserClient";
+
 import { ObjectId } from "bson";
 import { Environments } from "../../internal/const/environments";
 
@@ -14,12 +11,6 @@ interface DockerValue {
 }
 
 interface DeviceInterface {
-  loadingData: boolean;
-  paginationResult?: PaginationResult;
-  filterKeyword: string;
-
-  setFilterKeyword(v: string): void;
-
   sendDockerCommand(v: DockerValue): Promise<any>;
 
   joinDetail(deviceId: string): void;
@@ -27,12 +18,6 @@ interface DeviceInterface {
   leaveDetail(deviceId: string): void;
 
   sendCommand(methodName: string, params: any[]): Promise<any>;
-
-  handlePageChange(deviceIds: string[]): Promise<any>;
-
-  applyFilter(filter: ClientFilter): void;
-
-  clearFilter(): void;
 }
 
 // @ts-ignore
@@ -48,10 +33,6 @@ export let socket: Socket | undefined = undefined;
 export default function DeviceProvider(props: any) {
   const { children } = props;
   const { showSnackBarMessage } = React.useContext(UIProviderContext);
-  const [loadingData, setLoadingData] = React.useState(false);
-  const [filterKeyword, setFilterKeyword] = React.useState<string>("");
-  const [paginationResult, setPaginationResult] =
-    React.useState<PaginationResult>();
 
   React.useEffect(() => {
     socket = io("/clients", {
@@ -64,37 +45,15 @@ export default function DeviceProvider(props: any) {
     socket.on("connect", () => {
       showSnackBarMessage("Connected to admin socket server");
     });
-
-    socket.on("realtime-info", (paginationResult: PaginationResult) => {
-      setPaginationResult(paginationResult);
-    });
   }, []);
 
   const joinDetail = React.useCallback((deviceId: string) => {
+    console.log("Joining room");
     socket?.emit("join-room", deviceId);
   }, []);
 
   const leaveDetail = React.useCallback((deviceId: string) => {
     socket?.emit("leave-room", deviceId);
-  }, []);
-
-  const applyFilter = React.useCallback((filter: ClientFilter) => {
-    socket?.emit("apply-filter", filter);
-  }, []);
-
-  const clearFilter = React.useCallback(() => {
-    socket?.emit("apply-filter", undefined);
-  }, []);
-
-  const handlePageChange = React.useCallback(async (deviceIds: string[]) => {
-    return new Promise((resolve, reject) => {
-      socket?.emit("page-change", deviceIds);
-      socket?.once("page-changed", () => {
-        setLoadingData(false);
-        resolve(true);
-      });
-      setLoadingData(true);
-    });
   }, []);
 
   const sendCommand = React.useCallback(
@@ -139,16 +98,9 @@ export default function DeviceProvider(props: any) {
   );
 
   const value: DeviceInterface = {
-    filterKeyword,
-    loadingData,
-    setFilterKeyword,
     joinDetail,
     leaveDetail,
     sendCommand,
-    handlePageChange,
-    paginationResult,
-    applyFilter,
-    clearFilter,
     sendDockerCommand,
   };
 

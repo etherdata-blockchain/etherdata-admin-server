@@ -138,6 +138,7 @@ export abstract class BaseSocketAuthIOPlugin extends BaseSocketIOPlugin {
     if (this.server === undefined) {
       throw new Error("You should initialize your server");
     } else {
+      Logger.info("Starting socker server");
       this.server.on("connection", (socket) => {
         const token = socket.handshake.auth.token;
         const authenticated = this.auth(token);
@@ -146,6 +147,7 @@ export abstract class BaseSocketAuthIOPlugin extends BaseSocketIOPlugin {
             `[${this.pluginName}]: Client ${socket.id} is authenticated!`
           );
           this.onAuthenticated(socket, token);
+          console.log("handers", this.handlers);
           for (const handle of this.handlers) {
             handle(socket);
           }

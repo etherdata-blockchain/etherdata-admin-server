@@ -8,10 +8,10 @@ import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 import Spacer from "../Spacer";
 import { Configurations } from "../../internal/const/configurations";
-import { StorageItemWithStatus } from "../../internal/const/common_interfaces";
+import { IStorageItem } from "../../internal/services/dbSchema/device/storage/item";
 
 type Props = {
-  devices?: StorageItemWithStatus[];
+  devices?: IStorageItem[];
   loading?: boolean;
   currentPageNumber: number;
   totalPageNumber: number;
@@ -87,16 +87,16 @@ export function DeviceTable({
     return {
       id: index,
       deviceId: d.qr_code,
-      online: d.status?.lastSeen
-        ? Math.abs(moment(d.status?.lastSeen).diff(moment(), "seconds")) <
+      online: d.deviceStatus?.lastSeen
+        ? Math.abs(moment(d.deviceStatus?.lastSeen).diff(moment(), "seconds")) <
           Configurations.maximumNotSeenDuration
         : false,
-      blockNumber: d.status?.data?.number,
+      blockNumber: d.deviceStatus?.data?.number,
       name: d.name,
-      peerCount: d.status?.data?.systemInfo.peerCount,
-      difficulty: d.status?.data?.difficulty,
-      nodeInfo: d.status?.data?.systemInfo.nodeVersion,
-      adminVersion: d.status?.adminVersion,
+      peerCount: d.deviceStatus?.data?.systemInfo.peerCount,
+      difficulty: d.deviceStatus?.data?.difficulty,
+      nodeInfo: d.deviceStatus?.data?.systemInfo.nodeVersion,
+      adminVersion: d.deviceStatus?.adminVersion,
       detail: index,
     };
   });

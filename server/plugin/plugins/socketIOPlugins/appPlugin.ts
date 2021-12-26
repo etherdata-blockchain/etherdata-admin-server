@@ -73,6 +73,7 @@ export class AppPlugin extends BaseSocketAuthIOPlugin {
    */
   joinRoomHandler: SocketHandler = (socket) => {
     socket.on("join-room", async (roomId: string) => {
+      console.log("Joining", roomId, "browser");
       if (socket.rooms.size > 2) {
         socket.emit("join-room-error", {
           err: "You have already joined another room. You need to leave first!",

@@ -3,16 +3,13 @@ import * as React from "react";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { useRouter } from "next/dist/client/router";
 import { Button } from "@mui/material";
-import { Configurations } from "../../internal/const/configurations";
 import { DefaultStorageUser } from "../../internal/const/defaultValues";
 import qs from "query-string";
-import {
-  PaginationResult,
-  StorageUser,
-} from "../../internal/const/common_interfaces";
+import { PaginationResult } from "../../internal/const/common_interfaces";
+import { IStorageOwner } from "../../internal/services/dbSchema/device/storage/owner";
 
 type Props = {
-  storageUser: PaginationResult<StorageUser>;
+  storageUser: PaginationResult<IStorageOwner>;
   handlePageChange(number: number): Promise<void>;
   currentPage: number;
 };
@@ -36,6 +33,7 @@ export function UserTable({
     { field: "id", headerName: "ID", width: 3 },
     { field: "user_name", headerName: "User Name", flex: 3 },
     { field: "coinbase", headerName: "Coinbase", flex: 5 },
+    { field: "numDevices", headerName: "Online / Total", flex: 3 },
     {
       field: "detail",
       headerName: "Detail",
@@ -70,6 +68,7 @@ export function UserTable({
       detail: u.user_id,
       user_name: u.user_name,
       coinbase: u.coinbase,
+      numDevices: `${u.onlineCount}/${u.totalCount}`,
     };
   });
 

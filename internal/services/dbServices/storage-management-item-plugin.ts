@@ -25,7 +25,7 @@ export class StorageManagementItemPlugin extends DatabasePlugin<IStorageItem> {
     userID?: string
   ): Promise<PaginationResult<IStorageItem>> {
     const query = () =>
-      this.model.find({ "owner_name.user_id": userID }).populate("status");
+      this.model.find({ owner_id: userID }).populate("deviceStatus");
     //@ts-ignore
     return this.doPagination(query, page, Configurations.numberPerPage);
   }
@@ -35,7 +35,9 @@ export class StorageManagementItemPlugin extends DatabasePlugin<IStorageItem> {
    * @param deviceID
    */
   async getDeviceByID(deviceID: string): Promise<IStorageItem> {
-    const result = this.model.findOne({ qr_code: deviceID }).populate("status");
+    const result = this.model
+      .findOne({ qr_code: deviceID })
+      .populate("deviceStatus");
     return result.exec();
   }
 

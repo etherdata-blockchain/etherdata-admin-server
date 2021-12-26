@@ -9,14 +9,12 @@ import { GetServerSideProps } from "next";
 import { Pagination } from "@mui/material";
 import { useRouter } from "next/dist/client/router";
 import { TestingValues } from "../../internal/const/testingValues";
-import {
-  PaginationResult,
-  StorageUser,
-} from "../../internal/const/common_interfaces";
+import { PaginationResult } from "../../internal/const/common_interfaces";
 import { StorageManagementOwnerPlugin } from "../../internal/services/dbServices/storage-management-owner-plugin";
+import { IStorageOwner } from "../../internal/services/dbSchema/device/storage/owner";
 
 type Props = {
-  paginationResult: PaginationResult<StorageUser>;
+  paginationResult: PaginationResult<IStorageOwner>;
   currentPage: number;
 };
 

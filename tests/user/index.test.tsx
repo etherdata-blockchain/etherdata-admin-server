@@ -1,3 +1,5 @@
+import { IStorageOwner } from "../../internal/services/dbSchema/device/storage/owner";
+
 global.TextEncoder = require("util").TextEncoder;
 global.TextDecoder = require("util").TextDecoder;
 
@@ -21,7 +23,7 @@ describe("Given a user homepage", () => {
   });
 
   test("When go to the first default page", async () => {
-    const paginatedStorageUsers: PaginationResult<StorageUser> = {
+    const paginatedStorageUsers: PaginationResult<any> = {
       count: 4,
       totalPage: 2,
       currentPage: 1,
