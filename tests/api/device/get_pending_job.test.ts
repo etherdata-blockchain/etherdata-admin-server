@@ -6,7 +6,7 @@ import { MongoMemoryServer } from "mongodb-memory-server";
 import { createMocks } from "node-mocks-http";
 import jwt from "jsonwebtoken";
 import handler from "../../../pages/api/v1/device/job/get-job";
-import { mockDeviceData } from "../../data/mockDeviceData";
+import { MockDeviceData } from "../../data/mock_device_data";
 import { PendingJobModel } from "../../../internal/services/dbSchema/queue/pending-job";
 import { StorageManagementItemPlugin } from "../../../internal/services/dbServices/storage-management-item-plugin";
 
@@ -31,9 +31,7 @@ describe("Test getting a pending job", () => {
   afterEach(async () => {
     try {
       await PendingJobModel.collection.drop();
-    } catch (e) {
-      // console.log("Collection not exists");
-    }
+    } catch (e) {}
   });
 
   afterAll(() => {
@@ -44,7 +42,7 @@ describe("Test getting a pending job", () => {
     //@ts-ignore
     StorageManagementItemPlugin.mockImplementation(() => {
       return {
-        findDeviceById: jest.fn(() => Promise.resolve({ a: "a" })),
+        auth: jest.fn(() => Promise.resolve(true)),
       };
     });
 
@@ -65,7 +63,7 @@ describe("Test getting a pending job", () => {
       headers: {
         Authorization: "Bearer " + token,
       },
-      body: mockDeviceData,
+      body: MockDeviceData,
     });
 
     //@ts-ignore

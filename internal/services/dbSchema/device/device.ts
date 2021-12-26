@@ -15,6 +15,7 @@ interface Docker {
 }
 
 export interface IDevice extends Document {
+  isOnline?: boolean;
   lastSeen?: Date;
   id: string;
   name: string;
@@ -43,7 +44,8 @@ deviceSchema.virtual("isOnline").get(function () {
   const now = moment();
   // @ts-ignore
   const lastSeen = moment(this.lastSeen);
-  return Math.abs(now.diff(lastSeen)) < Configurations.maximumNotSeenDuration;
+  const diff = now.diff(lastSeen, "seconds");
+  return Math.abs(diff) < Configurations.maximumNotSeenDuration;
 });
 
 /**

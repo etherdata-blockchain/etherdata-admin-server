@@ -116,35 +116,18 @@ export class DeviceRegistrationPlugin extends DatabasePlugin<any> {
   }
 
   /**
-   * Get number of online devices
-   * @param deviceIds
-   * @param filter
+   * Get total number of online devices
    */
-  async getOnlineDevicesCount(deviceIds: string[]): Promise<number> {
+  async getOnlineDevicesCount(): Promise<number> {
     const time = moment().subtract(
       Configurations.maximumNotSeenDuration,
       "seconds"
     );
-    const query = this.model
-      .find({
-        lastSeen: { $gt: time.toDate() },
-      })
-      .populate("isOnline");
-    return query.count();
-  }
+    const query = this.model.find({
+      lastSeen: { $gt: time.toDate() },
+    });
 
-  /**
-   * Get device by device id
-   * @param deviceID
-   */
-  async findDeviceByDeviceID(deviceID: string): Promise<IDevice | null> {
-    const query = this.model.findOne({ id: deviceID });
-    const result = await query.exec();
-    if (result?.data?.systemInfo.isSyncing) {
-      //@ts-ignore
-      result.data.systemInfo.isSyncing = true;
-    }
-    return JSON.parse(JSON.stringify(result));
+    return query.count();
   }
 
   /**
@@ -233,16 +216,16 @@ export class DeviceRegistrationPlugin extends DatabasePlugin<any> {
     device: string
   ): Promise<[boolean, string | undefined]> {
     const storageManagementPlugin = new StorageManagementItemPlugin();
-    // const foundDevice = await storageManagementPlugin.findDeviceById(device);
-    //
-    // if (foundDevice) {
-    //   // Generate a key for next task
-    //   const newKey = jwt.sign({ device }, process.env.PUBLIC_SECRET!, {
-    //     expiresIn: 600,
-    //   });
-    //   return [true, newKey];
-    // } else {
-    return [false, undefined];
-    // }
+    const authorized = await storageManagementPlugin.auth(device);
+
+    if (authorized) {
+      // Generate a key for next task
+      const newKey = jwt.sign({ device }, process.env.PUBLIC_SECRET!, {
+        expiresIn: 600,
+      });
+      return [true, newKey];
+    } else {
+      return [false, undefined];
+    }
   }
 }

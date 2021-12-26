@@ -29,4 +29,21 @@ export class StorageManagementItemPlugin extends DatabasePlugin<IStorageItem> {
     //@ts-ignore
     return this.doPagination(query, page, Configurations.numberPerPage);
   }
+
+  /**
+   * Get device with status from database
+   * @param deviceID
+   */
+  async getDeviceByID(deviceID: string): Promise<IStorageItem> {
+    const result = this.model.findOne({ qr_code: deviceID }).populate("status");
+    return result.exec();
+  }
+
+  /**
+   * Return true if device exists in the database
+   * @param deviceID
+   */
+  async auth(deviceID: string): Promise<boolean> {
+    return await this.model.exists({ qr_code: deviceID });
+  }
 }

@@ -18,13 +18,6 @@ export const storageOwnerSchema = new Schema<IStorageOwner>(
   { collection: "storage_management_owner", toJSON: { virtuals: true } }
 );
 
-storageOwnerSchema.virtual("totalCount", {
-  localField: "user_id",
-  foreignField: "owner_id",
-  ref: "storage_item",
-  count: true,
-});
-
 /**
  *
  */

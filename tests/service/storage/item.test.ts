@@ -25,8 +25,10 @@ describe("Given a storage item", () => {
   });
 
   afterEach(async () => {
-    await StorageItemModel.collection.drop();
-    await DeviceModel.collection.drop();
+    try {
+      await StorageItemModel.collection.drop();
+      await DeviceModel.collection.drop();
+    } catch (e) {}
   });
 
   afterAll(() => {
@@ -48,5 +50,30 @@ describe("Given a storage item", () => {
     expect(results.results[0].status.adminVersion).toBe(
       MockDeviceStatus.adminVersion
     );
+  });
+
+  test("When calling item by id", async () => {
+    await StorageItemModel.create(MockStorageItem);
+    await StorageItemModel.create(MockStorageItem2);
+    await DeviceModel.create(MockDeviceStatus);
+    await DeviceModel.create(MockDeviceStatus2);
+
+    const plugin = new StorageManagementItemPlugin();
+    const result = await plugin.getDeviceByID(MockStorageItem.qr_code);
+    const result2 = await plugin.getDeviceByID(MockStorageItem2.qr_code);
+
+    expect(result.qr_code).toBe(MockStorageItem.qr_code);
+    expect(result.status.isOnline).toBeTruthy();
+
+    expect(result2.qr_code).toBe(MockStorageItem2.qr_code);
+    expect(result2.status.isOnline).toBeFalsy();
+  });
+
+  test("When calling auth", async () => {
+    await StorageItemModel.create(MockStorageItem);
+
+    const plugin = new StorageManagementItemPlugin();
+    const authorized = plugin.auth(MockStorageItem.qr_code);
+    expect(authorized).toBeTruthy();
   });
 });

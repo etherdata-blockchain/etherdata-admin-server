@@ -23,7 +23,6 @@ import { DeviceContext, socket } from "../../../model/DeviceProvider";
 import { abbreviateNumber } from "../../../../internal/utils/valueFormatter";
 import { UIProviderContext } from "../../../model/UIProvider";
 import { GetServerSideProps } from "next";
-import { DeviceRegistrationPlugin } from "../../../../internal/services/dbServices/device-registration-plugin";
 import { IDevice } from "../../../../internal/services/dbSchema/device/device";
 import { objectExpand } from "../../../../internal/utils/objectExpander";
 import Logger from "../../../../server/logger";
@@ -33,6 +32,7 @@ import AlbumIcon from "@mui/icons-material/Album";
 import { ContainerDialog } from "../../../../components/device/dialog/containerDialog";
 import { ImageDialog } from "../../../../components/device/dialog/imageDialog";
 import { Configurations } from "../../../../internal/const/configurations";
+import { StorageManagementItemPlugin } from "../../../../internal/services/dbServices/storage-management-item-plugin";
 
 type Props = {
   device: IDevice | null;
@@ -237,8 +237,8 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
   let found: boolean = false;
 
   try {
-    const plugin = new DeviceRegistrationPlugin();
-    const client = await plugin.findDeviceByDeviceID(deviceId);
+    const plugin = new StorageManagementItemPlugin();
+    const client = await plugin.getDeviceByID(deviceId);
     if (client) {
       found = true;
       device = client;

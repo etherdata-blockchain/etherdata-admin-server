@@ -1,4 +1,4 @@
-export const mockDeviceData = {
+export const MockDeviceData = {
   nodeName: "etd-test",
   data: {
     difficulty: "0x87e92989",
@@ -43,4 +43,25 @@ export const mockDeviceData = {
     avgBlockTime: 20,
     peers: [],
   },
+};
+
+export const MockAdminVersion1 = {
+  name: "b",
+  id: "b",
+  adminVersion: "1.0.0",
+  lastSeen: new Date(),
+};
+
+export const MockAdminVersion2 = {
+  name: "b",
+  id: "b",
+  adminVersion: "2.0.0",
+  lastSeen: new Date(),
+};
+
+export const MockAdminVersion3 = {
+  name: "b",
+  id: "b",
+  adminVersion: "3.0.0",
+  lastSeen: new Date(),
 };

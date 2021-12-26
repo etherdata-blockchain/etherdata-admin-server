@@ -6,6 +6,7 @@ import Logger from "../../../../../server/logger";
 import { JobResultPlugin } from "../../../../../internal/services/dbServices/job-result-plugin";
 import { IJobResult } from "../../../../../internal/services/dbSchema/queue/job-result";
 import { ObjectId } from "mongodb";
+import { StatusCodes } from "http-status-codes";
 
 type Data = {
   error?: string;
@@ -33,15 +34,15 @@ async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
       result._id = new ObjectId(result.jobId);
       returnData.key = newKey;
       await plugin.patch(result);
-      res.status(201).json(returnData);
+      res.status(StatusCodes.CREATED).json(returnData);
     } else {
       returnData.error = "Device is not in our DB";
-      res.status(500).json(returnData);
+      res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(returnData);
     }
   } catch (err) {
     Logger.error(err);
     returnData.error = `${err}`;
-    res.status(500).json(returnData);
+    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(returnData);
   }
 }
 

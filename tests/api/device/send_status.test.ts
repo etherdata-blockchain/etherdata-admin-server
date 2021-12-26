@@ -1,3 +1,5 @@
+import { StatusCodes } from "http-status-codes";
+
 global.TextEncoder = require("util").TextEncoder;
 global.TextDecoder = require("util").TextDecoder;
 import mongoose from "mongoose";
@@ -6,7 +8,7 @@ import { MongoMemoryServer } from "mongodb-memory-server";
 import { createMocks } from "node-mocks-http";
 import jwt from "jsonwebtoken";
 import handler from "../../../pages/api/v1/device/status/send-status";
-import { mockDeviceData } from "../../data/mockDeviceData";
+import { MockDeviceData } from "../../data/mock_device_data";
 import axios from "axios";
 import { StorageManagementItemPlugin } from "../../../internal/services/dbServices/storage-management-item-plugin";
 
@@ -42,7 +44,7 @@ describe("Test sending a user status", () => {
     //@ts-ignore
     StorageManagementItemPlugin.mockImplementation(() => {
       return {
-        findDeviceById: jest.fn(() => Promise.resolve({ a: "a" })),
+        auth: jest.fn(() => Promise.resolve(true)),
       };
     });
 
@@ -52,7 +54,7 @@ describe("Test sending a user status", () => {
       headers: {
         Authorization: "Bearer " + token,
       },
-      body: mockDeviceData,
+      body: MockDeviceData,
     });
 
     //@ts-ignore
@@ -74,11 +76,11 @@ describe("Test sending a user status", () => {
       headers: {
         Authorization: "Bearer " + token,
       },
-      body: mockDeviceData,
+      body: MockDeviceData,
     });
 
     //@ts-ignore
     await handler(req, res);
-    expect(res._getStatusCode()).toBe(403);
+    expect(res._getStatusCode()).toBe(StatusCodes.UNAUTHORIZED);
   });
 });

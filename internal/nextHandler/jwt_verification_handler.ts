@@ -39,6 +39,6 @@ export const jwtVerificationHandler =
       return fn(req, res);
     } catch (e) {
       console.log(e);
-      res.status(403).json({ reason: "Not authorized" });
+      res.status(StatusCodes.UNAUTHORIZED).json({ reason: "Not authorized" });
     }
   };
