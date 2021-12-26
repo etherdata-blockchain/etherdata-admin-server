@@ -20,7 +20,6 @@ export class ClientPlugin extends AppPlugin {
       this.disconnectHandler,
       this.handlePushUpdates,
       this.dockerCommandHandler,
-      this.test,
     ];
   }
 
@@ -37,13 +36,6 @@ export class ClientPlugin extends AppPlugin {
     this.connectServer();
     return true;
   }
-
-  test: SocketHandler = (socket) => {
-    socket.on("test", (roomId: string) => {
-      Logger.info("Testing");
-      this.server?.send("helloworld");
-    });
-  };
 
   protected onUnAuthenticated(socket: Socket): void {}
 }

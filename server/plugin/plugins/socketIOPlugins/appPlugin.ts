@@ -73,7 +73,6 @@ export class AppPlugin extends BaseSocketAuthIOPlugin {
    */
   joinRoomHandler: SocketHandler = (socket) => {
     socket.on("join-room", async (roomId: string) => {
-      console.log("Joining", roomId, "browser");
       if (socket.rooms.size > 2) {
         socket.emit("join-room-error", {
           err: "You have already joined another room. You need to leave first!",
@@ -210,7 +209,7 @@ export class AppPlugin extends BaseSocketAuthIOPlugin {
 
   protected onAuthenticated(socket: Socket, password: string): void {
     const data = jwt.decode(password, { json: true });
-    this.user[socket.id] = data!.user;
+    this.user[socket.id] = data?.user;
   }
 
   // eslint-disable-next-line require-jsdoc

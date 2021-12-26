@@ -16,13 +16,6 @@ const nextApp = next({ dev });
 const nextHandler = nextApp.getRequestHandler();
 
 nextApp.prepare().then(async () => {
-  const client = new MongoClient(
-    Environments.ServerSideEnvironments.MONGODB_URL!
-  );
-  await client.connect();
-  // @ts-ignore
-  global.MONGO_CLIENT = client;
-
   const server = express();
   const httpServer = createServer(server);
   const plugins: any[] = [

@@ -66,11 +66,10 @@ export default function DeviceDetail({ device, found }: Props) {
     if (found) joinDetail(device?.qr_code);
 
     socket?.on("detail-info", (data) => {
-      console.log(data);
       if (foundDevice) {
         foundDevice.deviceStatus = data;
       }
-      setFoundDevice(foundDevice);
+      setFoundDevice(JSON.parse(JSON.stringify(foundDevice)));
     });
 
     return () => {

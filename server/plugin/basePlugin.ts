@@ -147,7 +147,6 @@ export abstract class BaseSocketAuthIOPlugin extends BaseSocketIOPlugin {
             `[${this.pluginName}]: Client ${socket.id} is authenticated!`
           );
           this.onAuthenticated(socket, token);
-          console.log("handers", this.handlers);
           for (const handle of this.handlers) {
             handle(socket);
           }
