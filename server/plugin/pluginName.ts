@@ -7,4 +7,5 @@ export type PluginName =
   | "dockerImage"
   | "installScript"
   | "storageItem"
-  | "storageOwner";
+  | "storageOwner"
+  | "updateScript";
