@@ -1,7 +1,7 @@
 /**
  * Create a image object for storing required information used in generate script
  */
-import mongoose, { Document, model, Schema } from "mongoose";
+import mongoose, { Document, Model, model, Schema } from "mongoose";
 
 export interface IDockerImage extends Document {
   imageName: string;
@@ -38,6 +38,6 @@ export const dockerImageSchema = new Schema<IDockerImage>(
   }
 );
 
-export const DockerImageModel =
+export const DockerImageModel: Model<IDockerImage> =
   mongoose.models.dockerImage ??
   model<IDockerImage>("dockerImage", dockerImageSchema);

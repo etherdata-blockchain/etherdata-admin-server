@@ -5,17 +5,20 @@ import mongoose, { Document, model, Model, Schema } from "mongoose";
 import { ContainerStack, ImageStack } from "docker-plan";
 
 export interface IUpdateScript extends Document {
-  targetDeviceId: string;
+  targetDeviceId?: string;
+  targetGroupId?: string;
   /**
    * From client id.
    */
   from: string;
   time: Date;
-  task: ContainerStack;
+  imageStacks: ImageStack[];
+  containerStacks: ContainerStack[];
 }
 
-const ImageStackSchema = new Schema<ImageStack>({
-  tag: { type: "String", required: true },
+const ImageStackSchema = new Schema({
+  tag: { type: Schema.Types.ObjectId, required: true },
+  image: { type: Schema.Types.ObjectId, required: true },
 });
 
 const ContainerStackSchema = new Schema<ContainerStack>({
@@ -24,14 +27,12 @@ const ContainerStackSchema = new Schema<ContainerStack>({
 });
 
 export const UpdateScriptSchema = new Schema<IUpdateScript>({
-  targetDeviceId: { type: String, required: true },
+  targetDeviceId: { type: String, required: false },
+  targetGroupId: { type: String, required: false },
   time: { type: Date, required: true },
   from: { type: String, required: true },
-  task: {
-    imageStacks: [{ type: ImageStackSchema }],
-    containerStacks: [{ type: ContainerStackSchema, required: true }],
-    env: { type: String, required: true },
-  },
+  imageStacks: [{ type: ImageStackSchema }],
+  containerStacks: [{ type: ContainerStackSchema, required: true }],
 });
 
 /**
