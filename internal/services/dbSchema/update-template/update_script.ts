@@ -11,7 +11,6 @@ export interface IUpdateScript extends Document {
    * From client id.
    */
   from: string;
-  time: Date;
   imageStacks: ImageStack[];
   containerStacks: ContainerStack[];
 }
@@ -26,14 +25,16 @@ const ContainerStackSchema = new Schema<ContainerStack>({
   image: ImageStackSchema,
 });
 
-export const UpdateScriptSchema = new Schema<IUpdateScript>({
-  targetDeviceId: { type: String, required: false },
-  targetGroupId: { type: String, required: false },
-  time: { type: Date, required: true },
-  from: { type: String, required: true },
-  imageStacks: [{ type: ImageStackSchema }],
-  containerStacks: [{ type: ContainerStackSchema, required: true }],
-});
+export const UpdateScriptSchema = new Schema<IUpdateScript>(
+  {
+    targetDeviceId: { type: String, required: false },
+    targetGroupId: { type: String, required: false },
+    from: { type: String, required: true },
+    imageStacks: [{ type: ImageStackSchema }],
+    containerStacks: [{ type: ContainerStackSchema, required: true }],
+  },
+  { timestamps: true, autoIndex: true }
+);
 
 /**
  * Schema

@@ -1,10 +1,32 @@
 import { DatabasePlugin } from "../../../server/plugin/basePlugin";
-import { Model } from "mongoose";
+import { Model, mongo } from "mongoose";
 import { PluginName } from "../../../server/plugin/pluginName";
 import {
   IUpdateScript,
   UpdateScriptModel,
 } from "../dbSchema/update-template/update_script";
+import { DockerContainerConfig } from "docker-plan/src/internal/stack/container";
+
+interface UpdateImageStack {
+  imageName: string;
+  tags: { tag: string };
+}
+
+interface UpdateContainerStack {
+  containerId?: string;
+  containerName: string;
+  image: UpdateImageStack;
+  config?: DockerContainerConfig;
+}
+
+export interface IUpdateScriptWithDockerImage {
+  _id: string;
+  targetDeviceId?: string;
+  targetGroupId?: string;
+  from: string;
+  imageStacks: UpdateImageStack[];
+  containerStacks: UpdateContainerStack[];
+}
 
 // eslint-disable-next-line require-jsdoc
 export class UpdateScriptPlugin extends DatabasePlugin<IUpdateScript> {
@@ -12,10 +34,18 @@ export class UpdateScriptPlugin extends DatabasePlugin<IUpdateScript> {
   pluginName: PluginName = "updateScript";
 
   /**
-   * Will replace docker image tag id by real docker image
+   * Will replace docker image tag id by real docker image.
+   * Will return undefined when there is no such image
    */
-  async getUpdateTemplateWithDockerImage(): Promise<IUpdateScript> {
+  async getUpdateTemplateWithDockerImage(
+    id: string
+  ): Promise<IUpdateScriptWithDockerImage | undefined> {
     const pipeline: any[] = [
+      {
+        $match: {
+          _id: new mongo.ObjectId(id),
+        },
+      },
       {
         $unwind: {
           path: "$imageStacks",
@@ -70,9 +100,14 @@ export class UpdateScriptPlugin extends DatabasePlugin<IUpdateScript> {
       },
       {
         $match: {
-          $expr: {
-            $eq: ["$containerStacks.image.tag", "$container.tags._id"],
-          },
+          $or: [
+            {
+              $expr: {
+                $eq: ["$containerStacks.image.tag", "$container.tags._id"],
+              },
+            },
+            { imageStacks: { $exists: false } },
+          ],
         },
       },
       {
@@ -112,20 +147,12 @@ export class UpdateScriptPlugin extends DatabasePlugin<IUpdateScript> {
         },
       },
     ];
-    const result = this.model.aggregate([
-      pipeline[0],
-      pipeline[1],
-      pipeline[2],
-      pipeline[3],
-      pipeline[4],
-      pipeline[5],
-      pipeline[6],
-      pipeline[7],
-      pipeline[8],
-      pipeline[9],
-      pipeline[10],
-      pipeline[11],
-    ]);
-    return (await result.exec())[0];
+    const result = this.model.aggregate(pipeline);
+    const template = await result.exec();
+    if (template.length === 0) {
+      // @ts-ignore
+      return await this.get(id);
+    }
+    return template[0];
   }
 }

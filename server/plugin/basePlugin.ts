@@ -241,10 +241,10 @@ export abstract class DatabasePlugin<
 
   /**
    * Delete data
-   * @param{any} data
+   * @param{any} id
    */
-  async delete(data: T) {
-    return this.model.findOneAndRemove({ _id: data._id }).exec();
+  async delete(id: any) {
+    return this.model.findOneAndRemove({ _id: id }).exec();
   }
 
   /**

@@ -13,7 +13,7 @@ ENV NEXT_PUBLIC_VERSION=${VERSION}
 ENV NEXT_PUBLIC_SECRET=${NEXT_PUBLIC_SECRET}
 
 RUN apk add --no-cache python3 py3-pip
-RUN apk update && apk add make g++ && rm -rf /var/cache/apk/*
+RUN apk update-script && apk add make g++ && rm -rf /var/cache/apk/*
 
 WORKDIR /app/
 COPY . .

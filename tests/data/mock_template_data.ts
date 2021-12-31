@@ -4,7 +4,7 @@ export const MockDockerImage = {
 };
 
 export const MockDockerImage2 = {
-  imageName: "test",
+  imageName: "test-2",
   tags: [{ tag: "v1.0" }, { tag: "v1.1" }],
 };
 

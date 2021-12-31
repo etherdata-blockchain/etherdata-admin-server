@@ -59,7 +59,7 @@ describe("Given a docker handler", () => {
     await handler(req, res);
     expect(res._getStatusCode()).toBe(StatusCodes.CREATED);
     expect(await DockerImageModel.countDocuments()).toBe(1);
-
+    //@ts-ignore
     const data: IDockerImage = await DockerImageModel.findOne({}).exec();
     expect(data.tags[0].tag).toBe(MockDockerImage.tags[0].tag);
     expect(data.tags[0]._id).toBeDefined();
@@ -78,7 +78,7 @@ describe("Given a docker handler", () => {
     await webhookHandler(req, res);
     expect(res._getStatusCode()).toBe(StatusCodes.CREATED);
     expect(await DockerImageModel.countDocuments()).toBe(1);
-
+    //@ts-ignore
     const data: IDockerImage = await DockerImageModel.findOne({}).exec();
     expect(data.tags[0].tag).toBe(MockDockerImage.tags[0].tag);
     expect(data.tags[0]._id).toBeDefined();
@@ -105,7 +105,7 @@ describe("Given a docker handler", () => {
       imageName: "test/testhook",
     }).exec();
     expect(await DockerImageModel.countDocuments()).toBe(1);
-    expect(dockerData.tags.length).toBe(2);
+    expect(dockerData!.tags.length).toBe(2);
   });
 
   test("When making a get request", async () => {
