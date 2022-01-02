@@ -6,11 +6,9 @@ import {
   InstallationTemplateModel,
 } from "../dbSchema/install-script/install-script";
 import YAML from "yaml";
-import {
-  DockerImageModel,
-  IDockerImage,
-} from "../dbSchema/docker/docker-image";
+import { DockerImageModel } from "../dbSchema/docker/docker-image";
 import Logger from "../../../server/logger";
+import { postprocessData } from "../dbSchema/install-script/install-script-utils";
 
 /**
  * Installation template plugin
@@ -27,7 +25,9 @@ export class InstallationPlugin extends DatabasePlugin<IInstallationTemplate> {
   generateDockerComposeFile(
     installationTemplate: IInstallationTemplate
   ): string {
-    const deepCopiedTemplate = JSON.parse(JSON.stringify(installationTemplate));
+    const deepCopiedTemplate = JSON.parse(
+      JSON.stringify(postprocessData(installationTemplate))
+    );
     delete deepCopiedTemplate.created_by;
     delete deepCopiedTemplate.template_tag;
     delete deepCopiedTemplate.createdAt;
@@ -77,9 +77,8 @@ export class InstallationPlugin extends DatabasePlugin<IInstallationTemplate> {
     data: IInstallationTemplate,
     { upsert }: { upsert: boolean }
   ): Promise<IInstallationTemplate | undefined> {
-    const imageIds = Object.values(data.services).map(
-      (v) => v.image as unknown as string
-    );
+    // @ts-ignore
+    const imageIds = data.services.map((s) => s.service.image.tag);
     const foundIdsNumber = await DockerImageModel.countDocuments({
       "tags._id": { $in: imageIds },
     }).exec();
@@ -99,47 +98,76 @@ export class InstallationPlugin extends DatabasePlugin<IInstallationTemplate> {
   async getTemplateWithDockerImages(
     id: string
   ): Promise<IInstallationTemplate | undefined> {
-    try {
-      const template = await this.model.findOne({ _id: id }).exec();
-      if (template) {
-        const object = template.toJSON();
-        const imageIds = Object.values(object.services).map((s) =>
-          s.image.toString()
-        );
-        const images: IDockerImage[] = await DockerImageModel.find({
-          "tags._id": { $in: imageIds },
-        }).exec();
-        const outputImages: any[] = [];
-        for (const image of images) {
-          for (const tag of image.toJSON().tags) {
-            const found = imageIds.find(
-              (t) => t.toString() === tag._id?.toString()
-            );
-            if (found) {
-              const dockerImage: any = image;
-              dockerImage.tag = tag;
-              dockerImage.tags = [tag];
-              outputImages.push(dockerImage);
-              break;
-            }
-          }
-        }
-        const templateJSON = template.toJSON();
-        for (const [key, value] of Object.entries(templateJSON.services)) {
-          for (const image of outputImages) {
-            if (image.tag._id.toString() === value.image.toString()) {
-              value.image = image.toJSON();
-              templateJSON.services[key] = value;
-            }
-          }
-        }
+    const pipeline: any[] = [
+      {
+        $unwind: {
+          path: "$services",
+          preserveNullAndEmptyArrays: true,
+        },
+      },
+      {
+        $lookup: {
+          from: "dockerimages",
+          localField: "services.service.image.image",
+          foreignField: "_id",
+          as: "image",
+        },
+      },
+      {
+        $addFields: {
+          image: {
+            $first: "$image",
+          },
+        },
+      },
+      {
+        $unwind: {
+          path: "$image.tags",
+          preserveNullAndEmptyArrays: true,
+        },
+      },
+      {
+        $match: {
+          $expr: {
+            $eq: ["$services.service.image.tag", "$image.tags._id"],
+          },
+        },
+      },
+      {
+        $addFields: {
+          "image.tag": "$image.tags",
+        },
+      },
+      {
+        $addFields: {
+          "services.service.image": "$image",
+        },
+      },
+      {
+        $unset: ["image", "services.service.image.tags"],
+      },
+      {
+        $group: {
+          _id: "_id",
+          services: {
+            $push: "$services",
+          },
+          version: {
+            $first: "$version",
+          },
+          created_by: {
+            $first: "$created_by",
+          },
+          template_tag: {
+            $first: "$template_tag",
+          },
+        },
+      },
+    ];
 
-        return templateJSON as unknown as IInstallationTemplate;
-      }
-    } catch (e) {
-      console.log(e);
-    }
+    const query = this.model.aggregate(pipeline);
+    const results: IInstallationTemplate[] = await query.exec();
 
-    return undefined;
+    return results[0];
   }
 }

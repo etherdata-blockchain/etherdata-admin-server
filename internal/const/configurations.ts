@@ -9,4 +9,6 @@ export const Configurations = {
   defaultExpireDuration: 365,
   defaultWebhookUser: "dockerhub",
   defaultPaginationStartingPage: 1,
+  defaultThrottleDuration: 1000,
+  mongodbVersion: "4.4.10",
 };

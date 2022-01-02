@@ -135,13 +135,16 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
   const staticNodePlugin = new StaticNodePlugin();
   const installationPlugin = new InstallationPlugin();
 
-  const imagePromise = dockerImagePlugin.list(0, Configurations.numberPerPage);
+  const imagePromise = dockerImagePlugin.list(
+    Configurations.defaultPaginationStartingPage,
+    Configurations.numberPerPage
+  );
   const staticNodePromise = staticNodePlugin.list(
-    0,
+    Configurations.defaultPaginationStartingPage,
     Configurations.numberPerPage
   );
   const installationTemplatePromise = installationPlugin.list(
-    0,
+    Configurations.defaultPaginationStartingPage,
     Configurations.numberPerPage
   );
 

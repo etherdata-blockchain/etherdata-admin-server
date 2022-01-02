@@ -10,15 +10,18 @@ export const MockDockerImage2 = {
 
 export const MockInstallationTemplateData = {
   version: "3",
-  services: {
-    worker: {
-      image: MockDockerImage,
-      restart: "always",
-      environment: [],
-      volumes: [],
-      labels: [],
+  services: [
+    {
+      name: "worker",
+      service: {
+        image: MockDockerImage,
+        restart: "always",
+        environment: [],
+        volumes: [],
+        labels: [],
+      },
     },
-  },
+  ],
   // eslint-disable-next-line camelcase
   template_tag: "test",
   // eslint-disable-next-line camelcase
@@ -27,22 +30,28 @@ export const MockInstallationTemplateData = {
 
 export const MockComplicatedTemplateData = {
   version: "3",
-  services: {
-    worker: {
-      image: MockDockerImage,
-      restart: "always",
-      environment: [],
-      volumes: [],
-      labels: [],
+  services: [
+    {
+      name: "worker",
+      service: {
+        image: MockDockerImage,
+        restart: "always",
+        environment: [],
+        volumes: [],
+        labels: [],
+      },
     },
-    admin: {
-      image: MockDockerImage2,
-      restart: "always",
-      environment: [],
-      volumes: [],
-      labels: [],
+    {
+      name: "admin",
+      service: {
+        image: MockDockerImage2,
+        restart: "always",
+        environment: [],
+        volumes: [],
+        labels: [],
+      },
     },
-  },
+  ],
   // eslint-disable-next-line camelcase
   template_tag: "test",
   // eslint-disable-next-line camelcase

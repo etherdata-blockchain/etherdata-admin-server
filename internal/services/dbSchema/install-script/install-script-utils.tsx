@@ -132,11 +132,16 @@ export const columns: GridColDef[] = [
  * @param{IDockerImage[]} images
  * @return{any}
  */
-export function expandImages(images: IDockerImage[]): any[] {
+export function expandImages(images: IDockerImage[]): IDockerImage[] {
   const imageWithTags: any[] = [];
   for (const image of images) {
+    // @ts-ignore
+    if (image.tags.length === 0) {
+      imageWithTags.push({ ...image, tags: [{ tag: "latest" }] });
+    }
+    // @ts-ignore
     for (const tag of image.tags) {
-      imageWithTags.push({ image: image, tag: tag });
+      imageWithTags.push({ ...image, tags: [tag] });
     }
   }
   return imageWithTags;
@@ -151,32 +156,10 @@ export function expandImages(images: IDockerImage[]): any[] {
  */
 export function postprocessData(data: {
   services: { name: string; service: any }[];
-}): IInstallationTemplate {
+}): any {
   const services: { [key: string]: any } = {};
   for (const service of data.services) {
     services[service.name] = service.service;
-  }
-  const copied = JSON.parse(JSON.stringify(data));
-  copied.services = services;
-  return copied;
-}
-
-/**
- * Preprocess Data
- * When we provide a data for our database, then
- * we want to convert the format to the format we used in our json schema form.
- * Since our database use map to represent the services attribute,
- * and our json schema used list to represent the services attribute.
- * @param{any} data Data from database
- * @return{any} data will be used in json schema form
- */
-export function preprocessData(data: IInstallationTemplate): any {
-  const services: any[] = [];
-  for (const [key, value] of Object.entries(data.services ?? {})) {
-    services.push({
-      name: key ?? "",
-      service: value,
-    });
   }
   const copied = JSON.parse(JSON.stringify(data));
   copied.services = services;

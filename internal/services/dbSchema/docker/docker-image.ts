@@ -6,6 +6,10 @@ import mongoose, { Document, Model, model, Schema } from "mongoose";
 export interface IDockerImage extends Document {
   imageName: string;
   tags: IDOckerImageVersion[];
+  /**
+   * Will be set when query from installation template
+   */
+  tag?: IDOckerImageVersion;
 }
 
 interface IDOckerImageVersion extends Document {

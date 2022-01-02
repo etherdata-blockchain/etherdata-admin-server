@@ -45,7 +45,10 @@ describe("Given a installation template handler with index", () => {
     const deepCopiedTemplate = JSON.parse(
       JSON.stringify(MockInstallationTemplateData)
     );
-    deepCopiedTemplate.services.worker.image = dockerImage;
+    deepCopiedTemplate.services[0].service.image.image = dockerImage._id;
+    deepCopiedTemplate.services[0].service.image.image =
+      dockerImage.tags[0]._id;
+
     const template = await InstallationTemplateModel.create(deepCopiedTemplate);
     templateId = `${template._id}`;
   });

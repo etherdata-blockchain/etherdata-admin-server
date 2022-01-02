@@ -23,6 +23,9 @@ const token = () =>
     Environments.ClientSideEnvironments.NEXT_PUBLIC_SECRET
   );
 
+/**
+ * Axios client for admin server api
+ */
 export const getAxiosClient = () =>
   axios.create({
     headers: {
@@ -30,6 +33,9 @@ export const getAxiosClient = () =>
     },
   });
 
+/**
+ * Axios client for storage management system client
+ */
 export const getStorageManagementAxiosClient = () =>
   axios.create({
     headers: {

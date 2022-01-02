@@ -107,9 +107,16 @@ export class DockerImagePlugin extends DatabasePlugin<IDockerImage> {
    */
   async search(key: string): Promise<IDockerImage[]> {
     const query = this.model
-      .find({ $text: { $search: key } }, { score: { $meta: "textScore" } })
-      .sort({ score: { $meta: "textScore" } })
+      .find({ imageName: { $regex: ".*" + key + ".*" } })
       .limit(Configurations.numberPerPage);
     return query.exec();
   }
+
+  // /**
+  //  * Get a list of images by id
+  //  * @param imageIds
+  //  */
+  // async listImagesByTagIds(imageIds: string[]): Promise<IDockerImage[]> {
+  //   const query = this.model.find({});
+  // }
 }

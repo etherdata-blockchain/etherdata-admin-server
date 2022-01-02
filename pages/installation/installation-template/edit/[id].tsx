@@ -6,7 +6,6 @@ import Spacer from "../../../../components/Spacer";
 import Form from "@rjsf/bootstrap-4";
 import "bootstrap/dist/css/bootstrap.min.css";
 import {
-  expandImages,
   jsonSchema,
   postprocessData,
   preprocessData,
@@ -22,13 +21,14 @@ import { useRouter } from "next/dist/client/router";
 import { GetServerSideProps } from "next";
 import { InstallationPlugin } from "../../../../internal/services/dbServices/installation-plugin";
 import { IInstallationTemplate } from "../../../../internal/services/dbSchema/install-script/install-script";
-import { ImageField } from "../create";
 import { DockerImagePlugin } from "../../../../internal/services/dbServices/docker-image-plugin";
 import { Configurations } from "../../../../internal/const/configurations";
+import { ImageField } from "../../../../components/installation/DockerImageField";
+import { IDockerImage } from "../../../../internal/services/dbSchema/docker/docker-image";
 
 type Props = {
   installationTemplate: IInstallationTemplate;
-  expandImages: any[];
+  images: IDockerImage[];
 };
 
 /**
@@ -36,11 +36,9 @@ type Props = {
  * @param{Props} props
  * @constructor
  */
-export default function Index({ installationTemplate, expandImages }: Props) {
+export default function Index({ installationTemplate, images }: Props) {
   const [isLoading, setIsLoading] = React.useState(false);
-  const [formData, setFormData] = React.useState(
-    preprocessData(installationTemplate)
-  );
+  const [formData, setFormData] = React.useState(installationTemplate);
   const { showSnackBarMessage } = React.useContext(UIProviderContext);
   const router = useRouter();
   const url = `${Routes.installationTemplatesAPIEdit}/${installationTemplate._id}`;
@@ -48,7 +46,7 @@ export default function Index({ installationTemplate, expandImages }: Props) {
   const submitData = async (data: any) => {
     setIsLoading(true);
     try {
-      await getAxiosClient().patch(url, postprocessData(data));
+      await getAxiosClient().patch(url, data);
       await router.push(
         `${Routes.installation}?index=${DefaultInstallationScriptTag.installationTemplate}`
       );
@@ -94,11 +92,13 @@ export default function Index({ installationTemplate, expandImages }: Props) {
         <Form
           schema={jsonSchema}
           formData={formData}
+          liveValidate={true}
           onChange={(value) => {
             setFormData(value.formData);
           }}
           onSubmit={async (data) => {
-            await submitData(data.formData);
+            console.log(data.formData);
+            // await submitData(data.formData);
           }}
           widgets={{ image: ImageField }}
           uiSchema={{
@@ -108,7 +108,7 @@ export default function Index({ installationTemplate, expandImages }: Props) {
                   image: {
                     "ui:widget": "image",
                     "ui:options": {
-                      selections: expandImages,
+                      images: images,
                     },
                   },
                 },
@@ -135,9 +135,14 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
   const dockerPlugin = new DockerImagePlugin();
 
   const [foundTemplate, images] = await Promise.all([
-    installationPlugin.get(id as string),
-    dockerPlugin.list(0, Configurations.numberPerPage),
+    installationPlugin.getTemplateWithDockerImages(id as string),
+    dockerPlugin.list(
+      Configurations.defaultPaginationStartingPage,
+      Configurations.numberPerPage
+    ),
   ]);
+
+  console.log(foundTemplate);
 
   if (!foundTemplate) {
     return {
@@ -147,7 +152,7 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
 
   const data: Props = {
     installationTemplate: foundTemplate,
-    expandImages: expandImages(images?.results ?? []),
+    images: images?.results ?? [],
   };
   return {
     props: JSON.parse(JSON.stringify(data)),

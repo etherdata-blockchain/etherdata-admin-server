@@ -9,7 +9,7 @@ import { IDockerImage } from "../docker/docker-image";
  */
 export interface IInstallationTemplate extends Document {
   version: string;
-  services: { [key: string]: Service };
+  services: { name: string; service: Service }[];
   /**
    * Template tag used to identify the template
    */
@@ -29,13 +29,19 @@ interface Service {
   labels: string[];
 }
 
-const serviceSchema = new Schema<Service>({
-  image: { type: Schema.Types.ObjectId },
-  restart: "String",
-  environment: ["String"],
-  network_mode: "String",
-  volumes: ["String"],
-  labels: ["String"],
+const serviceSchema = new Schema<{ name: string; service: Service }>({
+  name: String,
+  service: {
+    image: {
+      image: { type: Schema.Types.ObjectId },
+      tag: { type: Schema.Types.ObjectId },
+    },
+    restart: "String",
+    environment: ["String"],
+    network_mode: "String",
+    volumes: ["String"],
+    labels: ["String"],
+  },
 });
 
 export const installationTemplateSchema = new Schema<IInstallationTemplate>(
@@ -47,7 +53,7 @@ export const installationTemplateSchema = new Schema<IInstallationTemplate>(
       auto: true,
     },
     template_tag: { type: String, unique: true },
-    services: { type: mongoose.Schema.Types.Map, of: serviceSchema },
+    services: [serviceSchema],
     created_by: "string",
     version: "string",
   },
