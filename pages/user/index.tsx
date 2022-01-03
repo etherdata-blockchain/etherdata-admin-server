@@ -1,17 +1,19 @@
 // @flow
 import * as React from "react";
-import PageHeader from "../../components/PageHeader";
-import Spacer from "../../components/Spacer";
+import PageHeader from "../../components/common/PageHeader";
+import Spacer from "../../components/common/Spacer";
 import { UserTable } from "../../components/user/userTable";
-import ResponsiveCard from "../../components/ResponsiveCard";
+import ResponsiveCard from "../../components/common/ResponsiveCard";
 import { AddUserBtn } from "../../components/user/addUserBtn";
 import { GetServerSideProps } from "next";
-import { Pagination } from "@mui/material";
+import { Box, Pagination } from "@mui/material";
 import { useRouter } from "next/dist/client/router";
 import { TestingValues } from "../../internal/const/testingValues";
 import { PaginationResult } from "../../internal/const/common_interfaces";
 import { StorageManagementOwnerPlugin } from "../../internal/services/dbServices/storage-management-owner-plugin";
 import { IStorageOwner } from "../../internal/services/dbSchema/device/storage/owner";
+import { Configurations } from "../../internal/const/configurations";
+import { PaddingBox } from "../../components/common/PaddingBox";
 
 type Props = {
   paginationResult: PaginationResult<IStorageOwner>;
@@ -35,23 +37,25 @@ export default function User({ paginationResult, currentPage }: Props) {
         action={<AddUserBtn />}
       />
       <Spacer height={20} />
-      <ResponsiveCard>
-        <Pagination
-          data-testid={TestingValues.pagination}
-          color={"primary"}
-          onChange={async (e, cur) => {
-            await handlePageChange(cur);
-          }}
-          count={totalPage}
-          page={currentPage}
-        />
-        <Spacer height={10} />
-        <UserTable
-          storageUser={paginationResult}
-          handlePageChange={handlePageChange}
-          currentPage={currentPage}
-        />
-      </ResponsiveCard>
+      <PaddingBox>
+        <ResponsiveCard>
+          <Pagination
+            data-testid={TestingValues.pagination}
+            color={"primary"}
+            onChange={async (e, cur) => {
+              await handlePageChange(cur);
+            }}
+            count={totalPage}
+            page={currentPage}
+          />
+          <Spacer height={10} />
+          <UserTable
+            storageUser={paginationResult}
+            handlePageChange={handlePageChange}
+            currentPage={currentPage}
+          />
+        </ResponsiveCard>
+      </PaddingBox>
     </div>
   );
 }

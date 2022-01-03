@@ -2,23 +2,38 @@ import Box from "@mui/material/Box";
 import { Form as BForm } from "react-bootstrap";
 import { DockerImageAutocompleteTextField } from "./DockerImageAutocompleteTextField";
 import * as React from "react";
+import { sleep } from "../../internal/utils/sleep";
 
 // eslint-disable-next-line require-jsdoc
 export function ImageField(props: any) {
-  //TODO: Use auto complete field in the future. Dynamically fetch image with tag
-  const { label, id, onChange, placeholder, options, value } = props;
+  const { title, properties, formData } = props;
+
+  const onChange = React.useCallback(
+    async (v: { image: string; tag: string }) => {
+      const image = properties[0].content;
+      const tag = properties[1].content;
+
+      const onImageChange = image.props.onChange;
+      const onTagChange = tag.props.onChange;
+
+      onImageChange(v.image);
+      await sleep(100);
+      onTagChange(v.tag);
+    },
+    []
+  );
+
   return (
     <Box>
-      <BForm.Label>{label}</BForm.Label>
+      <BForm.Label>{title}</BForm.Label>
       <DockerImageAutocompleteTextField
-        id={id}
-        defaultValues={options.images}
-        label={label}
-        placeholder={placeholder}
-        selection={value}
+        id={"image"}
+        label={title}
+        placeholder={title}
+        selection={formData}
         onChange={(v) => {
-          console.log(v.tags[0]._id);
-          onChange(v.tags[0]._id);
+          const obj = { image: v._id, tag: v.tags[0]._id };
+          onChange(obj);
         }}
       />
     </Box>

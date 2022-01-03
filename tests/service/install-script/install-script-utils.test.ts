@@ -1,8 +1,16 @@
 import {
   expandImages,
-  postprocessData,
+  convertServicesListToMap,
+  convertQueryFormatToCreateFormat,
 } from "../../../internal/services/dbSchema/install-script/install-script-utils";
-import { MockJSONSchemaFormInstallationTemplateData } from "../../data/mock_template_data";
+import {
+  MockEmptyServiceTemplateData,
+  MockImageId,
+  MockInstallationTemplateData,
+  MockInstallationTemplateDataWithId,
+  MockJSONSchemaFormInstallationTemplateData,
+  MockTagId,
+} from "../../data/mock_template_data";
 import {
   MockDockerImage,
   MockDockerImage2,
@@ -12,7 +20,7 @@ import {
 
 describe("Given a install script utils", () => {
   test("When calling postprocess handler", () => {
-    const result = postprocessData(
+    const result = convertServicesListToMap(
       MockJSONSchemaFormInstallationTemplateData as any
     );
     expect(result.services.worker).toBe(
@@ -37,5 +45,47 @@ describe("Given a install script utils", () => {
   test("When calling expanding images with empty tag", () => {
     const result = expandImages([MockDockerImage4]);
     expect(result.length).toBe(1);
+  });
+
+  test("When calling convert queryFormatToCreateFormat", () => {
+    const deepCopied = JSON.parse(
+      JSON.stringify(MockInstallationTemplateDataWithId)
+    );
+    deepCopied.services[0].service.image = JSON.stringify(
+      deepCopied.services[0].service.image
+    );
+    const result = convertQueryFormatToCreateFormat(deepCopied);
+    // @ts-ignore
+    expect(result.services[0].service.image.image).toBe(
+      MockInstallationTemplateDataWithId.services[0].service.image._id
+    );
+    expect(result.services[0].service.image.tag).toBe(
+      MockInstallationTemplateDataWithId.services[0].service.image.tag._id
+    );
+  });
+
+  test("When calling convert queryFormatToCreateFormat", () => {
+    const deepCopied = JSON.parse(
+      JSON.stringify(MockInstallationTemplateDataWithId)
+    );
+    deepCopied.services[0].service.image = JSON.stringify({
+      image: MockImageId,
+      tag: MockTagId,
+    });
+    const result = convertQueryFormatToCreateFormat(deepCopied);
+    // @ts-ignore
+    expect(result.services[0].service.image.image).toBe(
+      MockInstallationTemplateDataWithId.services[0].service.image._id
+    );
+    expect(result.services[0].service.image.tag).toBe(
+      MockInstallationTemplateDataWithId.services[0].service.image.tag._id
+    );
+  });
+
+  test("When calling convert queryFormatToCreateFormat", () => {
+    const result = convertQueryFormatToCreateFormat(
+      MockEmptyServiceTemplateData as any
+    );
+    expect(result.services.length).toBe(0);
   });
 });

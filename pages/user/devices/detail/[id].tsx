@@ -1,7 +1,7 @@
 // @flow
 import * as React from "react";
-import PageHeader from "../../../../components/PageHeader";
-import Spacer from "../../../../components/Spacer";
+import PageHeader from "../../../../components/common/PageHeader";
+import Spacer from "../../../../components/common/Spacer";
 import {
   Button,
   Card,

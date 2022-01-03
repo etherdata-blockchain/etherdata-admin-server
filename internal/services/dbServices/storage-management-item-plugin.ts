@@ -48,4 +48,17 @@ export class StorageManagementItemPlugin extends DatabasePlugin<IStorageItem> {
   async auth(deviceID: string): Promise<boolean> {
     return await this.model.exists({ qr_code: deviceID });
   }
+
+  /**
+   * Search items by key
+   * @param key
+   */
+  async search(key: string): Promise<IStorageItem[]> {
+    const query = this.model
+      .find({
+        $or: [{ qr_code: { $regex: ".*" + key + ".*" } }],
+      })
+      .limit(Configurations.numberPerPage);
+    return query.exec();
+  }
 }

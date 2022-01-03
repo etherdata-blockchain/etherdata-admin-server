@@ -9,7 +9,7 @@ import {
 import { Configurations } from "../../internal/const/configurations";
 import join from "url-join";
 import { Routes } from "../../internal/const/routes";
-import Spacer from "../Spacer";
+import Spacer from "../common/Spacer";
 
 interface Props {
   host: string;

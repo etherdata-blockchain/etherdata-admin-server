@@ -1,5 +1,5 @@
 import type { AppProps } from "next/app";
-import Layout from "../components/layout";
+import Layout from "../components/common/layout";
 import { createTheme, CssBaseline, ThemeProvider } from "@mui/material";
 import "../styles/globals.css";
 import UIProviderProvider from "./model/UIProvider";
@@ -8,7 +8,9 @@ import * as Realm from "realm-web";
 import { Home, Person, PieChart, Receipt } from "@mui/icons-material";
 import NextNprogress from "nextjs-progressbar";
 import DownloadingIcon from "@mui/icons-material/Downloading";
+import BrowserUpdatedIcon from "@mui/icons-material/BrowserUpdated";
 import { Environments } from "../internal/const/environments";
+import { Routes } from "../internal/const/routes";
 
 // Setup realm for login
 export const realmApp = new Realm.App({
@@ -103,7 +105,12 @@ function MyApp(props: AppProps) {
     {
       title: "Installation",
       icon: <DownloadingIcon />,
-      link: "/installation",
+      link: Routes.installation,
+    },
+    {
+      title: "Update Template",
+      icon: <BrowserUpdatedIcon />,
+      link: Routes.update,
     },
   ];
 

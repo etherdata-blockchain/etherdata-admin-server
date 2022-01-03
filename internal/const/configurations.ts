@@ -11,4 +11,6 @@ export const Configurations = {
   defaultPaginationStartingPage: 1,
   defaultThrottleDuration: 1000,
   mongodbVersion: "4.4.10",
+  appbarHeight: 60,
+  defaultPadding: 30,
 };

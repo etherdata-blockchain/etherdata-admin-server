@@ -4,9 +4,9 @@ import { StatusCodes } from "http-status-codes";
 import { methodAllowedHandler } from "../../../../internal/nextHandler/method_allowed_handler";
 import HTTPMethod from "http-method-enum";
 import { UpdateScriptPlugin } from "../../../../internal/services/dbServices/update-script-plugin";
-import { IUpdateScript } from "../../../../internal/services/dbSchema/update-template/update_script";
+import { IUpdateTemplate } from "../../../../internal/services/dbSchema/update-template/update_template";
 
-type Response = { err?: string; message?: string } | IUpdateScript | any;
+type Response = { err?: string; message?: string } | IUpdateTemplate | any;
 
 /**
  * This will handle update template by id

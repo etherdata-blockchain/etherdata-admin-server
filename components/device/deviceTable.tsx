@@ -6,7 +6,7 @@ import { useRouter } from "next/dist/client/router";
 import moment from "moment";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import HighlightOffIcon from "@mui/icons-material/HighlightOff";
-import Spacer from "../Spacer";
+import Spacer from "../common/Spacer";
 import { Configurations } from "../../internal/const/configurations";
 import { IStorageItem } from "../../internal/services/dbSchema/device/storage/item";
 

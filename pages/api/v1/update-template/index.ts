@@ -6,12 +6,12 @@ import { PaginationResult } from "../../../../internal/const/common_interfaces";
 import { UpdateScriptPlugin } from "../../../../internal/services/dbServices/update-script-plugin";
 import { methodAllowedHandler } from "../../../../internal/nextHandler/method_allowed_handler";
 import HTTPMethod from "http-method-enum";
-import { IUpdateScript } from "../../../../internal/services/dbSchema/update-template/update_script";
+import { IUpdateTemplate } from "../../../../internal/services/dbSchema/update-template/update_template";
 
 type Response =
   | { err?: string; message?: string }
-  | PaginationResult<IUpdateScript>
-  | IUpdateScript;
+  | PaginationResult<IUpdateTemplate>
+  | IUpdateTemplate;
 
 /**
  * Handle update script create, list.

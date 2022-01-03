@@ -60,7 +60,9 @@ export function DockerImageAutocompleteTextField(props: Props) {
   return (
     <Autocomplete
       id={props.id}
-      defaultValue={props.selection}
+      defaultValue={
+        Object.keys(props.selection).length === 0 ? undefined : props.selection
+      }
       renderInput={(params) => (
         <TextField {...params} variant="filled" label={props.label} />
       )}
@@ -68,8 +70,9 @@ export function DockerImageAutocompleteTextField(props: Props) {
       getOptionLabel={(o: IDockerImage) => {
         if (o.tags?.length > 0) {
           return `${o.imageName}:${o.tags[0].tag}`;
+        } else if (o.tag) {
+          return `${o.imageName}:${o.tag.tag}`;
         }
-        console.log("Option", o);
         return "Invalid value";
       }}
       loading={isLoading}

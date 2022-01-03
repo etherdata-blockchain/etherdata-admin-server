@@ -22,12 +22,12 @@ import { useRouter } from "next/dist/client/router";
 import Link from "next/link";
 import React from "react";
 import Spacer from "./Spacer";
-import { UIProviderContext } from "../pages/model/UIProvider";
+import { UIProviderContext } from "../../pages/model/UIProvider";
 import SearchBar from "./SearchBar";
-import { Configurations } from "../internal/const/configurations";
-import { realmApp } from "../pages/_app";
-import ETDProvider from "../pages/model/ETDProvider";
-import DeviceProvider from "../pages/model/DeviceProvider";
+import { Configurations } from "../../internal/const/configurations";
+import { realmApp } from "../../pages/_app";
+import ETDProvider from "../../pages/model/ETDProvider";
+import DeviceProvider from "../../pages/model/DeviceProvider";
 import MenuIcon from "@mui/icons-material/Menu";
 
 export interface Menu {
@@ -210,8 +210,7 @@ export default function Layout(props: Props) {
             <main
               style={{
                 marginLeft: Configurations.drawerSize,
-                padding: 30,
-                marginTop: 50,
+                marginTop: Configurations.appbarHeight,
               }}
             >
               {children}

@@ -7,8 +7,9 @@ const MockTargetDeviceId = "mock_target_device_id";
 const MockTargetGroupId = "mock_target_group_id";
 
 export const MockUpdateScriptData = {
-  targetDeviceId: MockTargetDeviceId,
-  targetGroupId: MockTargetGroupId,
+  name: "Mock_template_1",
+  targetDeviceIds: [MockTargetDeviceId],
+  targetGroupIds: [MockTargetGroupId],
   from: MockUser.user_id,
   time: new Date(),
   imageStacks: [
@@ -30,6 +31,7 @@ export const MockUpdateScriptData = {
  * With multiple images
  */
 export const MockUpdateScriptData2 = {
+  name: "Mock_template_2",
   targetDeviceId: MockTargetDeviceId,
   targetGroupId: MockTargetGroupId,
   from: MockUser.user_id,

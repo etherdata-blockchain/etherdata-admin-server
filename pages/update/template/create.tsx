@@ -6,28 +6,28 @@ import Spacer from "../../../components/common/Spacer";
 import Form from "@rjsf/bootstrap-4";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { UIProviderContext } from "../../model/UIProvider";
-import {
-  DefaultInstallationScriptTag,
-  getAxiosClient,
-} from "../../../internal/const/defaultValues";
-import { Routes } from "../../../internal/const/routes";
 import { Backdrop, CircularProgress } from "@mui/material";
 import { useRouter } from "next/dist/client/router";
 import { GetServerSideProps } from "next";
 import { Configurations } from "../../../internal/const/configurations";
 import { DockerImagePlugin } from "../../../internal/services/dbServices/docker-image-plugin";
-import { jsonSchema } from "../../../internal/services/dbSchema/install-script/install-script-utils";
+import {
+  convertQueryFormatToCreateFormat,
+  jsonSchema,
+} from "../../../internal/services/dbSchema/update-template/update_template_utils";
 import { IDockerImage } from "../../../internal/services/dbSchema/docker/docker-image";
-import { ImageField } from "../../../components/installation/DockerImageField";
-import { IInstallationTemplate } from "../../../internal/services/dbSchema/install-script/install-script";
+import { DeviceIdField } from "../../../components/update/DeviceIdField";
 import { PaddingBox } from "../../../components/common/PaddingBox";
+import { getAxiosClient } from "../../../internal/const/defaultValues";
+import { Routes } from "../../../internal/const/routes";
+import { IUpdateTemplate } from "../../../internal/services/dbSchema/update-template/update_template";
 
 type Props = {
   images: IDockerImage[];
 };
 
 /**
- * Installation template page
+ * Update template page
  * @param{Props} props
  * @constructor
  */
@@ -37,13 +37,12 @@ export default function Index({ images }: Props) {
   const [formData, setFormData] = React.useState();
   const router = useRouter();
 
-  const submitData = async (data: IInstallationTemplate) => {
+  const submitData = async (data: IUpdateTemplate) => {
     setIsLoading(true);
     try {
-      await getAxiosClient().post(Routes.installationTemplatesAPICreate, data);
-      await router.push(
-        `${Routes.installation}?index=${DefaultInstallationScriptTag.installationTemplate}`
-      );
+      const postData = convertQueryFormatToCreateFormat(data);
+      await getAxiosClient().post(Routes.updateTemplateAPICreate, postData);
+      await router.push(`${Routes.update}`);
     } catch (e) {
       showSnackBarMessage(`${e}`);
     } finally {
@@ -54,8 +53,8 @@ export default function Index({ images }: Props) {
   return (
     <div>
       <PageHeader
-        title={"Installation template"}
-        description={`Create a installation template`}
+        title={"Update template"}
+        description={`Create an update template`}
       />
       <Spacer height={20} />
       <PaddingBox>
@@ -77,19 +76,10 @@ export default function Index({ images }: Props) {
             onSubmit={async (data) => {
               await submitData(data.formData);
             }}
-            widgets={{ image: ImageField }}
+            widgets={{ device: DeviceIdField }}
             uiSchema={{
-              services: {
-                items: {
-                  service: {
-                    image: {
-                      "ui:ObjectFieldTemplate": ImageField,
-                      "ui:options": {
-                        images: images,
-                      },
-                    },
-                  },
-                },
+              targetDeviceIds: {
+                "ui:widget": "device",
               },
             }}
           />
@@ -108,7 +98,6 @@ export default function Index({ images }: Props) {
 export const getServerSideProps: GetServerSideProps<Props> = async (
   context
 ) => {
-  //TODO: Add pagination
   const dockerImagePlugin = new DockerImagePlugin();
 
   const images = await dockerImagePlugin.list(

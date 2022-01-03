@@ -1,8 +1,8 @@
 // @flow
 import * as React from "react";
 import Box from "@mui/material/Box";
-import PageHeader from "../../../../components/PageHeader";
-import Spacer from "../../../../components/Spacer";
+import PageHeader from "../../../../components/common/PageHeader";
+import Spacer from "../../../../components/common/Spacer";
 import Form from "@rjsf/bootstrap-4";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { jsonSchema } from "../../../../internal/services/dbSchema/docker/docker-image-utils";
@@ -15,6 +15,7 @@ import { GetServerSideProps } from "next";
 import { IDockerImage } from "../../../../internal/services/dbSchema/docker/docker-image";
 import { DockerImagePlugin } from "../../../../internal/services/dbServices/docker-image-plugin";
 import Logger from "../../../../server/logger";
+import { PaddingBox } from "../../../../components/common/PaddingBox";
 
 type Props = {
   dockerImage: IDockerImage;
@@ -68,23 +69,25 @@ export default function Index({ dockerImage }: Props) {
         action={<Button onClick={deleteData}>Delete</Button>}
       />
       <Spacer height={20} />
-      <Box
-        sx={{
-          flexGrow: 1,
-          bgcolor: "background.paper",
-          display: "flex",
-          padding: 3,
-        }}
-      >
-        <Form
-          schema={jsonSchema}
-          formData={formData}
-          onChange={(v) => setFormData(v.formData)}
-          onSubmit={async (data) => {
-            await submitData(data.formData);
+      <PaddingBox>
+        <Box
+          sx={{
+            flexGrow: 1,
+            bgcolor: "background.paper",
+            display: "flex",
+            padding: 3,
           }}
-        />
-      </Box>
+        >
+          <Form
+            schema={jsonSchema}
+            formData={formData}
+            onChange={(v) => setFormData(v.formData)}
+            onSubmit={async (data) => {
+              await submitData(data.formData);
+            }}
+          />
+        </Box>
+      </PaddingBox>
       <Backdrop
         sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
         open={isLoading}

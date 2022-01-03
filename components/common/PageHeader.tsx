@@ -2,7 +2,8 @@ import { Divider, Fab, Fade, Stack, Typography } from "@mui/material";
 import React from "react";
 import Head from "next/head";
 import useScrollTrigger from "@mui/material/useScrollTrigger";
-import { UIProviderContext } from "../pages/model/UIProvider";
+import { UIProviderContext } from "../../pages/model/UIProvider";
+import { Configurations } from "../../internal/const/configurations";
 
 interface Props {
   title: string;
@@ -28,7 +29,12 @@ export default function PageHeader({ title, description, action }: Props) {
   }, [trigger]);
 
   return (
-    <div>
+    <div
+      style={{
+        paddingLeft: Configurations.defaultPadding,
+        paddingRight: Configurations.defaultPadding,
+      }}
+    >
       <Head>
         <title>{title}</title>
         <meta property="og:title" content={title} key="title" />

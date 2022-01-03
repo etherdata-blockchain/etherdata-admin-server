@@ -33,8 +33,8 @@ const serviceSchema = new Schema<{ name: string; service: Service }>({
   name: String,
   service: {
     image: {
-      image: { type: Schema.Types.ObjectId },
-      tag: { type: Schema.Types.ObjectId },
+      image: { type: Schema.Types.ObjectId, required: true },
+      tag: { type: Schema.Types.ObjectId, required: true },
     },
     restart: "String",
     environment: ["String"],

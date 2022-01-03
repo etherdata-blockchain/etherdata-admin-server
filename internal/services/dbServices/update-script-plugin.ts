@@ -2,9 +2,9 @@ import { DatabasePlugin } from "../../../server/plugin/basePlugin";
 import { Model, mongo } from "mongoose";
 import { PluginName } from "../../../server/plugin/pluginName";
 import {
-  IUpdateScript,
+  IUpdateTemplate,
   UpdateScriptModel,
-} from "../dbSchema/update-template/update_script";
+} from "../dbSchema/update-template/update_template";
 import { DockerContainerConfig } from "docker-plan/src/internal/stack/container";
 
 interface UpdateImageStack {
@@ -21,16 +21,17 @@ interface UpdateContainerStack {
 
 export interface IUpdateScriptWithDockerImage {
   _id: string;
-  targetDeviceId?: string;
-  targetGroupId?: string;
+  name: string;
+  targetDeviceIds: string[];
+  targetGroupIds: string[];
   from: string;
   imageStacks: UpdateImageStack[];
   containerStacks: UpdateContainerStack[];
 }
 
 // eslint-disable-next-line require-jsdoc
-export class UpdateScriptPlugin extends DatabasePlugin<IUpdateScript> {
-  protected model: Model<IUpdateScript> = UpdateScriptModel;
+export class UpdateScriptPlugin extends DatabasePlugin<IUpdateTemplate> {
+  protected model: Model<IUpdateTemplate> = UpdateScriptModel;
   pluginName: PluginName = "updateScript";
 
   /**
@@ -122,15 +123,17 @@ export class UpdateScriptPlugin extends DatabasePlugin<IUpdateScript> {
           image: 1,
           container: 1,
           containerStacks: 1,
-          targetDeviceId: 1,
-          targetGroupId: 1,
+          targetDeviceIds: 1,
+          targetGroupIds: 1,
+          name: 1,
         },
       },
       {
         $group: {
           _id: "$_id",
-          targetDeviceId: { $first: "$targetDeviceId" },
-          targetGroupId: { $first: "$targetGroupId" },
+          name: { $first: "$name" },
+          targetDeviceIds: { $first: "$targetDeviceIds" },
+          targetGroupIds: { $first: "$targetGroupIds" },
           containerStacks: {
             $push: {
               $mergeObjects: [

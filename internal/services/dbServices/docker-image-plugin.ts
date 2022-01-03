@@ -5,7 +5,7 @@ import {
   DockerImageModel,
   IDockerImage,
 } from "../dbSchema/docker/docker-image";
-import { UpdateScriptModel } from "../dbSchema/update-template/update_script";
+import { UpdateScriptModel } from "../dbSchema/update-template/update_template";
 import { Configurations } from "../../const/configurations";
 
 interface DockerWebhook {
@@ -111,12 +111,4 @@ export class DockerImagePlugin extends DatabasePlugin<IDockerImage> {
       .limit(Configurations.numberPerPage);
     return query.exec();
   }
-
-  // /**
-  //  * Get a list of images by id
-  //  * @param imageIds
-  //  */
-  // async listImagesByTagIds(imageIds: string[]): Promise<IDockerImage[]> {
-  //   const query = this.model.find({});
-  // }
 }

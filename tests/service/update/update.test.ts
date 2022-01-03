@@ -6,9 +6,9 @@ import { DockerImagePlugin } from "../../../internal/services/dbServices/docker-
 import mongoose from "mongoose";
 import { MongoMemoryServer } from "mongodb-memory-server";
 import {
-  IUpdateScript,
+  IUpdateTemplate,
   UpdateScriptModel,
-} from "../../../internal/services/dbSchema/update-template/update_script";
+} from "../../../internal/services/dbSchema/update-template/update_template";
 import { MockDockerImage, MockDockerImage2 } from "../../data/mock_docker_data";
 import {
   MockUpdateScriptData,
@@ -53,7 +53,7 @@ describe("Given a update-script-script plugin", () => {
     mockUpdateScriptData.containerStacks[0].image.image = imageId;
     mockUpdateScriptData.containerStacks[0].image.tag = tagId;
 
-    const createdData: IUpdateScript = await UpdateScriptModel.create(
+    const createdData: IUpdateTemplate = await UpdateScriptModel.create(
       mockUpdateScriptData
     );
     expect(createdData.imageStacks[0].image).toBe(imageId);
@@ -67,8 +67,8 @@ describe("Given a update-script-script plugin", () => {
       createdData._id.toString()
     ))!;
     expect(result._id).toStrictEqual(createdData._id);
-    expect(result.targetGroupId).toStrictEqual(createdData.targetGroupId);
-    expect(result.targetDeviceId).toStrictEqual(createdData.targetDeviceId);
+    expect(result.targetGroupIds).toStrictEqual(createdData.targetGroupIds);
+    expect(result.targetDeviceIds).toStrictEqual(createdData.targetDeviceIds);
     expect(result.imageStacks[0].imageName).toStrictEqual(
       MockDockerImage.imageName
     );
@@ -93,7 +93,7 @@ describe("Given a update-script-script plugin", () => {
     mockUpdateScriptData.containerStacks[0].image.image = imageId;
     mockUpdateScriptData.containerStacks[0].image.tag = tagId;
 
-    const createdData: IUpdateScript = await UpdateScriptModel.create(
+    const createdData: IUpdateTemplate = await UpdateScriptModel.create(
       mockUpdateScriptData
     );
 
@@ -136,7 +136,7 @@ describe("Given a update-script-script plugin", () => {
     mockUpdateScriptData.containerStacks[1].image.image = imageId2;
     mockUpdateScriptData.containerStacks[1].image.tag = tagId2;
 
-    const createdData: IUpdateScript = await UpdateScriptModel.create(
+    const createdData: IUpdateTemplate = await UpdateScriptModel.create(
       mockUpdateScriptData
     );
 

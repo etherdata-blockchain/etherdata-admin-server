@@ -20,7 +20,14 @@ export const Routes = {
   staticNodeAPIEdit: "/api/v1/static-node",
   // Storage
   item: "/storage_management/item",
+  itemSearch: "/api/v1/device/search",
   owner: "/storage_management/owner",
   // Device
   devicesWithStatus: "/api/v1/device/devices-with-status",
+  // Update
+  update: "/update",
+  updateTemplateCreate: "/update/template/create",
+  updateTemplateEdit: "/update/template/edit",
+  updateTemplateAPICreate: "/api/v1/update-template",
+  updateTemplateAPIEdit: "/api/v1/update-template",
 };

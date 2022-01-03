@@ -1,9 +1,9 @@
 // @flow
 import * as React from "react";
-import PageHeader from "../../components/PageHeader";
+import PageHeader from "../../components/common/PageHeader";
 
 import { TransactionTable } from "../../components/transaction/transactionTable";
-import Spacer from "../../components/Spacer";
+import Spacer from "../../components/common/Spacer";
 import { SendTransactionBtn } from "../../components/transaction/sendTransactionBtn";
 import { GetServerSideProps } from "next";
 import { TransactionDBPlugin } from "../../internal/services/dbServices/transaction-plugin";

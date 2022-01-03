@@ -5,15 +5,15 @@ global.TextDecoder = require("util").TextDecoder;
 
 import { expect } from "@jest/globals";
 import {
-  IUpdateScript,
+  IUpdateTemplate,
   UpdateScriptModel,
-} from "../../../internal/services/dbSchema/update-template/update_script";
+} from "../../../internal/services/dbSchema/update-template/update_template";
 
 import { MockConstant } from "../../data/mock_constant";
 import jwt from "jsonwebtoken";
 import mongoose from "mongoose";
 import { MongoMemoryServer } from "mongodb-memory-server";
-import handler from "../../../pages/api/v1/update-script/index";
+import handler from "../../../pages/api/v1/update-template/index";
 import { createMocks } from "node-mocks-http";
 import { DockerImageModel } from "../../../internal/services/dbSchema/docker/docker-image";
 import { MockDockerImage } from "../../data/mock_docker_data";
@@ -78,7 +78,7 @@ describe("Given a update script api handler", () => {
     });
     //@ts-ignore
     await handler(req, res);
-    const jsonData: PaginationResult<IUpdateScript> = res._getJSONData();
+    const jsonData: PaginationResult<IUpdateTemplate> = res._getJSONData();
     expect(jsonData.results.length).toBe(1);
     expect(jsonData.count).toBe(1);
   });

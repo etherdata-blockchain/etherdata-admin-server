@@ -8,7 +8,8 @@ import {
 import YAML from "yaml";
 import { DockerImageModel } from "../dbSchema/docker/docker-image";
 import Logger from "../../../server/logger";
-import { postprocessData } from "../dbSchema/install-script/install-script-utils";
+import { convertServicesListToMap } from "../dbSchema/install-script/install-script-utils";
+import { ObjectId } from "mongodb";
 
 /**
  * Installation template plugin
@@ -26,7 +27,7 @@ export class InstallationPlugin extends DatabasePlugin<IInstallationTemplate> {
     installationTemplate: IInstallationTemplate
   ): string {
     const deepCopiedTemplate = JSON.parse(
-      JSON.stringify(postprocessData(installationTemplate))
+      JSON.stringify(convertServicesListToMap(installationTemplate))
     );
     delete deepCopiedTemplate.created_by;
     delete deepCopiedTemplate.template_tag;
@@ -99,6 +100,7 @@ export class InstallationPlugin extends DatabasePlugin<IInstallationTemplate> {
     id: string
   ): Promise<IInstallationTemplate | undefined> {
     const pipeline: any[] = [
+      { $match: { _id: new ObjectId(id) } },
       {
         $unwind: {
           path: "$services",
@@ -148,7 +150,7 @@ export class InstallationPlugin extends DatabasePlugin<IInstallationTemplate> {
       },
       {
         $group: {
-          _id: "_id",
+          _id: "$_id",
           services: {
             $push: "$services",
           },
@@ -167,7 +169,10 @@ export class InstallationPlugin extends DatabasePlugin<IInstallationTemplate> {
 
     const query = this.model.aggregate(pipeline);
     const results: IInstallationTemplate[] = await query.exec();
-
+    if (results.length === 0) {
+      // fallback to traditional get
+      return this.get(id);
+    }
     return results[0];
   }
 }

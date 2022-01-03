@@ -4,9 +4,10 @@
 import mongoose, { Document, model, Model, Schema } from "mongoose";
 import { ContainerStack, ImageStack } from "docker-plan";
 
-export interface IUpdateScript extends Document {
-  targetDeviceId?: string;
-  targetGroupId?: string;
+export interface IUpdateTemplate extends Document {
+  name: string;
+  targetDeviceIds: string[];
+  targetGroupIds: string[];
   /**
    * From client id.
    */
@@ -23,12 +24,14 @@ const ImageStackSchema = new Schema({
 const ContainerStackSchema = new Schema<ContainerStack>({
   containerName: { type: "String", required: true },
   image: ImageStackSchema,
+  config: Schema.Types.Mixed,
 });
 
-export const UpdateScriptSchema = new Schema<IUpdateScript>(
+export const UpdateScriptSchema = new Schema<IUpdateTemplate>(
   {
-    targetDeviceId: { type: String, required: false },
-    targetGroupId: { type: String, required: false },
+    name: { type: String, required: true },
+    targetDeviceIds: { type: [String], required: true },
+    targetGroupIds: { type: [String], required: true },
     from: { type: String, required: true },
     imageStacks: [{ type: ImageStackSchema }],
     containerStacks: [{ type: ContainerStackSchema, required: true }],
@@ -39,7 +42,7 @@ export const UpdateScriptSchema = new Schema<IUpdateScript>(
 /**
  * Schema
  */
-export const UpdateScriptModel: Model<IUpdateScript> = mongoose.models
+export const UpdateScriptModel: Model<IUpdateTemplate> = mongoose.models
   .update_script
   ? mongoose.models.update_script
-  : model<IUpdateScript>("update_script", UpdateScriptSchema);
+  : model<IUpdateTemplate>("update_script", UpdateScriptSchema);
