@@ -62,32 +62,31 @@ export default function Index({ tabIndex, updateTemplate }: Props) {
         action={actions[value]}
       />
       <Spacer height={20} />
-      <PaddingBox>
-        <Box
-          sx={{
-            bgcolor: appBarTitleShow ? "background.paper" : undefined,
-            width: "100%",
+
+      <Box
+        sx={{
+          bgcolor: appBarTitleShow ? "background.paper" : undefined,
+          width: "100%",
+        }}
+        style={{ position: "sticky", top: Configurations.appbarHeight }}
+      >
+        <Tabs
+          variant="scrollable"
+          value={value}
+          onChange={handleChange}
+          aria-label="Vertical tabs example"
+          style={{
+            paddingLeft: Configurations.defaultPadding,
+            paddingRight: Configurations.defaultPadding,
           }}
-          style={{ position: "sticky", top: Configurations.appbarHeight }}
         >
-          <Tabs
-            variant="scrollable"
-            value={value}
-            onChange={handleChange}
-            aria-label="Vertical tabs example"
-            style={{
-              paddingLeft: Configurations.defaultPadding,
-              paddingRight: Configurations.defaultPadding,
-            }}
-          >
-            <Tab label="Update Template" {...a11yProps(0)} />
-          </Tabs>
-        </Box>
-        <PaddingBox>
-          <TabPanel index={0} value={value}>
-            <UpdateTemplatePanel updateTemplates={updateTemplate.results} />
-          </TabPanel>
-        </PaddingBox>
+          <Tab label="Update Template" {...a11yProps(0)} />
+        </Tabs>
+      </Box>
+      <PaddingBox>
+        <TabPanel index={0} value={value}>
+          <UpdateTemplatePanel updateTemplates={updateTemplate.results} />
+        </TabPanel>
       </PaddingBox>
     </div>
   );

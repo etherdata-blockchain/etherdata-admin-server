@@ -4,6 +4,7 @@ import React from "react";
 import { IUpdateTemplate } from "./update_template";
 import { Button } from "@mui/material";
 import { Routes } from "../../../const/routes";
+import { DeviceIdField } from "../../../../components/update/DeviceIdField";
 
 export const jsonSchema: JSONSchema7 = {
   description:
@@ -17,7 +18,10 @@ export const jsonSchema: JSONSchema7 = {
     },
     targetDeviceIds: {
       title: "Target Devices' id",
-      type: "string",
+      type: "array",
+      items: {
+        type: "string",
+      },
     },
     from: {
       type: "string",
@@ -178,3 +182,9 @@ export function convertQueryFormatToCreateFormat(data: IUpdateTemplate) {
   );
   return deepCopied;
 }
+
+export const UISchema = {
+  targetDeviceIds: {
+    "ui:ArrayFieldTemplate": DeviceIdField,
+  },
+};

@@ -8,6 +8,7 @@ import Form from "@rjsf/bootstrap-4";
 import {
   convertQueryFormatToCreateFormat,
   jsonSchema,
+  UISchema,
 } from "../../../../internal/services/dbSchema/update-template/update_template_utils";
 import { UIProviderContext } from "../../../model/UIProvider";
 import {
@@ -26,6 +27,7 @@ import {
 } from "../../../../internal/services/dbServices/update-script-plugin";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { IUpdateTemplate } from "../../../../internal/services/dbSchema/update-template/update_template";
+import { PaddingBox } from "../../../../components/common/PaddingBox";
 
 type Props = {
   updateTemplate: IUpdateScriptWithDockerImage;
@@ -41,16 +43,13 @@ export default function Index({ updateTemplate }: Props) {
   const [formData, setFormData] = React.useState(updateTemplate);
   const { showSnackBarMessage } = React.useContext(UIProviderContext);
   const router = useRouter();
-  const url = `${Routes.installationTemplatesAPIEdit}/${updateTemplate._id}`;
+  const url = `${Routes.updateTemplateAPIEdit}/${updateTemplate._id}`;
 
   const submitData = async (data: IUpdateTemplate) => {
     setIsLoading(true);
     try {
-      const patchData = convertQueryFormatToCreateFormat(data);
-      await getAxiosClient().patch(url, patchData);
-      await router.push(
-        `${Routes.installation}?index=${DefaultInstallationScriptTag.installationTemplate}`
-      );
+      await getAxiosClient().patch(url, data);
+      await router.push(`${Routes.update}`);
     } catch (e) {
       showSnackBarMessage(`${e}`);
     } finally {
@@ -84,38 +83,30 @@ export default function Index({ updateTemplate }: Props) {
         action={<Button onClick={deleteData}>Delete</Button>}
       />
       <Spacer height={20} />
-      <Box
-        sx={{
-          flexGrow: 1,
-          bgcolor: "background.paper",
-          display: "flex",
-          padding: 3,
-        }}
-      >
-        <Form
-          schema={jsonSchema}
-          formData={formData}
-          liveValidate={true}
-          onChange={(value) => {
-            setFormData(value.formData);
+      <PaddingBox>
+        <Box
+          sx={{
+            flexGrow: 1,
+            bgcolor: "background.paper",
+            display: "flex",
+            padding: 3,
           }}
-          onSubmit={async (data) => {
-            await submitData(data.formData);
-          }}
-          widgets={{ image: ImageField }}
-          uiSchema={{
-            services: {
-              items: {
-                service: {
-                  image: {
-                    "ui:widget": "image",
-                  },
-                },
-              },
-            },
-          }}
-        />
-      </Box>
+        >
+          <Form
+            schema={jsonSchema}
+            formData={formData}
+            liveValidate={true}
+            onChange={(value) => {
+              setFormData(value.formData);
+            }}
+            onSubmit={async (data) => {
+              await submitData(data.formData);
+            }}
+            widgets={{ image: ImageField }}
+            uiSchema={UISchema}
+          />
+        </Box>
+      </PaddingBox>
       <Backdrop
         sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
         open={isLoading}

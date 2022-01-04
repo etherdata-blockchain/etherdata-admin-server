@@ -13,4 +13,5 @@ export const Configurations = {
   mongodbVersion: "4.4.10",
   appbarHeight: 60,
   defaultPadding: 30,
+  defaultSleepDuration: 100,
 };

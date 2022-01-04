@@ -11,9 +11,10 @@ import { IStorageItem } from "../../internal/services/dbSchema/device/storage/it
 type Props = {
   id: string;
   defaultValues: string[];
-  onChange(v: string): [];
   placeholder: string;
   label: string;
+  onAdd(index: number, content: string): Promise<void>;
+  onDelete(index: number): Promise<void>;
 };
 
 /**
@@ -23,7 +24,10 @@ type Props = {
  * @constructor
  */
 export function DeviceIdsAutoComplete(props: Props) {
-  const [options, setOptions] = React.useState<IStorageItem[]>([]);
+  const [options, setOptions] = React.useState<string[]>([]);
+  const [selectedOptions, setSelectedOptions] = React.useState<string[]>(
+    props.defaultValues
+  );
   const [isLoading, setIsLoading] = React.useState(false);
 
   const search = React.useCallback(
@@ -35,7 +39,7 @@ export function DeviceIdsAutoComplete(props: Props) {
           query: { key: newValue },
         });
         const result = await getAxiosClient().get(url);
-        setOptions(result.data);
+        setOptions((result.data as IStorageItem[]).map((s) => s.qr_code));
       } catch (e) {
       } finally {
         setIsLoading(false);
@@ -49,15 +53,24 @@ export function DeviceIdsAutoComplete(props: Props) {
       multiple
       id={props.id}
       loading={isLoading}
+      defaultValue={props.defaultValues}
       renderInput={(p) => (
         <TextField {...p} label={props.label} variant={"filled"} />
       )}
-      getOptionLabel={(o) => `${o.name} - ${o.qr_code}`}
+      getOptionLabel={(o) => `${o}`}
       onInputChange={(e, value) => search(value)}
       options={options}
-      onChange={(e, value) => {
+      onChange={(e, value, reason, details) => {
         if (value) {
-          props.onChange(JSON.stringify(value.map((v) => v.qr_code)));
+          if (reason === "selectOption") {
+            props.onAdd(value.length - 1, details!.option);
+          } else if (reason === "removeOption") {
+            const index = selectedOptions.findIndex(
+              (s) => s === details?.option
+            );
+            props.onDelete(index);
+          }
+          setSelectedOptions(value);
         }
       }}
     />

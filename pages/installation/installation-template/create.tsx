@@ -77,7 +77,6 @@ export default function Index({ images }: Props) {
             onSubmit={async (data) => {
               await submitData(data.formData);
             }}
-            widgets={{ image: ImageField }}
             uiSchema={{
               services: {
                 items: {

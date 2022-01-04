@@ -14,6 +14,7 @@ import { DockerImagePlugin } from "../../../internal/services/dbServices/docker-
 import {
   convertQueryFormatToCreateFormat,
   jsonSchema,
+  UISchema,
 } from "../../../internal/services/dbSchema/update-template/update_template_utils";
 import { IDockerImage } from "../../../internal/services/dbSchema/docker/docker-image";
 import { DeviceIdField } from "../../../components/update/DeviceIdField";
@@ -40,8 +41,7 @@ export default function Index({ images }: Props) {
   const submitData = async (data: IUpdateTemplate) => {
     setIsLoading(true);
     try {
-      const postData = convertQueryFormatToCreateFormat(data);
-      await getAxiosClient().post(Routes.updateTemplateAPICreate, postData);
+      await getAxiosClient().post(Routes.updateTemplateAPICreate, data);
       await router.push(`${Routes.update}`);
     } catch (e) {
       showSnackBarMessage(`${e}`);
@@ -76,12 +76,7 @@ export default function Index({ images }: Props) {
             onSubmit={async (data) => {
               await submitData(data.formData);
             }}
-            widgets={{ device: DeviceIdField }}
-            uiSchema={{
-              targetDeviceIds: {
-                "ui:widget": "device",
-              },
-            }}
+            uiSchema={UISchema}
           />
         </Box>
       </PaddingBox>
