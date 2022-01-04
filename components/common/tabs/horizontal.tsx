@@ -33,6 +33,7 @@ export function TabPanel(props: TabPanelProps) {
   );
 }
 
+// eslint-disable-next-line require-jsdoc
 export function a11yProps(index: number) {
   return {
     id: `simple-tab-${index}`,

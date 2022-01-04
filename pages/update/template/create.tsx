@@ -12,12 +12,10 @@ import { GetServerSideProps } from "next";
 import { Configurations } from "../../../internal/const/configurations";
 import { DockerImagePlugin } from "../../../internal/services/dbServices/docker-image-plugin";
 import {
-  convertQueryFormatToCreateFormat,
   jsonSchema,
   UISchema,
 } from "../../../internal/services/dbSchema/update-template/update_template_utils";
 import { IDockerImage } from "../../../internal/services/dbSchema/docker/docker-image";
-import { DeviceIdField } from "../../../components/update/DeviceIdField";
 import { PaddingBox } from "../../../components/common/PaddingBox";
 import { getAxiosClient } from "../../../internal/const/defaultValues";
 import { Routes } from "../../../internal/const/routes";

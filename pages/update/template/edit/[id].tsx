@@ -6,7 +6,6 @@ import Spacer from "../../../../components/common/Spacer";
 import Form from "@rjsf/bootstrap-4";
 
 import {
-  convertQueryFormatToCreateFormat,
   jsonSchema,
   UISchema,
 } from "../../../../internal/services/dbSchema/update-template/update_template_utils";
@@ -19,7 +18,6 @@ import { Routes } from "../../../../internal/const/routes";
 import { Backdrop, Button, CircularProgress } from "@mui/material";
 import { useRouter } from "next/dist/client/router";
 import { GetServerSideProps } from "next";
-import { IInstallationTemplate } from "../../../../internal/services/dbSchema/install-script/install-script";
 import { ImageField } from "../../../../components/installation/DockerImageField";
 import {
   IUpdateScriptWithDockerImage,

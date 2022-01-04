@@ -32,9 +32,8 @@ type Props = {};
  */
 export default function Index(props: Props) {
   const { history } = React.useContext(ETDContext);
-  const { paginationResult } = React.useContext(DeviceContext);
-  const { totalStorageNumber, totalOnlineDevices } =
-    paginationResult || DefaultPaginationResult;
+  const {} = React.useContext(DeviceContext);
+  const {} = DefaultPaginationResult;
 
   const blockNumber = history?.latestBlockNumber;
 
@@ -52,7 +51,7 @@ export default function Index(props: Props) {
         <Grid item md={3} xs={6}>
           <LargeDataCard
             icon={<StorageIcon />}
-            title={`${totalOnlineDevices}/${totalStorageNumber}`}
+            title={`/`}
             color={"#ba03fc"}
             subtitleColor={"white"}
             iconColor={"white"}

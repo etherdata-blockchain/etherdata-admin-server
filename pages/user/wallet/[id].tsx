@@ -14,15 +14,15 @@ import Spacer from "../../../components/common/Spacer";
 import { RewardDisplay } from "../../../components/user/rewardDisplay";
 import { LargeDataCard } from "../../../components/cards/largeDataCard";
 import PageHeader from "../../../components/common/PageHeader";
-import { IDevice } from "../../../internal/services/dbSchema/device/device";
 import { DeviceRegistrationPlugin } from "../../../internal/services/dbServices/device-registration-plugin";
 import { weiToETD } from "../../../internal/utils/weiToETD";
 import { Environments } from "../../../internal/const/environments";
+import { IStorageItem } from "../../../internal/services/dbSchema/device/storage/item";
 
 const pageSize = 20;
 
 type Props = {
-  devices: IDevice[];
+  devices: IStorageItem[];
   totalPageNumber: number;
   totalNumRows: number;
   currentPage: number;

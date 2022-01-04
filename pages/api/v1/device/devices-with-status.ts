@@ -11,7 +11,7 @@ import { Configurations } from "../../../../internal/const/configurations";
  * @param {NextApiResponse} res response
  */
 async function handler(req: NextApiRequest, res: NextApiResponse) {
-  const { user, page, online, adminVersion, nodeVersion } = req.query;
+  const { user, page } = req.query;
 
   const storagePlugin = new StorageManagementItemPlugin();
 

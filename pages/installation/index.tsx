@@ -24,7 +24,6 @@ import qs from "query-string";
 import { a11yProps, TabPanel } from "../../components/common/tabs/horizontal";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { UIProviderContext } from "../model/UIProvider";
-import app from "recharts/demo/container/App";
 import { PaddingBox } from "../../components/common/PaddingBox";
 
 type Props = {

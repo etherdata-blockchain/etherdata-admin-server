@@ -6,13 +6,12 @@ import { UserTable } from "../../components/user/userTable";
 import ResponsiveCard from "../../components/common/ResponsiveCard";
 import { AddUserBtn } from "../../components/user/addUserBtn";
 import { GetServerSideProps } from "next";
-import { Box, Pagination } from "@mui/material";
+import { Pagination } from "@mui/material";
 import { useRouter } from "next/dist/client/router";
 import { TestingValues } from "../../internal/const/testingValues";
 import { PaginationResult } from "../../internal/const/common_interfaces";
 import { StorageManagementOwnerPlugin } from "../../internal/services/dbServices/storage-management-owner-plugin";
 import { IStorageOwner } from "../../internal/services/dbSchema/device/storage/owner";
-import { Configurations } from "../../internal/const/configurations";
 import { PaddingBox } from "../../components/common/PaddingBox";
 
 type Props = {

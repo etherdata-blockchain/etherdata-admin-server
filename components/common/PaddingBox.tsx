@@ -7,6 +7,11 @@ type Props = {
   children: any;
 };
 
+/**
+ * Add padding to both left and right
+ * @param props
+ * @constructor
+ */
 export function PaddingBox(props: Props) {
   return (
     <Box
