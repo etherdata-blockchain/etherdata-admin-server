@@ -1,11 +1,12 @@
 import { DatabasePlugin } from "../../../server/plugin/basePlugin";
 import { Model, mongo } from "mongoose";
 import { PluginName } from "../../../server/plugin/pluginName";
+
+import { DockerContainerConfig } from "docker-plan/src/internal/stack/container";
 import {
   IUpdateTemplate,
   UpdateScriptModel,
-} from "../dbSchema/update-template/update_template";
-import { DockerContainerConfig } from "docker-plan/src/internal/stack/container";
+} from "../dbSchema/update-template/update-template";
 
 interface UpdateImageStack {
   imageName: string;

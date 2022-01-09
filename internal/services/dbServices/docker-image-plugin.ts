@@ -5,7 +5,7 @@ import {
   DockerImageModel,
   IDockerImage,
 } from "../dbSchema/docker/docker-image";
-import { UpdateScriptModel } from "../dbSchema/update-template/update_template";
+import { UpdateScriptModel } from "../dbSchema/update-template/update-template";
 import { Configurations } from "../../const/configurations";
 
 interface DockerWebhook {

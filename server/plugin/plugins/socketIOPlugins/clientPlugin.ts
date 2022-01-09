@@ -24,11 +24,10 @@ export class ClientPlugin extends AppPlugin {
   }
 
   auth(password: string): boolean {
-    // return (
-    //   Environments.ClientSideEnvironments.NEXT_PUBLIC_CLIENT_PASSWORD ===
-    //   password
-    // );
-    return true;
+    return (
+      Environments.ClientSideEnvironments.NEXT_PUBLIC_CLIENT_PASSWORD ===
+      password
+    );
   }
 
   async startSocketIOServer(server: Server): Promise<boolean | undefined> {

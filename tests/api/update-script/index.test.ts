@@ -7,7 +7,7 @@ import { expect } from "@jest/globals";
 import {
   IUpdateTemplate,
   UpdateScriptModel,
-} from "../../../internal/services/dbSchema/update-template/update_template";
+} from "../../../internal/services/dbSchema/update-template/update-template";
 
 import { MockConstant } from "../../data/mock_constant";
 import jwt from "jsonwebtoken";

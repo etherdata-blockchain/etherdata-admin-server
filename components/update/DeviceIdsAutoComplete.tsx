@@ -13,6 +13,7 @@ type Props = {
   defaultValues: string[];
   placeholder: string;
   label: string;
+  readonly: boolean;
   onAdd(index: number, content: string): Promise<void>;
   onDelete(index: number): Promise<void>;
 };
@@ -60,6 +61,7 @@ export function DeviceIdsAutoComplete(props: Props) {
       getOptionLabel={(o) => `${o}`}
       onInputChange={(e, value) => search(value)}
       options={options}
+      disabled={props.readonly}
       onChange={(e, value, reason, details) => {
         if (value) {
           if (reason === "selectOption") {

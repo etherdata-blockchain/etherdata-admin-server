@@ -8,7 +8,7 @@ import Form from "@rjsf/bootstrap-4";
 import {
   jsonSchema,
   UISchema,
-} from "../../../../internal/services/dbSchema/update-template/update_template_utils";
+} from "../../../../internal/services/dbSchema/update-template/update-template-utils";
 import { UIProviderContext } from "../../../model/UIProvider";
 import {
   DefaultInstallationScriptTag,
@@ -24,7 +24,7 @@ import {
   UpdateScriptPlugin,
 } from "../../../../internal/services/dbServices/update-script-plugin";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { IUpdateTemplate } from "../../../../internal/services/dbSchema/update-template/update_template";
+import { IUpdateTemplate } from "../../../../internal/services/dbSchema/update-template/update-template";
 import { PaddingBox } from "../../../../components/common/PaddingBox";
 
 type Props = {

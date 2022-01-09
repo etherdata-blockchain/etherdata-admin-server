@@ -8,4 +8,5 @@ export type PluginName =
   | "installScript"
   | "storageItem"
   | "storageOwner"
-  | "updateScript";
+  | "updateScript"
+  | "executionPlan";

@@ -44,7 +44,6 @@ export default function ETDProvider(props: any) {
     const url =
       Environments.ClientSideEnvironments.NEXT_PUBLIC_STATS_SERVER + "/clients";
     showSnackBarMessage("Loading Data");
-    console.log(url);
     socket = io(url);
     socket.off("history");
     socket.on("history", (data: ETDHistoryInterface) => {

@@ -1,8 +1,8 @@
 import React from "react";
 import { DataGrid } from "@mui/x-data-grid";
-import { columns } from "../../internal/services/dbSchema/update-template/update_template_utils";
+import { columns } from "../../internal/services/dbSchema/update-template/update-template-utils";
 import { Box } from "@mui/material";
-import { IUpdateTemplate } from "../../internal/services/dbSchema/update-template/update_template";
+import { IUpdateTemplate } from "../../internal/services/dbSchema/update-template/update-template";
 
 interface Props {
   updateTemplates: IUpdateTemplate[];
@@ -19,7 +19,7 @@ export default function UpdateTemplatePanel({ updateTemplates }: Props) {
         isRowSelectable={() => false}
         columns={columns}
         rows={updateTemplates.map((d, index) => {
-          return { id: index, ...d, details: d._id };
+          return { id: index, ...d, details: d._id, run: d._id };
         })}
         autoHeight
       />

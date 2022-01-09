@@ -1,8 +1,8 @@
 import { JSONSchema7 } from "json-schema";
 import { GridColDef } from "@mui/x-data-grid";
 import React from "react";
-import { IUpdateTemplate } from "./update_template";
-import { Button } from "@mui/material";
+import PlayCircleIcon from "@mui/icons-material/PlayCircle";
+import { Button, IconButton } from "@mui/material";
 import { Routes } from "../../../const/routes";
 import { DeviceIdField } from "../../../../components/update/DeviceIdField";
 
@@ -141,18 +141,38 @@ export const columns: GridColDef[] = [
       );
     },
   },
+  {
+    field: "run",
+    headerName: "Run",
+    flex: 2,
+    renderCell: (param) => {
+      return (
+        <IconButton
+          onClick={() =>
+            (window.location.pathname = `${Routes.updateTemplateRun}/${param.value}`)
+          }
+        >
+          <PlayCircleIcon />
+        </IconButton>
+      );
+    },
+  },
 ];
 
 /**
  * Convert a {from, to} array to {from: to} Map based on targetKeys
  * @param data
  * @param targetKeys
+ * @param root is Root?
  */
 export function convertFromToArrayToMap(
   data: { [key: string]: any },
-  targetKeys: string[]
+  targetKeys: string[],
+  root = false
 ) {
-  const deepCopied: { [key: string]: any } = JSON.parse(JSON.stringify(data));
+  const deepCopied: { [key: string]: any } = root
+    ? JSON.parse(JSON.stringify(data))
+    : data;
 
   for (const [key, value] of Object.entries(deepCopied)) {
     if (targetKeys.includes(key)) {
@@ -165,21 +185,9 @@ export function convertFromToArrayToMap(
     }
 
     if (typeof value === "object") {
-      convertFromToArrayToMap(deepCopied, targetKeys);
+      convertFromToArrayToMap(value, targetKeys, false);
     }
   }
-  return deepCopied;
-}
-
-/**
- *
- * @param data
- */
-export function convertQueryFormatToCreateFormat(data: IUpdateTemplate) {
-  const deepCopied: IUpdateTemplate = JSON.parse(JSON.stringify(data));
-  deepCopied.targetDeviceIds = JSON.parse(
-    data.targetDeviceIds as unknown as string
-  );
   return deepCopied;
 }
 

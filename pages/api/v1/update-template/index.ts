@@ -6,7 +6,7 @@ import { PaginationResult } from "../../../../internal/const/common_interfaces";
 import { UpdateScriptPlugin } from "../../../../internal/services/dbServices/update-script-plugin";
 import { methodAllowedHandler } from "../../../../internal/nextHandler/method_allowed_handler";
 import HTTPMethod from "http-method-enum";
-import { IUpdateTemplate } from "../../../../internal/services/dbSchema/update-template/update_template";
+import { IUpdateTemplate } from "../../../../internal/services/dbSchema/update-template/update-template";
 
 type Response =
   | { err?: string; message?: string }

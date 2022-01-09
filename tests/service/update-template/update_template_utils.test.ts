@@ -1,4 +1,4 @@
-import { convertFromToArrayToMap } from "../../../internal/services/dbSchema/update-template/update_template_utils";
+import { convertFromToArrayToMap } from "../../../internal/services/dbSchema/update-template/update-template-utils";
 
 describe("Given an update template utils", () => {
   test("When calling convertFromToArrayToMap", () => {

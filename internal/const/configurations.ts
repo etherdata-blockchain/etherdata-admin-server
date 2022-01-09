@@ -14,4 +14,5 @@ export const Configurations = {
   appbarHeight: 60,
   defaultPadding: 30,
   defaultSleepDuration: 100,
+  defaultRefreshInterval: 3000,
 };

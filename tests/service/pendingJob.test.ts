@@ -59,7 +59,6 @@ describe("Given a pending job", () => {
 
     await new PendingJobModel({
       targetDeviceId: "1",
-      time: new Date(2020, 5, 1),
       from: "a",
       task: {
         type: "rpc",
@@ -70,7 +69,6 @@ describe("Given a pending job", () => {
     const plugin = new PendingJobPlugin();
     const job = await plugin.getJob("1");
     expect(job).toBeDefined();
-    expect(job?.time.getMonth()).toBe(4);
     expect(await PendingJobModel.count()).toBe(1);
   });
 });

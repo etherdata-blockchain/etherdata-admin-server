@@ -8,7 +8,7 @@ import { MongoMemoryServer } from "mongodb-memory-server";
 import {
   IUpdateTemplate,
   UpdateScriptModel,
-} from "../../../internal/services/dbSchema/update-template/update_template";
+} from "../../../internal/services/dbSchema/update-template/update-template";
 import { MockDockerImage, MockDockerImage2 } from "../../data/mock_docker_data";
 import {
   MockUpdateScriptData,

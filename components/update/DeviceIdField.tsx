@@ -9,7 +9,7 @@ import { Configurations } from "../../internal/const/configurations";
 // eslint-disable-next-line require-jsdoc
 export function DeviceIdField(props: ArrayFieldTemplateProps) {
   //TODO: Use auto complete field in the future. Dynamically fetch image with tag
-  const { title, items, formData, onAddClick } = props;
+  const { title, items, formData, onAddClick, readonly } = props;
   const [shouldAdd, setShouldAdd] = React.useState(false);
   const [newContent, setNewContent] = React.useState<string>();
   const [newIndex, setNewIndex] = React.useState<number>();
@@ -51,6 +51,7 @@ export function DeviceIdField(props: ArrayFieldTemplateProps) {
         onDelete={onDelete}
         label={title}
         placeholder={title}
+        readonly={readonly}
       />
     </Box>
   );

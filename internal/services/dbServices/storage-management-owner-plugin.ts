@@ -25,6 +25,11 @@ export class StorageManagementOwnerPlugin extends DatabasePlugin<IStorageOwner> 
     const prev = now.subtract(Configurations.maximumNotSeenDuration);
     const pipeline: any[] = [
       {
+        $sort: {
+          _id: 1,
+        },
+      },
+      {
         $lookup: {
           from: "storage_management_item",
           localField: "user_id",

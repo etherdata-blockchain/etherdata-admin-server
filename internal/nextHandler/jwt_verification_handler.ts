@@ -5,7 +5,8 @@ import { Environments } from "../const/environments";
 
 /**
  * Post Only Middleware. Only accept post request.
- * Will authenticate user using Bearer token in the header
+ * Will authenticate user using Bearer token in the header.
+ * If authenticated, then will include user in the request body
  * @param{NextApiRequest} fn
  * @constructor
  */

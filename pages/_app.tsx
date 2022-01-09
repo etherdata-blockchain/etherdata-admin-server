@@ -5,7 +5,7 @@ import "../styles/globals.css";
 import UIProviderProvider from "./model/UIProvider";
 import React from "react";
 import * as Realm from "realm-web";
-import { Home, Person, PieChart, Receipt } from "@mui/icons-material";
+import { Home, Person, PieChart, Settings } from "@mui/icons-material";
 import NextNprogress from "nextjs-progressbar";
 import DownloadingIcon from "@mui/icons-material/Downloading";
 import BrowserUpdatedIcon from "@mui/icons-material/BrowserUpdated";
@@ -93,11 +93,6 @@ function MyApp(props: AppProps) {
       link: "/user",
     },
     {
-      title: "Transaction",
-      icon: <Receipt />,
-      link: "/transaction",
-    },
-    {
       title: "Chart",
       icon: <PieChart />,
       link: "/chart",
@@ -111,6 +106,11 @@ function MyApp(props: AppProps) {
       title: "Update Template",
       icon: <BrowserUpdatedIcon />,
       link: Routes.update,
+    },
+    {
+      title: "Settings",
+      icon: <Settings />,
+      link: Routes.settings,
     },
   ];
 

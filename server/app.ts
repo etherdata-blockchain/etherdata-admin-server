@@ -7,7 +7,6 @@ import { ClientPlugin } from "./plugin/plugins/socketIOPlugins/clientPlugin";
 import { createServer } from "http";
 import { AppPlugin } from "./plugin/plugins/socketIOPlugins/appPlugin";
 import { DBChangePlugin } from "./plugin/plugins/socketIOPlugins/dbPlugin";
-import { MongoClient } from "mongodb";
 import { Environments } from "../internal/const/environments";
 
 const port = parseInt(process.env.PORT!, 10) || 3000;

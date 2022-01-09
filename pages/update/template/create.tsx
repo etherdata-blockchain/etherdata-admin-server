@@ -14,12 +14,12 @@ import { DockerImagePlugin } from "../../../internal/services/dbServices/docker-
 import {
   jsonSchema,
   UISchema,
-} from "../../../internal/services/dbSchema/update-template/update_template_utils";
+} from "../../../internal/services/dbSchema/update-template/update-template-utils";
 import { IDockerImage } from "../../../internal/services/dbSchema/docker/docker-image";
 import { PaddingBox } from "../../../components/common/PaddingBox";
 import { getAxiosClient } from "../../../internal/const/defaultValues";
 import { Routes } from "../../../internal/const/routes";
-import { IUpdateTemplate } from "../../../internal/services/dbSchema/update-template/update_template";
+import { IUpdateTemplate } from "../../../internal/services/dbSchema/update-template/update-template";
 
 type Props = {
   images: IDockerImage[];

@@ -30,4 +30,10 @@ export const Routes = {
   updateTemplateEdit: "/update/template/edit",
   updateTemplateAPICreate: "/api/v1/update-template",
   updateTemplateAPIEdit: "/api/v1/update-template",
+  updateTemplateRun: "/update/template/run",
+  updateTemplateAPIRun: "/api/v1/update-template/run",
+  // ExecutionPlan
+  executionPlanAPIGet: "/api/v1/update-template/execution-plan",
+  // Settings
+  settings: "/settings",
 };

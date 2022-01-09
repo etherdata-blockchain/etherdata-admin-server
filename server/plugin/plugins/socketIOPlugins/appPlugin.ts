@@ -11,6 +11,7 @@ import { RegisteredPlugins } from "./registeredPlugins";
 import { PendingJobPlugin } from "../../../../internal/services/dbServices/pending-job-plugin";
 import mongoose from "mongoose";
 import { Environments } from "../../../../internal/const/environments";
+import { JobTaskType } from "../../../../internal/services/dbSchema/queue/pending-job";
 
 interface RPCCommand {
   methodName: string;
@@ -112,7 +113,7 @@ export class AppPlugin extends BaseSocketAuthIOPlugin {
             from: socket.id,
             time: new Date(),
             task: {
-              type: "web3",
+              type: JobTaskType.Web3,
               value: command,
             },
           };
@@ -151,7 +152,7 @@ export class AppPlugin extends BaseSocketAuthIOPlugin {
           from: socket.id,
           time: new Date(),
           task: {
-            type: "docker",
+            type: JobTaskType.Docker,
             value: value,
           },
         };

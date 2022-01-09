@@ -2,12 +2,15 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import { DeviceRegistrationPlugin } from "../../../../../internal/services/dbServices/device-registration-plugin";
 import { jwtVerificationHandler } from "../../../../../internal/nextHandler/jwt_verification_handler";
 import Logger from "../../../../../server/logger";
-import { IPendingJob } from "../../../../../internal/services/dbSchema/queue/pending-job";
+import {
+  AnyValueType,
+  IPendingJob,
+} from "../../../../../internal/services/dbSchema/queue/pending-job";
 import { PendingJobPlugin } from "../../../../../internal/services/dbServices/pending-job-plugin";
 
 type Data = {
   error?: string;
-  job?: IPendingJob;
+  job?: IPendingJob<AnyValueType>;
   key?: string;
 };
 
