@@ -1,7 +1,11 @@
 import axios from "axios";
 import jwt from "jsonwebtoken";
 import { Environments } from "./environments";
-import { PaginationResult, StorageUser } from "./common_interfaces";
+import {
+  PaginationResult,
+  RealtimeStatus,
+  StorageUser,
+} from "./common_interfaces";
 import { IDevice } from "../services/dbSchema/device/device";
 
 export const DefaultPaginationResult: PaginationResult<IDevice> = {
@@ -47,4 +51,8 @@ export const DefaultInstallationScriptTag = {
   dockerImage: 0,
   staticNode: 1,
   installationTemplate: 2,
+};
+
+export const DefaultRealtimeStatus: RealtimeStatus = {
+  pendingJobNumber: 0,
 };

@@ -29,6 +29,7 @@ import { realmApp } from "../../pages/_app";
 import ETDProvider from "../../pages/model/ETDProvider";
 import DeviceProvider from "../../pages/model/DeviceProvider";
 import MenuIcon from "@mui/icons-material/Menu";
+import { PendingJobButton } from "./pendingjob/PendingJobButton";
 
 export interface Menu {
   title: string;
@@ -92,13 +93,7 @@ export default function Layout(props: Props) {
           <Add />
         </IconButton>
       </Tooltip>
-      <Tooltip title={"errors"}>
-        <IconButton>
-          <Badge badgeContent={4} color={"error"}>
-            <Error />
-          </Badge>
-        </IconButton>
-      </Tooltip>
+      <PendingJobButton />
       <Tooltip title={"Sign Out"}>
         <IconButton
           onClick={async () => {

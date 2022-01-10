@@ -4,6 +4,9 @@ import { UIProviderContext } from "./UIProvider";
 
 import { ObjectId } from "bson";
 import { Environments } from "../../internal/const/environments";
+import { RealtimeStatus } from "../../internal/const/common_interfaces";
+import { DefaultRealtimeStatus } from "../../internal/const/defaultValues";
+import { SocketIOEvents } from "../../internal/const/events";
 
 interface DockerValue {
   method: "logs" | "start" | "stop" | "remove" | "restart" | "exec";
@@ -11,6 +14,7 @@ interface DockerValue {
 }
 
 interface DeviceInterface {
+  realtimeStatus: RealtimeStatus;
   sendDockerCommand(v: DockerValue): Promise<any>;
 
   joinDetail(deviceId: string): void;
@@ -33,6 +37,9 @@ export let socket: Socket | undefined = undefined;
 export default function DeviceProvider(props: any) {
   const { children } = props;
   const { showSnackBarMessage } = React.useContext(UIProviderContext);
+  const [realtimeStatus, setRealtimeStatus] = React.useState<RealtimeStatus>(
+    DefaultRealtimeStatus
+  );
 
   React.useEffect(() => {
     socket = io("/clients", {
@@ -45,15 +52,22 @@ export default function DeviceProvider(props: any) {
     socket.on("connect", () => {
       showSnackBarMessage("Connected to admin socket server");
     });
+
+    socket.on(SocketIOEvents.pendingJob, (data: number) => {
+      setRealtimeStatus((status) => {
+        status.pendingJobNumber = data;
+        return status;
+      });
+    });
   }, []);
 
   const joinDetail = React.useCallback((deviceId: string) => {
     console.log("Joining room");
-    socket?.emit("join-room", deviceId);
+    socket?.emit(SocketIOEvents.joinRoom, deviceId);
   }, []);
 
   const leaveDetail = React.useCallback((deviceId: string) => {
-    socket?.emit("leave-room", deviceId);
+    socket?.emit(SocketIOEvents.leaveRoom, deviceId);
   }, []);
 
   const sendCommand = React.useCallback(
@@ -61,14 +75,14 @@ export default function DeviceProvider(props: any) {
       return new Promise((resolve, reject) => {
         const uuid = new ObjectId().toString();
         console.log(`Waiting for ${uuid}'s result`);
-        socket?.emit("rpc-command", { method, params }, uuid);
-        socket?.once(`rpc-result-${uuid}`, (data) => {
+        socket?.emit(SocketIOEvents.rpcCommand, { method, params }, uuid);
+        socket?.once(`${SocketIOEvents.rpcResult}-${uuid}`, (data) => {
           resolve(data);
-          socket?.off(`rpc-error-${uuid}`);
+          socket?.off(`${SocketIOEvents.rpcError}-${uuid}`);
         });
-        socket?.once(`rpc-error-${uuid}`, (data) => {
+        socket?.once(`${SocketIOEvents.rpcError}-${uuid}`, (data) => {
           reject(data);
-          socket?.off(`rpc-result-${uuid}`);
+          socket?.off(`${SocketIOEvents.rpcResult}-${uuid}`);
         });
       });
     },
@@ -78,19 +92,18 @@ export default function DeviceProvider(props: any) {
   const sendDockerCommand = React.useCallback(
     (value: DockerValue) => {
       return new Promise((resolve, reject) => {
-        console.log("Getting logs");
         const uuid = new ObjectId().toString();
-        socket?.emit("docker-command", value, uuid);
-        socket?.once(`docker-result-${uuid}`, (value) => {
+        socket?.emit(SocketIOEvents.dockerCommand, value, uuid);
+        socket?.once(`${SocketIOEvents.dockerResult}-${uuid}`, (value) => {
           resolve(value);
-          socket?.off(`docker-result-${uuid}`);
-          socket?.off(`docker-error-${uuid}`);
+          socket?.off(`${SocketIOEvents.dockerResult}t-${uuid}`);
+          socket?.off(`${SocketIOEvents.dockerError}-${uuid}`);
         });
 
-        socket?.once(`docker-error-${uuid}`, (value) => {
+        socket?.once(`${SocketIOEvents.dockerError}-${uuid}`, (value) => {
           reject(value);
-          socket?.off(`docker-result-${uuid}`);
-          socket?.off(`docker-error-${uuid}`);
+          socket?.off(`${SocketIOEvents.dockerResult}-${uuid}`);
+          socket?.off(`${SocketIOEvents.dockerError}-${uuid}`);
         });
       });
     },
@@ -102,6 +115,7 @@ export default function DeviceProvider(props: any) {
     leaveDetail,
     sendCommand,
     sendDockerCommand,
+    realtimeStatus,
   };
 
   return (

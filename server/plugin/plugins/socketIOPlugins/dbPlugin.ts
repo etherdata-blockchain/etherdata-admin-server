@@ -9,6 +9,11 @@ import { DeviceModel } from "../../../../internal/services/dbSchema/device/devic
 import { ClientPlugin } from "./clientPlugin";
 import { PendingJobPlugin } from "../../../../internal/services/dbServices/pending-job-plugin";
 import { JobResultPlugin } from "../../../../internal/services/dbServices/job-result-plugin";
+import {
+  JobTaskType,
+  PendingJobModel,
+} from "../../../../internal/services/dbSchema/queue/pending-job";
+import { SocketIOEvents } from "../../../../internal/const/events";
 
 /**
  * Watch for database changes
@@ -42,33 +47,44 @@ export class DBChangePlugin extends BaseSocketIOPlugin {
             const result = data.fullDocument!;
             if (result.success) {
               switch (result.commandType) {
-                case "docker":
+                case JobTaskType.Docker:
                   clientPlugin?.server
                     ?.in(result.from)
-                    .emit(`docker-result-${result.jobId}`, result.result);
+                    .emit(
+                      `${SocketIOEvents.dockerResult}-${result.jobId}`,
+                      result.result
+                    );
                   break;
 
-                case "web3":
+                case JobTaskType.Web3:
                   clientPlugin?.server
                     ?.in(result.from)
-                    .emit(`rpc-result-${result.jobId}`, result.result);
+                    .emit(
+                      `${SocketIOEvents.rpcResult}-${result.jobId}`,
+                      result.result
+                    );
                   break;
               }
             } else {
               switch (result.commandType) {
-                case "docker":
+                case JobTaskType.Docker:
                   clientPlugin?.server
                     ?.in(result.from)
-                    .emit(`docker-error-${result.jobId}`, result.result);
+                    .emit(
+                      `${SocketIOEvents.dockerError}-${result.jobId}`,
+                      result.result
+                    );
                   break;
-                case "web3":
+                case JobTaskType.Web3:
                   clientPlugin?.server
                     ?.in(result.from)
-                    .emit(`docker-error-${result.jobId}`, result.result);
+                    .emit(
+                      `${SocketIOEvents.dockerError}-${result.jobId}`,
+                      result.result
+                    );
                   break;
               }
             }
-            console.log(result);
             // await JobResultModel.deleteOne({ _id: result._id });
 
             break;
@@ -88,10 +104,24 @@ export class DBChangePlugin extends BaseSocketIOPlugin {
           case "update":
             clientPlugin?.server
               ?.in(data.fullDocument?.id)
-              .emit("detail-info", data.fullDocument);
+              .emit(SocketIOEvents.detailInfo, data.fullDocument);
             break;
           default:
             break;
+        }
+      }
+    );
+
+    PendingJobModel.watch([], { fullDocument: "updateLookup" }).on(
+      "change",
+      async (data) => {
+        const clientPlugin = this.findPlugin<ClientPlugin>("client");
+        if (
+          data.operationType === "insert" ||
+          data.operationType === "delete"
+        ) {
+          const totalNumber = await PendingJobModel.countDocuments();
+          clientPlugin?.server?.emit(SocketIOEvents.pendingJob, totalNumber);
         }
       }
     );

@@ -53,3 +53,7 @@ export interface OwnerName {
 export interface StorageItemWithStatus extends StorageItem {
   status?: IDevice;
 }
+
+export interface RealtimeStatus {
+  pendingJobNumber: number;
+}
