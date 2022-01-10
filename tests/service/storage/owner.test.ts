@@ -28,7 +28,11 @@ describe("Given a storage owner", () => {
   afterEach(async () => {
     try {
       await StorageItemModel.collection.drop();
+    } catch (e) {}
+    try {
       await DeviceModel.collection.drop();
+    } catch (e) {}
+    try {
       await StorageOwnerModel.collection.drop();
     } catch (e) {}
   });
