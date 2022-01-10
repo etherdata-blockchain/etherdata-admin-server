@@ -42,7 +42,7 @@ export default function ImageTreeView({ images }: { images: ImageInfo[] }) {
         <StyledTreeItem
           key={`image-${index}`}
           nodeId={`${index}`}
-          labelText={image.RepoTags.toString()}
+          labelText={image?.RepoTags.toString()}
           labelIcon={ArchiveIcon}
         >
           <StyledTreeItem
@@ -67,7 +67,7 @@ export default function ImageTreeView({ images }: { images: ImageInfo[] }) {
             nodeId="7"
             labelText="Maintainer "
             labelIcon={AccessTimeFilledIcon}
-            labelInfo={image.Labels.maintainer}
+            labelInfo={image?.Labels.maintainer}
             color="#a250f5"
             bgColor="#f3e8fd"
           />
