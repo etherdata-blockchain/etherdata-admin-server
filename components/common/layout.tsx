@@ -29,7 +29,7 @@ import { realmApp } from "../../pages/_app";
 import ETDProvider from "../../pages/model/ETDProvider";
 import DeviceProvider from "../../pages/model/DeviceProvider";
 import MenuIcon from "@mui/icons-material/Menu";
-import { PendingJobButton } from "./pendingjob/PendingJobButton";
+import { PendingJobButton } from "../pendingJob/PendingJobButton";
 
 export interface Menu {
   title: string;
@@ -59,8 +59,16 @@ export default function Layout(props: Props) {
   }, []);
 
   const [selectedIndex, setSelectedIndex] = React.useState(0);
-  const { drawerOpen, setDrawerOpen, appBarTitle, appBarTitleShow } =
-    React.useContext(UIProviderContext);
+  const {
+    drawerOpen,
+    setDrawerOpen,
+    appBarTitle,
+    appBarTitleShow,
+    messageDrawerOpen,
+    messageDrawerContent,
+    setMessageDrawerContent,
+    setMessageDrawerOpen,
+  } = React.useContext(UIProviderContext);
 
   React.useEffect(() => {
     const found = menus.findIndex((m) => router.pathname.includes(m.link));
@@ -172,8 +180,8 @@ export default function Layout(props: Props) {
     <DeviceProvider>
       <ETDProvider>
         <div>
+          {/*Left Desktop toolbar*/}
           <Hidden only={["xs"]}>
-            {/** Desktop**/}
             {appbar}
             <Drawer variant="permanent">
               <List
@@ -186,8 +194,9 @@ export default function Layout(props: Props) {
               </List>
             </Drawer>
           </Hidden>
+          {/*End left desktop toolbar*/}
+          {/*Start mobile toolbar*/}
           <Hidden only={["sm", "md", "lg", "xl"]}>
-            {/** mobile**/}
             <Drawer
               open={drawerOpen}
               onClose={() => {
@@ -199,7 +208,20 @@ export default function Layout(props: Props) {
               </List>
             </Drawer>
           </Hidden>
-
+          {/*End mobile toolbar*/}
+          {/*Message panel*/}
+          <Drawer
+            anchor={"right"}
+            open={messageDrawerOpen}
+            onClose={() => {
+              setMessageDrawerOpen(false);
+              setMessageDrawerContent(undefined);
+            }}
+          >
+            {messageDrawerContent}
+          </Drawer>
+          {/*Message panel end*/}
+          {/*Start desktop main*/}
           <Hidden only={["xs"]}>
             {/** Desktop**/}
             <main
@@ -211,6 +233,8 @@ export default function Layout(props: Props) {
               {children}
             </main>
           </Hidden>
+          {/*End desktop main*/}
+          {/*Start mobile main*/}
           <Hidden only={["sm", "md", "lg", "xl"]}>
             {/** Mobile**/}
             {mobileAppbar}
@@ -221,6 +245,7 @@ export default function Layout(props: Props) {
               {children}
             </main>
           </Hidden>
+          {/*End mobile main*/}
         </div>
       </ETDProvider>
     </DeviceProvider>

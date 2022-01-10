@@ -14,6 +14,7 @@ import {
   PendingJobModel,
 } from "../../../../internal/services/dbSchema/queue/pending-job";
 import { SocketIOEvents } from "../../../../internal/const/events";
+import { Configurations } from "../../../../internal/const/configurations";
 
 /**
  * Watch for database changes
@@ -133,7 +134,7 @@ export class DBChangePlugin extends BaseSocketIOPlugin {
   async periodicRemoveJobsAndResponses() {
     const jobPlugin = new PendingJobPlugin();
     const jobResultPlugin = new JobResultPlugin();
-    const maximumDuration = 60;
+    const maximumDuration = Configurations.maximumNotSeenDuration;
     await jobPlugin.removeOutdatedJobs(maximumDuration);
     await jobResultPlugin.removeOutdatedJobs(maximumDuration);
   }

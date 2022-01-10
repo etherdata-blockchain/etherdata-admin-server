@@ -37,9 +37,9 @@ export class InstallationPlugin extends DatabasePlugin<IInstallationTemplate> {
     delete deepCopiedTemplate._id;
     for (const [key, val] of Object.entries(deepCopiedTemplate.services)) {
       //@ts-ignore
-      if (val.image.tags) {
+      if (val.image.tag) {
         // @ts-ignore
-        val.image = `${val.image.imageName}:${val.image?.tags[0].tag}`;
+        val.image = `${val.image.imageName}:${val.image?.tag.tag}`;
       } else {
         // @ts-ignore
         val.image = `${val.image.imageName}:latest`;

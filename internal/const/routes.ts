@@ -36,4 +36,6 @@ export const Routes = {
   executionPlanAPIGet: "/api/v1/update-template/execution-plan",
   // Settings
   settings: "/settings",
+  // Pending jobs
+  pendingJobsAPIGet: "/api/v1/device/job",
 };

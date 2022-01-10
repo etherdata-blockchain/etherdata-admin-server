@@ -48,10 +48,9 @@ type Props = {
  */
 export default function Run(props: Props) {
   const [isLoading, setIsLoading] = React.useState(false);
-  const { data, error } = useSWR<IExecutionPlan[]>(
+  const { data, error, isValidating } = useSWR<IExecutionPlan[]>(
     { id: props.updateTemplate._id },
     async ({ id }) => {
-      console.log("url", join(Routes.executionPlanAPIGet, id));
       const data = await getAxiosClient().get(
         join(Routes.executionPlanAPIGet, id)
       );

@@ -54,6 +54,7 @@ export interface IPendingJob<T> extends Document {
    */
   from: string;
   task: Task<T>;
+  createdAt: string;
 }
 
 export const pendingJobSchema = new Schema<IPendingJob<AnyValueType>>(

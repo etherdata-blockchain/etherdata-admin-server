@@ -15,4 +15,5 @@ export const Configurations = {
   defaultPadding: 30,
   defaultSleepDuration: 100,
   defaultRefreshInterval: 3000,
+  defaultMessagePanelWidth: 400,
 };

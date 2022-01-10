@@ -55,10 +55,6 @@ const darkTheme = createTheme({
         paper: {
           backgroundColor: "#354d57",
         },
-        root: {
-          backgroundColor: "#667880",
-          overflow: "hidden",
-        },
       },
     },
   },

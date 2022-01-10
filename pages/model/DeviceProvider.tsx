@@ -54,9 +54,10 @@ export default function DeviceProvider(props: any) {
     });
 
     socket.on(SocketIOEvents.pendingJob, (data: number) => {
+      console.log("Getting ", data);
       setRealtimeStatus((status) => {
         status.pendingJobNumber = data;
-        return status;
+        return JSON.parse(JSON.stringify(status));
       });
     });
   }, []);

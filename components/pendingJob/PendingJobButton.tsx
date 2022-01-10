@@ -2,7 +2,9 @@
 import * as React from "react";
 import { Badge, IconButton, Tooltip } from "@mui/material";
 import { Error } from "@mui/icons-material";
-import { DeviceContext } from "../../../pages/model/DeviceProvider";
+import { DeviceContext } from "../../pages/model/DeviceProvider";
+import { UIProviderContext } from "../../pages/model/UIProvider";
+import { PendingJobPanel } from "./PendingJobPanel";
 
 /**
  * Pending job button
@@ -11,10 +13,17 @@ import { DeviceContext } from "../../../pages/model/DeviceProvider";
  */
 export function PendingJobButton() {
   const { realtimeStatus } = React.useContext(DeviceContext);
+  const { setMessageDrawerOpen, setMessageDrawerContent } =
+    React.useContext(UIProviderContext);
 
   return (
     <Tooltip title={"Pending jobs"}>
-      <IconButton>
+      <IconButton
+        onClick={() => {
+          setMessageDrawerOpen(true);
+          setMessageDrawerContent(<PendingJobPanel />);
+        }}
+      >
         <Badge badgeContent={realtimeStatus.pendingJobNumber} color={"error"}>
           <Error />
         </Badge>

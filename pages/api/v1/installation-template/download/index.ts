@@ -58,9 +58,6 @@ async function handler(req: NextApiRequest, res: NextApiResponse<Response>) {
     }
 
     const zip = new AdmZip();
-    await installScriptPlugin.getTemplateWithDockerImages(
-      template!.results[0].id
-    );
     const templateWithDockerCompose =
       await installScriptPlugin.getTemplateWithDockerImages(
         template!.results[0].id
