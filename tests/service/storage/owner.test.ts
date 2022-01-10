@@ -1,3 +1,5 @@
+import moment from "moment";
+
 global.TextEncoder = require("util").TextEncoder;
 global.TextDecoder = require("util").TextDecoder;
 
@@ -16,6 +18,7 @@ import {
   MockUser2,
 } from "../../data/mock_storage_item";
 import { StorageManagementOwnerPlugin } from "../../../internal/services/dbServices/storage-management-owner-plugin";
+import { Configurations } from "../../../internal/const/configurations";
 
 describe("Given a storage owner", () => {
   let dbServer: MongoMemoryServer;
@@ -28,11 +31,7 @@ describe("Given a storage owner", () => {
   afterEach(async () => {
     try {
       await StorageItemModel.collection.drop();
-    } catch (e) {}
-    try {
       await DeviceModel.collection.drop();
-    } catch (e) {}
-    try {
       await StorageOwnerModel.collection.drop();
     } catch (e) {}
   });
@@ -42,10 +41,20 @@ describe("Given a storage owner", () => {
   });
 
   test("When calling get list of users", async () => {
+    const now = moment();
+    const past = moment().subtract(
+      Configurations.maximumNotSeenDuration * 2,
+      "seconds"
+    );
+
     await StorageOwnerModel.create(MockUser);
     await StorageOwnerModel.create(MockUser2);
     await StorageItemModel.create(MockStorageItem);
     await StorageItemModel.create(MockStorageItem2);
+
+    MockDeviceStatus.lastSeen = now;
+    MockDeviceStatus2.lastSeen = past;
+
     await DeviceModel.create(MockDeviceStatus);
     await DeviceModel.create(MockDeviceStatus2);
     const plugin = new StorageManagementOwnerPlugin();
