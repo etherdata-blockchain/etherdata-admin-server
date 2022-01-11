@@ -7,4 +7,19 @@ jobs:
     runs-on: ubuntu-latest
     if: ${{ github.event.deployment_status.state == 'success' }}
     steps:
-      - run: echo ${{ github.event.deployment_status.deployment_url }}
+      - name: Find Comment
+        uses: peter-evans/find-comment@v1
+        id: fc
+        with:
+          issue-number: ${{ github.event.pull_request.number }}
+          comment-author: 'github-actions[bot]'
+          body-includes: "[HEROKU]"
+
+      - name: Create or update comment
+        uses: peter-evans/create-or-update-comment@v1
+        with:
+          comment-id: ${{ steps.fc.outputs.comment-id }}
+          issue-number: ${{ github.event.pull_request.number }}
+          body: |
+            [HEROKU] Your preview has been generated. Check ${{ github.event.deployment_status.deployment_url }}
+          edit-mode: replace
