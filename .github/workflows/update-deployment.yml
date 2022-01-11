@@ -1,0 +1,10 @@
+name: Update deployment
+
+on: deployment_status
+
+jobs:
+  comment:
+    runs-on: ubuntu-latest
+    if: ${{ github.event.deployment_status.state == 'success' }}
+    steps:
+      - run: echo ${{ github.event.deployment_status.deployment_url }}
