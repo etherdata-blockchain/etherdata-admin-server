@@ -1,16 +1,23 @@
 // @flow
 import * as React from "react";
-import PageHeader from "../../components/PageHeader";
+import PageHeader from "../../components/common/PageHeader";
 import { Grid } from "@mui/material";
-import ResponsiveCard from "../../components/ResponsiveCard";
-import Spacer from "../../components/Spacer";
+import ResponsiveCard from "../../components/common/ResponsiveCard";
+import Spacer from "../../components/common/Spacer";
 import { GetServerSideProps } from "next";
 import {
   DeviceRegistrationPlugin,
   VersionInfo,
 } from "../../internal/services/dbServices/device-registration-plugin";
-import { Cell, Pie, PieChart, ResponsiveContainer, Tooltip } from "recharts";
 import randomColor from "randomcolor";
+
+const {
+  Cell,
+  Pie,
+  PieChart,
+  ResponsiveContainer,
+  Tooltip,
+} = require("recharts");
 
 type Props = {
   adminVersions: VersionInfo[];

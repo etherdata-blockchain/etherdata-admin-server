@@ -1,17 +1,16 @@
 // @flow
 import * as React from "react";
-import PageHeader from "../../components/PageHeader";
+import PageHeader from "../../components/common/PageHeader";
 import { GetServerSideProps } from "next";
 import { IDockerImage } from "../../internal/services/dbSchema/docker/docker-image";
 import { IStaticNode } from "../../internal/services/dbSchema/install-script/static-node";
 import { DockerImagePlugin } from "../../internal/services/dbServices/docker-image-plugin";
 import { StaticNodePlugin } from "../../internal/services/dbServices/static-node-plugin";
 import { Configurations } from "../../internal/const/configurations";
-import Spacer from "../../components/Spacer";
+import Spacer from "../../components/common/Spacer";
 import Box from "@mui/material/Box";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
-import { a11yProps, TabPanel } from "../user/devices/detail/edit/[id]";
 import DockerImagesPanel from "../../components/installation/DockerImagesPanel";
 import { InstallationPlugin } from "../../internal/services/dbServices/installation-plugin";
 import { IInstallationTemplate } from "../../internal/services/dbSchema/install-script/install-script";
@@ -22,6 +21,10 @@ import { useRouter } from "next/dist/client/router";
 import StaticNodePanel from "../../components/installation/StaticNodePanel";
 import WebhookPanel from "../../components/installation/WebhookPanel";
 import qs from "query-string";
+import { a11yProps, TabPanel } from "../../components/common/tabs/horizontal";
+import "bootstrap/dist/css/bootstrap.min.css";
+import { UIProviderContext } from "../model/UIProvider";
+import { PaddingBox } from "../../components/common/PaddingBox";
 
 type Props = {
   index: any;
@@ -45,6 +48,7 @@ export default function Index({
 }: Props) {
   // eslint-disable-next-line no-unused-vars
   const [value, setValue] = React.useState(parseInt(index));
+  const { appBarTitleShow } = React.useContext(UIProviderContext);
   const router = useRouter();
 
   const handleChange = async (
@@ -86,40 +90,46 @@ export default function Index({
         action={actions[value]}
       />
       <Spacer height={20} />
-      <Box
-        sx={{
-          flexGrow: 1,
-          bgcolor: "background.paper",
-          display: "flex",
-        }}
-      >
-        <Tabs
-          orientation="vertical"
-          variant="scrollable"
-          value={value}
-          onChange={handleChange}
-          aria-label="Vertical tabs example"
-          sx={{ borderRight: 1, borderColor: "divider" }}
+      <Box>
+        <Box
+          sx={{
+            bgcolor: appBarTitleShow ? "background.paper" : undefined,
+            width: "100%",
+          }}
+          style={{ position: "sticky", top: Configurations.appbarHeight }}
         >
-          <Tab label="Docker Images" {...a11yProps(0)} />
-          <Tab label="Static Nodes" {...a11yProps(1)} />
-          <Tab label="Installation Templates" {...a11yProps(2)} />
-          <Tab label="Webhook" {...a11yProps(3)} />
-        </Tabs>
-        <TabPanel value={value} index={0}>
-          <DockerImagesPanel dockerImages={images} />
-        </TabPanel>
-        <TabPanel value={value} index={1}>
-          <StaticNodePanel staticNodes={staticNodes} />
-        </TabPanel>
-        <TabPanel value={value} index={2}>
-          <InstallationTemplatePanel
-            installationTemplates={installationTemplates}
-          />
-        </TabPanel>
-        <TabPanel value={value} index={3}>
-          <WebhookPanel host={host} />
-        </TabPanel>
+          <Tabs
+            variant="scrollable"
+            value={value}
+            onChange={handleChange}
+            aria-label="Vertical tabs example"
+            style={{
+              paddingLeft: Configurations.defaultPadding,
+              paddingRight: Configurations.defaultPadding,
+            }}
+          >
+            <Tab label="Docker Images" {...a11yProps(0)} />
+            <Tab label="Static Nodes" {...a11yProps(1)} />
+            <Tab label="Installation Templates" {...a11yProps(2)} />
+            <Tab label="Webhook" {...a11yProps(3)} />
+          </Tabs>
+        </Box>
+        <PaddingBox>
+          <TabPanel value={value} index={0}>
+            <DockerImagesPanel dockerImages={images} />
+          </TabPanel>
+          <TabPanel value={value} index={1}>
+            <StaticNodePanel staticNodes={staticNodes} />
+          </TabPanel>
+          <TabPanel value={value} index={2}>
+            <InstallationTemplatePanel
+              installationTemplates={installationTemplates}
+            />
+          </TabPanel>
+          <TabPanel value={value} index={3}>
+            <WebhookPanel host={host} />
+          </TabPanel>
+        </PaddingBox>
       </Box>
     </div>
   );
@@ -135,13 +145,16 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
   const staticNodePlugin = new StaticNodePlugin();
   const installationPlugin = new InstallationPlugin();
 
-  const imagePromise = dockerImagePlugin.list(0, Configurations.numberPerPage);
+  const imagePromise = dockerImagePlugin.list(
+    Configurations.defaultPaginationStartingPage,
+    Configurations.numberPerPage
+  );
   const staticNodePromise = staticNodePlugin.list(
-    0,
+    Configurations.defaultPaginationStartingPage,
     Configurations.numberPerPage
   );
   const installationTemplatePromise = installationPlugin.list(
-    0,
+    Configurations.defaultPaginationStartingPage,
     Configurations.numberPerPage
   );
 

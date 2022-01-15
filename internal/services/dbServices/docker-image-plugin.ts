@@ -5,6 +5,8 @@ import {
   DockerImageModel,
   IDockerImage,
 } from "../dbSchema/docker/docker-image";
+import { UpdateScriptModel } from "../dbSchema/update-template/update-template";
+import { Configurations } from "../../const/configurations";
 
 interface DockerWebhook {
   // eslint-disable-next-line camelcase
@@ -57,6 +59,24 @@ export class DockerImagePlugin extends DatabasePlugin<IDockerImage> {
   protected model: Model<IDockerImage> = DockerImageModel;
 
   /**
+   * Will delete corresponding update-script script
+   * @param data
+   */
+  async delete(id: any) {
+    const deletePromise = UpdateScriptModel.updateOne(
+      { "imageStacks.image": id },
+      { $pull: { imageStacks: { image: id } } }
+    ).exec();
+
+    const deletePromise2 = UpdateScriptModel.updateOne(
+      { "containerStacks.image.image": id },
+      { $unset: { "containerStacks.$.image": 0 } }
+    ).exec();
+    await Promise.all([deletePromise, deletePromise2]);
+    return super.delete(id);
+  }
+
+  /**
    * Create data with webhook data from docker hub
    * @param {DockerWebhook} data data from webhook
    */
@@ -79,5 +99,16 @@ export class DockerImagePlugin extends DatabasePlugin<IDockerImage> {
     } else {
       await this.model.create(dockerData);
     }
+  }
+
+  /**
+   * Search docker images by image name
+   * @param{string} key
+   */
+  async search(key: string): Promise<IDockerImage[]> {
+    const query = this.model
+      .find({ imageName: { $regex: ".*" + key + ".*" } })
+      .limit(Configurations.numberPerPage);
+    return query.exec();
   }
 }

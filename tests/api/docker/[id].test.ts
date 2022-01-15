@@ -67,6 +67,7 @@ describe("Given a docker image handler with index", () => {
     await handler(req, res);
     const result: IDockerImage = res._getJSONData();
     expect(res._getStatusCode()).toBe(StatusCodes.OK);
+    // @ts-ignore
     expect(result.tags.length).toBe(MockDockerImage.tags.length);
     expect(result.imageName).toBe(MockDockerImage.imageName);
   });
@@ -86,6 +87,7 @@ describe("Given a docker image handler with index", () => {
     await handler(req, res);
     const result: IDockerImage = res._getJSONData();
     expect(res._getStatusCode()).toBe(StatusCodes.OK);
+    // @ts-ignore
     expect(result.tags.length).toBe(MockDockerImage.tags.length);
     expect(result.imageName).toBe(MockDockerImage.imageName);
   });

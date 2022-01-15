@@ -1,21 +1,22 @@
-import { PaginationResult } from "../../server/client/browserClient";
-import { StorageUser } from "../services/dbServices/storage-management-system-plugin";
 import axios from "axios";
 import jwt from "jsonwebtoken";
 import { Environments } from "./environments";
+import {
+  PaginationResult,
+  RealtimeStatus,
+  StorageUser,
+} from "./common_interfaces";
+import { IDevice } from "../services/dbSchema/device/device";
 
-export const DefaultPaginationResult: PaginationResult = {
-  adminVersions: [],
-  devices: [],
-  nodeVersions: [],
-  totalNumberDevices: 0,
-  totalOnlineDevices: 0,
-  totalStorageNumber: 0,
+export const DefaultPaginationResult: PaginationResult<IDevice> = {
+  count: 0,
+  currentPage: 0,
+  pageSize: 0,
+  results: [],
+  totalPage: 0,
 };
 
 export const DefaultStorageUser: StorageUser = {
-  _id: "default",
-  id: "default",
   user_id: "default",
   user_name: "Default",
 };
@@ -26,6 +27,9 @@ const token = () =>
     Environments.ClientSideEnvironments.NEXT_PUBLIC_SECRET
   );
 
+/**
+ * Axios client for admin server api
+ */
 export const getAxiosClient = () =>
   axios.create({
     headers: {
@@ -33,8 +37,24 @@ export const getAxiosClient = () =>
     },
   });
 
+/**
+ * Axios client for storage management system client
+ */
+export const getStorageManagementAxiosClient = () =>
+  axios.create({
+    headers: {
+      Authorization: `Bearer ${Environments.ServerSideEnvironments.STORAGE_MANAGEMENT_API_TOKEN}`,
+    },
+  });
+
 export const DefaultInstallationScriptTag = {
   dockerImage: 0,
   staticNode: 1,
   installationTemplate: 2,
+};
+
+export const DefaultRealtimeStatus: RealtimeStatus = {
+  pendingJobNumber: 0,
+  onlineCount: 0,
+  totalCount: 0,
 };

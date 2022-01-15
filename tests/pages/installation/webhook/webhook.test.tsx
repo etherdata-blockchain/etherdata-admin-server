@@ -5,15 +5,11 @@ import WebhookPanel from "../../../../components/installation/WebhookPanel";
 import { Configurations } from "../../../../internal/const/configurations";
 import { MockURL } from "../../../data/mock_url";
 import { MockConstant } from "../../../data/mock_constant";
+import { beforeUITest } from "../../../utils/ui-test";
 
 describe("Given a webhook panel", () => {
   beforeAll(() => {
-    // @ts-ignore
-    window.matchMedia = createMatchMedia(window.innerWidth);
-    process.env = {
-      ...process.env,
-      NEXT_PUBLIC_SECRET: MockConstant.mockTestingSecret,
-    };
+    beforeUITest();
   });
 
   test("When rendering the page", async () => {

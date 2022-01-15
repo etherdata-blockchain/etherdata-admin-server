@@ -1,17 +1,15 @@
-import {
-  DatabasePlugin,
-  PaginationResult,
-} from "../../../server/plugin/basePlugin";
-import { DeviceModel, IDevice } from "../dbSchema/device";
+import { DatabasePlugin } from "../../../server/plugin/basePlugin";
+import { DeviceModel, IDevice } from "../dbSchema/device/device";
 import { PluginName } from "../../../server/plugin/pluginName";
 import { Model, Query } from "mongoose";
 import axios, { AxiosError } from "axios";
 import moment from "moment";
 import jwt from "jsonwebtoken";
-import { ClientFilter } from "../../../server/client/browserClient";
 import Logger from "../../../server/logger";
-import { StorageManagementSystemPlugin } from "./storage-management-system-plugin";
+import { StorageManagementItemPlugin } from "./storage-management-item-plugin";
 import { Environments } from "../../const/environments";
+import { PaginationResult, StorageItem } from "../../const/common_interfaces";
+import { Configurations } from "../../const/configurations";
 
 export interface VersionInfo {
   version: string;
@@ -25,36 +23,6 @@ export interface VersionInfo {
 export class DeviceRegistrationPlugin extends DatabasePlugin<any> {
   pluginName: PluginName = "deviceRegistration";
   protected model: Model<IDevice> = DeviceModel;
-
-  /**
-   * List devices with custom filter
-   * @param pageNumber
-   * @param pageSize
-   * @param deviceIds
-   * @param filter
-   */
-  async listWithFilter(
-    pageNumber: number,
-    pageSize: number,
-    deviceIds: string[],
-    filter?: ClientFilter
-  ): Promise<PaginationResult<IDevice> | undefined> {
-    let results = this.model.find({
-      id: { $in: deviceIds },
-    });
-    if (filter) {
-      const queryFilter: { [key: string]: any } = {
-        id: { $in: deviceIds },
-      };
-      queryFilter[filter.key] = filter.value;
-      results = this.model.find(queryFilter);
-    }
-
-    //@ts-ignore
-    const pageResults = this.doPagination(results, pageNumber, pageSize);
-
-    return await pageResults;
-  }
 
   // eslint-disable-next-line require-jsdoc
   async performPatch(data: IDevice): Promise<IDevice> {
@@ -148,65 +116,18 @@ export class DeviceRegistrationPlugin extends DatabasePlugin<any> {
   }
 
   /**
-   * Get number of online devices
-   * @param deviceIds
-   * @param filter
+   * Get total number of online devices
    */
-  async getOnlineDevicesCount(
-    deviceIds: string[],
-    filter?: ClientFilter
-  ): Promise<number> {
-    const time = moment().subtract(10, "minutes");
+  async getOnlineDevicesCount(): Promise<number> {
+    const time = moment().subtract(
+      Configurations.maximumNotSeenDuration,
+      "seconds"
+    );
     const query = this.model.find({
       lastSeen: { $gt: time.toDate() },
     });
-    // if (filter) {
-    //   let queryFilter: { [key: string]: any } = {
-    //     lastSeen: { $gt: time.toDate() },
-    //   };
-    //   queryFilter[filter.key] = filter.value;
-    //   query = this.model.find(queryFilter);
-    // }
+
     return query.count();
-  }
-
-  /**
-   * Get device by device id
-   * @param deviceID
-   */
-  async findDeviceByDeviceID(deviceID: string): Promise<IDevice | null> {
-    const query = this.model.findOne({ id: deviceID });
-    const result = await query.exec();
-    if (result?.data?.systemInfo.isSyncing) {
-      //@ts-ignore
-      result.data.systemInfo.isSyncing = true;
-    }
-    return JSON.parse(JSON.stringify(result));
-  }
-
-  /**
-   * Get devices by user
-   * @param user
-   * @return [success, reason, devices]
-   */
-  async getDevicesByUser(
-    user: string
-  ): Promise<[boolean, string | undefined, any[]]> {
-    try {
-      const path = "storage_management/user?user=" + encodeURIComponent(user);
-      const url = new URL(
-        path,
-        Environments.ServerSideEnvironments.STORAGE_MANAGEMENT_URL
-      );
-      const resp = await axios.get(url.toString(), {
-        headers: {
-          Authorization: `Bearer ${Environments.ServerSideEnvironments.STORAGE_MANAGEMENT_API_TOKEN}`,
-        },
-      });
-      return [true, undefined, resp.data];
-    } catch (e) {
-      return [false, (e as AxiosError).response?.data.err, []];
-    }
   }
 
   /**
@@ -266,17 +187,6 @@ export class DeviceRegistrationPlugin extends DatabasePlugin<any> {
   }
 
   /**
-   * Return the count result with custom filter
-   * @param deviceIds
-   * @param filter
-   */
-  async countWithFilter(deviceIds: string[], filter?: ClientFilter) {
-    const queryFilter: { [key: string]: any } = {};
-    const results = this.model.find(queryFilter);
-    return results.count();
-  }
-
-  /**
    * Get devices by miner address
    * @param miner
    * @param pageNumber
@@ -305,10 +215,10 @@ export class DeviceRegistrationPlugin extends DatabasePlugin<any> {
   private async authFromDB(
     device: string
   ): Promise<[boolean, string | undefined]> {
-    const storageManagementPlugin = new StorageManagementSystemPlugin();
-    const foundDevice = await storageManagementPlugin.findDeviceById(device);
+    const storageManagementPlugin = new StorageManagementItemPlugin();
+    const authorized = await storageManagementPlugin.auth(device);
 
-    if (foundDevice) {
+    if (authorized) {
       // Generate a key for next task
       const newKey = jwt.sign({ device }, process.env.PUBLIC_SECRET!, {
         expiresIn: 600,

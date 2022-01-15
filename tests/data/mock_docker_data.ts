@@ -28,7 +28,34 @@ export const MockWebHookData = {
   },
 };
 
-export const MockDockerImage = {
+/**
+ * Simple mock docker image
+ */
+export const MockDockerImage: any = {
   imageName: "test",
   tags: [{ tag: "v1.0" }],
+};
+
+/**
+ * Simple mock docker image
+ */
+export const MockDockerImage2: any = {
+  imageName: "test2",
+  tags: [{ tag: "v1.0" }],
+};
+
+/**
+ * Docker image with multiple tags
+ */
+export const MockDockerImage3: any = {
+  imageName: "test3",
+  tags: [{ tag: "v1.0" }, { tag: "v2.0" }],
+};
+
+/**
+ * Docker image with empty tag
+ */
+export const MockDockerImage4: any = {
+  imageName: "test4",
+  tags: [],
 };

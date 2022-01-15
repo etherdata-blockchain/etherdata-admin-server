@@ -12,7 +12,9 @@ import { Configurations } from "../const/configurations";
  */
 export const paginationHandler =
   (fn: NextApiHandler) => async (req: NextApiRequest, res: NextApiResponse) => {
-    const page = (req.query.page as string) ?? "0";
+    const page =
+      (req.query.page as string) ??
+      `${Configurations.defaultPaginationStartingPage}`;
     const pageSize =
       (req.query.pageSize as string) ?? `${Configurations.numberPerPage}`;
     if (req.method !== "GET") {

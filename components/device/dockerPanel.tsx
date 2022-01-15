@@ -1,6 +1,6 @@
 // @flow
 import * as React from "react";
-import { IDevice } from "../../internal/services/dbSchema/device";
+import { IDevice } from "../../internal/services/dbSchema/device/device";
 import {
   List,
   ListItemButton,

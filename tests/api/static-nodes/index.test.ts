@@ -1,7 +1,7 @@
 global.TextEncoder = require("util").TextEncoder;
 global.TextDecoder = require("util").TextDecoder;
 
-import { PaginationResult } from "../../../server/plugin/basePlugin";
+import { PaginationResult } from "../../../internal/const/common_interfaces";
 import { MockConstant } from "../../data/mock_constant";
 import jwt from "jsonwebtoken";
 import mongoose from "mongoose";

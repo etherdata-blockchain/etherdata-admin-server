@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { DeviceRegistrationPlugin } from "../../../../internal/services/dbServices/device-registration-plugin";
 import { jwtVerificationHandler } from "../../../../internal/nextHandler/jwt_verification_handler";
+import { StorageManagementItemPlugin } from "../../../../internal/services/dbServices/storage-management-item-plugin";
 
 /**
  * Found user by given user
@@ -10,12 +10,12 @@ import { jwtVerificationHandler } from "../../../../internal/nextHandler/jwt_ver
 async function handler(req: NextApiRequest, res: NextApiResponse) {
   const { user } = req.body;
 
-  const plugin = new DeviceRegistrationPlugin();
-  const [success, err, devices] = await plugin.getDevicesByUser(user);
-  if (success) {
+  const plugin = new StorageManagementItemPlugin();
+  const devices = await plugin.getDevicesByUser(user);
+  if (devices) {
     res.status(200).json(devices);
   } else {
-    res.status(500).json({ reason: err });
+    res.status(500).json({ reason: "" });
   }
 }
 
