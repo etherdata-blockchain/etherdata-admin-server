@@ -1,14 +1,16 @@
 import type { AppProps } from "next/app";
-import Layout from "../components/layout";
+import Layout from "../components/common/layout";
 import { createTheme, CssBaseline, ThemeProvider } from "@mui/material";
 import "../styles/globals.css";
 import UIProviderProvider from "./model/UIProvider";
 import React from "react";
 import * as Realm from "realm-web";
-import { Home, Person, PieChart, Receipt } from "@mui/icons-material";
+import { Home, Person, PieChart, Settings } from "@mui/icons-material";
 import NextNprogress from "nextjs-progressbar";
 import DownloadingIcon from "@mui/icons-material/Downloading";
+import BrowserUpdatedIcon from "@mui/icons-material/BrowserUpdated";
 import { Environments } from "../internal/const/environments";
+import { Routes } from "../internal/const/routes";
 
 // Setup realm for login
 export const realmApp = new Realm.App({
@@ -53,10 +55,6 @@ const darkTheme = createTheme({
         paper: {
           backgroundColor: "#354d57",
         },
-        root: {
-          backgroundColor: "#667880",
-          overflow: "hidden",
-        },
       },
     },
   },
@@ -91,11 +89,6 @@ function MyApp(props: AppProps) {
       link: "/user",
     },
     {
-      title: "Transaction",
-      icon: <Receipt />,
-      link: "/transaction",
-    },
-    {
       title: "Chart",
       icon: <PieChart />,
       link: "/chart",
@@ -103,7 +96,17 @@ function MyApp(props: AppProps) {
     {
       title: "Installation",
       icon: <DownloadingIcon />,
-      link: "/installation",
+      link: Routes.installation,
+    },
+    {
+      title: "Update Template",
+      icon: <BrowserUpdatedIcon />,
+      link: Routes.update,
+    },
+    {
+      title: "Settings",
+      icon: <Settings />,
+      link: Routes.settings,
     },
   ];
 

@@ -11,6 +11,11 @@ import { RegisteredPlugins } from "./registeredPlugins";
 import { PendingJobPlugin } from "../../../../internal/services/dbServices/pending-job-plugin";
 import mongoose from "mongoose";
 import { Environments } from "../../../../internal/const/environments";
+import {
+  JobTaskType,
+  PendingJobModel,
+} from "../../../../internal/services/dbSchema/queue/pending-job";
+import { SocketIOEvents } from "../../../../internal/const/events";
 
 interface RPCCommand {
   methodName: string;
@@ -112,7 +117,7 @@ export class AppPlugin extends BaseSocketAuthIOPlugin {
             from: socket.id,
             time: new Date(),
             task: {
-              type: "web3",
+              type: JobTaskType.Web3,
               value: command,
             },
           };
@@ -151,7 +156,7 @@ export class AppPlugin extends BaseSocketAuthIOPlugin {
           from: socket.id,
           time: new Date(),
           task: {
-            type: "docker",
+            type: JobTaskType.Docker,
             value: value,
           },
         };
@@ -207,9 +212,16 @@ export class AppPlugin extends BaseSocketAuthIOPlugin {
     );
   };
 
-  protected onAuthenticated(socket: Socket, password: string): void {
+  protected async onAuthenticated(
+    socket: Socket,
+    password: string
+  ): Promise<void> {
     const data = jwt.decode(password, { json: true });
-    this.user[socket.id] = data!.user;
+    this.user[socket.id] = data?.user;
+    socket.emit(
+      SocketIOEvents.pendingJob,
+      await PendingJobModel.countDocuments({})
+    );
   }
 
   // eslint-disable-next-line require-jsdoc

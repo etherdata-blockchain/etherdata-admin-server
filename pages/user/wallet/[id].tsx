@@ -9,20 +9,20 @@ import { Divider, Grid, List, ListItem, ListItemText } from "@mui/material";
 import Web3 from "web3";
 import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
 import { DeviceTable } from "../../../components/device/deviceTable";
-import ResponsiveCard from "../../../components/ResponsiveCard";
-import Spacer from "../../../components/Spacer";
+import ResponsiveCard from "../../../components/common/ResponsiveCard";
+import Spacer from "../../../components/common/Spacer";
 import { RewardDisplay } from "../../../components/user/rewardDisplay";
 import { LargeDataCard } from "../../../components/cards/largeDataCard";
-import PageHeader from "../../../components/PageHeader";
-import { IDevice } from "../../../internal/services/dbSchema/device";
+import PageHeader from "../../../components/common/PageHeader";
 import { DeviceRegistrationPlugin } from "../../../internal/services/dbServices/device-registration-plugin";
 import { weiToETD } from "../../../internal/utils/weiToETD";
 import { Environments } from "../../../internal/const/environments";
+import { IStorageItem } from "../../../internal/services/dbSchema/device/storage/item";
 
 const pageSize = 20;
 
 type Props = {
-  devices: IDevice[];
+  devices: IStorageItem[];
   totalPageNumber: number;
   totalNumRows: number;
   currentPage: number;

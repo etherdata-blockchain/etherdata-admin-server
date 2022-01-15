@@ -1,3 +1,5 @@
+import { PaginationResult } from "../../../internal/const/common_interfaces";
+
 global.TextEncoder = require("util").TextEncoder;
 global.TextDecoder = require("util").TextDecoder;
 
@@ -14,7 +16,7 @@ import { StatusCodes } from "http-status-codes";
 import { createMocks } from "node-mocks-http";
 import { MockDockerImage, MockWebHookData } from "../../data/mock_docker_data";
 import jwt from "jsonwebtoken";
-import { PaginationResult } from "../../../server/plugin/basePlugin";
+import { Configurations } from "../../../internal/const/configurations";
 
 describe("Given a docker handler", () => {
   let dbServer: MongoMemoryServer;
@@ -57,8 +59,7 @@ describe("Given a docker handler", () => {
     await handler(req, res);
     expect(res._getStatusCode()).toBe(StatusCodes.CREATED);
     expect(await DockerImageModel.countDocuments()).toBe(1);
-
-    const data: IDockerImage = await DockerImageModel.findOne({}).exec();
+    const data: IDockerImage = (await DockerImageModel.findOne({}).exec())!;
     expect(data.tags[0].tag).toBe(MockDockerImage.tags[0].tag);
     expect(data.tags[0]._id).toBeDefined();
   });
@@ -77,7 +78,7 @@ describe("Given a docker handler", () => {
     expect(res._getStatusCode()).toBe(StatusCodes.CREATED);
     expect(await DockerImageModel.countDocuments()).toBe(1);
 
-    const data: IDockerImage = await DockerImageModel.findOne({}).exec();
+    const data: IDockerImage = (await DockerImageModel.findOne({}).exec())!;
     expect(data.tags[0].tag).toBe(MockDockerImage.tags[0].tag);
     expect(data.tags[0]._id).toBeDefined();
   });
@@ -99,9 +100,9 @@ describe("Given a docker handler", () => {
     //@ts-ignore
     await webhookHandler(req, res);
     expect(res._getStatusCode()).toBe(StatusCodes.CREATED);
-    const dockerData = await DockerImageModel.findOne({
+    const dockerData = (await DockerImageModel.findOne({
       imageName: "test/testhook",
-    }).exec();
+    }).exec())!;
     expect(await DockerImageModel.countDocuments()).toBe(1);
     expect(dockerData.tags.length).toBe(2);
   });
@@ -149,7 +150,7 @@ describe("Given a docker handler", () => {
       method: "GET",
       query: {
         pageSize: "2",
-        page: "0",
+        page: Configurations.defaultPaginationStartingPage,
       },
       headers: {
         Authorization: "Bearer " + token,

@@ -1,15 +1,14 @@
 // @flow
 import * as React from "react";
-import PageHeader from "../../../../components/PageHeader";
-import Spacer from "../../../../components/Spacer";
-import ResponsiveCard from "../../../../components/ResponsiveCard";
+import PageHeader from "../../../../components/common/PageHeader";
+import Spacer from "../../../../components/common/Spacer";
 import {
   Button,
+  Card,
   Grid,
   List,
   ListItem,
   ListItemAvatar,
-  ListItemButton,
   ListItemText,
   ListSubheader,
   Typography,
@@ -23,8 +22,6 @@ import { DeviceContext, socket } from "../../../model/DeviceProvider";
 import { abbreviateNumber } from "../../../../internal/utils/valueFormatter";
 import { UIProviderContext } from "../../../model/UIProvider";
 import { GetServerSideProps } from "next";
-import { DeviceRegistrationPlugin } from "../../../../internal/services/dbServices/device-registration-plugin";
-import { IDevice } from "../../../../internal/services/dbSchema/device";
 import { objectExpand } from "../../../../internal/utils/objectExpander";
 import Logger from "../../../../server/logger";
 import moment from "moment";
@@ -33,9 +30,11 @@ import AlbumIcon from "@mui/icons-material/Album";
 import { ContainerDialog } from "../../../../components/device/dialog/containerDialog";
 import { ImageDialog } from "../../../../components/device/dialog/imageDialog";
 import { Configurations } from "../../../../internal/const/configurations";
+import { StorageManagementItemPlugin } from "../../../../internal/services/dbServices/storage-management-item-plugin";
+import { IStorageItem } from "../../../../internal/services/dbSchema/device/storage/item";
 
 type Props = {
-  device: IDevice | null;
+  device: IStorageItem | null;
   online: boolean;
   found: boolean;
 };
@@ -48,20 +47,29 @@ export default function DeviceDetail({ device, found }: Props) {
   const [showContainerDetails, setShowContainerDetails] = React.useState(false);
   const [showImageDetails, setShowImageDetails] = React.useState(false);
 
-  const [foundDevice, setFoundDevice] = React.useState<IDevice | undefined>(
-    device ?? undefined
-  );
+  const [foundDevice, setFoundDevice] = React.useState<
+    IStorageItem | undefined
+  >(device ?? undefined);
   const online =
-    Math.abs(moment(foundDevice?.lastSeen).diff(moment(), "seconds")) <
-    Configurations.maximumNotSeenDuration;
+    Math.abs(
+      moment(foundDevice?.deviceStatus.lastSeen).diff(moment(), "seconds")
+    ) < Configurations.maximumNotSeenDuration;
+
+  const storageInfo = {
+    adminVersion: foundDevice?.deviceStatus.adminVersion,
+    owner: foundDevice?.owner_id,
+  };
 
   React.useEffect(() => {
-    console.log("Joining room", device?.id);
+    console.log("Joining room", device?.qr_code);
     // @ts-ignore
-    if (found) joinDetail(device?.id);
+    if (found) joinDetail(device?.qr_code);
 
     socket?.on("detail-info", (data) => {
-      setFoundDevice(data);
+      if (foundDevice) {
+        foundDevice.deviceStatus = data;
+      }
+      setFoundDevice(JSON.parse(JSON.stringify(foundDevice)));
     });
 
     return () => {
@@ -70,11 +78,12 @@ export default function DeviceDetail({ device, found }: Props) {
     };
   }, []);
 
+  // @ts-ignore
   return (
     <div>
       <PageHeader
         title={"Device"}
-        description={`${device?.id}`}
+        description={`${device?.qr_code}`}
         action={
           <Button
             onClick={() =>
@@ -104,7 +113,7 @@ export default function DeviceDetail({ device, found }: Props) {
         <Grid item md={3} xs={6}>
           <LargeDataCard
             icon={<ComputerIcon />}
-            title={`${foundDevice?.data?.number}`}
+            title={`${foundDevice?.deviceStatus?.data?.number}`}
             color={"#ba03fc"}
             subtitleColor={"white"}
             iconColor={"white"}
@@ -135,7 +144,7 @@ export default function DeviceDetail({ device, found }: Props) {
         <Grid item xs={6}>
           <LargeDataCard
             icon={<AllInboxIcon />}
-            title={`${foundDevice?.docker?.containers.length}`}
+            title={`${foundDevice?.deviceStatus.docker?.containers?.length}`}
             color={"#ba03fc"}
             subtitleColor={"white"}
             iconColor={"white"}
@@ -150,7 +159,7 @@ export default function DeviceDetail({ device, found }: Props) {
         <Grid item xs={6}>
           <LargeDataCard
             icon={<AlbumIcon />}
-            title={`${foundDevice?.docker?.images.length}`}
+            title={`${foundDevice?.deviceStatus.docker?.images?.length}`}
             color={"#ba03fc"}
             subtitleColor={"white"}
             iconColor={"white"}
@@ -161,29 +170,51 @@ export default function DeviceDetail({ device, found }: Props) {
           />
         </Grid>
         <Grid item xs={12}>
-          <ResponsiveCard>
-            <ListItem>
-              <ListItemText
-                primary={"Is Online"}
-                secondary={`${found && online}`}
-              />
-            </ListItem>
-
-            <ListItemButton
-              onClick={async () => {
-                await router.push("/user/" + foundDevice?.data?.miner);
-              }}
-            >
-              <ListItemText
-                primary={"miner"}
-                secondary={
-                  <Typography noWrap>{foundDevice?.data?.miner}</Typography>
-                }
-              />
-            </ListItemButton>
-
+          <Typography variant={"subtitle1"} style={{ margin: 15 }}>
+            Status
+          </Typography>
+          <Card>
             <List>
-              {objectExpand(foundDevice!, [
+              <ListItem>
+                <ListItemText
+                  primary={"Online"}
+                  secondary={<Typography noWrap>{`${online}`}</Typography>}
+                />
+              </ListItem>
+              <ListItem>
+                <ListItemText
+                  primary={"Last Seen"}
+                  secondary={
+                    <Typography noWrap>
+                      {foundDevice?.deviceStatus.lastSeen}
+                    </Typography>
+                  }
+                />
+              </ListItem>
+            </List>
+          </Card>
+          <Typography variant={"subtitle1"} style={{ margin: 15 }}>
+            Storage Info
+          </Typography>
+          <Card>
+            {/*@ts-ignore*/}
+            {objectExpand(storageInfo, []).map(({ key, value }, index) => (
+              <ListItem key={index}>
+                <ListItemText
+                  primary={key}
+                  secondary={<Typography noWrap>{value}</Typography>}
+                />
+              </ListItem>
+            ))}
+          </Card>
+
+          <List>
+            <Typography variant={"subtitle1"} style={{ margin: 15 }}>
+              Mining info
+            </Typography>
+            <Card>
+              {/*@ts-ignore*/}
+              {objectExpand(foundDevice?.data, [
                 "__v",
                 "_id",
                 "miner",
@@ -196,30 +227,32 @@ export default function DeviceDetail({ device, found }: Props) {
                   />
                 </ListItem>
               ))}
+            </Card>
+          </List>
 
-              <ListSubheader>Peers</ListSubheader>
-              {foundDevice?.data?.peers.map((p, i) => (
-                <ListItem key={i}>
-                  <ListItemAvatar>{i + 1}</ListItemAvatar>
-                  <ListItemText primary={"Device IP"} secondary={"abcde"} />
-                </ListItem>
-              ))}
-            </List>
-          </ResponsiveCard>
+          <List>
+            <ListSubheader>Peers</ListSubheader>
+            {foundDevice?.deviceStatus.data?.peers?.map((p, i) => (
+              <ListItem key={i}>
+                <ListItemAvatar>{i + 1}</ListItemAvatar>
+                <ListItemText primary={"Device IP"} secondary={"abcde"} />
+              </ListItem>
+            ))}
+          </List>
         </Grid>
       </Grid>
 
-      {foundDevice?.docker?.containers && (
+      {foundDevice?.deviceStatus.docker?.containers && (
         <ContainerDialog
           show={showContainerDetails}
           onClose={() => setShowContainerDetails(false)}
-          containers={foundDevice?.docker?.containers}
+          containers={foundDevice?.deviceStatus.docker?.containers}
         />
       )}
 
-      {foundDevice?.docker?.images && (
+      {foundDevice?.deviceStatus.docker?.images && (
         <ImageDialog
-          images={foundDevice.docker.images}
+          images={foundDevice.deviceStatus.docker.images}
           show={showImageDetails}
           onClose={() => setShowImageDetails(false)}
         />
@@ -237,8 +270,8 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
   let found: boolean = false;
 
   try {
-    const plugin = new DeviceRegistrationPlugin();
-    const client = await plugin.findDeviceByDeviceID(deviceId);
+    const plugin = new StorageManagementItemPlugin();
+    const client = await plugin.getDeviceByID(deviceId);
     if (client) {
       found = true;
       device = client;
@@ -247,11 +280,13 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
     Logger.error("Cannot read details: " + e);
   }
 
+  const data: Props = {
+    device,
+    online,
+    found,
+  };
+
   return {
-    props: {
-      device,
-      online,
-      found,
-    },
+    props: JSON.parse(JSON.stringify(data)),
   };
 };

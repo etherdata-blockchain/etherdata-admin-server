@@ -3,8 +3,8 @@ import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
-import PageHeader from "../../../../../components/PageHeader";
-import Spacer from "../../../../../components/Spacer";
+import PageHeader from "../../../../../components/common/PageHeader";
+import Spacer from "../../../../../components/common/Spacer";
 import { GeneralPanel } from "../../../../../components/device/generalPanel";
 import { GetServerSideProps } from "next";
 import { DeviceRegistrationPlugin } from "../../../../../internal/services/dbServices/device-registration-plugin";
@@ -24,7 +24,7 @@ import { UIProviderContext } from "../../../../model/UIProvider";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { DeviceContext, socket } from "../../../../model/DeviceProvider";
 import { DockerPanel } from "../../../../../components/device/dockerPanel";
-import { IDevice } from "../../../../../internal/services/dbSchema/device";
+import { IDevice } from "../../../../../internal/services/dbSchema/device/device";
 
 interface Props {
   user: string | null;

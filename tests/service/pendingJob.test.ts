@@ -1,12 +1,9 @@
-global.TextEncoder = require("util").TextEncoder;
-global.TextDecoder = require("util").TextDecoder;
-
 import mongoose from "mongoose";
 import { MongoMemoryServer } from "mongodb-memory-server";
 import { PendingJobModel } from "../../internal/services/dbSchema/queue/pending-job";
 import { PendingJobPlugin } from "../../internal/services/dbServices/pending-job-plugin";
 
-describe("Pending job tests", () => {
+describe("Given a pending job", () => {
   let dbServer: MongoMemoryServer;
   beforeAll(async () => {
     dbServer = await MongoMemoryServer.create();
@@ -21,7 +18,7 @@ describe("Pending job tests", () => {
     dbServer.stop();
   });
 
-  test("Get a job", async () => {
+  test("When getting a job", async () => {
     await new PendingJobModel({
       targetDeviceId: "1",
       time: new Date(2020, 5, 1),
@@ -32,21 +29,25 @@ describe("Pending job tests", () => {
       },
     }).save();
 
-    let plugin = new PendingJobPlugin();
+    const plugin = new PendingJobPlugin();
     let job = await plugin.getJob("1");
     expect(job).toBeDefined();
-    expect(await PendingJobModel.count()).toBe(0);
+    expect(await PendingJobModel.count()).toBe(1);
+
+    job = await plugin.getJob("1");
+    expect(job).toBeUndefined();
+    expect(await PendingJobModel.count()).toBe(1);
   });
 
-  test("Get no job", async () => {
+  test("When getting no job", async () => {
     await PendingJobModel.createCollection();
-    let plugin = new PendingJobPlugin();
-    let job = await plugin.getJob("1");
+    const plugin = new PendingJobPlugin();
+    const job = await plugin.getJob("1");
     expect(job).not.toBeDefined();
     expect(await PendingJobModel.count()).toBe(0);
   });
 
-  test("Get a job 2", async () => {
+  test("When getting a job", async () => {
     await new PendingJobModel({
       targetDeviceId: "1",
       time: new Date(2020, 4, 1),
@@ -59,7 +60,6 @@ describe("Pending job tests", () => {
 
     await new PendingJobModel({
       targetDeviceId: "1",
-      time: new Date(2020, 5, 1),
       from: "a",
       task: {
         type: "rpc",
@@ -67,10 +67,9 @@ describe("Pending job tests", () => {
       },
     }).save();
 
-    let plugin = new PendingJobPlugin();
-    let job = await plugin.getJob("1");
+    const plugin = new PendingJobPlugin();
+    const job = await plugin.getJob("1");
     expect(job).toBeDefined();
-    expect(job?.time.getMonth()).toBe(4);
-    expect(await PendingJobModel.count()).toBe(1);
+    expect(await PendingJobModel.count()).toBe(2);
   });
 });

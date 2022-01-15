@@ -5,7 +5,8 @@ import { Environments } from "../const/environments";
 
 /**
  * Post Only Middleware. Only accept post request.
- * Will authenticate user using Bearer token in the header
+ * Will authenticate user using Bearer token in the header.
+ * If authenticated, then will include user in the request body
  * @param{NextApiRequest} fn
  * @constructor
  */
@@ -39,6 +40,6 @@ export const jwtVerificationHandler =
       return fn(req, res);
     } catch (e) {
       console.log(e);
-      res.status(403).json({ reason: "Not authorized" });
+      res.status(StatusCodes.UNAUTHORIZED).json({ reason: "Not authorized" });
     }
   };

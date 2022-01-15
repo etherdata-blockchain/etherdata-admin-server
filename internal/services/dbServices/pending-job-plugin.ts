@@ -1,21 +1,38 @@
 import { DatabasePlugin } from "../../../server/plugin/basePlugin";
 import { PluginName } from "../../../server/plugin/pluginName";
 import { Model } from "mongoose";
-import { IPendingJob, PendingJobModel } from "../dbSchema/queue/pending-job";
+import {
+  AnyValueType,
+  IPendingJob,
+  PendingJobModel,
+  PendingJobTaskType,
+} from "../dbSchema/queue/pending-job";
 import moment from "moment";
 
-export class PendingJobPlugin extends DatabasePlugin<IPendingJob> {
+/**
+ * Plugin for pending job
+ */
+export class PendingJobPlugin extends DatabasePlugin<
+  IPendingJob<AnyValueType>
+> {
   pluginName: PluginName = "pendingJob";
-  protected model: Model<IPendingJob> = PendingJobModel;
+  protected model: Model<IPendingJob<AnyValueType>> = PendingJobModel;
 
   /**
-   * Get a job
+   * Get a job and update the retrieved field to true.
+   * Will only return the job with retrieved false
    * @param deviceID
    */
-  async getJob(deviceID: string): Promise<IPendingJob | undefined> {
-    const result = await this.model.findOneAndRemove(
+  async getJob<T extends PendingJobTaskType>(
+    deviceID: string
+  ): Promise<IPendingJob<T> | undefined> {
+    const result = await this.model.findOneAndUpdate(
       {
         targetDeviceId: deviceID,
+        retrieved: false,
+      },
+      {
+        retrieved: true,
       },
       { sort: { time: 1 } }
     );
@@ -23,7 +40,17 @@ export class PendingJobPlugin extends DatabasePlugin<IPendingJob> {
     if (result === null) {
       return undefined;
     }
+
+    //@ts-ignore
     return result;
+  }
+
+  /**
+   * Insert many jobs
+   * @param jobs
+   */
+  async insertMany(jobs: IPendingJob<AnyValueType>[]) {
+    await this.model.insertMany(jobs);
   }
 
   /**
@@ -32,6 +59,6 @@ export class PendingJobPlugin extends DatabasePlugin<IPendingJob> {
    */
   async removeOutdatedJobs(maximumDuration: number) {
     const deadline = moment().subtract(maximumDuration, "seconds");
-    await this.model.deleteMany({ time: { $lte: deadline.toDate() } });
+    await this.model.deleteMany({ updatedAt: { $lte: deadline.toDate() } });
   }
 }

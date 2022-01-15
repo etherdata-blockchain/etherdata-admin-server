@@ -3,15 +3,15 @@ import * as React from "react";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { Button, Pagination } from "@mui/material";
 import { useRouter } from "next/dist/client/router";
-import { IDevice } from "../../internal/services/dbSchema/device";
 import moment from "moment";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import HighlightOffIcon from "@mui/icons-material/HighlightOff";
-import Spacer from "../Spacer";
+import Spacer from "../common/Spacer";
 import { Configurations } from "../../internal/const/configurations";
+import { IStorageItem } from "../../internal/services/dbSchema/device/storage/item";
 
 type Props = {
-  devices: IDevice[];
+  devices?: IStorageItem[];
   loading?: boolean;
   currentPageNumber: number;
   totalPageNumber: number;
@@ -31,6 +31,13 @@ export function DeviceTable({
   numPerPage,
 }: Props) {
   const router = useRouter();
+  const [totalPage, setTotalPage] = React.useState(totalPageNumber);
+
+  React.useEffect(() => {
+    if (totalPageNumber > 0) {
+      setTotalPage(totalPageNumber);
+    }
+  }, [totalPageNumber]);
 
   const columns: GridColDef[] = [
     { field: "id", headerName: "ID", width: 100 },
@@ -62,10 +69,13 @@ export function DeviceTable({
       headerName: "Detail",
       width: 200,
       renderCell: (params) => {
-        const device = devices.find((d) => d._id === params.id)!;
         return (
           <Button
-            onClick={() => router.push(`/user/devices/detail/${device.id}`)}
+            onClick={() =>
+              router.push(
+                `/user/devices/detail/${devices![params.value].qr_code}`
+              )
+            }
           >
             Details
           </Button>
@@ -73,20 +83,21 @@ export function DeviceTable({
       },
     },
   ];
-  const data = devices.map((d) => {
+  const data = devices?.map((d, index) => {
     return {
-      id: d._id,
-      deviceId: d.id,
-      online: d.lastSeen
-        ? Math.abs(moment(d.lastSeen).diff(moment(), "seconds")) <
+      id: index,
+      deviceId: d.qr_code,
+      online: d.deviceStatus?.lastSeen
+        ? Math.abs(moment(d.deviceStatus?.lastSeen).diff(moment(), "seconds")) <
           Configurations.maximumNotSeenDuration
         : false,
-      blockNumber: d.data?.number,
+      blockNumber: d.deviceStatus?.data?.number,
       name: d.name,
-      peerCount: d.data?.systemInfo.peerCount,
-      difficulty: d.data?.difficulty,
-      nodeInfo: d.data?.systemInfo.nodeVersion,
-      adminVersion: d.adminVersion,
+      peerCount: d.deviceStatus?.data?.systemInfo.peerCount,
+      difficulty: d.deviceStatus?.data?.difficulty,
+      nodeInfo: d.deviceStatus?.data?.systemInfo.nodeVersion,
+      adminVersion: d.deviceStatus?.adminVersion,
+      detail: index,
     };
   });
 
@@ -95,27 +106,27 @@ export function DeviceTable({
       <Pagination
         color={"primary"}
         onChange={async (e, cur) => {
-          await onPageChanged(cur - 1);
+          await onPageChanged(cur);
         }}
-        count={totalPageNumber}
-        page={currentPageNumber + 1}
+        count={totalPage}
+        page={currentPageNumber}
       />
       <Spacer height={10} />
       <DataGrid
         style={{ width: "100%" }}
         loading={loading}
         columns={columns}
-        rows={data}
+        rows={data ?? []}
         paginationMode={"server"}
         rowCount={totalNumRows}
         onPageChange={async (page) => {
-          await onPageChanged(page);
+          await onPageChanged(page + 1);
         }}
         autoHeight
         pageSize={numPerPage}
         disableSelectionOnClick
         pagination
-        page={currentPageNumber}
+        page={currentPageNumber - 1}
       />
     </div>
   );

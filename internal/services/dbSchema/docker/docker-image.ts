@@ -1,11 +1,15 @@
 /**
  * Create a image object for storing required information used in generate script
  */
-import mongoose, { Document, model, Schema } from "mongoose";
+import mongoose, { Document, Model, model, Schema } from "mongoose";
 
 export interface IDockerImage extends Document {
   imageName: string;
   tags: IDOckerImageVersion[];
+  /**
+   * Will be set when query from installation template
+   */
+  tag?: IDOckerImageVersion;
 }
 
 interface IDOckerImageVersion extends Document {
@@ -14,12 +18,6 @@ interface IDOckerImageVersion extends Document {
 
 export const dockerImageSchema = new Schema<IDockerImage>(
   {
-    _id: {
-      type: mongoose.Schema.Types.ObjectId,
-      index: true,
-      required: true,
-      auto: true,
-    },
     imageName: { type: "String", required: true },
     tags: [
       {
@@ -38,6 +36,8 @@ export const dockerImageSchema = new Schema<IDockerImage>(
   }
 );
 
-export const DockerImageModel =
+dockerImageSchema.index({ imageName: "text" });
+
+export const DockerImageModel: Model<IDockerImage> =
   mongoose.models.dockerImage ??
   model<IDockerImage>("dockerImage", dockerImageSchema);

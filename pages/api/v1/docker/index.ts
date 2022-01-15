@@ -1,10 +1,10 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { IDockerImage } from "../../../../internal/services/dbSchema/docker/docker-image";
 import { DockerImagePlugin } from "../../../../internal/services/dbServices/docker-image-plugin";
-import { PaginationResult } from "../../../../server/plugin/basePlugin";
 import { StatusCodes } from "http-status-codes";
 import { paginationHandler } from "../../../../internal/nextHandler/paginationHandler";
 import { jwtVerificationHandler } from "../../../../internal/nextHandler/jwt_verification_handler";
+import { PaginationResult } from "../../../../internal/const/common_interfaces";
 
 type Response =
   | { err?: string; message?: string }

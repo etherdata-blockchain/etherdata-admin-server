@@ -55,7 +55,8 @@ describe("Given a installation template handler", () => {
   test("When sending a post request to the server with correct data", async () => {
     const result = await DockerImageModel.create(MockDockerImage);
     const reqData = JSON.parse(JSON.stringify(MockInstallationTemplateData));
-    reqData.services.worker.image = result.tags[0]._id;
+    reqData.services[0].service.image.image = result._id;
+    reqData.services[0].service.image.tag = result.tags[0]._id;
     const { req, res } = createMocks({
       method: "POST",
       headers: {
@@ -74,7 +75,8 @@ describe("Given a installation template handler", () => {
   test("When sending a post request to the server with incorrect image id but in right format", async () => {
     const result = await DockerImageModel.create(MockDockerImage);
     const reqData = JSON.parse(JSON.stringify(MockInstallationTemplateData));
-    reqData.services.worker.image = result._id;
+    reqData.services[0].service.image.image = result._id;
+    reqData.services[0].service.image.tag = result._id;
     const { req, res } = createMocks({
       method: "POST",
       headers: {
@@ -90,7 +92,8 @@ describe("Given a installation template handler", () => {
   test("When sending a list request to the server", async () => {
     const result = await DockerImageModel.create(MockDockerImage);
     const reqData = JSON.parse(JSON.stringify(MockInstallationTemplateData));
-    reqData.services.worker.image = result._id;
+    reqData.services[0].service.image.image = result._id;
+    reqData.services[0].service.image.tag = result.tags[0]._id;
 
     await InstallationTemplateModel.create(reqData);
     const { req, res } = createMocks({

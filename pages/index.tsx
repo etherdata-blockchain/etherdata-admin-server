@@ -8,7 +8,7 @@ import {
   Typography,
 } from "@mui/material";
 import { Formik } from "formik";
-import Spacer from "../components/Spacer";
+import Spacer from "../components/common/Spacer";
 import { realmApp } from "./_app";
 import * as Realm from "realm-web";
 import { useRouter } from "next/dist/client/router";

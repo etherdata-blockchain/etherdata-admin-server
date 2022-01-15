@@ -1,8 +1,8 @@
 // @flow
 import * as React from "react";
 import Box from "@mui/material/Box";
-import PageHeader from "../../../components/PageHeader";
-import Spacer from "../../../components/Spacer";
+import PageHeader from "../../../components/common/PageHeader";
+import Spacer from "../../../components/common/Spacer";
 import Form from "@rjsf/bootstrap-4";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { UIProviderContext } from "../../model/UIProvider";
@@ -16,60 +16,31 @@ import { useRouter } from "next/dist/client/router";
 import { GetServerSideProps } from "next";
 import { Configurations } from "../../../internal/const/configurations";
 import { DockerImagePlugin } from "../../../internal/services/dbServices/docker-image-plugin";
-import {
-  expandImages,
-  jsonSchema,
-  postprocessData,
-} from "../../../internal/services/dbSchema/install-script/install-script-utils";
+import { jsonSchema } from "../../../internal/services/dbSchema/install-script/install-script-utils";
 import { IDockerImage } from "../../../internal/services/dbSchema/docker/docker-image";
-import { Form as BForm } from "react-bootstrap";
+import { ImageField } from "../../../components/installation/DockerImageField";
+import { IInstallationTemplate } from "../../../internal/services/dbSchema/install-script/install-script";
+import { PaddingBox } from "../../../components/common/PaddingBox";
 
 type Props = {
-  expandImages: any[];
   images: IDockerImage[];
 };
-
-// eslint-disable-next-line require-jsdoc
-export function ImageField(props: any) {
-  //TODO: Use auto complete field in the future. Dynamically fetch image with tag
-  const { label, id, onChange, placeholder, options, value } = props;
-  return (
-    <BForm.Group>
-      <BForm.Label>{label}</BForm.Label>
-      <BForm.Select
-        aria-label="Default select example"
-        value={value}
-        onChange={(e) => onChange(e.target.value)}
-      >
-        <option>{placeholder}</option>
-        {options.selections.map((v: any, i: number) => (
-          <option value={v.tag._id} key={`${id}-${i}`}>
-            {v.image.imageName}:{v.tag.tag}
-          </option>
-        ))}
-      </BForm.Select>
-    </BForm.Group>
-  );
-}
 
 /**
  * Installation template page
  * @param{Props} props
  * @constructor
  */
-export default function Index({ expandImages, images }: Props) {
+export default function Index({ images }: Props) {
   const [isLoading, setIsLoading] = React.useState(false);
   const { showSnackBarMessage } = React.useContext(UIProviderContext);
   const [formData, setFormData] = React.useState();
   const router = useRouter();
 
-  const submitData = async (data: any) => {
+  const submitData = async (data: IInstallationTemplate) => {
     setIsLoading(true);
     try {
-      await getAxiosClient().post(
-        Routes.installationTemplatesAPICreate,
-        postprocessData(data)
-      );
+      await getAxiosClient().post(Routes.installationTemplatesAPICreate, data);
       await router.push(
         `${Routes.installation}?index=${DefaultInstallationScriptTag.installationTemplate}`
       );
@@ -87,41 +58,42 @@ export default function Index({ expandImages, images }: Props) {
         description={`Create a installation template`}
       />
       <Spacer height={20} />
-      <Box
-        sx={{
-          flexGrow: 1,
-          bgcolor: "background.paper",
-          display: "flex",
-          padding: 3,
-        }}
-      >
-        <Form
-          schema={jsonSchema}
-          liveValidate={true}
-          formData={formData}
-          onChange={(value) => {
-            setFormData(value.formData);
+      <PaddingBox>
+        <Box
+          sx={{
+            flexGrow: 1,
+            bgcolor: "background.paper",
+            display: "flex",
+            padding: 3,
           }}
-          onSubmit={async (data) => {
-            await submitData(data.formData);
-          }}
-          widgets={{ image: ImageField }}
-          uiSchema={{
-            services: {
-              items: {
-                service: {
-                  image: {
-                    "ui:widget": "image",
-                    "ui:options": {
-                      selections: expandImages,
+        >
+          <Form
+            schema={jsonSchema}
+            liveValidate={true}
+            formData={formData}
+            onChange={(value) => {
+              setFormData(value.formData);
+            }}
+            onSubmit={async (data) => {
+              await submitData(data.formData);
+            }}
+            uiSchema={{
+              services: {
+                items: {
+                  service: {
+                    image: {
+                      "ui:ObjectFieldTemplate": ImageField,
+                      "ui:options": {
+                        images: images,
+                      },
                     },
                   },
                 },
               },
-            },
-          }}
-        />
-      </Box>
+            }}
+          />
+        </Box>
+      </PaddingBox>
       <Backdrop
         sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
         open={isLoading}
@@ -138,11 +110,13 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
   //TODO: Add pagination
   const dockerImagePlugin = new DockerImagePlugin();
 
-  const images = await dockerImagePlugin.list(0, Configurations.numberPerPage);
+  const images = await dockerImagePlugin.list(
+    Configurations.defaultPaginationStartingPage,
+    Configurations.numberPerPage
+  );
 
   const data: Props = {
     images: images?.results ?? [],
-    expandImages: expandImages(images?.results ?? []),
   };
 
   return {

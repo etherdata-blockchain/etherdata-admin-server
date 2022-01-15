@@ -4,9 +4,9 @@ import { paginationHandler } from "../../../../internal/nextHandler/paginationHa
 import { InstallationPlugin } from "../../../../internal/services/dbServices/installation-plugin";
 import { StatusCodes } from "http-status-codes";
 import { IInstallationTemplate } from "../../../../internal/services/dbSchema/install-script/install-script";
-import { PaginationResult } from "../../../../server/plugin/basePlugin";
 import { methodAllowedHandler } from "../../../../internal/nextHandler/method_allowed_handler";
 import HTTPMethod from "http-method-enum";
+import { PaginationResult } from "../../../../internal/const/common_interfaces";
 
 type Response =
   | { err?: string; message?: string }
