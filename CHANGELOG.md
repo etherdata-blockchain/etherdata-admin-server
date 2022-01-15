@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 1.10.7 (2022-01-15)
+
+
+### Bug Fixes
+
+* Won't add tags issues ([58fad7c](https://github.com/etherdata-blockchain/etherdata-admin-server/commit/58fad7c99402ab6a5b98285d2df020169855d2a6))
+
 ### [1.10.6](https://github.com/etherdata-blockchain/etherdata-admin-server/compare/v1.10.5...v1.10.6) (2021-12-20)
 
 
