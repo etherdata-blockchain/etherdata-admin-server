@@ -112,8 +112,8 @@
   "standard-version": {
     "packageFiles": [
       {
-        "filename": "k8s/deployment.yml",
-        "updater": "k8s/update-version.js"
+        "filename": "./example_configs/k8s/deployment.yml",
+        "updater": "./example_configs/k8s/update-version.js"
       },
       {
         "filename": "package.json"
@@ -121,8 +121,8 @@
     ],
     "bumpFiles": [
       {
-        "filename": "example_configs/k8s/deployment.yml",
-        "updater": "example_configs/k8s/update-version.js"
+        "filename": "./example_configs/k8s/deployment.yml",
+        "updater": "./example_configs/k8s/update-version.js"
       },
       {
         "filename": "package.json"

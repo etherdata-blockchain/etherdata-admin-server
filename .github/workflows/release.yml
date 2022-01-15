@@ -15,13 +15,14 @@ jobs:
           node-version: "16"
       - name: Install yarn
         run: yarn
-      - name: Release
-        run: yarn release
-      - name: Push release
+      - name: Configure git
         run: |
           git config --global user.name 'github release action'
           git config --global user.email 'github-release-action@users.noreply.github.com'
-          git push
+      - name: Release
+        run: yarn release
+      - name: Push release
+        run: git push
       - name: Semantic Release
         uses: cycjimmy/semantic-release-action@v2
         with:
