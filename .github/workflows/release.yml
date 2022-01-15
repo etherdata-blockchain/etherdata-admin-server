@@ -1,0 +1,32 @@
+name: Release
+on:
+  push:
+    branches:
+      - dev
+
+jobs:
+  pre-release:
+    if: ${{ github.event.pusher.name != 'github release action' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: "16"
+      - name: Install yarn
+        run: yarn
+      - name: Release
+        run: yarn release
+      - name: Push release
+        run: |
+          git config --global user.name 'github release action'
+          git config --global user.email 'github-release-action@users.noreply.github.com'
+          git push
+          git push --tags
+      - name: Semantic Release
+        uses: cycjimmy/semantic-release-action@v2
+        with:
+          extra_plugins: |
+            @semantic-release/changelog@3.0.0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
