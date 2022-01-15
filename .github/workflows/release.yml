@@ -22,11 +22,17 @@ jobs:
           git config --global user.name 'github release action'
           git config --global user.email 'github-release-action@users.noreply.github.com'
           git push
-          git push --tags
       - name: Semantic Release
         uses: cycjimmy/semantic-release-action@v2
         with:
           extra_plugins: |
             @semantic-release/changelog@3.0.0
+          branches: |
+            [
+              {
+                name: 'dev', 
+                prerelease: true
+              }
+            ]
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
