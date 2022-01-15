@@ -55,6 +55,10 @@ export interface IPendingJob<T> extends Document {
   from: string;
   task: Task<T>;
   createdAt: string;
+  /**
+   * Whether this job has been retrieved
+   */
+  retrieved: boolean;
 }
 
 export const pendingJobSchema = new Schema<IPendingJob<AnyValueType>>(
@@ -65,6 +69,7 @@ export const pendingJobSchema = new Schema<IPendingJob<AnyValueType>>(
       type: { type: String, required: true },
       value: { type: Schema.Types.Mixed, required: true },
     },
+    retrieved: { type: "boolean", default: false },
   },
   { timestamps: true, autoIndex: true }
 );

@@ -15,6 +15,7 @@ import {
 } from "../../../../internal/services/dbSchema/queue/pending-job";
 import { SocketIOEvents } from "../../../../internal/const/events";
 import { Configurations } from "../../../../internal/const/configurations";
+import { DeviceRegistrationPlugin } from "../../../../internal/services/dbServices/device-registration-plugin";
 
 /**
  * Watch for database changes
@@ -32,7 +33,26 @@ export class DBChangePlugin extends BaseSocketIOPlugin {
         job: this.periodicRemoveJobsAndResponses.bind(this),
         name: "periodic_device_data",
       },
+      {
+        interval: 10,
+        job: this.periodicSendOnlineCount.bind(this),
+        name: "periodic_send_online_count",
+      },
     ];
+  }
+
+  /**
+   * Periodic send latest online devices number
+   */
+  async periodicSendOnlineCount() {
+    const clientPlugin = this.findPlugin<ClientPlugin>("client");
+    const plugin = new DeviceRegistrationPlugin();
+    const onlineCount = await plugin.getOnlineDevicesCount();
+    const totalCount = await plugin.count();
+    clientPlugin?.server?.emit(SocketIOEvents.latestInfo, {
+      totalCount,
+      onlineCount,
+    });
   }
 
   /**

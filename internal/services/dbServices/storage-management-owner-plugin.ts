@@ -25,11 +25,6 @@ export class StorageManagementOwnerPlugin extends DatabasePlugin<IStorageOwner> 
     const prev = now.subtract(Configurations.maximumNotSeenDuration);
     const pipeline: any[] = [
       {
-        $sort: {
-          _id: 1,
-        },
-      },
-      {
         $lookup: {
           from: "storage_management_item",
           localField: "user_id",
@@ -99,7 +94,8 @@ export class StorageManagementOwnerPlugin extends DatabasePlugin<IStorageOwner> 
       },
     ];
 
-    const aggregation = () => this.model.aggregate(pipeline);
+    const aggregation = () =>
+      this.model.aggregate(pipeline).sort({ user_id: 1 });
     const query: any = () => this.model.find();
 
     return this.doPaginationForAgg(

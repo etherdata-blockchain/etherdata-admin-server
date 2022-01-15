@@ -55,4 +55,6 @@ export const DefaultInstallationScriptTag = {
 
 export const DefaultRealtimeStatus: RealtimeStatus = {
   pendingJobNumber: 0,
+  onlineCount: 0,
+  totalCount: 0,
 };

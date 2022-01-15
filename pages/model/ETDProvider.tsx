@@ -49,26 +49,6 @@ export default function ETDProvider(props: any) {
     socket.on("history", (data: ETDHistoryInterface) => {
       setHistory(data);
     });
-
-    const mongodb = realmApp.currentUser?.mongoClient("mongodb-atlas");
-    const transactionCol = mongodb?.db("etd").collection("transactions");
-    if (transactionCol) {
-      transactionCol
-        .count()
-        .then(async (count) => {
-          const tx = await transactionCol.aggregate([
-            {
-              $skip: count - 20,
-            },
-            {
-              $limit: 20,
-            },
-          ]);
-
-          setTransactions(tx);
-        })
-        .catch((err) => showSnackBarMessage(err.toString()));
-    }
   }, []);
 
   const fetchDetail = React.useCallback((id: string) => {

@@ -5,8 +5,12 @@ import Logger from "../../../../../server/logger";
 import {
   AnyValueType,
   IPendingJob,
+  JobTaskType,
+  UpdateTemplateValueType,
 } from "../../../../../internal/services/dbSchema/queue/pending-job";
 import { PendingJobPlugin } from "../../../../../internal/services/dbServices/pending-job-plugin";
+import { ExecutionPlanPlugin } from "../../../../../internal/services/dbServices/execution-plan-plugin";
+import { IExecutionPlan } from "../../../../../internal/services/dbSchema/update-template/execution_plan";
 
 type Data = {
   error?: string;
@@ -31,10 +35,23 @@ async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
 
   try {
     const plugin = new PendingJobPlugin();
+    const executionPlanPlugin = new ExecutionPlanPlugin();
+
     const devicePlugin = new DeviceRegistrationPlugin();
     const [authorized, newKey] = await devicePlugin.auth(deviceId, key);
     if (authorized) {
-      const job = await plugin.getJob(deviceId);
+      const job = await plugin.getJob<UpdateTemplateValueType>(deviceId);
+      if (job?.task.type === JobTaskType.UpdateTemplate) {
+        const plan: any = {
+          description: "Waiting for job result",
+          isDone: false,
+          isError: false,
+          name: `${job.targetDeviceId} received job`,
+          updateTemplate: job.task.value.templateId,
+        };
+        await executionPlanPlugin.create(plan, { upsert: false });
+      }
+
       returnData.job = job;
       returnData.key = newKey;
       res.status(200).json(returnData);

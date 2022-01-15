@@ -56,4 +56,6 @@ export interface StorageItemWithStatus extends StorageItem {
 
 export interface RealtimeStatus {
   pendingJobNumber: number;
+  onlineCount: number;
+  totalCount: number;
 }

@@ -53,8 +53,16 @@ export default function DeviceProvider(props: any) {
       showSnackBarMessage("Connected to admin socket server");
     });
 
+    socket.on(SocketIOEvents.latestInfo, ({ onlineCount, totalCount }) => {
+      console.log(onlineCount);
+      setRealtimeStatus((status) => {
+        status.onlineCount = onlineCount;
+        status.totalCount = totalCount;
+        return JSON.parse(JSON.stringify(status));
+      });
+    });
+
     socket.on(SocketIOEvents.pendingJob, (data: number) => {
-      console.log("Getting ", data);
       setRealtimeStatus((status) => {
         status.pendingJobNumber = data;
         return JSON.parse(JSON.stringify(status));

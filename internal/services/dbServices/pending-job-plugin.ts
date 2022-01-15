@@ -19,15 +19,20 @@ export class PendingJobPlugin extends DatabasePlugin<
   protected model: Model<IPendingJob<AnyValueType>> = PendingJobModel;
 
   /**
-   * Get a job
+   * Get a job and update the retrieved field to true.
+   * Will only return the job with retrieved false
    * @param deviceID
    */
   async getJob<T extends PendingJobTaskType>(
     deviceID: string
   ): Promise<IPendingJob<T> | undefined> {
-    const result = await this.model.findOneAndRemove(
+    const result = await this.model.findOneAndUpdate(
       {
         targetDeviceId: deviceID,
+        retrieved: false,
+      },
+      {
+        retrieved: true,
       },
       { sort: { time: 1 } }
     );
@@ -35,6 +40,7 @@ export class PendingJobPlugin extends DatabasePlugin<
     if (result === null) {
       return undefined;
     }
+
     //@ts-ignore
     return result;
   }

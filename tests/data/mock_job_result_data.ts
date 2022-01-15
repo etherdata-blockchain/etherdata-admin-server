@@ -10,3 +10,16 @@ export const MockJobResultData = {
   result: "0",
   success: true,
 };
+
+export const MockFailedJobResultData = {
+  jobId: 123,
+  deviceID: "1",
+  time: new Date(2020, 5, 1),
+  from: "a",
+  command: {
+    type: "rpc",
+    value: ["blockNumber"],
+  },
+  result: "0",
+  success: false,
+};

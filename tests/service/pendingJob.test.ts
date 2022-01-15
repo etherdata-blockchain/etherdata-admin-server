@@ -1,6 +1,3 @@
-global.TextEncoder = require("util").TextEncoder;
-global.TextDecoder = require("util").TextDecoder;
-
 import mongoose from "mongoose";
 import { MongoMemoryServer } from "mongodb-memory-server";
 import { PendingJobModel } from "../../internal/services/dbSchema/queue/pending-job";
@@ -33,9 +30,13 @@ describe("Given a pending job", () => {
     }).save();
 
     const plugin = new PendingJobPlugin();
-    const job = await plugin.getJob("1");
+    let job = await plugin.getJob("1");
     expect(job).toBeDefined();
-    expect(await PendingJobModel.count()).toBe(0);
+    expect(await PendingJobModel.count()).toBe(1);
+
+    job = await plugin.getJob("1");
+    expect(job).toBeUndefined();
+    expect(await PendingJobModel.count()).toBe(1);
   });
 
   test("When getting no job", async () => {
@@ -69,6 +70,6 @@ describe("Given a pending job", () => {
     const plugin = new PendingJobPlugin();
     const job = await plugin.getJob("1");
     expect(job).toBeDefined();
-    expect(await PendingJobModel.count()).toBe(1);
+    expect(await PendingJobModel.count()).toBe(2);
   });
 });

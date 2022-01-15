@@ -3,6 +3,7 @@
  */
 export enum SocketIOEvents {
   detailInfo = "detail-info",
+  latestInfo = "latest-info",
   //docker
   dockerError = "docker-error",
   dockerResult = "docker-result",
