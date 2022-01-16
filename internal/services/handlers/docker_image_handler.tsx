@@ -1,7 +1,6 @@
 import React from "react";
 import { GridColDef } from "@mui/x-data-grid";
 import { JSONSchema7 } from "json-schema";
-import { Routes } from "../../../const/routes";
 import { Button } from "@mui/material";
 
 export const jsonSchema: JSONSchema7 = {

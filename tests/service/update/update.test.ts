@@ -16,7 +16,6 @@ import {
 } from "../../data/mock_update_script_data";
 import { DockerImageModel } from "../../../internal/services/dbSchema/docker/docker-image";
 import { UpdateScriptPlugin } from "../../../internal/services/dbServices/update-script-plugin";
-import { expect } from "@jest/globals";
 
 describe("Given a update-script-script plugin", () => {
   let dbServer: MongoMemoryServer;

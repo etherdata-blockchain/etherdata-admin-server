@@ -1,11 +1,6 @@
 import axios from "axios";
 import jwt from "jsonwebtoken";
-import { Environments } from "./environments";
-import {
-  PaginationResult,
-  RealtimeStatus,
-  StorageUser,
-} from "./common_interfaces";
+import { RealtimeStatus, StorageUser } from "./common_interfaces";
 import { IDevice } from "../services/dbSchema/device/device";
 
 export const DefaultPaginationResult: PaginationResult<IDevice> = {
