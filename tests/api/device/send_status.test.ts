@@ -1,21 +1,18 @@
 import { StatusCodes } from "http-status-codes";
 
-global.TextEncoder = require("util").TextEncoder;
-global.TextDecoder = require("util").TextDecoder;
 import mongoose from "mongoose";
-import { DeviceModel } from "../../../internal/services/dbSchema/device/device";
+
 import { MongoMemoryServer } from "mongodb-memory-server";
 import { createMocks } from "node-mocks-http";
 import jwt from "jsonwebtoken";
 import handler from "../../../pages/api/v1/device/status/send-status";
-import { MockDeviceData } from "../../data/mock_device_data";
 import axios from "axios";
-import { StorageManagementItemPlugin } from "../../../internal/services/dbServices/storage-management-item-plugin";
+import { interfaces, mockData } from "@etherdata-blockchain/common";
+import { schema } from "@etherdata-blockchain/storage-model";
+import { dbServices } from "@etherdata-blockchain/services";
 
 jest.mock("axios");
-jest.mock(
-  "../../../internal/services/dbServices/storage-management-item-plugin"
-);
+jest.mock("@etherdata-blockchain/storage-model");
 
 describe("Test sending a user status", () => {
   let dbServer: MongoMemoryServer;
@@ -33,16 +30,12 @@ describe("Test sending a user status", () => {
   });
 
   afterEach(async () => {
-    try {
-      await DeviceModel.collection.drop();
-    } catch (e) {
-      // console.log("Collection not exists");
-    }
+    await schema.DeviceModel.deleteMany({});
   });
 
   test("Add new user and update", async () => {
     //@ts-ignore
-    StorageManagementItemPlugin.mockImplementation(() => {
+    dbServices.StorageManagementService.mockImplementation(() => {
       return {
         auth: jest.fn(() => Promise.resolve(true)),
       };
@@ -54,7 +47,7 @@ describe("Test sending a user status", () => {
       headers: {
         Authorization: "Bearer " + token,
       },
-      body: MockDeviceData,
+      body: mockData.MockDeviceData,
     });
 
     //@ts-ignore
@@ -64,7 +57,7 @@ describe("Test sending a user status", () => {
 
   test("Add new user without correct token", async () => {
     //@ts-ignore
-    StorageManagementItemPlugin.mockImplementation(() => {
+    dbServices.StorageManagementService.mockImplementation(() => {
       return {
         findDeviceById: jest.fn(() => Promise.resolve({ a: "a" })),
       };
@@ -76,7 +69,7 @@ describe("Test sending a user status", () => {
       headers: {
         Authorization: "Bearer " + token,
       },
-      body: MockDeviceData,
+      body: mockData.MockDeviceData,
     });
 
     //@ts-ignore

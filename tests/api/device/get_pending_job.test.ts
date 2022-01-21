@@ -1,19 +1,13 @@
-global.TextEncoder = require("util").TextEncoder;
-global.TextDecoder = require("util").TextDecoder;
-
 import mongoose from "mongoose";
 import { MongoMemoryServer } from "mongodb-memory-server";
 import { createMocks } from "node-mocks-http";
 import jwt from "jsonwebtoken";
 import handler from "../../../pages/api/v1/device/job/get-job";
-import { MockDeviceData } from "../../data/mock_device_data";
-import { PendingJobModel } from "../../../internal/services/dbSchema/queue/pending-job";
-import { StorageManagementItemPlugin } from "../../../internal/services/dbServices/storage-management-item-plugin";
+import { mockData } from "@etherdata-blockchain/common";
+import { schema } from "@etherdata-blockchain/storage-model";
+import { dbServices } from "@etherdata-blockchain/services";
 
-jest.mock("../../../internal/services/dbSchema/queue/pending-job");
-jest.mock(
-  "../../../internal/services/dbServices/storage-management-item-plugin"
-);
+jest.mock("@etherdata-blockchain/services");
 
 describe("Test getting a pending job", () => {
   let dbServer: MongoMemoryServer;
@@ -29,9 +23,7 @@ describe("Test getting a pending job", () => {
   });
 
   afterEach(async () => {
-    try {
-      await PendingJobModel.collection.drop();
-    } catch (e) {}
+    await schema.PendingJobModel.collection.drop();
   });
 
   afterAll(() => {
@@ -40,7 +32,7 @@ describe("Test getting a pending job", () => {
 
   test("Get a pending job", async () => {
     //@ts-ignore
-    StorageManagementItemPlugin.mockImplementation(() => {
+    dbServices.StorageManagementService.mockImplementation(() => {
       return {
         auth: jest.fn(() => Promise.resolve(true)),
       };
@@ -55,7 +47,7 @@ describe("Test getting a pending job", () => {
       },
       time: new Date(),
     };
-    await PendingJobModel.create(data);
+    await schema.PendingJobModel.create(data);
 
     const token = jwt.sign({ user: "test-user" }, "test");
     const { req, res } = createMocks({
@@ -63,7 +55,7 @@ describe("Test getting a pending job", () => {
       headers: {
         Authorization: "Bearer " + token,
       },
-      body: MockDeviceData,
+      body: mockData.MockDeviceData,
     });
 
     //@ts-ignore

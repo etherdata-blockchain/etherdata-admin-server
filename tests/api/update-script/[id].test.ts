@@ -1,45 +1,35 @@
-global.TextEncoder = require("util").TextEncoder;
-global.TextDecoder = require("util").TextDecoder;
-
-import { IUpdateScriptWithDockerImage } from "../../../internal/services/dbServices/update-script-plugin";
-
-import { MockConstant } from "../../data/mock_constant";
 import jwt from "jsonwebtoken";
 import mongoose from "mongoose";
 import { MongoMemoryServer } from "mongodb-memory-server";
 import handler from "../../../pages/api/v1/update-template/[id]";
 import { createMocks } from "node-mocks-http";
-import { DockerImageModel } from "../../../internal/services/dbSchema/docker/docker-image";
-import { MockDockerImage } from "../../data/mock_docker_data";
-import { MockUpdateScriptData } from "../../data/mock_update_script_data";
+import { interfaces, mockData } from "@etherdata-blockchain/common";
+import { schema } from "@etherdata-blockchain/storage-model";
 import { StatusCodes } from "http-status-codes";
-import { UpdateScriptModel } from "../../../internal/services/dbSchema/update-template/update-template";
 
 describe("Given a update script api handler", () => {
   let dbServer: MongoMemoryServer;
   const oldEnv = process.env;
   const token = jwt.sign(
-    { user: MockConstant.mockTestingUser },
-    MockConstant.mockTestingSecret
+    { user: mockData.MockConstant.mockTestingUser },
+    mockData.MockConstant.mockTestingSecret
   );
 
   beforeAll(async () => {
     //@ts-ignore
     process.env = {
       ...oldEnv,
-      PUBLIC_SECRET: MockConstant.mockTestingSecret,
+      PUBLIC_SECRET: mockData.MockConstant.mockTestingSecret,
     };
     dbServer = await MongoMemoryServer.create();
     await mongoose.connect(
-      dbServer.getUri().concat(MockConstant.mockDatabaseName)
+      dbServer.getUri().concat(mockData.MockConstant.mockDatabaseName)
     );
   });
 
   afterEach(async () => {
-    try {
-      await UpdateScriptModel.collection.drop();
-      await DockerImageModel.collection.drop();
-    } catch (e) {}
+    await schema.UpdateScriptModel.deleteMany({});
+    await schema.DockerImageModel.deleteMany({});
   });
 
   afterAll(() => {
@@ -47,13 +37,15 @@ describe("Given a update script api handler", () => {
   });
 
   test("When calling get", async () => {
-    const data = (await DockerImageModel.create(MockDockerImage)).toJSON();
+    const data = (
+      await schema.DockerImageModel.create(mockData.MockDockerImage)
+    ).toJSON();
 
     const imageId = data._id;
     const tagId = data.tags[0]._id;
 
     const mockUpdateScriptData = JSON.parse(
-      JSON.stringify(MockUpdateScriptData)
+      JSON.stringify(mockData.MockUpdateScriptData)
     );
 
     mockUpdateScriptData.imageStacks[0].tag = tagId;
@@ -62,7 +54,7 @@ describe("Given a update script api handler", () => {
     mockUpdateScriptData.containerStacks[0].image.image = imageId;
     mockUpdateScriptData.containerStacks[0].image.tag = tagId;
 
-    const updateScriptData = await UpdateScriptModel.create(
+    const updateScriptData = await schema.UpdateScriptModel.create(
       mockUpdateScriptData
     );
 
@@ -78,22 +70,25 @@ describe("Given a update script api handler", () => {
     //@ts-ignore
     await handler(req, res);
     expect(res.statusCode).toBe(StatusCodes.OK);
-    const jsonData: IUpdateScriptWithDockerImage = res._getJSONData();
+    const jsonData: interfaces.db.UpdateTemplateWithDockerImageDBInterface =
+      res._getJSONData();
     expect(jsonData._id).toStrictEqual(updateScriptData._id.toString());
     expect(jsonData.containerStacks[0].image.imageName).toBe(
-      MockDockerImage.imageName
+      mockData.MockDockerImage.imageName
     );
   });
 
   test("When calling delete", async () => {
     //getUpdateTemplateWithDockerImage
-    const data = (await DockerImageModel.create(MockDockerImage)).toJSON();
+    const data = (
+      await schema.DockerImageModel.create(mockData.MockDockerImage)
+    ).toJSON();
 
     const imageId = data._id;
     const tagId = data.tags[0]._id;
 
     const mockUpdateScriptData = JSON.parse(
-      JSON.stringify(MockUpdateScriptData)
+      JSON.stringify(mockData.MockUpdateScriptData)
     );
 
     mockUpdateScriptData.imageStacks[0].tag = tagId;
@@ -102,7 +97,7 @@ describe("Given a update script api handler", () => {
     mockUpdateScriptData.containerStacks[0].image.image = imageId;
     mockUpdateScriptData.containerStacks[0].image.tag = tagId;
 
-    const updateScriptData = await UpdateScriptModel.create(
+    const updateScriptData = await schema.UpdateScriptModel.create(
       mockUpdateScriptData
     );
 
@@ -118,6 +113,6 @@ describe("Given a update script api handler", () => {
     //@ts-ignore
     await handler(req, res);
     expect(res.statusCode).toBe(StatusCodes.OK);
-    expect(await UpdateScriptModel.countDocuments()).toBe(0);
+    expect(await schema.UpdateScriptModel.countDocuments()).toBe(0);
   });
 });

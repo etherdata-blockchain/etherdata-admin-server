@@ -1,27 +1,18 @@
-global.TextEncoder = require("util").TextEncoder;
-global.TextDecoder = require("util").TextDecoder;
-
-import { InstallationTemplateModel } from "../../../internal/services/dbSchema/install-script/install-script";
-import { MockConstant } from "../../data/mock_constant";
 import jwt from "jsonwebtoken";
 import mongoose from "mongoose";
 import { MongoMemoryServer } from "mongodb-memory-server";
 import { createMocks } from "node-mocks-http";
 import { StatusCodes } from "http-status-codes";
-import { MockStaticNode } from "../../data/mock_static_node";
+import { mockData, interfaces, configs } from "@etherdata-blockchain/common";
+import { schema } from "@etherdata-blockchain/storage-model";
 import handler from "../../../pages/api/v1/docker/[id]";
-import { MockDockerImage } from "../../data/mock_template_data";
-import {
-  DockerImageModel,
-  IDockerImage,
-} from "../../../internal/services/dbSchema/docker/docker-image";
 
 describe("Given a docker image handler with index", () => {
   let dbServer: MongoMemoryServer;
   const oldEnv = process.env;
   const token = jwt.sign(
-    { user: MockConstant.mockTestingUser },
-    MockConstant.mockTestingSecret
+    { user: mockData.MockConstant.mockTestingUser },
+    mockData.MockConstant.mockTestingSecret
   );
   let dockerImageId: string | undefined = undefined;
 
@@ -29,24 +20,24 @@ describe("Given a docker image handler with index", () => {
     //@ts-ignore
     process.env = {
       ...oldEnv,
-      PUBLIC_SECRET: MockConstant.mockTestingSecret,
+      PUBLIC_SECRET: mockData.MockConstant.mockTestingSecret,
     };
     dbServer = await MongoMemoryServer.create();
     await mongoose.connect(
-      dbServer.getUri().concat(MockConstant.mockDatabaseName)
+      dbServer.getUri().concat(mockData.MockConstant.mockDatabaseName)
     );
   });
 
   beforeEach(async () => {
-    const dockerImage = await DockerImageModel.create(MockDockerImage);
+    const dockerImage = await schema.DockerImageModel.create(
+      mockData.MockDockerImage
+    );
     dockerImageId = `${dockerImage._id}`;
   });
 
   afterEach(async () => {
-    try {
-      await InstallationTemplateModel.collection.drop();
-      await DockerImageModel.collection.drop();
-    } catch (e) {}
+    await schema.InstallationTemplateModel.deleteMany({});
+    await schema.DockerImageModel.collection.drop();
   });
 
   afterAll(() => {
@@ -65,11 +56,10 @@ describe("Given a docker image handler with index", () => {
     });
     //@ts-ignore
     await handler(req, res);
-    const result: IDockerImage = res._getJSONData();
+    const result: interfaces.db.DockerImageDBInterface = res._getJSONData();
     expect(res._getStatusCode()).toBe(StatusCodes.OK);
-    // @ts-ignore
-    expect(result.tags.length).toBe(MockDockerImage.tags.length);
-    expect(result.imageName).toBe(MockDockerImage.imageName);
+    expect(result.tags.length).toBe(mockData.MockDockerImage.tags.length);
+    expect(result.imageName).toBe(mockData.MockDockerImage.imageName);
   });
 
   test("When sending a patch request to the server", async () => {
@@ -81,15 +71,14 @@ describe("Given a docker image handler with index", () => {
       query: {
         id: dockerImageId,
       },
-      body: MockStaticNode,
+      body: mockData.MockStaticNode,
     });
     //@ts-ignore
     await handler(req, res);
-    const result: IDockerImage = res._getJSONData();
+    const result: interfaces.db.DockerImageDBInterface = res._getJSONData();
     expect(res._getStatusCode()).toBe(StatusCodes.OK);
-    // @ts-ignore
-    expect(result.tags.length).toBe(MockDockerImage.tags.length);
-    expect(result.imageName).toBe(MockDockerImage.imageName);
+    expect(result.tags.length).toBe(mockData.MockDockerImage.tags.length);
+    expect(result.imageName).toBe(mockData.MockDockerImage.imageName);
   });
 
   test("When sending a delete request to the server", async () => {
@@ -101,7 +90,7 @@ describe("Given a docker image handler with index", () => {
       query: {
         id: dockerImageId,
       },
-      body: MockStaticNode,
+      body: mockData.MockStaticNode,
     });
     //@ts-ignore
     await handler(req, res);
@@ -119,7 +108,7 @@ describe("Given a docker image handler with index", () => {
       query: {
         id: dockerImageId,
       },
-      body: MockStaticNode,
+      body: mockData.MockStaticNode,
     });
     //@ts-ignore
     await handler(req, res);

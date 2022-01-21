@@ -1,47 +1,35 @@
-global.TextEncoder = require("util").TextEncoder;
-global.TextDecoder = require("util").TextDecoder;
-
-import { MockPendingJob, MockPendingJob2 } from "../../data/mock_pending_job";
-
-import {
-  AnyValueType,
-  IPendingJob,
-  PendingJobModel,
-} from "../../../internal/services/dbSchema/queue/pending-job";
-import { MockConstant } from "../../data/mock_constant";
 import jwt from "jsonwebtoken";
 import mongoose from "mongoose";
 import { MongoMemoryServer } from "mongodb-memory-server";
 import { createMocks } from "node-mocks-http";
 import { StatusCodes } from "http-status-codes";
 import handler from "../../../pages/api/v1/device/job/index";
-import { MockDockerImage } from "../../data/mock_template_data";
-import { IDockerImage } from "../../../internal/services/dbSchema/docker/docker-image";
-import { PaginationResult } from "../../../internal/const/common_interfaces";
+import { enums, interfaces, mockData } from "@etherdata-blockchain/common";
+import { schema } from "@etherdata-blockchain/storage-model";
 
 describe("Given a docker image handler with index", () => {
   let dbServer: MongoMemoryServer;
   const oldEnv = process.env;
   const token = jwt.sign(
-    { user: MockConstant.mockTestingUser },
-    MockConstant.mockTestingSecret
+    { user: mockData.MockConstant.mockTestingUser },
+    mockData.MockConstant.mockTestingSecret
   );
 
   beforeAll(async () => {
     //@ts-ignore
     process.env = {
       ...oldEnv,
-      PUBLIC_SECRET: MockConstant.mockTestingSecret,
+      PUBLIC_SECRET: mockData.MockConstant.mockTestingSecret,
     };
     dbServer = await MongoMemoryServer.create();
     await mongoose.connect(
-      dbServer.getUri().concat(MockConstant.mockDatabaseName)
+      dbServer.getUri().concat(mockData.MockConstant.mockDatabaseName)
     );
   });
 
   afterEach(async () => {
     try {
-      await PendingJobModel.collection.drop();
+      await schema.PendingJobModel.collection.drop();
     } catch (e) {}
   });
 
@@ -50,7 +38,10 @@ describe("Given a docker image handler with index", () => {
   });
 
   test("When sending a get request to the server", async () => {
-    await PendingJobModel.insertMany([MockPendingJob, MockPendingJob2]);
+    await schema.PendingJobModel.insertMany([
+      mockData.MockPendingJob,
+      mockData.MockPendingJob2,
+    ]);
 
     const { req, res } = createMocks({
       method: "GET",
@@ -60,8 +51,9 @@ describe("Given a docker image handler with index", () => {
     });
     //@ts-ignore
     await handler(req, res);
-    const result: PaginationResult<IPendingJob<AnyValueType>> =
-      res._getJSONData();
+    const result: interfaces.PaginationResult<
+      interfaces.db.PendingJobDBInterface<enums.AnyValueType>
+    > = res._getJSONData();
     expect(res._getStatusCode()).toBe(StatusCodes.OK);
     expect(result.results.length).toBe(2);
     expect(result.count).toBe(2);

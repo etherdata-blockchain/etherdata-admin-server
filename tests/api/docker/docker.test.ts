@@ -1,49 +1,39 @@
-import { PaginationResult } from "../../../internal/const/common_interfaces";
-
-global.TextEncoder = require("util").TextEncoder;
-global.TextDecoder = require("util").TextDecoder;
-
-import { MockConstant } from "../../data/mock_constant";
-import {
-  DockerImageModel,
-  IDockerImage,
-} from "../../../internal/services/dbSchema/docker/docker-image";
 import handler from "../../../pages/api/v1/docker/index";
 import webhookHandler from "../../../pages/api/v1/docker/webhook";
 import mongoose from "mongoose";
 import { MongoMemoryServer } from "mongodb-memory-server";
 import { StatusCodes } from "http-status-codes";
 import { createMocks } from "node-mocks-http";
-import { MockDockerImage, MockWebHookData } from "../../data/mock_docker_data";
+import { mockData, interfaces, configs } from "@etherdata-blockchain/common";
+import { schema } from "@etherdata-blockchain/storage-model";
+
 import jwt from "jsonwebtoken";
-import { Configurations } from "../../../internal/const/configurations";
 
 describe("Given a docker handler", () => {
   let dbServer: MongoMemoryServer;
   const oldEnv = process.env;
   const token = jwt.sign(
-    { user: MockConstant.mockTestingUser },
-    MockConstant.mockTestingSecret
+    { user: mockData.MockConstant.mockTestingUser },
+    mockData.MockConstant.mockTestingSecret
   );
 
   beforeAll(async () => {
     //@ts-ignore
     process.env = {
       ...oldEnv,
-      PUBLIC_SECRET: MockConstant.mockTestingSecret,
+      PUBLIC_SECRET: mockData.MockConstant.mockTestingSecret,
     };
     dbServer = await MongoMemoryServer.create();
     await mongoose.connect(dbServer.getUri().concat("etd"));
   });
 
   afterEach(async () => {
-    try {
-      await DockerImageModel.collection.drop();
-    } catch (e) {}
+    await schema.DockerImageModel.deleteMany({});
   });
 
-  afterAll(() => {
-    dbServer.stop();
+  afterAll(async () => {
+    await dbServer.stop();
+    await mongoose.disconnect();
   });
 
   test("When making a post request", async () => {
@@ -52,15 +42,17 @@ describe("Given a docker handler", () => {
       headers: {
         Authorization: "Bearer " + token,
       },
-      body: MockDockerImage,
+      body: mockData.MockDockerImage,
     });
 
     //@ts-ignore
     await handler(req, res);
     expect(res._getStatusCode()).toBe(StatusCodes.CREATED);
-    expect(await DockerImageModel.countDocuments()).toBe(1);
-    const data: IDockerImage = (await DockerImageModel.findOne({}).exec())!;
-    expect(data.tags[0].tag).toBe(MockDockerImage.tags[0].tag);
+    expect(await schema.DockerImageModel.countDocuments()).toBe(1);
+    const data: schema.IDockerImage = (await schema.DockerImageModel.findOne(
+      {}
+    ).exec())!;
+    expect(data.tags[0].tag).toBe(mockData.MockDockerImage.tags[0].tag);
     expect(data.tags[0]._id).toBeDefined();
   });
 
@@ -70,40 +62,42 @@ describe("Given a docker handler", () => {
       query: {
         token: token,
       },
-      body: MockWebHookData,
+      body: mockData.MockWebHookData,
     });
 
     //@ts-ignore
     await webhookHandler(req, res);
     expect(res._getStatusCode()).toBe(StatusCodes.CREATED);
-    expect(await DockerImageModel.countDocuments()).toBe(1);
+    expect(await schema.DockerImageModel.countDocuments()).toBe(1);
 
-    const data: IDockerImage = (await DockerImageModel.findOne({}).exec())!;
-    expect(data.tags[0].tag).toBe(MockDockerImage.tags[0].tag);
+    const data: schema.IDockerImage = (await schema.DockerImageModel.findOne(
+      {}
+    ).exec())!;
+    expect(data.tags[0].tag).toBe(mockData.MockDockerImage.tags[0].tag);
     expect(data.tags[0]._id).toBeDefined();
   });
 
   test("When trying make a post request to webhook with existing image data", async () => {
     const data = {
-      imageName: MockWebHookData.repository.repo_name,
+      imageName: mockData.MockWebHookData.repository.repo_name,
       tags: [{ tag: "v1.0" }],
     };
-    await DockerImageModel.create(data);
+    await schema.DockerImageModel.create(data);
     const { req, res } = createMocks({
       method: "POST",
       query: {
         token: token,
       },
-      body: MockWebHookData,
+      body: mockData.MockWebHookData,
     });
 
     //@ts-ignore
     await webhookHandler(req, res);
     expect(res._getStatusCode()).toBe(StatusCodes.CREATED);
-    const dockerData = (await DockerImageModel.findOne({
+    const dockerData = (await schema.DockerImageModel.findOne({
       imageName: "test/testhook",
     }).exec())!;
-    expect(await DockerImageModel.countDocuments()).toBe(1);
+    expect(await schema.DockerImageModel.countDocuments()).toBe(1);
     expect(dockerData.tags.length).toBe(2);
   });
 
@@ -122,9 +116,9 @@ describe("Given a docker handler", () => {
       imageName: "test_data_3",
       tags: [{ tag: "v1.0" }],
     };
-    await DockerImageModel.create(data1);
-    await DockerImageModel.create(data2);
-    await DockerImageModel.create(data3);
+    await schema.DockerImageModel.create(data1);
+    await schema.DockerImageModel.create(data2);
+    await schema.DockerImageModel.create(data3);
     const { req, res } = createMocks({
       method: "GET",
       query: {
@@ -137,7 +131,8 @@ describe("Given a docker handler", () => {
 
     //@ts-ignore
     await handler(req, res);
-    const resultData: PaginationResult<any> = res._getJSONData() as any;
+    const resultData: interfaces.PaginationResult<any> =
+      res._getJSONData() as any;
     expect(res._getStatusCode()).toBe(StatusCodes.OK);
     expect(resultData.count).toBe(3);
     expect(resultData.results.length).toBe(2);
@@ -150,7 +145,7 @@ describe("Given a docker handler", () => {
       method: "GET",
       query: {
         pageSize: "2",
-        page: Configurations.defaultPaginationStartingPage,
+        page: configs.Configurations.defaultPaginationStartingPage,
       },
       headers: {
         Authorization: "Bearer " + token,
@@ -159,7 +154,8 @@ describe("Given a docker handler", () => {
 
     //@ts-ignore
     await handler(req, res);
-    const resultData: PaginationResult<any> = res._getJSONData() as any;
+    const resultData: interfaces.PaginationResult<any> =
+      res._getJSONData() as any;
     expect(res._getStatusCode()).toBe(StatusCodes.OK);
     expect(resultData.count).toBe(0);
     expect(resultData.results.length).toBe(0);
@@ -171,7 +167,7 @@ describe("Given a docker handler", () => {
       tags: [{ tag: "v1.0" }],
     };
 
-    await DockerImageModel.create(data1);
+    await schema.DockerImageModel.create(data1);
     const { req, res } = createMocks({
       method: "GET",
       query: {
@@ -185,7 +181,8 @@ describe("Given a docker handler", () => {
 
     //@ts-ignore
     await handler(req, res);
-    const resultData: PaginationResult<any> = res._getJSONData() as any;
+    const resultData: interfaces.PaginationResult<any> =
+      res._getJSONData() as any;
     expect(res._getStatusCode()).toBe(StatusCodes.OK);
     expect(resultData.count).toBe(1);
     expect(resultData.results.length).toBe(0);

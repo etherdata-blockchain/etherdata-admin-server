@@ -1,79 +1,60 @@
 import mock = jest.mock;
-
-global.TextEncoder = require("util").TextEncoder;
-global.TextDecoder = require("util").TextDecoder;
-
-import { MockConstant } from "../../data/mock_constant";
 import jwt from "jsonwebtoken";
 import mongoose from "mongoose";
-import {
-  DockerImageModel,
-  IDockerImage,
-} from "../../../internal/services/dbSchema/docker/docker-image";
 import { MongoMemoryServer } from "mongodb-memory-server";
 import handler from "../../../pages/api/v1/installation-template/download/index";
 import { createMocks } from "node-mocks-http";
-import {
-  MockComplicatedTemplateData,
-  MockDockerImage,
-  MockDockerImage2,
-  MockInstallationTemplateData,
-} from "../../data/mock_template_data";
 import { StatusCodes } from "http-status-codes";
-import { InstallationTemplateModel } from "../../../internal/services/dbSchema/install-script/install-script";
-import { expect } from "@jest/globals";
-import { InstallationPlugin } from "../../../internal/services/dbServices/installation-plugin";
+import { configs, mockData } from "@etherdata-blockchain/common";
 import YAML from "yaml";
-import { Configurations } from "../../../internal/const/configurations";
+import { dbServices } from "@etherdata-blockchain/services";
+import { schema } from "@etherdata-blockchain/storage-model";
 
 mock("adm-zip");
 
 describe("Given a installation template download handler", () => {
   let dbServer: MongoMemoryServer;
   const oldEnv = process.env;
-  const plugin = new InstallationPlugin();
+  const plugin = new dbServices.InstallationService();
   const token = jwt.sign(
-    { user: MockConstant.mockTestingUser },
-    MockConstant.mockTestingSecret
+    { user: mockData.MockConstant.mockTestingUser },
+    mockData.MockConstant.mockTestingSecret
   );
 
   beforeAll(async () => {
     //@ts-ignore
     process.env = {
       ...oldEnv,
-      PUBLIC_SECRET: MockConstant.mockTestingSecret,
+      PUBLIC_SECRET: mockData.MockConstant.mockTestingSecret,
     };
     dbServer = await MongoMemoryServer.create({
-      binary: { version: Configurations.mongodbVersion },
+      binary: { version: configs.Configurations.mongodbVersion },
     });
     await mongoose.connect(
-      dbServer.getUri().concat(MockConstant.mockDatabaseName)
+      dbServer.getUri().concat(mockData.MockConstant.mockDatabaseName)
     );
   });
 
   afterEach(async () => {
-    try {
-      await InstallationTemplateModel.collection.drop();
-      await DockerImageModel.collection.drop();
-    } catch (e) {}
+    await schema.InstallationTemplateModel.deleteMany({});
+    await schema.DockerImageModel.deleteMany({});
   });
 
   afterAll(() => {
     dbServer.stop();
   });
 
-  test("When trying to generate a env file", () => {
-    const result = plugin.generateEnvFile({ name: "hello", value: 1 });
-    expect(result).toBe("name=hello\nvalue=1\n");
-  });
-
   test("When sending a post request to the server", async () => {
-    const result = await DockerImageModel.create(MockDockerImage);
-    const reqData = JSON.parse(JSON.stringify(MockInstallationTemplateData));
+    const result = await schema.DockerImageModel.create(
+      mockData.MockDockerImage
+    );
+    const reqData = JSON.parse(
+      JSON.stringify(mockData.MockInstallationTemplateData)
+    );
     reqData.services[0].service.image.image = result._id;
     reqData.services[0].service.image.tag = result.tags[0]._id;
 
-    await InstallationTemplateModel.create(reqData);
+    await schema.InstallationTemplateModel.create(reqData);
     const { req, res } = createMocks({
       method: "POST",
       headers: {
@@ -90,71 +71,87 @@ describe("Given a installation template download handler", () => {
   });
 
   test("When generating a docker compose file", async () => {
-    await DockerImageModel.create(MockDockerImage);
-    const reqData = JSON.parse(JSON.stringify(MockInstallationTemplateData));
-    const deepCopiedImage = JSON.parse(JSON.stringify(MockDockerImage));
+    await schema.DockerImageModel.create(mockData.MockDockerImage);
+    const reqData = JSON.parse(
+      JSON.stringify(mockData.MockInstallationTemplateData)
+    );
+    const deepCopiedImage = JSON.parse(
+      JSON.stringify(mockData.MockDockerImage)
+    );
     deepCopiedImage.tag = deepCopiedImage.tags[0];
     reqData.services[0].service.image = deepCopiedImage;
 
     const returnResult = plugin.generateDockerComposeFile(reqData);
     expect(returnResult).toBeDefined();
     const parsedObject = YAML.parse(returnResult);
-    expect(parsedObject.version).toBe(MockInstallationTemplateData.version);
+    expect(parsedObject.version).toBe(
+      mockData.MockInstallationTemplateData.version
+    );
     expect(parsedObject._id).toBeUndefined();
     expect(parsedObject.createdAt).toBeUndefined();
     expect(parsedObject.updatedAt).toBeUndefined();
     expect(parsedObject.services.worker.image).toBe(
-      `${MockDockerImage.imageName}:${MockDockerImage.tags[0].tag}`
+      `${mockData.MockDockerImage.imageName}:${mockData.MockDockerImage.tags[0].tag}`
     );
   });
 
   test("When calling get a template with docker image", async () => {
-    const result: IDockerImage = await DockerImageModel.create(MockDockerImage);
-    const reqData = JSON.parse(JSON.stringify(MockInstallationTemplateData));
+    const result = await schema.DockerImageModel.create(
+      mockData.MockDockerImage
+    );
+    const reqData = JSON.parse(
+      JSON.stringify(mockData.MockInstallationTemplateData)
+    );
     reqData.services[0].service.image.image = result._id;
     reqData.services[0].service.image.tag = result.tags[0]._id;
 
-    const templateResult = await InstallationTemplateModel.create(reqData);
+    const templateResult = await schema.InstallationTemplateModel.create(
+      reqData
+    );
     const templateWithDockerImage = await plugin.getTemplateWithDockerImages(
       templateResult._id
     );
     expect(templateWithDockerImage).toBeDefined();
     expect(templateWithDockerImage?.template_tag).toBe(
-      MockInstallationTemplateData.template_tag
+      mockData.MockInstallationTemplateData.template_tag
     );
     expect(templateWithDockerImage?.services[0].service.image!.imageName).toBe(
-      MockInstallationTemplateData.services[0].service.image.imageName
+      mockData.MockInstallationTemplateData.services[0].service.image.imageName
     );
   });
 
   test("When calling get a template with multiple docker image", async () => {
-    const result1: IDockerImage = await DockerImageModel.create(
-      MockDockerImage
+    const result1 = await schema.DockerImageModel.create(
+      mockData.MockDockerImage
     );
-    const result2: IDockerImage = await DockerImageModel.create(
-      MockDockerImage2
+    const result2 = await schema.DockerImageModel.create(
+      mockData.MockDockerImage2
     );
 
-    const reqData = JSON.parse(JSON.stringify(MockComplicatedTemplateData));
+    const reqData = JSON.parse(
+      JSON.stringify(mockData.MockComplicatedTemplateData)
+    );
     reqData.services[0].service.image.image = result1._id;
     reqData.services[0].service.image.tag = result1.tags[0]._id;
 
     reqData.services[1].service.image.image = result2._id;
     reqData.services[1].service.image.tag = result2.tags[0]._id;
 
-    const templateResult = await InstallationTemplateModel.create(reqData);
+    const templateResult = await schema.InstallationTemplateModel.create(
+      reqData
+    );
     const templateWithDockerImage = await plugin.getTemplateWithDockerImages(
       templateResult._id
     );
     expect(templateWithDockerImage).toBeDefined();
     expect(templateWithDockerImage?.template_tag).toBe(
-      MockComplicatedTemplateData.template_tag
+      mockData.MockComplicatedTemplateData.template_tag
     );
     expect(templateWithDockerImage?.services[0].service.image!.imageName).toBe(
-      MockComplicatedTemplateData.services[0].service.image.imageName
+      mockData.MockComplicatedTemplateData.services[0].service.image.imageName
     );
     expect(templateWithDockerImage?.services[1].service.image!.imageName).toBe(
-      MockComplicatedTemplateData.services[1].service.image.imageName
+      mockData.MockComplicatedTemplateData.services[1].service.image.imageName
     );
   });
 });
