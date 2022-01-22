@@ -2,7 +2,7 @@ import { createMocks } from "node-mocks-http";
 import jwt from "jsonwebtoken";
 import mongoose from "mongoose";
 import { MongoMemoryServer } from "mongodb-memory-server";
-import { mockData, interfaces, configs } from "@etherdata-blockchain/common";
+import { interfaces, mockData } from "@etherdata-blockchain/common";
 import { schema } from "@etherdata-blockchain/storage-model";
 import handler from "../../../pages/api/v1/docker/search";
 import { StatusCodes } from "http-status-codes";

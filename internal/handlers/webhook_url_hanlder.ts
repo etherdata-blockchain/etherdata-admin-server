@@ -1,7 +1,7 @@
 import qs from "query-string";
 import jwt from "jsonwebtoken";
-import { configs } from "@etherdata-blockchain/common";
-import { JSONSchema7 } from "json-schema";
+import {configs} from "@etherdata-blockchain/common";
+import {JSONSchema7} from "json-schema";
 
 /**
  * Generate webhook url for current user

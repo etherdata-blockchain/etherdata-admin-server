@@ -1,11 +1,11 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { StatusCodes } from "http-status-codes";
 import HTTPMethod from "http-method-enum";
-import { interfaces, mockData } from "@etherdata-blockchain/common";
+import { interfaces } from "@etherdata-blockchain/common";
 import { dbServices } from "@etherdata-blockchain/services";
 import {
-  methodAllowedHandler,
   jwtVerificationHandler,
+  methodAllowedHandler,
 } from "@etherdata-blockchain/next-js-handlers";
 
 type Response =

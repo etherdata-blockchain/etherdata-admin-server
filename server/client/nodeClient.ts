@@ -1,6 +1,6 @@
-import moment, { Moment } from "moment";
-import { interfaces } from "@etherdata-blockchain/common";
-import { schema } from "@etherdata-blockchain/storage-model";
+import moment, {Moment} from "moment";
+import {interfaces} from "@etherdata-blockchain/common";
+import {schema} from "@etherdata-blockchain/storage-model";
 
 /**
  * Node client

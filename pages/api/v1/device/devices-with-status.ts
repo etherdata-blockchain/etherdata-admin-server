@@ -1,8 +1,8 @@
-import type { NextApiRequest, NextApiResponse } from "next";
-import { StatusCodes } from "http-status-codes";
-import { configs } from "@etherdata-blockchain/common";
-import { dbServices } from "@etherdata-blockchain/services";
-import { jwtVerificationHandler } from "@etherdata-blockchain/next-js-handlers";
+import type {NextApiRequest, NextApiResponse} from "next";
+import {StatusCodes} from "http-status-codes";
+import {configs} from "@etherdata-blockchain/common";
+import {dbServices} from "@etherdata-blockchain/services";
+import {jwtVerificationHandler} from "@etherdata-blockchain/next-js-handlers";
 
 /**
  * Found devices with status from storage management system and etd status database

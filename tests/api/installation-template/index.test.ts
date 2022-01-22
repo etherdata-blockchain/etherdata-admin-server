@@ -4,11 +4,10 @@ import mongoose from "mongoose";
 import { MongoMemoryServer } from "mongodb-memory-server";
 import handler from "../../../pages/api/v1/installation-template/index";
 import { createMocks } from "node-mocks-http";
-import { interfaces, mockData } from "@etherdata-blockchain/common";
+import { mockData } from "@etherdata-blockchain/common";
 import { schema } from "@etherdata-blockchain/storage-model";
 import { StatusCodes } from "http-status-codes";
 import { expect } from "@jest/globals";
-import { dbServices } from "@etherdata-blockchain/services";
 
 mock("adm-zip");
 

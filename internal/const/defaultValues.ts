@@ -1,6 +1,6 @@
 import axios from "axios";
 import jwt from "jsonwebtoken";
-import { interfaces, configs } from "@etherdata-blockchain/common";
+import { configs, interfaces } from "@etherdata-blockchain/common";
 import { RealtimeStatus } from "./common_interfaces";
 
 export const DefaultPaginationResult: interfaces.PaginationResult<interfaces.db.DeviceDBInterface> =

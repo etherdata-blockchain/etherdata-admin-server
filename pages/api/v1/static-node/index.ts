@@ -1,12 +1,8 @@
-import type { NextApiRequest, NextApiResponse } from "next";
-import { StatusCodes } from "http-status-codes";
+import type {NextApiRequest, NextApiResponse} from "next";
+import {StatusCodes} from "http-status-codes";
 import HTTPMethod from "http-method-enum";
-import { dbServices } from "@etherdata-blockchain/services";
-import {
-  jwtVerificationHandler,
-  methodAllowedHandler,
-  paginationHandler,
-} from "@etherdata-blockchain/next-js-handlers";
+import {dbServices} from "@etherdata-blockchain/services";
+import {jwtVerificationHandler, methodAllowedHandler, paginationHandler,} from "@etherdata-blockchain/next-js-handlers";
 
 /**
  * Sttaic node api will provide follow functionalities

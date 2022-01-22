@@ -5,9 +5,7 @@ import jwt from "jsonwebtoken";
 import handler from "../../../pages/api/v1/device/job/get-job";
 import { mockData } from "@etherdata-blockchain/common";
 import { schema } from "@etherdata-blockchain/storage-model";
-import { dbServices } from "@etherdata-blockchain/services";
 import { StatusCodes } from "http-status-codes";
-import { DeviceRegistrationService } from "@etherdata-blockchain/services/src/mongodb/services/device/device_registration_service";
 
 describe("Given a pending job", () => {
   let dbServer: MongoMemoryServer;

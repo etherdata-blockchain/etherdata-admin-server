@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 import { MongoMemoryServer } from "mongodb-memory-server";
 import handler from "../../../pages/api/v1/update-template/run/[id]";
 import { createMocks } from "node-mocks-http";
-import { interfaces, mockData, utils } from "@etherdata-blockchain/common";
+import { mockData, utils } from "@etherdata-blockchain/common";
 import { schema } from "@etherdata-blockchain/storage-model";
 import { dbServices } from "@etherdata-blockchain/services";
 import { StatusCodes } from "http-status-codes";

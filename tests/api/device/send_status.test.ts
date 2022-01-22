@@ -7,9 +7,8 @@ import { createMocks } from "node-mocks-http";
 import jwt from "jsonwebtoken";
 import handler from "../../../pages/api/v1/device/status/send-status";
 import axios from "axios";
-import { interfaces, mockData } from "@etherdata-blockchain/common";
+import { mockData } from "@etherdata-blockchain/common";
 import { schema } from "@etherdata-blockchain/storage-model";
-import { dbServices } from "@etherdata-blockchain/services";
 
 jest.mock("axios");
 

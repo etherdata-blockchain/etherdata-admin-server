@@ -21,9 +21,8 @@ import { DeviceContext } from "../model/DeviceProvider";
 import { DefaultPaginationResult } from "../../internal/const/defaultValues";
 import { PaddingBox } from "../../components/common/PaddingBox";
 import { GetServerSideProps } from "next";
-import { configs, interfaces, utils } from "@etherdata-blockchain/common";
+import { configs, utils } from "@etherdata-blockchain/common";
 import { dbServices } from "@etherdata-blockchain/services";
-import { schema } from "@etherdata-blockchain/storage-model";
 
 type Props = {
   onlineCount: number;

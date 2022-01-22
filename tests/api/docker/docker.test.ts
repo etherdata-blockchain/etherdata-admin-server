@@ -4,7 +4,7 @@ import mongoose from "mongoose";
 import { MongoMemoryServer } from "mongodb-memory-server";
 import { StatusCodes } from "http-status-codes";
 import { createMocks } from "node-mocks-http";
-import { mockData, interfaces, configs } from "@etherdata-blockchain/common";
+import { configs, interfaces, mockData } from "@etherdata-blockchain/common";
 import { schema } from "@etherdata-blockchain/storage-model";
 
 import jwt from "jsonwebtoken";

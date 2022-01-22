@@ -4,9 +4,7 @@ import { UIProviderContext } from "./UIProvider";
 import { ObjectId } from "bson";
 import { RealtimeStatus } from "../../internal/const/common_interfaces";
 import { DefaultRealtimeStatus } from "../../internal/const/defaultValues";
-import { configs, enums, utils } from "@etherdata-blockchain/common";
-import { dbServices } from "@etherdata-blockchain/services";
-import { schema } from "@etherdata-blockchain/storage-model";
+import { configs, enums } from "@etherdata-blockchain/common";
 
 interface DeviceInterface {
   realtimeStatus: RealtimeStatus;
