@@ -1,7 +1,10 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { postOnlyMiddleware } from "../../../../internal/nextHandler/postOnlyHandler";
-import { DeviceRegistrationPlugin } from "../../../../internal/services/dbServices/device-registration-plugin";
-import { jwtVerificationHandler } from "../../../../internal/nextHandler/jwt_verification_handler";
+import { dbServices } from "@etherdata-blockchain/services";
+import {
+  jwtVerificationHandler,
+  methodAllowedHandler,
+} from "@etherdata-blockchain/next-js-handlers";
+import HTTPMethod from "http-method-enum";
 
 type Data = {
   success: boolean;
@@ -19,7 +22,7 @@ type Data = {
 async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
   const { user, device } = req.body;
 
-  const plugin = new DeviceRegistrationPlugin();
+  const plugin = new dbServices.DeviceRegistrationService();
   const [success, reason] = await plugin.register(device, user);
   if (success) {
     res.status(201).json({ success: success, reason: reason });
@@ -28,4 +31,6 @@ async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
   }
 }
 
-export default postOnlyMiddleware(jwtVerificationHandler(handler));
+export default methodAllowedHandler(jwtVerificationHandler(handler), [
+  HTTPMethod.POST,
+]);

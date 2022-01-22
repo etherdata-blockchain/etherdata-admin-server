@@ -3,8 +3,7 @@ import { Form as BForm } from "react-bootstrap";
 import * as React from "react";
 import { DeviceIdsAutoComplete } from "./DeviceIdsAutoComplete";
 import { ArrayFieldTemplateProps } from "@rjsf/core";
-import { sleep } from "../../internal/utils/sleep";
-import { Configurations } from "../../internal/const/configurations";
+import { configs, utils } from "@etherdata-blockchain/common";
 
 // eslint-disable-next-line require-jsdoc
 export function DeviceIdField(props: ArrayFieldTemplateProps) {
@@ -29,7 +28,7 @@ export function DeviceIdField(props: ArrayFieldTemplateProps) {
     setNewContent(content);
     setNewIndex(index);
     onAddClick();
-    await sleep(Configurations.defaultSleepDuration);
+    await utils.sleep(configs.Configurations.defaultSleepDuration);
     setShouldAdd(true);
   }, []);
 

@@ -1,17 +1,19 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { StatusCodes } from "http-status-codes";
-import { paginationHandler } from "../../../../internal/nextHandler/paginationHandler";
-import { jwtVerificationHandler } from "../../../../internal/nextHandler/jwt_verification_handler";
-import { PaginationResult } from "../../../../internal/const/common_interfaces";
-import { UpdateScriptPlugin } from "../../../../internal/services/dbServices/update-script-plugin";
-import { methodAllowedHandler } from "../../../../internal/nextHandler/method_allowed_handler";
 import HTTPMethod from "http-method-enum";
-import { IUpdateTemplate } from "../../../../internal/services/dbSchema/update-template/update-template";
+import { interfaces } from "@etherdata-blockchain/common";
+import { dbServices } from "@etherdata-blockchain/services";
+import { schema } from "@etherdata-blockchain/storage-model";
+import {
+  jwtVerificationHandler,
+  methodAllowedHandler,
+  paginationHandler,
+} from "@etherdata-blockchain/next-js-handlers";
 
 type Response =
   | { err?: string; message?: string }
-  | PaginationResult<IUpdateTemplate>
-  | IUpdateTemplate;
+  | interfaces.PaginationResult<schema.IUpdateTemplate>
+  | schema.IUpdateTemplate;
 
 /**
  * Handle update script create, list.
@@ -22,15 +24,15 @@ type Response =
  * @param {NextApiResponse} res
  */
 async function handler(req: NextApiRequest, res: NextApiResponse<Response>) {
-  const updateScriptPlugin = new UpdateScriptPlugin();
+  const updateTemplateService = new dbServices.UpdateTemplateService();
   switch (req.method) {
     case "POST":
-      await updateScriptPlugin.create(req.body, { upsert: false });
+      await updateTemplateService.create(req.body, { upsert: false });
       res.status(StatusCodes.CREATED).json({});
       break;
     case "GET":
       const { page, pageSize } = req.body;
-      const result = await updateScriptPlugin.list(page, pageSize);
+      const result = await updateTemplateService.list(page, pageSize);
       res.status(StatusCodes.OK).json(result!);
       break;
   }

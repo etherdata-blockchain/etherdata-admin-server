@@ -3,20 +3,19 @@ import * as React from "react";
 import { UIProviderContext } from "../model/UIProvider";
 import { useRouter } from "next/dist/client/router";
 import qs from "query-string";
-import { Routes } from "../../internal/const/routes";
 import { Button } from "@mui/material";
 import PageHeader from "../../components/common/PageHeader";
 import Spacer from "../../components/common/Spacer";
 import Box from "@mui/material/Box";
-import { Configurations } from "../../internal/const/configurations";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import { a11yProps } from "../../components/common/tabs/horizontal";
 import { PaddingBox } from "../../components/common/PaddingBox";
 import { GetServerSideProps } from "next";
-import { Environments } from "../../internal/const/environments";
 import { Form } from "@rjsf/bootstrap-4";
+import { configs } from "@etherdata-blockchain/common";
 import "bootstrap/dist/css/bootstrap.min.css";
+import { Routes } from "@etherdata-blockchain/common/src/configs/routes";
 
 type Props = {
   tabIndex: number;
@@ -71,7 +70,7 @@ export default function Index(props: Props) {
           width: "100%",
           zIndex: 1000,
         }}
-        style={{ position: "sticky", top: Configurations.appbarHeight }}
+        style={{ position: "sticky", top: configs.Configurations.appbarHeight }}
       >
         <Tabs
           variant="scrollable"
@@ -79,8 +78,8 @@ export default function Index(props: Props) {
           onChange={handleChange}
           aria-label="Vertical tabs example"
           style={{
-            paddingLeft: Configurations.defaultPadding,
-            paddingRight: Configurations.defaultPadding,
+            paddingLeft: configs.Configurations.defaultPadding,
+            paddingRight: configs.Configurations.defaultPadding,
           }}
         >
           <Tab label="Environments" {...a11yProps(0)} />
@@ -89,7 +88,7 @@ export default function Index(props: Props) {
       <PaddingBox>
         <Form
           readonly
-          schema={Environments.getSchemaForEnvironments(
+          schema={configs.Environments.getSchemaForEnvironments(
             props.envs.serverEnvs,
             props.envs.clientEnvs
           )}
@@ -107,8 +106,8 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
   const data: Props = {
     tabIndex: parseInt(index as string),
     envs: {
-      clientEnvs: { ...Environments.ServerSideEnvironments },
-      serverEnvs: { ...Environments.ClientSideEnvironments },
+      clientEnvs: { ...configs.Environments.ServerSideEnvironments },
+      serverEnvs: { ...configs.Environments.ClientSideEnvironments },
     },
   };
 

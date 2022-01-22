@@ -1,18 +1,15 @@
 import React from "react";
-// import { ClientInterface } from "../../server";
 import io, { Socket } from "socket.io-client";
-import { ETDHistoryInterface } from "../../server";
-import { realmApp } from "../_app";
-import { TransactionSummary } from "../../server/interfaces/transaction";
 import { UIProviderContext } from "./UIProvider";
-import { Environments } from "../../internal/const/environments";
+import { ETDHistoryInterface } from "@etherdata-blockchain/history";
+import { configs, interfaces } from "@etherdata-blockchain/common";
 
 interface ETDInterface {
   clients: any[];
   history: ETDHistoryInterface | undefined;
   isLoadingDetail: boolean;
   detail: any | undefined;
-  transactions: TransactionSummary[];
+  transactions: interfaces.TransactionSummary[];
 
   fetchDetail(id: string): void;
 }
@@ -31,9 +28,9 @@ export default function ETDProvider(props: any) {
   const { children } = props;
   // eslint-disable-next-line no-unused-vars
   const [clients, setClients] = React.useState<any[]>([]);
-  const [transactions, setTransactions] = React.useState<TransactionSummary[]>(
-    []
-  );
+  const [transactions, setTransactions] = React.useState<
+    interfaces.TransactionSummary[]
+  >([]);
   const [history, setHistory] = React.useState<ETDHistoryInterface>();
   // eslint-disable-next-line no-unused-vars
   const [detail, setDetail] = React.useState<any>();
@@ -42,7 +39,8 @@ export default function ETDProvider(props: any) {
 
   React.useEffect(() => {
     const url =
-      Environments.ClientSideEnvironments.NEXT_PUBLIC_STATS_SERVER + "/clients";
+      configs.Environments.ClientSideEnvironments.NEXT_PUBLIC_STATS_SERVER +
+      "/clients";
     showSnackBarMessage("Loading Data");
     socket = io(url);
     socket.off("history");

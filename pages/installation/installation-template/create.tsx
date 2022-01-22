@@ -10,20 +10,19 @@ import {
   DefaultInstallationScriptTag,
   getAxiosClient,
 } from "../../../internal/const/defaultValues";
-import { Routes } from "../../../internal/const/routes";
 import { Backdrop, CircularProgress } from "@mui/material";
 import { useRouter } from "next/dist/client/router";
 import { GetServerSideProps } from "next";
-import { Configurations } from "../../../internal/const/configurations";
-import { DockerImagePlugin } from "../../../internal/services/dbServices/docker-image-plugin";
-import { jsonSchema } from "../../../internal/services/dbSchema/install-script/install-script-utils";
-import { IDockerImage } from "../../../internal/services/dbSchema/docker/docker-image";
 import { ImageField } from "../../../components/installation/DockerImageField";
-import { IInstallationTemplate } from "../../../internal/services/dbSchema/install-script/install-script";
 import { PaddingBox } from "../../../components/common/PaddingBox";
+import { configs } from "@etherdata-blockchain/common";
+import { dbServices } from "@etherdata-blockchain/services";
+import { schema } from "@etherdata-blockchain/storage-model";
+import { Routes } from "@etherdata-blockchain/common/src/configs/routes";
+import { jsonSchema } from "../../../internal/handlers/install_script_handler";
 
 type Props = {
-  images: IDockerImage[];
+  images: schema.IDockerImage[];
 };
 
 /**
@@ -37,7 +36,7 @@ export default function Index({ images }: Props) {
   const [formData, setFormData] = React.useState();
   const router = useRouter();
 
-  const submitData = async (data: IInstallationTemplate) => {
+  const submitData = async (data: schema.IInstallationTemplate) => {
     setIsLoading(true);
     try {
       await getAxiosClient().post(Routes.installationTemplatesAPICreate, data);
@@ -108,11 +107,11 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
   context
 ) => {
   //TODO: Add pagination
-  const dockerImagePlugin = new DockerImagePlugin();
+  const dockerImagePlugin = new dbServices.DockerImageService();
 
   const images = await dockerImagePlugin.list(
-    Configurations.defaultPaginationStartingPage,
-    Configurations.numberPerPage
+    configs.Configurations.defaultPaginationStartingPage,
+    configs.Configurations.numberPerPage
   );
 
   const data: Props = {

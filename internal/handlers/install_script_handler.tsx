@@ -2,13 +2,11 @@
  * Utils for installation script
  */
 import React from "react";
-import { IDockerImage } from "../docker/docker-image";
 import { GridColDef } from "@mui/x-data-grid";
 import { JSONSchema7 } from "json-schema";
 import { Button } from "@mui/material";
-import { Routes } from "../../../const/routes";
-import DownloadTemplateButton from "../../../../components/installation/DownloadTemplateButton";
-import { IInstallationTemplate } from "./install-script";
+import DownloadTemplateButton from "../../components/installation/DownloadTemplateButton";
+import { Routes } from "@etherdata-blockchain/common/src/configs/routes";
 
 export const jsonSchema: JSONSchema7 = {
   title: "Installation template",

@@ -1,6 +1,5 @@
 import {
   AppBar,
-  Badge,
   Box,
   Collapse,
   Divider,
@@ -17,19 +16,19 @@ import {
   Tooltip,
   Typography,
 } from "@mui/material";
-import { Add, Error, ExitToApp } from "@mui/icons-material";
+import { Add, ExitToApp } from "@mui/icons-material";
 import { useRouter } from "next/dist/client/router";
 import Link from "next/link";
 import React from "react";
 import Spacer from "./Spacer";
 import { UIProviderContext } from "../../pages/model/UIProvider";
 import SearchBar from "./SearchBar";
-import { Configurations } from "../../internal/const/configurations";
 import { realmApp } from "../../pages/_app";
 import ETDProvider from "../../pages/model/ETDProvider";
 import DeviceProvider from "../../pages/model/DeviceProvider";
 import MenuIcon from "@mui/icons-material/Menu";
 import { PendingJobButton } from "../pendingJob/PendingJobButton";
+import { configs } from "@etherdata-blockchain/common";
 
 export interface Menu {
   title: string;
@@ -117,7 +116,7 @@ export default function Layout(props: Props) {
 
   const appbar = (
     <AppBar elevation={0} position={"fixed"}>
-      <Toolbar style={{ marginLeft: Configurations.drawerSize }}>
+      <Toolbar style={{ marginLeft: configs.Configurations.drawerSize }}>
         <div style={{ width: 400 }}>
           <Collapse
             in={appBarTitleShow}
@@ -134,7 +133,7 @@ export default function Layout(props: Props) {
               style={{ color: "black", position: "absolute", top: 15 }}
               variant={"h6"}
             >
-              {Configurations.title}
+              {configs.Configurations.title}
             </Typography>
           </Fade>
         </div>
@@ -186,7 +185,7 @@ export default function Layout(props: Props) {
             <Drawer variant="permanent">
               <List
                 style={{
-                  width: Configurations.drawerSize,
+                  width: configs.Configurations.drawerSize,
                   overflowX: "hidden",
                 }}
               >
@@ -226,8 +225,8 @@ export default function Layout(props: Props) {
             {/** Desktop**/}
             <main
               style={{
-                marginLeft: Configurations.drawerSize,
-                marginTop: Configurations.appbarHeight,
+                marginLeft: configs.Configurations.drawerSize,
+                marginTop: configs.Configurations.appbarHeight,
               }}
             >
               {children}

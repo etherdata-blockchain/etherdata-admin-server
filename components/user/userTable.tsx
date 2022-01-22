@@ -5,11 +5,11 @@ import { useRouter } from "next/dist/client/router";
 import { Button } from "@mui/material";
 import { DefaultStorageUser } from "../../internal/const/defaultValues";
 import qs from "query-string";
-import { PaginationResult } from "../../internal/const/common_interfaces";
-import { IStorageOwner } from "../../internal/services/dbSchema/device/storage/owner";
+import { interfaces } from "@etherdata-blockchain/common";
+import { schema } from "@etherdata-blockchain/storage-model";
 
 type Props = {
-  storageUser: PaginationResult<IStorageOwner>;
+  storageUser: interfaces.PaginationResult<schema.IStorageOwner>;
   handlePageChange(number: number): Promise<void>;
   currentPage: number;
 };

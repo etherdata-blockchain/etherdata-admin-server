@@ -1,12 +1,16 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { jwtVerificationHandler } from "../../../../internal/nextHandler/jwt_verification_handler";
 import { StatusCodes } from "http-status-codes";
-import { methodAllowedHandler } from "../../../../internal/nextHandler/method_allowed_handler";
 import HTTPMethod from "http-method-enum";
-import { StaticNodePlugin } from "../../../../internal/services/dbServices/static-node-plugin";
-import { IStaticNode } from "../../../../internal/services/dbSchema/install-script/static-node";
+import { interfaces } from "@etherdata-blockchain/common";
+import { dbServices } from "@etherdata-blockchain/services";
+import {
+  jwtVerificationHandler,
+  methodAllowedHandler,
+} from "@etherdata-blockchain/next-js-handlers";
 
-type Response = { err?: string; message?: string } | IStaticNode;
+type Response =
+  | { err?: string; message?: string }
+  | interfaces.db.StaticNodeDBInterface;
 
 /**
  * This will handle static node request by id;
@@ -19,7 +23,7 @@ type Response = { err?: string; message?: string } | IStaticNode;
  */
 async function handler(req: NextApiRequest, res: NextApiResponse<Response>) {
   const id = req.query.id;
-  const staticNodePlugin = new StaticNodePlugin();
+  const staticNodePlugin = new dbServices.StaticNodeService();
   const staticNode = await staticNodePlugin.get(id as string);
   if (staticNode === undefined) {
     res

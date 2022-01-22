@@ -2,35 +2,31 @@
 import * as React from "react";
 import PageHeader from "../../components/common/PageHeader";
 import { GetServerSideProps } from "next";
-import { IDockerImage } from "../../internal/services/dbSchema/docker/docker-image";
-import { IStaticNode } from "../../internal/services/dbSchema/install-script/static-node";
-import { DockerImagePlugin } from "../../internal/services/dbServices/docker-image-plugin";
-import { StaticNodePlugin } from "../../internal/services/dbServices/static-node-plugin";
-import { Configurations } from "../../internal/const/configurations";
 import Spacer from "../../components/common/Spacer";
 import Box from "@mui/material/Box";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import DockerImagesPanel from "../../components/installation/DockerImagesPanel";
-import { InstallationPlugin } from "../../internal/services/dbServices/installation-plugin";
-import { IInstallationTemplate } from "../../internal/services/dbSchema/install-script/install-script";
 import InstallationTemplatePanel from "../../components/installation/InstallationTemplatePanel";
 import { Button } from "@mui/material";
-import { Routes } from "../../internal/const/routes";
 import { useRouter } from "next/dist/client/router";
 import StaticNodePanel from "../../components/installation/StaticNodePanel";
 import WebhookPanel from "../../components/installation/WebhookPanel";
 import qs from "query-string";
 import { a11yProps, TabPanel } from "../../components/common/tabs/horizontal";
-import "bootstrap/dist/css/bootstrap.min.css";
 import { UIProviderContext } from "../model/UIProvider";
 import { PaddingBox } from "../../components/common/PaddingBox";
+import { configs } from "@etherdata-blockchain/common";
+import { dbServices } from "@etherdata-blockchain/services";
+import { schema } from "@etherdata-blockchain/storage-model";
+import { Routes } from "@etherdata-blockchain/common/src/configs/routes";
+import "bootstrap/dist/css/bootstrap.min.css";
 
 type Props = {
   index: any;
-  images: IDockerImage[];
-  staticNodes: IStaticNode[];
-  installationTemplates: IInstallationTemplate[];
+  images: schema.IDockerImage[];
+  staticNodes: schema.IStaticNode[];
+  installationTemplates: schema.IInstallationTemplate[];
   host: string;
 };
 
@@ -96,7 +92,10 @@ export default function Index({
             bgcolor: appBarTitleShow ? "background.paper" : undefined,
             width: "100%",
           }}
-          style={{ position: "sticky", top: Configurations.appbarHeight }}
+          style={{
+            position: "sticky",
+            top: configs.Configurations.appbarHeight,
+          }}
         >
           <Tabs
             variant="scrollable"
@@ -104,8 +103,8 @@ export default function Index({
             onChange={handleChange}
             aria-label="Vertical tabs example"
             style={{
-              paddingLeft: Configurations.defaultPadding,
-              paddingRight: Configurations.defaultPadding,
+              paddingLeft: configs.Configurations.defaultPadding,
+              paddingRight: configs.Configurations.defaultPadding,
             }}
           >
             <Tab label="Docker Images" {...a11yProps(0)} />
@@ -141,21 +140,21 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
   const index = context.query.index ?? "0";
 
   //TODO: Add pagination
-  const dockerImagePlugin = new DockerImagePlugin();
-  const staticNodePlugin = new StaticNodePlugin();
-  const installationPlugin = new InstallationPlugin();
+  const dockerImagePlugin = new dbServices.DockerImageService();
+  const staticNodePlugin = new dbServices.StaticNodeService();
+  const installationPlugin = new dbServices.InstallationService();
 
   const imagePromise = dockerImagePlugin.list(
-    Configurations.defaultPaginationStartingPage,
-    Configurations.numberPerPage
+    configs.Configurations.defaultPaginationStartingPage,
+    configs.Configurations.numberPerPage
   );
   const staticNodePromise = staticNodePlugin.list(
-    Configurations.defaultPaginationStartingPage,
-    Configurations.numberPerPage
+    configs.Configurations.defaultPaginationStartingPage,
+    configs.Configurations.numberPerPage
   );
   const installationTemplatePromise = installationPlugin.list(
-    Configurations.defaultPaginationStartingPage,
-    Configurations.numberPerPage
+    configs.Configurations.defaultPaginationStartingPage,
+    configs.Configurations.numberPerPage
   );
 
   const [images, staticNodes, installationTemplates] = await Promise.all([

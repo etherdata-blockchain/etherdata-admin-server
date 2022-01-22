@@ -1,9 +1,8 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { jwtVerificationHandler } from "../../../../internal/nextHandler/jwt_verification_handler";
-import { StorageManagementItemPlugin } from "../../../../internal/services/dbServices/storage-management-item-plugin";
-import { PaginationResult } from "../../../../internal/const/common_interfaces";
 import { StatusCodes } from "http-status-codes";
-import { Configurations } from "../../../../internal/const/configurations";
+import { configs } from "@etherdata-blockchain/common";
+import { dbServices } from "@etherdata-blockchain/services";
+import { jwtVerificationHandler } from "@etherdata-blockchain/next-js-handlers";
 
 /**
  * Found devices with status from storage management system and etd status database
@@ -13,12 +12,12 @@ import { Configurations } from "../../../../internal/const/configurations";
 async function handler(req: NextApiRequest, res: NextApiResponse) {
   const { user, page } = req.query;
 
-  const storagePlugin = new StorageManagementItemPlugin();
+  const storagePlugin = new dbServices.StorageManagementService();
 
   try {
     const pageNum = parseInt(
       (page ??
-        Configurations.defaultPaginationStartingPage.toString()) as string
+        configs.Configurations.defaultPaginationStartingPage.toString()) as string
     );
     const storageItems = await storagePlugin.getDevicesByUser(
       pageNum,

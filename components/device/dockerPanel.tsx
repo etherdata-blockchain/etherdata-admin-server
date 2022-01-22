@@ -1,6 +1,5 @@
 // @flow
 import * as React from "react";
-import { IDevice } from "../../internal/services/dbSchema/device/device";
 import {
   List,
   ListItemButton,
@@ -13,9 +12,12 @@ import {
   bindTrigger,
   usePopupState,
 } from "material-ui-popup-state/hooks";
+import { configs, utils } from "@etherdata-blockchain/common";
+import { dbServices } from "@etherdata-blockchain/services";
+import { schema } from "@etherdata-blockchain/storage-model";
 
 type Props = {
-  device: IDevice | undefined;
+  device: schema.IDevice | undefined;
 };
 
 /**
