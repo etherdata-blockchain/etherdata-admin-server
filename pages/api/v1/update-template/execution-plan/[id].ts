@@ -28,7 +28,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse<Response>) {
   const updateTemplateService = new dbServices.UpdateTemplateService();
 
   const script = await updateTemplateService.get(id as string);
-  if (script === undefined) {
+  if (script === undefined || script === null) {
     res
       .status(StatusCodes.NOT_FOUND)
       .json({ err: `Cannot find update script with id: ${id}` });
@@ -41,19 +41,19 @@ async function handler(req: NextApiRequest, res: NextApiResponse<Response>) {
   };
 
   switch (req.method) {
-    case "GET":
+    case HTTPMethod.GET:
       const executionPlans = await executionPlanService.getPlans(id as string);
       res.status(StatusCodes.OK).json(executionPlans);
       break;
 
-    case "POST":
+    case HTTPMethod.POST:
       const patchResult = await executionPlanService.create(data, {
         upsert: true,
       });
       res.status(StatusCodes.OK).json(patchResult!);
       break;
 
-    case "DELETE":
+    case HTTPMethod.DELETE:
       await executionPlanService.delete(id);
       res.status(StatusCodes.OK).json({ message: "OK" });
       break;

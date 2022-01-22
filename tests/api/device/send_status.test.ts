@@ -12,7 +12,6 @@ import { schema } from "@etherdata-blockchain/storage-model";
 import { dbServices } from "@etherdata-blockchain/services";
 
 jest.mock("axios");
-jest.mock("@etherdata-blockchain/storage-model");
 
 describe("Test sending a user status", () => {
   let dbServer: MongoMemoryServer;
@@ -23,25 +22,33 @@ describe("Test sending a user status", () => {
     axios.get.mockResolvedValue({});
     process.env = {
       ...oldEnv,
-      PUBLIC_SECRET: "test",
+      PUBLIC_SECRET: mockData.MockConstant.mockTestingSecret,
     };
     dbServer = await MongoMemoryServer.create();
     await mongoose.connect(dbServer.getUri().concat("etd"));
   });
 
+  beforeEach(async () => {
+    await schema.StorageItemModel.create({
+      qr_code: mockData.MockConstant.mockTestingUser,
+    });
+  });
+
   afterEach(async () => {
     await schema.DeviceModel.deleteMany({});
+    await schema.StorageItemModel.deleteMany({});
+  });
+
+  afterAll(async () => {
+    await dbServer.stop();
+    await mongoose.disconnect();
   });
 
   test("Add new user and update", async () => {
-    //@ts-ignore
-    dbServices.StorageManagementService.mockImplementation(() => {
-      return {
-        auth: jest.fn(() => Promise.resolve(true)),
-      };
-    });
-
-    const token = jwt.sign({ user: "test-user" }, "test");
+    const token = jwt.sign(
+      { user: mockData.MockConstant.mockTestingUser },
+      mockData.MockConstant.mockTestingSecret
+    );
     const { req, res } = createMocks({
       method: "POST",
       headers: {
@@ -56,14 +63,10 @@ describe("Test sending a user status", () => {
   });
 
   test("Add new user without correct token", async () => {
-    //@ts-ignore
-    dbServices.StorageManagementService.mockImplementation(() => {
-      return {
-        findDeviceById: jest.fn(() => Promise.resolve({ a: "a" })),
-      };
-    });
-
-    const token = jwt.sign({ user: "test-user" }, "test1");
+    const token = jwt.sign(
+      { user: mockData.MockConstant.mockTestingUser },
+      "test1"
+    );
     const { req, res } = createMocks({
       method: "POST",
       headers: {

@@ -73,7 +73,6 @@ describe("Given a update script api handler", () => {
   });
 
   test("When calling create", async () => {
-    //getUpdateTemplateWithDockerImage
     const data = (
       await schema.DockerImageModel.create(mockData.MockDockerImage)
     ).toJSON();

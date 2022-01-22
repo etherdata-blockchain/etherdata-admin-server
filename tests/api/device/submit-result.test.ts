@@ -6,9 +6,6 @@ import mongoose from "mongoose";
 import { mockData } from "@etherdata-blockchain/common";
 import { schema } from "@etherdata-blockchain/storage-model";
 import { StatusCodes } from "http-status-codes";
-import { dbServices } from "@etherdata-blockchain/services";
-
-jest.mock("@etherdata-blockchain/services");
 
 describe("Given a result plugin", () => {
   let dbServer: MongoMemoryServer;
@@ -21,24 +18,24 @@ describe("Given a result plugin", () => {
     await mongoose.connect(dbServer.getUri().concat("etd"));
   });
 
+  beforeEach(async () => {
+    await schema.StorageItemModel.create({
+      qr_code: mockData.MockConstant.mockTestingUser,
+    });
+  });
+
   afterEach(async () => {
     await schema.JobResultModel.deleteMany({});
     await schema.PendingJobModel.deleteMany({});
     await schema.ExecutionPlanModel.deleteMany({});
+    await schema.StorageItemModel.deleteMany({});
   });
 
   afterAll(() => {
     dbServer.stop();
   });
 
-  test("When submit a result with existing user", async () => {
-    //@ts-ignore
-    dbServices.StorageManagementService.mockImplementation(() => {
-      return {
-        auth: jest.fn(() => Promise.resolve(true)),
-      };
-    });
-
+  test("When submitting a result with existing user", async () => {
     const pendingJob = await schema.PendingJobModel.create(
       mockData.MockPendingJob
     );
@@ -67,13 +64,6 @@ describe("Given a result plugin", () => {
   });
 
   test("When submit a result without existing user", async () => {
-    //@ts-ignore
-    dbServices.StorageManagementService.mockImplementation(() => {
-      return {
-        auth: jest.fn(() => Promise.resolve(true)),
-      };
-    });
-
     const token = jwt.sign(
       { user: mockData.MockConstant.mockTestingUser },
       mockData.MockConstant.mockInvalidTestingSecret
@@ -94,13 +84,6 @@ describe("Given a result plugin", () => {
   });
 
   test("When submitting a pending update template job", async () => {
-    //@ts-ignore
-    dbServices.StorageManagementService.mockImplementation(() => {
-      return {
-        auth: jest.fn(() => Promise.resolve(true)),
-      };
-    });
-
     const pendingJob = await schema.PendingJobModel.create(
       mockData.MockPendingUpdateTemplateJob
     );
@@ -139,13 +122,6 @@ describe("Given a result plugin", () => {
   });
 
   test("When submitting a failed pending update template job", async () => {
-    //@ts-ignore
-    dbServices.StorageManagementService.mockImplementation(() => {
-      return {
-        auth: jest.fn(() => Promise.resolve(true)),
-      };
-    });
-
     const pendingJob = await schema.PendingJobModel.create(
       mockData.MockPendingUpdateTemplateJob
     );

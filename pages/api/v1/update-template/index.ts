@@ -26,11 +26,11 @@ type Response =
 async function handler(req: NextApiRequest, res: NextApiResponse<Response>) {
   const updateTemplateService = new dbServices.UpdateTemplateService();
   switch (req.method) {
-    case "POST":
+    case HTTPMethod.POST:
       await updateTemplateService.create(req.body, { upsert: false });
       res.status(StatusCodes.CREATED).json({});
       break;
-    case "GET":
+    case HTTPMethod.GET:
       const { page, pageSize } = req.body;
       const result = await updateTemplateService.list(page, pageSize);
       res.status(StatusCodes.OK).json(result!);

@@ -125,8 +125,11 @@ describe("Given a installation template download handler", () => {
       mockData.MockDockerImage
     );
     const result2 = await schema.DockerImageModel.create(
-      mockData.MockDockerImage2
+      mockData.MockDockerImage3
     );
+
+    console.log(JSON.stringify(result1, null, 4));
+    console.log(JSON.stringify(result2, null, 4));
 
     const reqData = JSON.parse(
       JSON.stringify(mockData.MockComplicatedTemplateData)
