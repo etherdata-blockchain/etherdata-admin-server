@@ -1,6 +1,6 @@
-import type { NextApiRequest, NextApiResponse } from "next";
-import { jwtVerificationHandler } from "../../../../internal/nextHandler/jwt_verification_handler";
-import { StorageManagementItemPlugin } from "../../../../internal/services/dbServices/storage-management-item-plugin";
+import type {NextApiRequest, NextApiResponse} from "next";
+import {dbServices} from "@etherdata-blockchain/services";
+import {jwtVerificationHandler} from "@etherdata-blockchain/next-js-handlers";
 
 /**
  * Found user by given user
@@ -10,7 +10,7 @@ import { StorageManagementItemPlugin } from "../../../../internal/services/dbSer
 async function handler(req: NextApiRequest, res: NextApiResponse) {
   const { user } = req.body;
 
-  const plugin = new StorageManagementItemPlugin();
+  const plugin = new dbServices.StorageManagementService();
   const devices = await plugin.getDevicesByUser(user);
   if (devices) {
     res.status(200).json(devices);

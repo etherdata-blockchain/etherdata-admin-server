@@ -1,7 +1,7 @@
 import { MongoMemoryServer } from "mongodb-memory-server";
 import { getServerSideProps } from "../../../pages/home";
 import { GetServerSidePropsContext } from "next";
-import { MockConstant } from "../../data/mock_constant";
+import { mockData } from "@etherdata-blockchain/common";
 import mongoose from "mongoose";
 
 describe("Given a home page", () => {
@@ -9,7 +9,7 @@ describe("Given a home page", () => {
   beforeAll(async () => {
     process.env = {
       ...process.env,
-      PUBLIC_SECRET: MockConstant.mockTestingSecret,
+      PUBLIC_SECRET: mockData.MockConstant.mockTestingSecret,
     };
     dbServer = await MongoMemoryServer.create();
     await mongoose.connect(dbServer.getUri().concat("etd"));

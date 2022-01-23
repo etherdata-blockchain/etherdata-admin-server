@@ -7,20 +7,19 @@ import Box from "@mui/material/Box";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import { Button } from "@mui/material";
-import { Routes } from "../../internal/const/routes";
 import { useRouter } from "next/dist/client/router";
 import qs from "query-string";
 import { a11yProps, TabPanel } from "../../components/common/tabs/horizontal";
-import { IUpdateTemplate } from "../../internal/services/dbSchema/update-template/update-template";
-import { UpdateScriptPlugin } from "../../internal/services/dbServices/update-script-plugin";
-import { Configurations } from "../../internal/const/configurations";
-import { PaginationResult } from "../../internal/const/common_interfaces";
 import { UIProviderContext } from "../model/UIProvider";
 import { PaddingBox } from "../../components/common/PaddingBox";
 import UpdateTemplatePanel from "../../components/update/UpdateTemplatePanel";
+import { configs, interfaces } from "@etherdata-blockchain/common";
+import { dbServices } from "@etherdata-blockchain/services";
+import { schema } from "@etherdata-blockchain/storage-model";
+import { Routes } from "@etherdata-blockchain/common/src/configs/routes";
 
 type Props = {
-  updateTemplate: PaginationResult<IUpdateTemplate>;
+  updateTemplate: interfaces.PaginationResult<schema.IUpdateTemplate>;
   tabIndex: number;
 };
 
@@ -68,7 +67,7 @@ export default function Index({ tabIndex, updateTemplate }: Props) {
           bgcolor: appBarTitleShow ? "background.paper" : undefined,
           width: "100%",
         }}
-        style={{ position: "sticky", top: Configurations.appbarHeight }}
+        style={{ position: "sticky", top: configs.Configurations.appbarHeight }}
       >
         <Tabs
           variant="scrollable"
@@ -76,8 +75,8 @@ export default function Index({ tabIndex, updateTemplate }: Props) {
           onChange={handleChange}
           aria-label="Vertical tabs example"
           style={{
-            paddingLeft: Configurations.defaultPadding,
-            paddingRight: Configurations.defaultPadding,
+            paddingLeft: configs.Configurations.defaultPadding,
+            paddingRight: configs.Configurations.defaultPadding,
           }}
         >
           <Tab label="Update Template" {...a11yProps(0)} />
@@ -97,13 +96,14 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
 ) => {
   const index = context.query.index ?? "0";
   const page =
-    context.query.page ?? `${Configurations.defaultPaginationStartingPage}`;
+    context.query.page ??
+    `${configs.Configurations.defaultPaginationStartingPage}`;
 
-  const updatePlugin = new UpdateScriptPlugin();
+  const updatePlugin = new dbServices.UpdateTemplateService();
 
   const updateTemplate = await updatePlugin.list(
     parseInt(page as string),
-    Configurations.numberPerPage
+    configs.Configurations.numberPerPage
   );
 
   if (updateTemplate === undefined) {

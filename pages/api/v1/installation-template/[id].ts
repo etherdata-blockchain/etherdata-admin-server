@@ -1,12 +1,17 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { jwtVerificationHandler } from "../../../../internal/nextHandler/jwt_verification_handler";
-import { InstallationPlugin } from "../../../../internal/services/dbServices/installation-plugin";
+import {
+  jwtVerificationHandler,
+  methodAllowedHandler,
+} from "@etherdata-blockchain/next-js-handlers";
+import { interfaces } from "@etherdata-blockchain/common";
+import { dbServices } from "@etherdata-blockchain/services";
 import { StatusCodes } from "http-status-codes";
-import { IInstallationTemplate } from "../../../../internal/services/dbSchema/install-script/install-script";
-import { methodAllowedHandler } from "../../../../internal/nextHandler/method_allowed_handler";
+
 import HTTPMethod from "http-method-enum";
 
-type Response = { err?: string; message?: string } | IInstallationTemplate;
+type Response =
+  | { err?: string; message?: string }
+  | interfaces.db.InstallationTemplateDBInterface;
 
 /**
  * This will handle installation template request by id.
@@ -19,8 +24,8 @@ type Response = { err?: string; message?: string } | IInstallationTemplate;
  */
 async function handler(req: NextApiRequest, res: NextApiResponse<Response>) {
   const id = req.query.id;
-  const installScriptPlugin = new InstallationPlugin();
-  const template = await installScriptPlugin.get(id as string);
+  const installationService = new dbServices.InstallationService();
+  const template = await installationService.get(id as string);
   if (template === undefined) {
     res
       .status(StatusCodes.NOT_FOUND)
@@ -34,19 +39,19 @@ async function handler(req: NextApiRequest, res: NextApiResponse<Response>) {
   };
 
   switch (req.method) {
-    case "GET":
+    case HTTPMethod.GET:
       res.status(StatusCodes.OK).json(template);
       break;
 
-    case "PATCH":
-      const patchResult = await installScriptPlugin.create(data, {
+    case HTTPMethod.PATCH:
+      const patchResult = await installationService.create(data, {
         upsert: true,
       });
       res.status(StatusCodes.OK).json(patchResult!);
       break;
 
-    case "DELETE":
-      await installScriptPlugin.delete(data);
+    case HTTPMethod.DELETE:
+      await installationService.delete(data);
       res.status(StatusCodes.OK).json({ message: "OK" });
       break;
   }

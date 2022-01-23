@@ -1,17 +1,17 @@
-import { BaseSocketIOPlugin } from "./plugin/basePlugin";
-import { Server as SocketServer } from "socket.io";
+import {Server as SocketServer} from "socket.io";
+import {BaseSocketIOService} from "@etherdata-blockchain/services/src/socket-io/socket_io_service";
 
 /**
  * Start a socket server with plugins
  */
 export class Server {
-  plugins: BaseSocketIOPlugin[];
+  plugins: BaseSocketIOService[];
 
   /**
    * Start plugins
    * @param {BaseSocketIOPlugin[]} plugins socket io plugin
    */
-  constructor(plugins: BaseSocketIOPlugin[]) {
+  constructor(plugins: BaseSocketIOService[]) {
     this.plugins = plugins;
   }
 
@@ -23,7 +23,7 @@ export class Server {
     const server = new SocketServer(httpServer, { cors: { origin: "*" } });
     for (const plugin of this.plugins) {
       plugin.connectPlugins(this.plugins);
-      await plugin?.startPlugin(server);
+      await plugin?.startPlugin(server as any);
     }
   }
 }

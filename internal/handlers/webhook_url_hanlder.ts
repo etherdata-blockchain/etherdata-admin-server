@@ -1,8 +1,7 @@
 import qs from "query-string";
 import jwt from "jsonwebtoken";
-import { Environments } from "../../const/environments";
-import { JSONSchema7 } from "json-schema";
-import { Configurations } from "../../const/configurations";
+import {configs} from "@etherdata-blockchain/common";
+import {JSONSchema7} from "json-schema";
 
 /**
  * Generate webhook url for current user
@@ -26,7 +25,7 @@ export function generateWebhookURL(
   try {
     const token = jwt.sign(
       payload,
-      Environments.ClientSideEnvironments.NEXT_PUBLIC_SECRET,
+      configs.Environments.ClientSideEnvironments.NEXT_PUBLIC_SECRET,
       { expiresIn: expireDuration * 3600 * 24 }
     );
     const query = {
@@ -48,13 +47,13 @@ export const schema: JSONSchema7 = {
       title: "Username",
       description: "User identifier",
       type: "string",
-      default: Configurations.defaultWebhookUser,
+      default: configs.Configurations.defaultWebhookUser,
     },
     expireIn: {
       title: "Expire duration",
       description:
         "How long the token will be expire (in days). Default is set to 1 year",
-      default: Configurations.defaultExpireDuration,
+      default: configs.Configurations.defaultExpireDuration,
       type: "number",
     },
   },

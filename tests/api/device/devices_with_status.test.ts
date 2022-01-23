@@ -1,26 +1,13 @@
-//
-global.TextEncoder = require("util").TextEncoder;
-global.TextDecoder = require("util").TextDecoder;
-
 import { StatusCodes } from "http-status-codes";
 import mongoose from "mongoose";
-import { DeviceModel } from "../../../internal/services/dbSchema/device/device";
+
 import { MongoMemoryServer } from "mongodb-memory-server";
 import { createMocks } from "node-mocks-http";
 import jwt from "jsonwebtoken";
 import handler from "../../../pages/api/v1/device/devices-with-status";
 import axios from "axios";
-import {
-  MockStorageItem,
-  MockStorageItem2,
-  MockStorageItem3,
-} from "../../data/mock_storage_item";
-import { StorageItemModel } from "../../../internal/services/dbSchema/device/storage/item";
-import { MockConstant } from "../../data/mock_constant";
-import {
-  PaginationResult,
-  StorageItem,
-} from "../../../internal/const/common_interfaces";
+import { interfaces, mockData } from "@etherdata-blockchain/common";
+import { schema } from "@etherdata-blockchain/storage-model";
 
 jest.mock("axios");
 
@@ -41,8 +28,8 @@ describe("Given a device with status handler", () => {
 
   afterEach(async () => {
     try {
-      await DeviceModel.collection.drop();
-      await StorageItemModel.collection.drop();
+      await schema.DeviceModel.collection.drop();
+      await schema.StorageItemModel.collection.drop();
     } catch (e) {}
   });
 
@@ -51,13 +38,13 @@ describe("Given a device with status handler", () => {
   });
 
   test("Test get devices by user", async () => {
-    await StorageItemModel.create(MockStorageItem);
-    await StorageItemModel.create(MockStorageItem2);
-    await StorageItemModel.create(MockStorageItem3);
+    await schema.StorageItemModel.create(mockData.MockStorageItem);
+    await schema.StorageItemModel.create(mockData.MockStorageItem2);
+    await schema.StorageItemModel.create(mockData.MockStorageItem3);
 
     const token = jwt.sign(
-      { user: MockConstant.mockTestingUser },
-      MockConstant.mockTestingSecret
+      { user: mockData.MockConstant.mockTestingUser },
+      mockData.MockConstant.mockTestingSecret
     );
     const { req, res } = createMocks({
       method: "GET",
@@ -65,14 +52,15 @@ describe("Given a device with status handler", () => {
         Authorization: "Bearer " + token,
       },
       query: {
-        user: MockStorageItem.owner_id,
+        user: mockData.MockStorageItem.owner_id,
       },
     });
 
     //@ts-ignore
     await handler(req, res);
     expect(res._getStatusCode()).toBe(StatusCodes.OK);
-    const data: PaginationResult<StorageItem> = res._getJSONData();
+    const data: interfaces.PaginationResult<interfaces.db.StorageItemDBInterface> =
+      res._getJSONData();
     expect(data.count).toBe(2);
   });
 });

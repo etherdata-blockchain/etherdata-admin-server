@@ -1,12 +1,11 @@
 import React from "react";
 import { DataGrid } from "@mui/x-data-grid";
-import { columns } from "../../internal/services/dbSchema/update-template/update-template-utils";
 import { Box } from "@mui/material";
-import { IUpdateTemplate } from "../../internal/services/dbSchema/update-template/update-template";
-import { DefaultTestId } from "../../internal/const/defaultTestId";
+import { schema } from "@etherdata-blockchain/storage-model";
+import { columns } from "../../internal/handlers/update_template_handler";
 
 interface Props {
-  updateTemplates: IUpdateTemplate[];
+  updateTemplates: schema.IUpdateTemplate[];
 }
 
 /**

@@ -1,20 +1,10 @@
-import { IStorageOwner } from "../../internal/services/dbSchema/device/storage/owner";
-
-global.TextEncoder = require("util").TextEncoder;
-global.TextDecoder = require("util").TextDecoder;
-
 import React from "react";
 import UserPage from "../../pages/user/index";
 import "@testing-library/jest-dom";
 import { render, within } from "@testing-library/react";
-import { TestingValues } from "../../internal/const/testingValues";
 import UIProviderProvider from "../../pages/model/UIProvider";
 import { createMatchMedia } from "../utils/utils";
-import {
-  PaginationResult,
-  StorageUser,
-} from "../../internal/const/common_interfaces";
-import { Configurations } from "../../internal/const/configurations";
+import { configs, interfaces } from "@etherdata-blockchain/common";
 
 describe("Given a user homepage", () => {
   beforeAll(() => {
@@ -23,11 +13,11 @@ describe("Given a user homepage", () => {
   });
 
   test("When go to the first default page", async () => {
-    const paginatedStorageUsers: PaginationResult<any> = {
+    const paginatedStorageUsers: interfaces.PaginationResult<any> = {
       count: 4,
       totalPage: 2,
       currentPage: 1,
-      pageSize: Configurations.numberPerPage,
+      pageSize: configs.Configurations.numberPerPage,
       results: [
         {
           user_id: "1",
@@ -47,9 +37,7 @@ describe("Given a user homepage", () => {
         <UserPage paginationResult={paginatedStorageUsers} currentPage={1} />
       </UIProviderProvider>
     );
-    const { getByText } = within(
-      await screen.findByTestId(TestingValues.pagination)
-    );
+    const { getByText } = within(await screen.findByTestId("pagination"));
     expect(getByText("1")).toBeInTheDocument();
     expect(getByText("2")).toBeInTheDocument();
   });

@@ -1,8 +1,8 @@
 import React from "react";
 import { GridColDef } from "@mui/x-data-grid";
 import { JSONSchema7 } from "json-schema";
-import { Routes } from "../../../const/routes";
 import { Button } from "@mui/material";
+import { Routes } from "@etherdata-blockchain/common/src/configs/routes";
 
 export const jsonSchema: JSONSchema7 = {
   title: "Docker Image",

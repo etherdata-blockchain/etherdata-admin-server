@@ -1,17 +1,12 @@
 // @flow
 import * as React from "react";
 import { Alert, Box, Card, CardContent, List, Typography } from "@mui/material";
-import { Configurations } from "../../internal/const/configurations";
 import useSWR from "swr";
 import { getAxiosClient } from "../../internal/const/defaultValues";
-import { Routes } from "../../internal/const/routes";
-import { PaginationResult } from "../../internal/const/common_interfaces";
-import {
-  AnyValueType,
-  IPendingJob,
-} from "../../internal/services/dbSchema/queue/pending-job";
-import { BiRightArrow } from "react-icons/all";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
+import { configs, enums, interfaces } from "@etherdata-blockchain/common";
+import { schema } from "@etherdata-blockchain/storage-model";
+import { Routes } from "@etherdata-blockchain/common/src/configs/routes";
 
 type Props = {};
 
@@ -21,17 +16,19 @@ type Props = {};
  * @constructor
  */
 export function PendingJobPanel(props: Props) {
-  const { data, error } = useSWR<PaginationResult<IPendingJob<AnyValueType>>>(
+  const { data, error } = useSWR<
+    interfaces.PaginationResult<schema.IPendingJob<enums.AnyValueType>>
+  >(
     "jobs",
     async () => {
       const data = await getAxiosClient().get(Routes.pendingJobsAPIGet);
       return data.data;
     },
-    { refreshInterval: Configurations.defaultRefreshInterval }
+    { refreshInterval: configs.Configurations.defaultRefreshInterval }
   );
 
   return (
-    <Box width={Configurations.defaultMessagePanelWidth}>
+    <Box width={configs.Configurations.defaultMessagePanelWidth}>
       <List>
         {error && <Alert severity={"error"}>{`${error}`}</Alert>}
         {data?.results?.map((r) => (

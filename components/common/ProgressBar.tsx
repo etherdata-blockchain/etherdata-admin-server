@@ -1,4 +1,4 @@
-import { Fade, Grid } from "@mui/material";
+import {Fade, Grid} from "@mui/material";
 import React from "react";
 
 // eslint-disable-next-line require-jsdoc

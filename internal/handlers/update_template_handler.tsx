@@ -3,8 +3,8 @@ import { GridColDef } from "@mui/x-data-grid";
 import React from "react";
 import PlayCircleIcon from "@mui/icons-material/PlayCircle";
 import { Button, IconButton } from "@mui/material";
-import { Routes } from "../../../const/routes";
-import { DeviceIdField } from "../../../../components/update/DeviceIdField";
+import { DeviceIdField } from "../../components/update/DeviceIdField";
+import { Routes } from "@etherdata-blockchain/common/src/configs/routes";
 
 export const jsonSchema: JSONSchema7 = {
   description:
@@ -158,38 +158,6 @@ export const columns: GridColDef[] = [
     },
   },
 ];
-
-/**
- * Convert a {from, to} array to {from: to} Map based on targetKeys
- * @param data
- * @param targetKeys
- * @param root is Root?
- */
-export function convertFromToArrayToMap(
-  data: { [key: string]: any },
-  targetKeys: string[],
-  root = false
-) {
-  const deepCopied: { [key: string]: any } = root
-    ? JSON.parse(JSON.stringify(data))
-    : data;
-
-  for (const [key, value] of Object.entries(deepCopied)) {
-    if (targetKeys.includes(key)) {
-      const newMap: { [key: string]: any } = {};
-      for (const item of value) {
-        newMap[item.from] = item.to;
-      }
-      deepCopied[key] = newMap;
-      continue;
-    }
-
-    if (typeof value === "object") {
-      convertFromToArrayToMap(value, targetKeys, false);
-    }
-  }
-  return deepCopied;
-}
 
 export const UISchema = {
   targetDeviceIds: {

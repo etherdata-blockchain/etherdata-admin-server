@@ -2,20 +2,19 @@
 import * as React from "react";
 import { Autocomplete, TextField } from "@mui/material";
 import { throttle } from "lodash";
-import { Configurations } from "../../internal/const/configurations";
 import { getAxiosClient } from "../../internal/const/defaultValues";
-import { Routes } from "../../internal/const/routes";
+import { configs, utils } from "@etherdata-blockchain/common";
+import { schema } from "@etherdata-blockchain/storage-model";
 import qs from "query-string";
-import { IDockerImage } from "../../internal/services/dbSchema/docker/docker-image";
-import { expandImages } from "../../internal/services/dbSchema/install-script/install-script-utils";
+import { Routes } from "@etherdata-blockchain/common/src/configs/routes";
 
 type Props = {
-  defaultValues?: IDockerImage[];
+  defaultValues?: schema.IDockerImage[];
   selection: any;
   label: string;
   id: string;
   placeholder: string;
-  onChange(value: IDockerImage): void;
+  onChange(value: schema.IDockerImage): void;
 };
 
 /**
@@ -25,8 +24,8 @@ type Props = {
  * @constructor
  */
 export function DockerImageAutocompleteTextField(props: Props) {
-  const [options, setOptions] = React.useState<IDockerImage[]>(
-    expandImages(props.defaultValues ?? [])
+  const [options, setOptions] = React.useState<schema.IDockerImage[]>(
+    utils.expandImages(props.defaultValues ?? ([] as any)) as any
   );
   const [isLoading, setIsLoading] = React.useState(false);
 
@@ -38,7 +37,9 @@ export function DockerImageAutocompleteTextField(props: Props) {
         ? newValue.split(":")[0]
         : newValue;
       if (newValue.length === 0) {
-        setOptions(expandImages(props.defaultValues ?? []));
+        setOptions(
+          utils.expandImages(props.defaultValues ?? ([] as any)) as any
+        );
         return;
       }
       try {
@@ -48,12 +49,12 @@ export function DockerImageAutocompleteTextField(props: Props) {
           query: { key: searchKey },
         });
         const result = await getAxiosClient().get(url);
-        setOptions(expandImages(result.data));
+        setOptions(utils.expandImages(result.data) as any);
       } catch (e) {
       } finally {
         setIsLoading(false);
       }
-    }, Configurations.defaultThrottleDuration),
+    }, configs.Configurations.defaultThrottleDuration),
     []
   );
 
@@ -67,7 +68,7 @@ export function DockerImageAutocompleteTextField(props: Props) {
         <TextField {...params} variant="filled" label={props.label} />
       )}
       options={options}
-      getOptionLabel={(o: IDockerImage) => {
+      getOptionLabel={(o: schema.IDockerImage) => {
         if (o.tags?.length > 0) {
           return `${o.imageName}:${o.tags[0].tag}`;
         } else if (o.tag) {

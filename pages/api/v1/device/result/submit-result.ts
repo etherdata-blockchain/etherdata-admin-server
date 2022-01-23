@@ -1,16 +1,14 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { postOnlyMiddleware } from "../../../../../internal/nextHandler/postOnlyHandler";
-import { DeviceRegistrationPlugin } from "../../../../../internal/services/dbServices/device-registration-plugin";
-import { jwtVerificationHandler } from "../../../../../internal/nextHandler/jwt_verification_handler";
-import Logger from "../../../../../server/logger";
-import { JobResultPlugin } from "../../../../../internal/services/dbServices/job-result-plugin";
-import { IJobResult } from "../../../../../internal/services/dbSchema/queue/job-result";
 import { ObjectId } from "mongodb";
 import { StatusCodes } from "http-status-codes";
-import { PendingJobPlugin } from "../../../../../internal/services/dbServices/pending-job-plugin";
-import { ExecutionPlanPlugin } from "../../../../../internal/services/dbServices/execution-plan-plugin";
-import { IExecutionPlan } from "../../../../../internal/services/dbSchema/update-template/execution_plan";
-import { JobTaskType } from "../../../../../internal/services/dbSchema/queue/pending-job";
+import { enums } from "@etherdata-blockchain/common";
+import { dbServices } from "@etherdata-blockchain/services";
+import Logger from "@etherdata-blockchain/logger";
+import {
+  jwtVerificationHandler,
+  methodAllowedHandler,
+} from "@etherdata-blockchain/next-js-handlers";
+import HTTPMethod from "http-method-enum";
 
 type Data = {
   error?: string;
@@ -30,13 +28,17 @@ async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
   const returnData: Data = {};
 
   try {
-    const plugin = new JobResultPlugin();
-    const devicePlugin = new DeviceRegistrationPlugin();
-    const pendingJobPlugin = new PendingJobPlugin();
-    const executionPlanPlugin = new ExecutionPlanPlugin();
+    const jobResultService = new dbServices.JobResultService();
+    const deviceRegistrationService =
+      new dbServices.DeviceRegistrationService();
+    const pendingJobService = new dbServices.PendingJobService();
+    const executionPlanService = new dbServices.ExecutionPlanService();
 
-    const [authorized, newKey] = await devicePlugin.auth(user, key);
-    const pendingJob = await pendingJobPlugin.get(result.jobId);
+    const [authorized, newKey] = await deviceRegistrationService.auth(
+      user,
+      key
+    );
+    const pendingJob = await pendingJobService.get(result.jobId);
 
     if (pendingJob === undefined) {
       res
@@ -51,9 +53,9 @@ async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
       result._id = new ObjectId(result.jobId);
       returnData.key = newKey;
       // Update job result
-      await plugin.patch(result);
+      await jobResultService.patch(result);
 
-      if (pendingJob.task.type === JobTaskType.UpdateTemplate) {
+      if (pendingJob.task.type === enums.JobTaskType.UpdateTemplate) {
         // Update execution plan
         const plan: any = {
           description: `${result.result}`,
@@ -62,9 +64,9 @@ async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
           name: `${pendingJob.targetDeviceId} finished processing job`,
           updateTemplate: pendingJob.task.value,
         };
-        await executionPlanPlugin.create(plan, { upsert: false });
+        await executionPlanService.create(plan, { upsert: false });
       }
-      await pendingJobPlugin.delete(pendingJob._id);
+      await pendingJobService.delete(pendingJob._id);
       res.status(StatusCodes.CREATED).json(returnData);
     } else {
       returnData.error = "Device is not in our DB";
@@ -77,4 +79,6 @@ async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
   }
 }
 
-export default postOnlyMiddleware(jwtVerificationHandler(handler));
+export default methodAllowedHandler(jwtVerificationHandler(handler), [
+  HTTPMethod.POST,
+]);

@@ -1,16 +1,17 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { jwtVerificationHandler } from "../../../../../internal/nextHandler/jwt_verification_handler";
 import { StatusCodes } from "http-status-codes";
-import { methodAllowedHandler } from "../../../../../internal/nextHandler/method_allowed_handler";
 import HTTPMethod from "http-method-enum";
-import { UpdateScriptPlugin } from "../../../../../internal/services/dbServices/update-script-plugin";
-import { IUpdateTemplate } from "../../../../../internal/services/dbSchema/update-template/update-template";
-import { PendingJobPlugin } from "../../../../../internal/services/dbServices/pending-job-plugin";
-import { ExecutionPlanPlugin } from "../../../../../internal/services/dbServices/execution-plan-plugin";
-import { JobTaskType } from "../../../../../internal/services/dbSchema/queue/pending-job";
-import { IExecutionPlan } from "../../../../../internal/services/dbSchema/update-template/execution_plan";
+import { enums, interfaces } from "@etherdata-blockchain/common";
+import { dbServices } from "@etherdata-blockchain/services";
+import {
+  jwtVerificationHandler,
+  methodAllowedHandler,
+} from "@etherdata-blockchain/next-js-handlers";
 
-type Response = { err?: string; message?: string } | IUpdateTemplate | any;
+type Response =
+  | { err?: string; message?: string }
+  | interfaces.db.UpdateTemplateDBInterface
+  | any;
 
 /**
  * This will handle run request
@@ -22,11 +23,11 @@ type Response = { err?: string; message?: string } | IUpdateTemplate | any;
 async function handler(req: NextApiRequest, res: NextApiResponse<Response>) {
   const id = req.query.id;
   const { user } = req.body;
-  const updateScriptPlugin = new UpdateScriptPlugin();
-  const executionPlanPlugin = new ExecutionPlanPlugin();
-  const jobPlugin = new PendingJobPlugin();
+  const updateTemplateService = new dbServices.UpdateTemplateService();
+  const executionPlanService = new dbServices.ExecutionPlanService();
+  const pendingJobService = new dbServices.PendingJobService();
 
-  const script = await updateScriptPlugin.getUpdateTemplateWithDockerImage(
+  const script = await updateTemplateService.getUpdateTemplateWithDockerImage(
     id as string
   );
   if (script === undefined) {
@@ -37,7 +38,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse<Response>) {
   }
 
   //Clear previous runs
-  await executionPlanPlugin.delete(id);
+  await executionPlanService.delete(id);
 
   //@ts-ignore
   const startPlanData: IExecutionPlan = {
@@ -57,7 +58,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse<Response>) {
     updateTemplate: id,
   };
 
-  const startPlan = await executionPlanPlugin.create(startPlanData, {
+  const startPlan = await executionPlanService.create(startPlanData, {
     upsert: false,
   });
 
@@ -66,7 +67,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse<Response>) {
     targetDeviceId: d,
     from: user,
     task: {
-      type: JobTaskType.UpdateTemplate,
+      type: enums.JobTaskType.UpdateTemplate,
       value: {
         templateId: id,
       },
@@ -76,18 +77,18 @@ async function handler(req: NextApiRequest, res: NextApiResponse<Response>) {
   if (startPlan) {
     res.status(StatusCodes.OK).json({});
     try {
-      await jobPlugin.insertMany(pendingUpdateJobs);
+      await pendingJobService.insertMany(pendingUpdateJobs);
       startPlan!.isDone = true;
       resultData.description = "Update successfully";
       resultData.isDone = true;
-      await executionPlanPlugin.patch(startPlan);
-      await executionPlanPlugin.create(resultData, { upsert: false });
+      await executionPlanService.patch(startPlan);
+      await executionPlanService.create(resultData, { upsert: false });
     } catch (err) {
       startPlan.isDone = true;
       startPlan.isError = true;
       startPlan.description = `${err}`;
-      await executionPlanPlugin.patch(startPlan);
-      await executionPlanPlugin.create(resultData, { upsert: false });
+      await executionPlanService.patch(startPlan);
+      await executionPlanService.create(resultData, { upsert: false });
     }
   } else {
     res

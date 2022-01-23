@@ -4,31 +4,29 @@ import Box from "@mui/material/Box";
 import PageHeader from "../../../../components/common/PageHeader";
 import Spacer from "../../../../components/common/Spacer";
 import Form from "@rjsf/bootstrap-4";
-
-import {
-  jsonSchema,
-  UISchema,
-} from "../../../../internal/services/dbSchema/update-template/update-template-utils";
 import { UIProviderContext } from "../../../model/UIProvider";
 import {
   DefaultInstallationScriptTag,
   getAxiosClient,
 } from "../../../../internal/const/defaultValues";
-import { Routes } from "../../../../internal/const/routes";
 import { Backdrop, Button, CircularProgress } from "@mui/material";
 import { useRouter } from "next/dist/client/router";
 import { GetServerSideProps } from "next";
 import { ImageField } from "../../../../components/installation/DockerImageField";
-import {
-  IUpdateScriptWithDockerImage,
-  UpdateScriptPlugin,
-} from "../../../../internal/services/dbServices/update-script-plugin";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { IUpdateTemplate } from "../../../../internal/services/dbSchema/update-template/update-template";
 import { PaddingBox } from "../../../../components/common/PaddingBox";
 
+import { interfaces } from "@etherdata-blockchain/common";
+import { dbServices } from "@etherdata-blockchain/services";
+import { schema } from "@etherdata-blockchain/storage-model";
+import { Routes } from "@etherdata-blockchain/common/src/configs/routes";
+import {
+  jsonSchema,
+  UISchema,
+} from "../../../../internal/handlers/update_template_handler";
+
 type Props = {
-  updateTemplate: IUpdateScriptWithDockerImage;
+  updateTemplate: interfaces.db.UpdateTemplateWithDockerImageDBInterface;
 };
 
 /**
@@ -43,7 +41,7 @@ export default function Index({ updateTemplate }: Props) {
   const router = useRouter();
   const url = `${Routes.updateTemplateAPIEdit}/${updateTemplate._id}`;
 
-  const submitData = async (data: IUpdateTemplate) => {
+  const submitData = async (data: schema.IUpdateTemplate) => {
     setIsLoading(true);
     try {
       await getAxiosClient().patch(url, data);
@@ -119,7 +117,7 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
   context
 ) => {
   const id = context.query.id;
-  const updateScriptPlugin = new UpdateScriptPlugin();
+  const updateScriptPlugin = new dbServices.UpdateTemplateService();
 
   const [foundTemplate] = await Promise.all([
     updateScriptPlugin.getUpdateTemplateWithDockerImage(id as string),

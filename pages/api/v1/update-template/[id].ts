@@ -1,12 +1,17 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { jwtVerificationHandler } from "../../../../internal/nextHandler/jwt_verification_handler";
 import { StatusCodes } from "http-status-codes";
-import { methodAllowedHandler } from "../../../../internal/nextHandler/method_allowed_handler";
 import HTTPMethod from "http-method-enum";
-import { UpdateScriptPlugin } from "../../../../internal/services/dbServices/update-script-plugin";
-import { IUpdateTemplate } from "../../../../internal/services/dbSchema/update-template/update-template";
+import { interfaces } from "@etherdata-blockchain/common";
+import { dbServices } from "@etherdata-blockchain/services";
+import {
+  jwtVerificationHandler,
+  methodAllowedHandler,
+} from "@etherdata-blockchain/next-js-handlers";
 
-type Response = { err?: string; message?: string } | IUpdateTemplate | any;
+type Response =
+  | { err?: string; message?: string }
+  | interfaces.db.UpdateTemplateDBInterface
+  | any;
 
 /**
  * This will handle update template by id
@@ -19,8 +24,8 @@ type Response = { err?: string; message?: string } | IUpdateTemplate | any;
  */
 async function handler(req: NextApiRequest, res: NextApiResponse<Response>) {
   const id = req.query.id;
-  const updateScriptPlugin = new UpdateScriptPlugin();
-  const script = await updateScriptPlugin.getUpdateTemplateWithDockerImage(
+  const updateTemplateService = new dbServices.UpdateTemplateService();
+  const script = await updateTemplateService.getUpdateTemplateWithDockerImage(
     id as string
   );
   if (script === undefined) {
@@ -41,14 +46,14 @@ async function handler(req: NextApiRequest, res: NextApiResponse<Response>) {
       break;
 
     case "PATCH":
-      const patchResult = await updateScriptPlugin.create(data, {
+      const patchResult = await updateTemplateService.create(data, {
         upsert: true,
       });
       res.status(StatusCodes.OK).json(patchResult!);
       break;
 
     case "DELETE":
-      await updateScriptPlugin.delete(data);
+      await updateTemplateService.delete(data);
       res.status(StatusCodes.OK).json({ message: "OK" });
       break;
   }

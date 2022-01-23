@@ -4,8 +4,8 @@
 import { GridColDef } from "@mui/x-data-grid";
 import { JSONSchema7 } from "json-schema";
 import { Button } from "@mui/material";
-import { Routes } from "../../../const/routes";
 import React from "react";
+import { Routes } from "@etherdata-blockchain/common/src/configs/routes";
 
 export const jsonSchema: JSONSchema7 = {
   title: "Static Node",
