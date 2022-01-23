@@ -1,8 +1,11 @@
-import type {NextApiRequest, NextApiResponse} from "next";
+import type { NextApiRequest, NextApiResponse } from "next";
 import HTTPMethod from "http-method-enum";
-import {StatusCodes} from "http-status-codes";
-import {dbServices} from "@etherdata-blockchain/services";
-import {jwtVerificationHandler, methodAllowedHandler,} from "@etherdata-blockchain/next-js-handlers";
+import { StatusCodes } from "http-status-codes";
+import { dbServices } from "@etherdata-blockchain/services";
+import {
+  jwtVerificationHandler,
+  methodAllowedHandler,
+} from "@etherdata-blockchain/next-js-handlers";
 
 /**
  * Search devices by id

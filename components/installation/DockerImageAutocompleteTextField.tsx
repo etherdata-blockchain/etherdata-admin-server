@@ -25,7 +25,7 @@ type Props = {
  */
 export function DockerImageAutocompleteTextField(props: Props) {
   const [options, setOptions] = React.useState<schema.IDockerImage[]>(
-    utils.expandImages(props.defaultValues ?? [])
+    utils.expandImages(props.defaultValues ?? ([] as any)) as any
   );
   const [isLoading, setIsLoading] = React.useState(false);
 
@@ -37,7 +37,9 @@ export function DockerImageAutocompleteTextField(props: Props) {
         ? newValue.split(":")[0]
         : newValue;
       if (newValue.length === 0) {
-        setOptions(utils.expandImages(props.defaultValues ?? []));
+        setOptions(
+          utils.expandImages(props.defaultValues ?? ([] as any)) as any
+        );
         return;
       }
       try {
@@ -47,7 +49,7 @@ export function DockerImageAutocompleteTextField(props: Props) {
           query: { key: searchKey },
         });
         const result = await getAxiosClient().get(url);
-        setOptions(utils.expandImages(result.data));
+        setOptions(utils.expandImages(result.data) as any);
       } catch (e) {
       } finally {
         setIsLoading(false);
