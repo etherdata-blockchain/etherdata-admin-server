@@ -1,16 +1,18 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { jwtVerificationHandler } from "../../../../internal/nextHandler/jwt_verification_handler";
-import { paginationHandler } from "../../../../internal/nextHandler/paginationHandler";
-import { InstallationPlugin } from "../../../../internal/services/dbServices/installation-plugin";
 import { StatusCodes } from "http-status-codes";
-import { IInstallationTemplate } from "../../../../internal/services/dbSchema/install-script/install-script";
-import { PaginationResult } from "../../../../server/plugin/basePlugin";
-import { methodAllowedHandler } from "../../../../internal/nextHandler/method_allowed_handler";
 import HTTPMethod from "http-method-enum";
+import { interfaces } from "@etherdata-blockchain/common";
+import { dbServices } from "@etherdata-blockchain/services";
+import { schema } from "@etherdata-blockchain/storage-model";
+import {
+  jwtVerificationHandler,
+  methodAllowedHandler,
+  paginationHandler,
+} from "@etherdata-blockchain/next-js-handlers";
 
 type Response =
   | { err?: string; message?: string }
-  | PaginationResult<IInstallationTemplate>
+  | interfaces.PaginationResult<schema.IInstallationTemplate>
   | Buffer;
 
 /**
@@ -22,14 +24,14 @@ type Response =
  * @param {NextApiResponse} res
  */
 async function handler(req: NextApiRequest, res: NextApiResponse<Response>) {
-  const installScriptPlugin = new InstallationPlugin();
+  const installationService = new dbServices.InstallationService();
 
   /**
    * Will list templates by page number and page size
    */
   const handleListRequest = async () => {
     const { page, pageSize } = req.body;
-    const results = await installScriptPlugin.list(page, pageSize);
+    const results = await installationService.list(page, pageSize);
     res.status(StatusCodes.OK).json(results!);
   };
 
@@ -43,7 +45,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse<Response>) {
       ...req.body,
       created_by: user,
     };
-    const result = await installScriptPlugin.createWithValidation(data, {
+    const result = await installationService.createWithValidation(data, {
       upsert: false,
     });
     if (!result) {

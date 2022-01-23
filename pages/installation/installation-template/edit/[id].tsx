@@ -1,34 +1,31 @@
 // @flow
 import * as React from "react";
 import Box from "@mui/material/Box";
-import PageHeader from "../../../../components/PageHeader";
-import Spacer from "../../../../components/Spacer";
+import PageHeader from "../../../../components/common/PageHeader";
+import Spacer from "../../../../components/common/Spacer";
 import Form from "@rjsf/bootstrap-4";
 import "bootstrap/dist/css/bootstrap.min.css";
-import {
-  expandImages,
-  jsonSchema,
-  postprocessData,
-  preprocessData,
-} from "../../../../internal/services/dbSchema/install-script/install-script-utils";
+
 import { UIProviderContext } from "../../../model/UIProvider";
 import {
   DefaultInstallationScriptTag,
   getAxiosClient,
 } from "../../../../internal/const/defaultValues";
-import { Routes } from "../../../../internal/const/routes";
+
 import { Backdrop, Button, CircularProgress } from "@mui/material";
 import { useRouter } from "next/dist/client/router";
 import { GetServerSideProps } from "next";
-import { InstallationPlugin } from "../../../../internal/services/dbServices/installation-plugin";
-import { IInstallationTemplate } from "../../../../internal/services/dbSchema/install-script/install-script";
-import { ImageField } from "../create";
-import { DockerImagePlugin } from "../../../../internal/services/dbServices/docker-image-plugin";
-import { Configurations } from "../../../../internal/const/configurations";
+import { ImageField } from "../../../../components/installation/DockerImageField";
+import { PaddingBox } from "../../../../components/common/PaddingBox";
+import { configs } from "@etherdata-blockchain/common";
+import { dbServices } from "@etherdata-blockchain/services";
+import { schema } from "@etherdata-blockchain/storage-model";
+import { Routes } from "@etherdata-blockchain/common/src/configs/routes";
+import { jsonSchema } from "../../../../internal/handlers/update_template_handler";
 
 type Props = {
-  installationTemplate: IInstallationTemplate;
-  expandImages: any[];
+  installationTemplate: schema.IInstallationTemplate;
+  images: schema.IDockerImage[];
 };
 
 /**
@@ -36,19 +33,18 @@ type Props = {
  * @param{Props} props
  * @constructor
  */
-export default function Index({ installationTemplate, expandImages }: Props) {
+export default function Index({ installationTemplate, images }: Props) {
   const [isLoading, setIsLoading] = React.useState(false);
-  const [formData, setFormData] = React.useState(
-    preprocessData(installationTemplate)
-  );
+  const [formData, setFormData] = React.useState(installationTemplate);
   const { showSnackBarMessage } = React.useContext(UIProviderContext);
   const router = useRouter();
   const url = `${Routes.installationTemplatesAPIEdit}/${installationTemplate._id}`;
 
-  const submitData = async (data: any) => {
+  const submitData = async (data: schema.IInstallationTemplate) => {
     setIsLoading(true);
     try {
-      await getAxiosClient().patch(url, postprocessData(data));
+      // console.log(data);
+      await getAxiosClient().patch(url, data);
       await router.push(
         `${Routes.installation}?index=${DefaultInstallationScriptTag.installationTemplate}`
       );
@@ -67,7 +63,9 @@ export default function Index({ installationTemplate, expandImages }: Props) {
     setIsLoading(true);
     try {
       await getAxiosClient().delete(url);
-      await router.replace(Routes.installation);
+      await router.replace(
+        `${Routes.installation}?index=${DefaultInstallationScriptTag.installationTemplate}`
+      );
     } catch (e) {
       showSnackBarMessage(`${e}`);
     } finally {
@@ -83,40 +81,43 @@ export default function Index({ installationTemplate, expandImages }: Props) {
         action={<Button onClick={deleteData}>Delete</Button>}
       />
       <Spacer height={20} />
-      <Box
-        sx={{
-          flexGrow: 1,
-          bgcolor: "background.paper",
-          display: "flex",
-          padding: 3,
-        }}
-      >
-        <Form
-          schema={jsonSchema}
-          formData={formData}
-          onChange={(value) => {
-            setFormData(value.formData);
+      <PaddingBox>
+        <Box
+          sx={{
+            flexGrow: 1,
+            bgcolor: "background.paper",
+            display: "flex",
+            padding: 3,
           }}
-          onSubmit={async (data) => {
-            await submitData(data.formData);
-          }}
-          widgets={{ image: ImageField }}
-          uiSchema={{
-            services: {
-              items: {
-                service: {
-                  image: {
-                    "ui:widget": "image",
-                    "ui:options": {
-                      selections: expandImages,
+        >
+          <Form
+            schema={jsonSchema}
+            formData={formData}
+            liveValidate={true}
+            onChange={(value) => {
+              setFormData(value.formData);
+            }}
+            onSubmit={async (data) => {
+              await submitData(data.formData);
+            }}
+            widgets={{ image: ImageField }}
+            uiSchema={{
+              services: {
+                items: {
+                  service: {
+                    image: {
+                      "ui:ObjectFieldTemplate": ImageField,
+                      "ui:options": {
+                        images: images,
+                      },
                     },
                   },
                 },
               },
-            },
-          }}
-        />
-      </Box>
+            }}
+          />
+        </Box>
+      </PaddingBox>
       <Backdrop
         sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
         open={isLoading}
@@ -131,12 +132,15 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
   context
 ) => {
   const id = context.query.id;
-  const installationPlugin = new InstallationPlugin();
-  const dockerPlugin = new DockerImagePlugin();
+  const installationService = new dbServices.InstallationService();
+  const dockerImageService = new dbServices.DockerImageService();
 
   const [foundTemplate, images] = await Promise.all([
-    installationPlugin.get(id as string),
-    dockerPlugin.list(0, Configurations.numberPerPage),
+    installationService.getTemplateWithDockerImages(id as string),
+    dockerImageService.list(
+      configs.Configurations.defaultPaginationStartingPage,
+      configs.Configurations.numberPerPage
+    ),
   ]);
 
   if (!foundTemplate) {
@@ -145,9 +149,26 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
     };
   }
 
+  console.log(foundTemplate.services[0].service.image);
+  // @ts-ignore
+  foundTemplate.services = foundTemplate.services.map((s) => ({
+    ...s,
+    service: {
+      ...s.service,
+      image: {
+        ...s.service.image,
+        // @ts-ignore
+        tag: s.service.image.tag._id,
+        //@ts-ignore
+        image: s.service.image._id,
+        tags: [s.service.image.tag],
+      },
+    },
+  }));
+
   const data: Props = {
     installationTemplate: foundTemplate,
-    expandImages: expandImages(images?.results ?? []),
+    images: images?.results ?? [],
   };
   return {
     props: JSON.parse(JSON.stringify(data)),

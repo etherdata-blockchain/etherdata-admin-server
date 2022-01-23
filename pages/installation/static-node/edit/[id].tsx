@@ -1,25 +1,25 @@
-// @flow
 import * as React from "react";
 import Box from "@mui/material/Box";
-import PageHeader from "../../../../components/PageHeader";
-import Spacer from "../../../../components/Spacer";
+import PageHeader from "../../../../components/common/PageHeader";
+import Spacer from "../../../../components/common/Spacer";
 import Form from "@rjsf/bootstrap-4";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { jsonSchema } from "../../../../internal/services/dbSchema/install-script/static-node-utils";
 import { UIProviderContext } from "../../../model/UIProvider";
 import {
   DefaultInstallationScriptTag,
   getAxiosClient,
 } from "../../../../internal/const/defaultValues";
-import { Routes } from "../../../../internal/const/routes";
 import { Backdrop, Button, CircularProgress } from "@mui/material";
 import { useRouter } from "next/dist/client/router";
 import { GetServerSideProps } from "next";
-import { IStaticNode } from "../../../../internal/services/dbSchema/install-script/static-node";
-import { StaticNodePlugin } from "../../../../internal/services/dbServices/static-node-plugin";
+import { PaddingBox } from "../../../../components/common/PaddingBox";
+import { dbServices } from "@etherdata-blockchain/services";
+import { Routes } from "@etherdata-blockchain/common/src/configs/routes";
+import { schema } from "@etherdata-blockchain/storage-model";
+import { jsonSchema } from "../../../../internal/handlers/static_node_handler";
 
 type Props = {
-  staticNode: IStaticNode;
+  staticNode: schema.IStaticNode;
 };
 
 /**
@@ -72,23 +72,25 @@ export default function Index({ staticNode }: Props) {
         action={<Button onClick={deleteData}>Delete</Button>}
       />
       <Spacer height={20} />
-      <Box
-        sx={{
-          flexGrow: 1,
-          bgcolor: "background.paper",
-          display: "flex",
-          padding: 3,
-        }}
-      >
-        <Form
-          schema={jsonSchema}
-          formData={formData}
-          onChange={(v) => setFormData(v.formData)}
-          onSubmit={async (data) => {
-            await submitData(data.formData);
+      <PaddingBox>
+        <Box
+          sx={{
+            flexGrow: 1,
+            bgcolor: "background.paper",
+            display: "flex",
+            padding: 3,
           }}
-        />
-      </Box>
+        >
+          <Form
+            schema={jsonSchema}
+            formData={formData}
+            onChange={(v) => setFormData(v.formData)}
+            onSubmit={async (data) => {
+              await submitData(data.formData);
+            }}
+          />
+        </Box>
+      </PaddingBox>
       <Backdrop
         sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
         open={isLoading}
@@ -103,7 +105,7 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
   context
 ) => {
   const id = context.query.id;
-  const staticNodePlugin = new StaticNodePlugin();
+  const staticNodePlugin = new dbServices.StaticNodeService();
   const foundImage = await staticNodePlugin.get(id as string);
   if (!foundImage) {
     return {

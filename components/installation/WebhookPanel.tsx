@@ -2,14 +2,14 @@ import React from "react";
 import { Alert, Box } from "@mui/material";
 import Form from "@rjsf/bootstrap-4";
 import { Form as RForm } from "react-bootstrap";
+import join from "url-join";
+import Spacer from "../common/Spacer";
+import { configs } from "@etherdata-blockchain/common";
+import { Routes } from "@etherdata-blockchain/common/src/configs/routes";
 import {
   generateWebhookURL,
   schema,
-} from "../../internal/services/handlers/webhook_url_hanlder";
-import { Configurations } from "../../internal/const/configurations";
-import join from "url-join";
-import { Routes } from "../../internal/const/routes";
-import Spacer from "../Spacer";
+} from "../../internal/handlers/webhook_url_hanlder";
 
 interface Props {
   host: string;
@@ -30,8 +30,8 @@ export default function WebhookPanel({ host }: Props) {
   React.useEffect(() => {
     const result = generateWebhookURL(
       url,
-      Configurations.defaultWebhookUser,
-      Configurations.defaultExpireDuration
+      configs.Configurations.defaultWebhookUser,
+      configs.Configurations.defaultExpireDuration
     );
     setWebhookURL(result[1]!);
   }, []);

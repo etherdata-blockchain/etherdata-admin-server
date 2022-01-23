@@ -1,21 +1,20 @@
 // @flow
 import * as React from "react";
-import PageHeader from "../../components/PageHeader";
-import Spacer from "../../components/Spacer";
+import PageHeader from "../../components/common/PageHeader";
+import Spacer from "../../components/common/Spacer";
 import { UserTable } from "../../components/user/userTable";
-import ResponsiveCard from "../../components/ResponsiveCard";
+import ResponsiveCard from "../../components/common/ResponsiveCard";
 import { AddUserBtn } from "../../components/user/addUserBtn";
 import { GetServerSideProps } from "next";
-import {
-  PaginatedStorageUsers,
-  StorageManagementSystemPlugin,
-} from "../../internal/services/dbServices/storage-management-system-plugin";
 import { Pagination } from "@mui/material";
 import { useRouter } from "next/dist/client/router";
-import { TestingValues } from "../../internal/const/testingValues";
+import { PaddingBox } from "../../components/common/PaddingBox";
+import { interfaces } from "@etherdata-blockchain/common";
+import { dbServices } from "@etherdata-blockchain/services";
+import { schema } from "@etherdata-blockchain/storage-model";
 
 type Props = {
-  paginationResult: PaginatedStorageUsers;
+  paginationResult: interfaces.PaginationResult<schema.IStorageOwner>;
   currentPage: number;
 };
 
@@ -25,7 +24,7 @@ export default function User({ paginationResult, currentPage }: Props) {
   const router = useRouter();
 
   const handlePageChange = React.useCallback(async (page: number) => {
-    await router.push("/user?page=" + page);
+    await router?.push("/user?page=" + page);
   }, []);
 
   return (
@@ -36,23 +35,25 @@ export default function User({ paginationResult, currentPage }: Props) {
         action={<AddUserBtn />}
       />
       <Spacer height={20} />
-      <ResponsiveCard>
-        <Pagination
-          data-testid={TestingValues.pagination}
-          color={"primary"}
-          onChange={async (e, cur) => {
-            await handlePageChange(cur - 1);
-          }}
-          count={totalPage}
-          page={currentPage + 1}
-        />
-        <Spacer height={10} />
-        <UserTable
-          storageUser={paginationResult}
-          handlePageChange={handlePageChange}
-          currentPage={currentPage}
-        />
-      </ResponsiveCard>
+      <PaddingBox>
+        <ResponsiveCard>
+          <Pagination
+            data-testid={"pagination"}
+            color={"primary"}
+            onChange={async (e, cur) => {
+              await handlePageChange(cur);
+            }}
+            count={totalPage}
+            page={currentPage}
+          />
+          <Spacer height={10} />
+          <UserTable
+            storageUser={paginationResult}
+            handlePageChange={handlePageChange}
+            currentPage={currentPage}
+          />
+        </ResponsiveCard>
+      </PaddingBox>
     </div>
   );
 }
@@ -60,9 +61,10 @@ export default function User({ paginationResult, currentPage }: Props) {
 export const getServerSideProps: GetServerSideProps<Props> = async (
   context
 ) => {
-  const currentPage = parseInt((context.query.page as string) ?? "0");
-  const plugin = new StorageManagementSystemPlugin();
-  const users = await plugin.getUsers(currentPage);
+  const currentPage = parseInt((context.query.page as string) ?? "1");
+  const storageManagementOwnerService =
+    new dbServices.StorageManagementOwnerService();
+  const users = await storageManagementOwnerService.getListOfUsers(currentPage);
 
   return {
     props: {

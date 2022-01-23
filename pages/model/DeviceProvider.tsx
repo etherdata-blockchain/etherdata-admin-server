@@ -1,38 +1,21 @@
 import React from "react";
 import io, { Socket } from "socket.io-client";
 import { UIProviderContext } from "./UIProvider";
-import {
-  ClientFilter,
-  PaginationResult,
-} from "../../server/client/browserClient";
 import { ObjectId } from "bson";
-import { Environments } from "../../internal/const/environments";
-
-interface DockerValue {
-  method: "logs" | "start" | "stop" | "remove" | "restart" | "exec";
-  value: any;
-}
+import { RealtimeStatus } from "../../internal/const/common_interfaces";
+import { DefaultRealtimeStatus } from "../../internal/const/defaultValues";
+import { configs, enums } from "@etherdata-blockchain/common";
 
 interface DeviceInterface {
-  loadingData: boolean;
-  paginationResult?: PaginationResult;
-  filterKeyword: string;
+  realtimeStatus: RealtimeStatus;
 
-  setFilterKeyword(v: string): void;
-
-  sendDockerCommand(v: DockerValue): Promise<any>;
+  sendDockerCommand(v: enums.DockerValueType): Promise<any>;
 
   joinDetail(deviceId: string): void;
 
   leaveDetail(deviceId: string): void;
 
   sendCommand(methodName: string, params: any[]): Promise<any>;
-
-  handlePageChange(deviceIds: string[]): Promise<any>;
-
-  applyFilter(filter: ClientFilter): void;
-
-  clearFilter(): void;
 }
 
 // @ts-ignore
@@ -48,15 +31,16 @@ export let socket: Socket | undefined = undefined;
 export default function DeviceProvider(props: any) {
   const { children } = props;
   const { showSnackBarMessage } = React.useContext(UIProviderContext);
-  const [loadingData, setLoadingData] = React.useState(false);
-  const [filterKeyword, setFilterKeyword] = React.useState<string>("");
-  const [paginationResult, setPaginationResult] =
-    React.useState<PaginationResult>();
+  const [realtimeStatus, setRealtimeStatus] = React.useState<RealtimeStatus>(
+    DefaultRealtimeStatus
+  );
 
   React.useEffect(() => {
     socket = io("/clients", {
       auth: {
-        token: Environments.ClientSideEnvironments.NEXT_PUBLIC_CLIENT_PASSWORD,
+        token:
+          configs.Environments.ClientSideEnvironments
+            .NEXT_PUBLIC_CLIENT_PASSWORD,
       },
       transports: ["websocket"],
     });
@@ -65,36 +49,33 @@ export default function DeviceProvider(props: any) {
       showSnackBarMessage("Connected to admin socket server");
     });
 
-    socket.on("realtime-info", (paginationResult: PaginationResult) => {
-      setPaginationResult(paginationResult);
+    socket.on(
+      enums.SocketIOEvents.latestInfo,
+      ({ onlineCount, totalCount }) => {
+        console.log(onlineCount);
+        setRealtimeStatus((status) => {
+          status.onlineCount = onlineCount;
+          status.totalCount = totalCount;
+          return JSON.parse(JSON.stringify(status));
+        });
+      }
+    );
+
+    socket.on(enums.SocketIOEvents.pendingJob, (data: number) => {
+      setRealtimeStatus((status) => {
+        status.pendingJobNumber = data;
+        return JSON.parse(JSON.stringify(status));
+      });
     });
   }, []);
 
   const joinDetail = React.useCallback((deviceId: string) => {
-    socket?.emit("join-room", deviceId);
+    console.log("Joining room");
+    socket?.emit(enums.SocketIOEvents.joinRoom, deviceId);
   }, []);
 
   const leaveDetail = React.useCallback((deviceId: string) => {
-    socket?.emit("leave-room", deviceId);
-  }, []);
-
-  const applyFilter = React.useCallback((filter: ClientFilter) => {
-    socket?.emit("apply-filter", filter);
-  }, []);
-
-  const clearFilter = React.useCallback(() => {
-    socket?.emit("apply-filter", undefined);
-  }, []);
-
-  const handlePageChange = React.useCallback(async (deviceIds: string[]) => {
-    return new Promise((resolve, reject) => {
-      socket?.emit("page-change", deviceIds);
-      socket?.once("page-changed", () => {
-        setLoadingData(false);
-        resolve(true);
-      });
-      setLoadingData(true);
-    });
+    socket?.emit(enums.SocketIOEvents.leaveRoom, deviceId);
   }, []);
 
   const sendCommand = React.useCallback(
@@ -102,14 +83,14 @@ export default function DeviceProvider(props: any) {
       return new Promise((resolve, reject) => {
         const uuid = new ObjectId().toString();
         console.log(`Waiting for ${uuid}'s result`);
-        socket?.emit("rpc-command", { method, params }, uuid);
-        socket?.once(`rpc-result-${uuid}`, (data) => {
+        socket?.emit(enums.SocketIOEvents.rpcCommand, { method, params }, uuid);
+        socket?.once(`${enums.SocketIOEvents.rpcResult}-${uuid}`, (data) => {
           resolve(data);
-          socket?.off(`rpc-error-${uuid}`);
+          socket?.off(`${enums.SocketIOEvents.rpcError}-${uuid}`);
         });
-        socket?.once(`rpc-error-${uuid}`, (data) => {
+        socket?.once(`${enums.SocketIOEvents.rpcError}-${uuid}`, (data) => {
           reject(data);
-          socket?.off(`rpc-result-${uuid}`);
+          socket?.off(`${enums.SocketIOEvents.rpcResult}-${uuid}`);
         });
       });
     },
@@ -117,21 +98,23 @@ export default function DeviceProvider(props: any) {
   );
 
   const sendDockerCommand = React.useCallback(
-    (value: DockerValue) => {
+    (value: enums.DockerValueType) => {
       return new Promise((resolve, reject) => {
-        console.log("Getting logs");
         const uuid = new ObjectId().toString();
-        socket?.emit("docker-command", value, uuid);
-        socket?.once(`docker-result-${uuid}`, (value) => {
-          resolve(value);
-          socket?.off(`docker-result-${uuid}`);
-          socket?.off(`docker-error-${uuid}`);
-        });
+        socket?.emit(enums.SocketIOEvents.dockerCommand, value, uuid);
+        socket?.once(
+          `${enums.SocketIOEvents.dockerResult}-${uuid}`,
+          (value) => {
+            resolve(value);
+            socket?.off(`${enums.SocketIOEvents.dockerResult}t-${uuid}`);
+            socket?.off(`${enums.SocketIOEvents.dockerError}-${uuid}`);
+          }
+        );
 
-        socket?.once(`docker-error-${uuid}`, (value) => {
+        socket?.once(`${enums.SocketIOEvents.dockerError}-${uuid}`, (value) => {
           reject(value);
-          socket?.off(`docker-result-${uuid}`);
-          socket?.off(`docker-error-${uuid}`);
+          socket?.off(`${enums.SocketIOEvents.dockerResult}-${uuid}`);
+          socket?.off(`${enums.SocketIOEvents.dockerError}-${uuid}`);
         });
       });
     },
@@ -139,17 +122,11 @@ export default function DeviceProvider(props: any) {
   );
 
   const value: DeviceInterface = {
-    filterKeyword,
-    loadingData,
-    setFilterKeyword,
     joinDetail,
     leaveDetail,
     sendCommand,
-    handlePageChange,
-    paginationResult,
-    applyFilter,
-    clearFilter,
     sendDockerCommand,
+    realtimeStatus,
   };
 
   return (

@@ -1,10 +1,12 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { jwtVerificationHandler } from "../../../../internal/nextHandler/jwt_verification_handler";
-import { StaticNodePlugin } from "../../../../internal/services/dbServices/static-node-plugin";
-import { paginationHandler } from "../../../../internal/nextHandler/paginationHandler";
 import { StatusCodes } from "http-status-codes";
-import { methodAllowedHandler } from "../../../../internal/nextHandler/method_allowed_handler";
 import HTTPMethod from "http-method-enum";
+import { dbServices } from "@etherdata-blockchain/services";
+import {
+  jwtVerificationHandler,
+  methodAllowedHandler,
+  paginationHandler,
+} from "@etherdata-blockchain/next-js-handlers";
 
 /**
  * Sttaic node api will provide follow functionalities
@@ -14,15 +16,15 @@ import HTTPMethod from "http-method-enum";
  * @param{NextApiResponse} res
  */
 async function handler(req: NextApiRequest, res: NextApiResponse) {
-  const staticNodePlugin = new StaticNodePlugin();
+  const staticNodeService = new dbServices.StaticNodeService();
   switch (req.method) {
     case "GET":
       const { page, pageSize } = req.body;
-      const result = await staticNodePlugin.list(page, pageSize);
+      const result = await staticNodeService.list(page, pageSize);
       res.status(StatusCodes.OK).json(result);
       break;
     case "POST":
-      await staticNodePlugin.create(req.body, { upsert: false });
+      await staticNodeService.create(req.body, { upsert: false });
       res.status(StatusCodes.CREATED).json({});
       break;
   }

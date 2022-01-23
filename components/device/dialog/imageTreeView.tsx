@@ -6,9 +6,9 @@ import AccessTimeFilledIcon from "@mui/icons-material/AccessTimeFilled";
 import ArrowRightIcon from "@mui/icons-material/ArrowRight";
 import BuildIcon from "@mui/icons-material/Build";
 import AlbumIcon from "@mui/icons-material/Album";
-import { ImageInfo } from "dockerode";
+import {ImageInfo} from "dockerode";
 import moment from "moment";
-import { StyledTreeItem } from "./containerTreeView";
+import {StyledTreeItem} from "./containerTreeView";
 
 /**
  * Convert bytes to MB, GB, TB accordingly
@@ -28,7 +28,6 @@ function bytesToSize(bytes: number) {
  * @constructor
  */
 export default function ImageTreeView({ images }: { images: ImageInfo[] }) {
-  console.log(images);
   return (
     <TreeView
       aria-label="containers"
@@ -42,7 +41,7 @@ export default function ImageTreeView({ images }: { images: ImageInfo[] }) {
         <StyledTreeItem
           key={`image-${index}`}
           nodeId={`${index}`}
-          labelText={image.RepoTags.toString()}
+          labelText={`${image?.RepoTags?.toString()}`}
           labelIcon={ArchiveIcon}
         >
           <StyledTreeItem
@@ -67,7 +66,7 @@ export default function ImageTreeView({ images }: { images: ImageInfo[] }) {
             nodeId="7"
             labelText="Maintainer "
             labelIcon={AccessTimeFilledIcon}
-            labelInfo={image.Labels.maintainer}
+            labelInfo={`${image?.Labels?.maintainer}`}
             color="#a250f5"
             bgColor="#f3e8fd"
           />
