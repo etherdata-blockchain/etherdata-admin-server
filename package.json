@@ -10,7 +10,7 @@
     "start": "NODE_ENV=production node --max_old_space_size=8192 dist/server/app.js",
     "lint": "next lint",
     "test": "jest --forceExit --env=jsdom",
-    "release": "standard-version",
+    "release": "release-it",
     "cypress": "cypress open",
     "cypress:headless": "cypress run",
     "e2e": "start-server-and-test start http://localhost:3000 cypress",
@@ -84,6 +84,7 @@
     "@babel/preset-env": "^7.16.4",
     "@babel/preset-react": "^7.16.0",
     "@babel/preset-typescript": "^7.14.5",
+    "@release-it/conventional-changelog": "^4.1.0",
     "@shelf/jest-mongodb": "^2.0.1",
     "@testing-library/dom": "^8.1.0",
     "@testing-library/jest-dom": "^5.14.1",
@@ -101,28 +102,8 @@
     "jest": "^27.0.6",
     "node-mocks-http": "^1.10.1",
     "prettier": "^2.3.2",
-    "standard-version": "^9.3.1",
+    "release-it": "^14.12.3",
     "ts-node-dev": "^1.1.8",
     "typescript": "4.4.4"
-  },
-  "standard-version": {
-    "packageFiles": [
-      {
-        "filename": "./example_configs/k8s/deployment.yml",
-        "updater": "./example_configs/k8s/update-version.js"
-      },
-      {
-        "filename": "package.json"
-      }
-    ],
-    "bumpFiles": [
-      {
-        "filename": "./example_configs/k8s/deployment.yml",
-        "updater": "./example_configs/k8s/update-version.js"
-      },
-      {
-        "filename": "package.json"
-      }
-    ]
   }
 }
