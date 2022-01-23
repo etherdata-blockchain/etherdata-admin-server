@@ -1,7 +1,7 @@
 // @flow
 import * as React from "react";
 import { Box } from "@mui/material";
-import { Configurations } from "../../internal/const/configurations";
+import { configs } from "@etherdata-blockchain/common";
 
 type Props = {
   children: any;
@@ -16,8 +16,8 @@ export function PaddingBox(props: Props) {
   return (
     <Box
       style={{
-        paddingLeft: Configurations.defaultPadding,
-        paddingRight: Configurations.defaultPadding,
+        paddingLeft: configs.Configurations.defaultPadding,
+        paddingRight: configs.Configurations.defaultPadding,
       }}
     >
       {props.children}

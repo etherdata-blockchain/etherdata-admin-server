@@ -5,27 +5,27 @@ import PageHeader from "../../../../components/common/PageHeader";
 import Spacer from "../../../../components/common/Spacer";
 import Form from "@rjsf/bootstrap-4";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { jsonSchema } from "../../../../internal/services/dbSchema/install-script/install-script-utils";
+
 import { UIProviderContext } from "../../../model/UIProvider";
 import {
   DefaultInstallationScriptTag,
   getAxiosClient,
 } from "../../../../internal/const/defaultValues";
-import { Routes } from "../../../../internal/const/routes";
+
 import { Backdrop, Button, CircularProgress } from "@mui/material";
 import { useRouter } from "next/dist/client/router";
 import { GetServerSideProps } from "next";
-import { InstallationPlugin } from "../../../../internal/services/dbServices/installation-plugin";
-import { IInstallationTemplate } from "../../../../internal/services/dbSchema/install-script/install-script";
-import { DockerImagePlugin } from "../../../../internal/services/dbServices/docker-image-plugin";
-import { Configurations } from "../../../../internal/const/configurations";
 import { ImageField } from "../../../../components/installation/DockerImageField";
-import { IDockerImage } from "../../../../internal/services/dbSchema/docker/docker-image";
 import { PaddingBox } from "../../../../components/common/PaddingBox";
+import { configs } from "@etherdata-blockchain/common";
+import { dbServices } from "@etherdata-blockchain/services";
+import { schema } from "@etherdata-blockchain/storage-model";
+import { Routes } from "@etherdata-blockchain/common/src/configs/routes";
+import { jsonSchema } from "../../../../internal/handlers/update_template_handler";
 
 type Props = {
-  installationTemplate: IInstallationTemplate;
-  images: IDockerImage[];
+  installationTemplate: schema.IInstallationTemplate;
+  images: schema.IDockerImage[];
 };
 
 /**
@@ -40,7 +40,7 @@ export default function Index({ installationTemplate, images }: Props) {
   const router = useRouter();
   const url = `${Routes.installationTemplatesAPIEdit}/${installationTemplate._id}`;
 
-  const submitData = async (data: IInstallationTemplate) => {
+  const submitData = async (data: schema.IInstallationTemplate) => {
     setIsLoading(true);
     try {
       // console.log(data);
@@ -132,14 +132,14 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
   context
 ) => {
   const id = context.query.id;
-  const installationPlugin = new InstallationPlugin();
-  const dockerPlugin = new DockerImagePlugin();
+  const installationService = new dbServices.InstallationService();
+  const dockerImageService = new dbServices.DockerImageService();
 
   const [foundTemplate, images] = await Promise.all([
-    installationPlugin.getTemplateWithDockerImages(id as string),
-    dockerPlugin.list(
-      Configurations.defaultPaginationStartingPage,
-      Configurations.numberPerPage
+    installationService.getTemplateWithDockerImages(id as string),
+    dockerImageService.list(
+      configs.Configurations.defaultPaginationStartingPage,
+      configs.Configurations.numberPerPage
     ),
   ]);
 
@@ -159,6 +159,7 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
         ...s.service.image,
         // @ts-ignore
         tag: s.service.image.tag._id,
+        //@ts-ignore
         image: s.service.image._id,
         tags: [s.service.image.tag],
       },

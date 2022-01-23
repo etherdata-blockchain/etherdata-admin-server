@@ -4,14 +4,14 @@ import Box from "@mui/material/Box";
 import PageHeader from "../../../components/common/PageHeader";
 import Spacer from "../../../components/common/Spacer";
 import Form from "@rjsf/bootstrap-4";
-import { jsonSchema } from "../../../internal/services/dbSchema/docker/docker-image-utils";
 import { UIProviderContext } from "../../model/UIProvider";
 import { getAxiosClient } from "../../../internal/const/defaultValues";
-import { Routes } from "../../../internal/const/routes";
 import { Backdrop, CircularProgress } from "@mui/material";
 import { useRouter } from "next/dist/client/router";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { PaddingBox } from "../../../components/common/PaddingBox";
+import { jsonSchema } from "../../../internal/handlers/install_script_handler";
+import { Routes } from "@etherdata-blockchain/common/src/configs/routes";
 
 type Props = {};
 

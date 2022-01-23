@@ -13,11 +13,15 @@ interface UIProviderInterface {
   appBarTitleShow: boolean;
 
   setDrawerOpen(v: boolean): void;
+
   showSnackBarMessage(v: string): void;
+
   showAppBarTitle(v: string): void;
+
   hideAppBarTitle(): void;
 
   setMessageDrawerOpen(v: boolean): void;
+
   setMessageDrawerContent(c?: React.ReactElement): void;
 }
 

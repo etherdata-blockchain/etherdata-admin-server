@@ -1,13 +1,17 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { StatusCodes } from "http-status-codes";
-import { IExecutionPlan } from "../../../../../internal/services/dbSchema/update-template/execution_plan";
-import { methodAllowedHandler } from "../../../../../internal/nextHandler/method_allowed_handler";
-import { jwtVerificationHandler } from "../../../../../internal/nextHandler/jwt_verification_handler";
 import HTTPMethod from "http-method-enum";
-import { ExecutionPlanPlugin } from "../../../../../internal/services/dbServices/execution-plan-plugin";
-import { UpdateScriptPlugin } from "../../../../../internal/services/dbServices/update-script-plugin";
+import { interfaces } from "@etherdata-blockchain/common";
+import { dbServices } from "@etherdata-blockchain/services";
+import {
+  jwtVerificationHandler,
+  methodAllowedHandler,
+} from "@etherdata-blockchain/next-js-handlers";
 
-type Response = { err?: string; message?: string } | IExecutionPlan[] | any;
+type Response =
+  | { err?: string; message?: string }
+  | interfaces.db.ExecutionPlanDBInterface[]
+  | any;
 
 /**
  * This will handle get execution plans by update template
@@ -20,11 +24,11 @@ type Response = { err?: string; message?: string } | IExecutionPlan[] | any;
  */
 async function handler(req: NextApiRequest, res: NextApiResponse<Response>) {
   const id = req.query.id;
-  const executionPlanPlugin = new ExecutionPlanPlugin();
-  const updateTemplatePlugin = new UpdateScriptPlugin();
+  const executionPlanService = new dbServices.ExecutionPlanService();
+  const updateTemplateService = new dbServices.UpdateTemplateService();
 
-  const script = await updateTemplatePlugin.get(id as string);
-  if (script === undefined) {
+  const script = await updateTemplateService.get(id as string);
+  if (script === undefined || script === null) {
     res
       .status(StatusCodes.NOT_FOUND)
       .json({ err: `Cannot find update script with id: ${id}` });
@@ -37,20 +41,20 @@ async function handler(req: NextApiRequest, res: NextApiResponse<Response>) {
   };
 
   switch (req.method) {
-    case "GET":
-      const executionPlans = await executionPlanPlugin.getPlans(id as string);
+    case HTTPMethod.GET:
+      const executionPlans = await executionPlanService.getPlans(id as string);
       res.status(StatusCodes.OK).json(executionPlans);
       break;
 
-    case "POST":
-      const patchResult = await executionPlanPlugin.create(data, {
+    case HTTPMethod.POST:
+      const patchResult = await executionPlanService.create(data, {
         upsert: true,
       });
       res.status(StatusCodes.OK).json(patchResult!);
       break;
 
-    case "DELETE":
-      await executionPlanPlugin.delete(id);
+    case HTTPMethod.DELETE:
+      await executionPlanService.delete(id);
       res.status(StatusCodes.OK).json({ message: "OK" });
       break;
   }

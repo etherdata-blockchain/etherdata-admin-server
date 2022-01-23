@@ -1,10 +1,7 @@
 // @flow
 import * as React from "react";
 import { GetServerSideProps } from "next";
-import {
-  IUpdateScriptWithDockerImage,
-  UpdateScriptPlugin,
-} from "../../../../internal/services/dbServices/update-script-plugin";
+
 import {
   Box,
   Collapse,
@@ -17,28 +14,29 @@ import {
   Typography,
 } from "@mui/material";
 import useSWR from "swr";
-import { IExecutionPlan } from "../../../../internal/services/dbSchema/update-template/execution_plan";
-import { getAxiosClient } from "../../../../internal/const/defaultValues";
-import { Routes } from "../../../../internal/const/routes";
-import { Configurations } from "../../../../internal/const/configurations";
 import { PaddingBox } from "../../../../components/common/PaddingBox";
 import ResponsiveCard from "../../../../components/common/ResponsiveCard";
 import Spacer from "../../../../components/common/Spacer";
 import PageHeader from "../../../../components/common/PageHeader";
 import Form from "@rjsf/bootstrap-4";
-import {
-  jsonSchema,
-  UISchema,
-} from "../../../../internal/services/dbSchema/update-template/update-template-utils";
 import { ImageField } from "../../../../components/installation/DockerImageField";
 import "bootstrap/dist/css/bootstrap.min.css";
 import join from "url-join";
 import { PlayCircle } from "@mui/icons-material";
 import { LoadingButton } from "@mui/lab";
-import { sleep } from "../../../../internal/utils/sleep";
+import { interfaces, utils } from "@etherdata-blockchain/common";
+import { dbServices } from "@etherdata-blockchain/services";
+import { schema } from "@etherdata-blockchain/storage-model";
+import { getAxiosClient } from "../../../../internal/const/defaultValues";
+import { Routes } from "@etherdata-blockchain/common/src/configs/routes";
+import { Configurations } from "@etherdata-blockchain/common/src/configs/configurations";
+import {
+  jsonSchema,
+  UISchema,
+} from "../../../../internal/handlers/update_template_handler";
 
 type Props = {
-  updateTemplate: IUpdateScriptWithDockerImage;
+  updateTemplate: interfaces.db.UpdateTemplateWithDockerImageDBInterface;
 };
 
 /**
@@ -48,7 +46,7 @@ type Props = {
  */
 export default function Run(props: Props) {
   const [isLoading, setIsLoading] = React.useState(false);
-  const { data, error, isValidating } = useSWR<IExecutionPlan[]>(
+  const { data, error, isValidating } = useSWR<schema.IExecutionPlan[]>(
     { id: props.updateTemplate._id },
     async ({ id }) => {
       const data = await getAxiosClient().get(
@@ -62,7 +60,7 @@ export default function Run(props: Props) {
   const runPlan = React.useCallback(async () => {
     try {
       setIsLoading(true);
-      await sleep(1000);
+      await utils.sleep(1000);
       await getAxiosClient().post(
         join(Routes.updateTemplateAPIRun, props.updateTemplate._id)
       );
@@ -159,7 +157,7 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
   context
 ) => {
   const id = context.query.id;
-  const updateScriptPlugin = new UpdateScriptPlugin();
+  const updateScriptPlugin = new dbServices.UpdateTemplateService();
 
   const [foundTemplate] = await Promise.all([
     updateScriptPlugin.getUpdateTemplateWithDockerImage(id as string),

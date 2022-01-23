@@ -1,22 +1,12 @@
 import mock = jest.mock;
-
-global.TextEncoder = require("util").TextEncoder;
-global.TextDecoder = require("util").TextDecoder;
-
-import { MockConstant } from "../../data/mock_constant";
 import jwt from "jsonwebtoken";
 import mongoose from "mongoose";
-import { DockerImageModel } from "../../../internal/services/dbSchema/docker/docker-image";
 import { MongoMemoryServer } from "mongodb-memory-server";
 import handler from "../../../pages/api/v1/installation-template/index";
 import { createMocks } from "node-mocks-http";
-
-import {
-  MockDockerImage,
-  MockInstallationTemplateData,
-} from "../../data/mock_template_data";
+import { mockData } from "@etherdata-blockchain/common";
+import { schema } from "@etherdata-blockchain/storage-model";
 import { StatusCodes } from "http-status-codes";
-import { InstallationTemplateModel } from "../../../internal/services/dbSchema/install-script/install-script";
 import { expect } from "@jest/globals";
 
 mock("adm-zip");
@@ -25,26 +15,26 @@ describe("Given a installation template handler", () => {
   let dbServer: MongoMemoryServer;
   const oldEnv = process.env;
   const token = jwt.sign(
-    { user: MockConstant.mockTestingUser },
-    MockConstant.mockTestingSecret
+    { user: mockData.MockConstant.mockTestingUser },
+    mockData.MockConstant.mockTestingSecret
   );
 
   beforeAll(async () => {
     //@ts-ignore
     process.env = {
       ...oldEnv,
-      PUBLIC_SECRET: MockConstant.mockTestingSecret,
+      PUBLIC_SECRET: mockData.MockConstant.mockTestingSecret,
     };
     dbServer = await MongoMemoryServer.create();
     await mongoose.connect(
-      dbServer.getUri().concat(MockConstant.mockDatabaseName)
+      dbServer.getUri().concat(mockData.MockConstant.mockDatabaseName)
     );
   });
 
   afterEach(async () => {
     try {
-      await InstallationTemplateModel.collection.drop();
-      await DockerImageModel.collection.drop();
+      await schema.InstallationTemplateModel.collection.drop();
+      await schema.DockerImageModel.collection.drop();
     } catch (e) {}
   });
 
@@ -53,8 +43,12 @@ describe("Given a installation template handler", () => {
   });
 
   test("When sending a post request to the server with correct data", async () => {
-    const result = await DockerImageModel.create(MockDockerImage);
-    const reqData = JSON.parse(JSON.stringify(MockInstallationTemplateData));
+    const result = await schema.DockerImageModel.create(
+      mockData.MockDockerImage
+    );
+    const reqData = JSON.parse(
+      JSON.stringify(mockData.MockInstallationTemplateData)
+    );
     reqData.services[0].service.image.image = result._id;
     reqData.services[0].service.image.tag = result.tags[0]._id;
     const { req, res } = createMocks({
@@ -67,14 +61,18 @@ describe("Given a installation template handler", () => {
     //@ts-ignore
     await handler(req, res);
     expect(res._getStatusCode()).toBe(StatusCodes.CREATED);
-    expect(await InstallationTemplateModel.countDocuments()).toBe(1);
-    const data = await InstallationTemplateModel.findOne({}).exec();
-    expect(data.created_by).toBe(MockConstant.mockTestingUser);
+    expect(await schema.InstallationTemplateModel.countDocuments()).toBe(1);
+    const data = await schema.InstallationTemplateModel.findOne({}).exec();
+    expect(data.created_by).toBe(mockData.MockConstant.mockTestingUser);
   });
 
   test("When sending a post request to the server with incorrect image id but in right format", async () => {
-    const result = await DockerImageModel.create(MockDockerImage);
-    const reqData = JSON.parse(JSON.stringify(MockInstallationTemplateData));
+    const result = await schema.DockerImageModel.create(
+      mockData.MockDockerImage
+    );
+    const reqData = JSON.parse(
+      JSON.stringify(mockData.MockInstallationTemplateData)
+    );
     reqData.services[0].service.image.image = result._id;
     reqData.services[0].service.image.tag = result._id;
     const { req, res } = createMocks({
@@ -90,12 +88,16 @@ describe("Given a installation template handler", () => {
   });
 
   test("When sending a list request to the server", async () => {
-    const result = await DockerImageModel.create(MockDockerImage);
-    const reqData = JSON.parse(JSON.stringify(MockInstallationTemplateData));
+    const result = await schema.DockerImageModel.create(
+      mockData.MockDockerImage
+    );
+    const reqData = JSON.parse(
+      JSON.stringify(mockData.MockInstallationTemplateData)
+    );
     reqData.services[0].service.image.image = result._id;
     reqData.services[0].service.image.tag = result.tags[0]._id;
 
-    await InstallationTemplateModel.create(reqData);
+    await schema.InstallationTemplateModel.create(reqData);
     const { req, res } = createMocks({
       method: "GET",
       headers: {

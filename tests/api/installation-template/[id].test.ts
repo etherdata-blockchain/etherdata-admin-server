@@ -1,30 +1,18 @@
-global.TextEncoder = require("util").TextEncoder;
-global.TextDecoder = require("util").TextDecoder;
-
-import {
-  IInstallationTemplate,
-  InstallationTemplateModel,
-} from "../../../internal/services/dbSchema/install-script/install-script";
-import { MockConstant } from "../../data/mock_constant";
 import jwt from "jsonwebtoken";
 import mongoose from "mongoose";
 import { MongoMemoryServer } from "mongodb-memory-server";
 import { createMocks } from "node-mocks-http";
 import { StatusCodes } from "http-status-codes";
-import { MockStaticNode } from "../../data/mock_static_node";
 import handler from "../../../pages/api/v1/installation-template/[id]";
-import {
-  MockDockerImage,
-  MockInstallationTemplateData,
-} from "../../data/mock_template_data";
-import { DockerImageModel } from "../../../internal/services/dbSchema/docker/docker-image";
+import { mockData } from "@etherdata-blockchain/common";
+import { schema } from "@etherdata-blockchain/storage-model";
 
 describe("Given a installation template handler with index", () => {
   let dbServer: MongoMemoryServer;
   const oldEnv = process.env;
   const token = jwt.sign(
-    { user: MockConstant.mockTestingUser },
-    MockConstant.mockTestingSecret
+    { user: mockData.MockConstant.mockTestingUser },
+    mockData.MockConstant.mockTestingSecret
   );
   let templateId: string | undefined = undefined;
 
@@ -32,31 +20,33 @@ describe("Given a installation template handler with index", () => {
     //@ts-ignore
     process.env = {
       ...oldEnv,
-      PUBLIC_SECRET: MockConstant.mockTestingSecret,
+      PUBLIC_SECRET: mockData.MockConstant.mockTestingSecret,
     };
     dbServer = await MongoMemoryServer.create();
     await mongoose.connect(
-      dbServer.getUri().concat(MockConstant.mockDatabaseName)
+      dbServer.getUri().concat(mockData.MockConstant.mockDatabaseName)
     );
   });
 
   beforeEach(async () => {
-    const dockerImage = await DockerImageModel.create(MockDockerImage);
+    const dockerImage = await schema.DockerImageModel.create(
+      mockData.MockDockerImage
+    );
     const deepCopiedTemplate = JSON.parse(
-      JSON.stringify(MockInstallationTemplateData)
+      JSON.stringify(mockData.MockInstallationTemplateData)
     );
     deepCopiedTemplate.services[0].service.image.image = dockerImage._id;
     deepCopiedTemplate.services[0].service.image.tag = dockerImage.tags[0]._id;
 
-    const template = await InstallationTemplateModel.create(deepCopiedTemplate);
+    const template = await schema.InstallationTemplateModel.create(
+      deepCopiedTemplate
+    );
     templateId = `${template._id}`;
   });
 
   afterEach(async () => {
-    try {
-      await InstallationTemplateModel.collection.drop();
-      await DockerImageModel.collection.drop();
-    } catch (e) {}
+    await schema.InstallationTemplateModel.deleteMany({});
+    await schema.DockerImageModel.deleteMany({});
   });
 
   afterAll(() => {
@@ -75,10 +65,12 @@ describe("Given a installation template handler with index", () => {
     });
     //@ts-ignore
     await handler(req, res);
-    const result: IInstallationTemplate = res._getJSONData();
+    const result: schema.IInstallationTemplate = res._getJSONData();
     expect(res._getStatusCode()).toBe(StatusCodes.OK);
-    expect(result.template_tag).toBe(MockInstallationTemplateData.template_tag);
-    expect(result.version).toBe(MockInstallationTemplateData.version);
+    expect(result.template_tag).toBe(
+      mockData.MockInstallationTemplateData.template_tag
+    );
+    expect(result.version).toBe(mockData.MockInstallationTemplateData.version);
   });
 
   test("When sending a patch request to the server", async () => {
@@ -90,14 +82,16 @@ describe("Given a installation template handler with index", () => {
       query: {
         id: templateId,
       },
-      body: MockStaticNode,
+      body: mockData.MockStaticNode,
     });
     //@ts-ignore
     await handler(req, res);
-    const result: IInstallationTemplate = res._getJSONData();
+    const result: schema.IInstallationTemplate = res._getJSONData();
     expect(res._getStatusCode()).toBe(StatusCodes.OK);
-    expect(result.template_tag).toBe(MockInstallationTemplateData.template_tag);
-    expect(result.version).toBe(MockInstallationTemplateData.version);
+    expect(result.template_tag).toBe(
+      mockData.MockInstallationTemplateData.template_tag
+    );
+    expect(result.version).toBe(mockData.MockInstallationTemplateData.version);
   });
 
   test("When sending a delete request to the server", async () => {
@@ -109,7 +103,7 @@ describe("Given a installation template handler with index", () => {
       query: {
         id: templateId,
       },
-      body: MockStaticNode,
+      body: mockData.MockStaticNode,
     });
     //@ts-ignore
     await handler(req, res);
@@ -127,7 +121,7 @@ describe("Given a installation template handler with index", () => {
       query: {
         id: templateId,
       },
-      body: MockStaticNode,
+      body: mockData.MockStaticNode,
     });
     //@ts-ignore
     await handler(req, res);

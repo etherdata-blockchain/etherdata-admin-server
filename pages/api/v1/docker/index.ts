@@ -1,15 +1,17 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { IDockerImage } from "../../../../internal/services/dbSchema/docker/docker-image";
-import { DockerImagePlugin } from "../../../../internal/services/dbServices/docker-image-plugin";
 import { StatusCodes } from "http-status-codes";
-import { paginationHandler } from "../../../../internal/nextHandler/paginationHandler";
-import { jwtVerificationHandler } from "../../../../internal/nextHandler/jwt_verification_handler";
-import { PaginationResult } from "../../../../internal/const/common_interfaces";
+import { interfaces } from "@etherdata-blockchain/common";
+import { dbServices } from "@etherdata-blockchain/services";
+import { schema } from "@etherdata-blockchain/storage-model";
+import {
+  jwtVerificationHandler,
+  paginationHandler,
+} from "@etherdata-blockchain/next-js-handlers";
 
 type Response =
   | { err?: string; message?: string }
-  | PaginationResult<IDockerImage>
-  | IDockerImage;
+  | interfaces.PaginationResult<schema.IDockerImage>
+  | schema.IDockerImage;
 
 /**
  * Handle docker update, delete, and list request.
@@ -24,15 +26,15 @@ type Response =
  * @param {NextApiResponse} res
  */
 async function handler(req: NextApiRequest, res: NextApiResponse<Response>) {
-  const dockerPlugin = new DockerImagePlugin();
+  const dockerImageService = new dbServices.DockerImageService();
   switch (req.method) {
     case "POST":
-      await dockerPlugin.create(req.body, { upsert: false });
+      await dockerImageService.create(req.body, { upsert: false });
       res.status(StatusCodes.CREATED).json({});
       break;
     case "GET":
       const { page, pageSize } = req.body;
-      const result = await dockerPlugin.list(page, pageSize);
+      const result = await dockerImageService.list(page, pageSize);
       res.status(StatusCodes.OK).json(result!);
       break;
   }

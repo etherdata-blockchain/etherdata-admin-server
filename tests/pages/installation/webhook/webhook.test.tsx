@@ -1,11 +1,8 @@
-import { createMatchMedia } from "../../../utils/utils";
 import { fireEvent, render } from "@testing-library/react";
 import React from "react";
 import WebhookPanel from "../../../../components/installation/WebhookPanel";
-import { Configurations } from "../../../../internal/const/configurations";
-import { MockURL } from "../../../data/mock_url";
-import { MockConstant } from "../../../data/mock_constant";
 import { beforeUITest } from "../../../utils/ui-test";
+import { configs, mockData } from "@etherdata-blockchain/common";
 
 describe("Given a webhook panel", () => {
   beforeAll(() => {
@@ -13,13 +10,15 @@ describe("Given a webhook panel", () => {
   });
 
   test("When rendering the page", async () => {
-    const screen = await render(<WebhookPanel host={MockURL.mockHTTPURL} />);
+    const screen = await render(
+      <WebhookPanel host={mockData.MockURL.mockHTTPURL} />
+    );
     const expireField = screen.getByDisplayValue(
-      Configurations.defaultExpireDuration
+      configs.Configurations.defaultExpireDuration
     ) as HTMLInputElement;
 
     const userField = screen.getByDisplayValue(
-      Configurations.defaultWebhookUser
+      configs.Configurations.defaultWebhookUser
     ) as HTMLInputElement;
     const webhookField = screen.getByTestId("webhook-url") as HTMLInputElement;
 

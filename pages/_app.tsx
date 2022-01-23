@@ -1,20 +1,20 @@
-import type { AppProps } from "next/app";
+import type {AppProps} from "next/app";
 import Layout from "../components/common/layout";
-import { createTheme, CssBaseline, ThemeProvider } from "@mui/material";
+import {createTheme, CssBaseline, ThemeProvider} from "@mui/material";
 import "../styles/globals.css";
 import UIProviderProvider from "./model/UIProvider";
 import React from "react";
 import * as Realm from "realm-web";
-import { Home, Person, PieChart, Settings } from "@mui/icons-material";
+import {Home, Person, PieChart, Settings} from "@mui/icons-material";
 import NextNprogress from "nextjs-progressbar";
 import DownloadingIcon from "@mui/icons-material/Downloading";
 import BrowserUpdatedIcon from "@mui/icons-material/BrowserUpdated";
-import { Environments } from "../internal/const/environments";
-import { Routes } from "../internal/const/routes";
 
+import {configs} from "@etherdata-blockchain/common";
+import {Routes} from "@etherdata-blockchain/common/src/configs/routes";
 // Setup realm for login
 export const realmApp = new Realm.App({
-  id: Environments.ClientSideEnvironments.NEXT_PUBLIC_APP_ID,
+  id: configs.Environments.ClientSideEnvironments.NEXT_PUBLIC_APP_ID,
 });
 const darkTheme = createTheme({
   components: {

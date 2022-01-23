@@ -18,21 +18,18 @@ import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
 import queryString from "query-string";
 import ResponsiveCard from "../../components/common/ResponsiveCard";
 import { RewardDisplay } from "../../components/user/rewardDisplay";
-import { weiToETD } from "../../internal/utils/weiToETD";
 import { DeviceTable } from "../../components/device/deviceTable";
 import { ETDContext } from "../model/ETDProvider";
-import { Configurations } from "../../internal/const/configurations";
 import StorageIcon from "@material-ui/icons/Storage";
 import style from "../../styles/Device.module.css";
 import ComputerIcon from "@material-ui/icons/Computer";
 import { DeviceAction } from "../../components/device/deviceAction";
-import { Environments } from "../../internal/const/environments";
 import useSWR from "swr";
 import { getAxiosClient } from "../../internal/const/defaultValues";
-import { Routes } from "../../internal/const/routes";
-import { PaginationResult } from "../../internal/const/common_interfaces";
-import { IStorageItem } from "../../internal/services/dbSchema/device/storage/item";
 import { PaddingBox } from "../../components/common/PaddingBox";
+import { configs, interfaces, utils } from "@etherdata-blockchain/common";
+import { Routes } from "@etherdata-blockchain/common/src/configs/routes";
+import { schema } from "@etherdata-blockchain/storage-model";
 
 interface Props {
   coinbase: string | undefined;
@@ -68,8 +65,13 @@ export default function ({
 }: Props) {
   const router = useRouter();
   const { history } = React.useContext(ETDContext);
-  const { data, error } = useSWR<PaginationResult<IStorageItem>>(
-    { userID, page },
+  const { data, error } = useSWR<
+    interfaces.PaginationResult<schema.IStorageItem>
+  >(
+    {
+      userID,
+      page,
+    },
     async (key) => {
       const result = await getAxiosClient().get(
         queryString.stringifyUrl({
@@ -134,7 +136,7 @@ export default function ({
                 title={"Balance"}
                 color={"#7ed1e6"}
                 iconColor={"#ffffff"}
-                subtitle={`${weiToETD(user.balance)} ETD`}
+                subtitle={`${utils.weiToETD(user.balance)} ETD`}
                 subtitleColor={"white"}
               />
               <Spacer height={20} />
@@ -156,7 +158,7 @@ export default function ({
                       <ListItem>
                         <ListItemText
                           primary={t.time}
-                          secondary={`${weiToETD(t.value)} ETD - ${
+                          secondary={`${utils.weiToETD(t.value)} ETD - ${
                             t.from.toLowerCase() === coinbase.toLowerCase()
                               ? "Sent"
                               : "Received"
@@ -181,7 +183,7 @@ export default function ({
             currentPageNumber={currentPage}
             totalPageNumber={data?.totalPage ?? 0}
             totalNumRows={data?.count ?? 0}
-            numPerPage={data?.pageSize ?? Configurations.numberPerPage}
+            numPerPage={data?.pageSize ?? configs.Configurations.numberPerPage}
             onPageChanged={async (page) => {
               //TODO
               if (page < 1) {
@@ -218,14 +220,14 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
       `api/v2/miningReward/${coinbase}?start=${prev.format(
         "YYYY-MM-DD"
       )}&end=${moment().format("YYYY-MM-DD")}`,
-      Environments.ServerSideEnvironments.STATS_SERVER!
+      configs.Environments.ServerSideEnvironments.STATS_SERVER!
     );
     const miningRewardsPromise = axios.get(miningUrl.toString());
 
     // Get recent transactions
     const txURL = new URL(
       `/api/v2/transactions/${coinbase}`,
-      Environments.ServerSideEnvironments.STATS_SERVER!
+      configs.Environments.ServerSideEnvironments.STATS_SERVER!
     );
     const userResultPromise = axios.get(txURL.toString());
 

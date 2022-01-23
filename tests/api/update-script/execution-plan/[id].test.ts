@@ -1,39 +1,19 @@
-global.TextEncoder = require("util").TextEncoder;
-global.TextDecoder = require("util").TextDecoder;
-
 import { ObjectId } from "mongodb";
-
-import { MockConstant } from "../../../data/mock_constant";
 import jwt from "jsonwebtoken";
 import mongoose from "mongoose";
 import { MongoMemoryServer } from "mongodb-memory-server";
 import handler from "../../../../pages/api/v1/update-template/execution-plan/[id]";
-
+import { interfaces, mockData } from "@etherdata-blockchain/common";
+import { schema } from "@etherdata-blockchain/storage-model";
 import { createMocks } from "node-mocks-http";
 import { StatusCodes } from "http-status-codes";
-import { UpdateScriptModel } from "../../../../internal/services/dbSchema/update-template/update-template";
-import { DockerImageModel } from "../../../../internal/services/dbSchema/docker/docker-image";
-import { MockDockerImage } from "../../../data/mock_docker_data";
-import { MockUpdateScriptData } from "../../../data/mock_update_script_data";
-import {
-  ExecutionPlanModel,
-  IExecutionPlan,
-} from "../../../../internal/services/dbSchema/update-template/execution_plan";
-import {
-  MockExecutionPlanDescription,
-  MockExecutionPlanDescription2,
-  MockExecutionPlanDescription3,
-  MockExecutionPlanName,
-  MockExecutionPlanName2,
-  MockExecutionPlanName3,
-} from "../../../data/mock_execution_plan";
 
 describe("Given a update script api handler", () => {
   let dbServer: MongoMemoryServer;
   const oldEnv = process.env;
   const token = jwt.sign(
-    { user: MockConstant.mockTestingUser },
-    MockConstant.mockTestingSecret
+    { user: mockData.MockConstant.mockTestingUser },
+    mockData.MockConstant.mockTestingSecret
   );
 
   let mockUpdateScriptData: any;
@@ -42,21 +22,25 @@ describe("Given a update script api handler", () => {
     //@ts-ignore
     process.env = {
       ...oldEnv,
-      PUBLIC_SECRET: MockConstant.mockTestingSecret,
+      PUBLIC_SECRET: mockData.MockConstant.mockTestingSecret,
     };
     dbServer = await MongoMemoryServer.create();
     await mongoose.connect(
-      dbServer.getUri().concat(MockConstant.mockDatabaseName)
+      dbServer.getUri().concat(mockData.MockConstant.mockDatabaseName)
     );
   });
 
   beforeEach(async () => {
-    const data = (await DockerImageModel.create(MockDockerImage)).toJSON();
+    const data = (
+      await schema.DockerImageModel.create(mockData.MockDockerImage)
+    ).toJSON();
 
     const imageId = data._id;
     const tagId = data.tags[0]._id;
 
-    mockUpdateScriptData = JSON.parse(JSON.stringify(MockUpdateScriptData));
+    mockUpdateScriptData = JSON.parse(
+      JSON.stringify(mockData.MockUpdateScriptData)
+    );
 
     mockUpdateScriptData.imageStacks[0].tag = tagId;
     mockUpdateScriptData.imageStacks[0].image = imageId;
@@ -66,10 +50,8 @@ describe("Given a update script api handler", () => {
   });
 
   afterEach(async () => {
-    try {
-      await UpdateScriptModel.collection.drop();
-      await DockerImageModel.collection.drop();
-    } catch (e) {}
+    await schema.UpdateScriptModel.deleteMany({});
+    await schema.DockerImageModel.deleteMany({});
   });
 
   afterAll(() => {
@@ -77,26 +59,26 @@ describe("Given a update script api handler", () => {
   });
 
   test("When calling get", async () => {
-    const updateScriptData = await UpdateScriptModel.create(
+    const updateScriptData = await schema.UpdateScriptModel.create(
       mockUpdateScriptData
     );
 
-    await ExecutionPlanModel.create({
+    await schema.ExecutionPlanModel.create({
       updateTemplate: updateScriptData._id,
-      name: MockExecutionPlanName,
-      description: MockExecutionPlanDescription,
+      name: mockData.MockExecutionPlanName,
+      description: mockData.MockExecutionPlanDescription,
     });
 
-    await ExecutionPlanModel.create({
+    await schema.ExecutionPlanModel.create({
       updateTemplate: updateScriptData._id,
-      name: MockExecutionPlanName2,
-      description: MockExecutionPlanDescription2,
+      name: mockData.MockExecutionPlanName2,
+      description: mockData.MockExecutionPlanDescription2,
     });
 
-    await ExecutionPlanModel.create({
+    await schema.ExecutionPlanModel.create({
       updateTemplate: updateScriptData._id,
-      name: MockExecutionPlanName3,
-      description: MockExecutionPlanDescription3,
+      name: mockData.MockExecutionPlanName3,
+      description: mockData.MockExecutionPlanDescription3,
     });
 
     const { req, res } = createMocks({
@@ -112,34 +94,34 @@ describe("Given a update script api handler", () => {
     await handler(req, res);
     expect(res.statusCode).toBe(StatusCodes.OK);
 
-    const data: IExecutionPlan[] = res._getJSONData();
+    const data: interfaces.db.ExecutionPlanDBInterface[] = res._getJSONData();
     expect(data.length).toBe(3);
-    expect(data[0].name).toBe(MockExecutionPlanName);
-    expect(data[1].name).toBe(MockExecutionPlanName2);
-    expect(data[2].name).toBe(MockExecutionPlanName3);
+    expect(data[0].name).toBe(mockData.MockExecutionPlanName);
+    expect(data[1].name).toBe(mockData.MockExecutionPlanName2);
+    expect(data[2].name).toBe(mockData.MockExecutionPlanName3);
   });
 
   test("When calling delete", async () => {
-    const updateScriptData = await UpdateScriptModel.create(
+    const updateScriptData = await schema.UpdateScriptModel.create(
       mockUpdateScriptData
     );
 
-    await ExecutionPlanModel.create({
+    await schema.ExecutionPlanModel.create({
       updateTemplate: updateScriptData._id,
-      name: MockExecutionPlanName,
-      description: MockExecutionPlanDescription,
+      name: mockData.MockExecutionPlanName,
+      description: mockData.MockExecutionPlanDescription,
     });
 
-    await ExecutionPlanModel.create({
+    await schema.ExecutionPlanModel.create({
       updateTemplate: updateScriptData._id,
-      name: MockExecutionPlanName2,
-      description: MockExecutionPlanDescription2,
+      name: mockData.MockExecutionPlanName2,
+      description: mockData.MockExecutionPlanDescription2,
     });
 
-    await ExecutionPlanModel.create({
+    await schema.ExecutionPlanModel.create({
       updateTemplate: updateScriptData._id,
-      name: MockExecutionPlanName3,
-      description: MockExecutionPlanDescription3,
+      name: mockData.MockExecutionPlanName3,
+      description: mockData.MockExecutionPlanDescription3,
     });
 
     const { req, res } = createMocks({
@@ -156,14 +138,14 @@ describe("Given a update script api handler", () => {
     expect(res.statusCode).toBe(StatusCodes.OK);
 
     expect(
-      await ExecutionPlanModel.countDocuments({
+      await schema.ExecutionPlanModel.countDocuments({
         updateTemplate: updateScriptData._id,
       })
     ).toBe(0);
   });
 
   test("When calling create", async () => {
-    const updateScriptData = await UpdateScriptModel.create(
+    const updateScriptData = await schema.UpdateScriptModel.create(
       mockUpdateScriptData
     );
 
@@ -176,8 +158,8 @@ describe("Given a update script api handler", () => {
         id: updateScriptData._id.toString(),
       },
       data: {
-        name: MockExecutionPlanName,
-        description: MockExecutionPlanDescription,
+        name: mockData.MockExecutionPlanName,
+        description: mockData.MockExecutionPlanDescription,
       },
     });
     //@ts-ignore
@@ -185,14 +167,14 @@ describe("Given a update script api handler", () => {
     expect(res.statusCode).toBe(StatusCodes.OK);
 
     expect(
-      await ExecutionPlanModel.countDocuments({
+      await schema.ExecutionPlanModel.countDocuments({
         updateTemplate: updateScriptData._id,
       })
     ).toBe(1);
   });
 
   test("When calling create without id", async () => {
-    await UpdateScriptModel.create(mockUpdateScriptData);
+    await schema.UpdateScriptModel.create(mockUpdateScriptData);
 
     const { req, res } = createMocks({
       method: "POST",
@@ -203,8 +185,8 @@ describe("Given a update script api handler", () => {
         id: new ObjectId(),
       },
       data: {
-        name: MockExecutionPlanName,
-        description: MockExecutionPlanDescription,
+        name: mockData.MockExecutionPlanName,
+        description: mockData.MockExecutionPlanDescription,
       },
     });
     //@ts-ignore

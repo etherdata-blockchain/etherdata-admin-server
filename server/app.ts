@@ -2,12 +2,10 @@ import next from "next";
 import express from "express";
 import { Server } from "./server";
 import mongoose from "mongoose";
-import Logger from "./logger";
-import { ClientPlugin } from "./plugin/plugins/socketIOPlugins/clientPlugin";
 import { createServer } from "http";
-import { AppPlugin } from "./plugin/plugins/socketIOPlugins/appPlugin";
-import { DBChangePlugin } from "./plugin/plugins/socketIOPlugins/dbPlugin";
-import { Environments } from "../internal/const/environments";
+import { configs } from "@etherdata-blockchain/common";
+import { socketServices } from "@etherdata-blockchain/services";
+import Logger from "@etherdata-blockchain/logger";
 
 const port = parseInt(process.env.PORT!, 10) || 3000;
 const dev = process.env.NODE_ENV !== "production";
@@ -18,18 +16,21 @@ nextApp.prepare().then(async () => {
   const server = express();
   const httpServer = createServer(server);
   const plugins: any[] = [
-    new ClientPlugin(),
-    new AppPlugin(),
-    new DBChangePlugin(),
+    new socketServices.ClientService(),
+    new socketServices.APpService(),
+    new socketServices.DBChangePlugin(),
   ];
   const socketIOServer = new Server(plugins);
 
   // @ts-ignore
   global.nodePlugin = plugins[0];
 
-  await mongoose.connect(Environments.ServerSideEnvironments.MONGODB_URL, {
-    dbName: "etd",
-  });
+  await mongoose.connect(
+    configs.Environments.ServerSideEnvironments.MONGODB_URL,
+    {
+      dbName: "etd",
+    }
+  );
   Logger.info("Connected to database");
 
   await socketIOServer.start(httpServer);

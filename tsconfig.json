@@ -23,10 +23,9 @@
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
-    "server.js"
+    "server.js",
   ],
   "exclude": [
-    "node_modules",
     "cypress"
   ]
 }

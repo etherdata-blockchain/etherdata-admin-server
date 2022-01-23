@@ -1,16 +1,9 @@
-global.TextEncoder = require("util").TextEncoder;
-global.TextDecoder = require("util").TextDecoder;
-
 import { createMocks } from "node-mocks-http";
-import { MockConstant } from "../../data/mock_constant";
 import jwt from "jsonwebtoken";
 import mongoose from "mongoose";
 import { MongoMemoryServer } from "mongodb-memory-server";
-import {
-  DockerImageModel,
-  IDockerImage,
-} from "../../../internal/services/dbSchema/docker/docker-image";
-import { MockDockerImage, MockDockerImage2 } from "../../data/mock_docker_data";
+import { interfaces, mockData } from "@etherdata-blockchain/common";
+import { schema } from "@etherdata-blockchain/storage-model";
 import handler from "../../../pages/api/v1/docker/search";
 import { StatusCodes } from "http-status-codes";
 
@@ -18,29 +11,29 @@ describe("Given a docker image handler with index", () => {
   let dbServer: MongoMemoryServer;
   const oldEnv = process.env;
   const token = jwt.sign(
-    { user: MockConstant.mockTestingUser },
-    MockConstant.mockTestingSecret
+    { user: mockData.MockConstant.mockTestingUser },
+    mockData.MockConstant.mockTestingSecret
   );
 
   beforeAll(async () => {
     //@ts-ignore
     process.env = {
       ...oldEnv,
-      PUBLIC_SECRET: MockConstant.mockTestingSecret,
+      PUBLIC_SECRET: mockData.MockConstant.mockTestingSecret,
     };
     dbServer = await MongoMemoryServer.create();
     await mongoose.connect(
-      dbServer.getUri().concat(MockConstant.mockDatabaseName)
+      dbServer.getUri().concat(mockData.MockConstant.mockDatabaseName)
     );
   });
 
   beforeEach(async () => {
-    await DockerImageModel.ensureIndexes();
+    await schema.DockerImageModel.ensureIndexes();
   });
 
   afterEach(async () => {
     try {
-      await DockerImageModel.collection.drop();
+      await schema.DockerImageModel.collection.drop();
     } catch (e) {}
   });
 
@@ -49,8 +42,8 @@ describe("Given a docker image handler with index", () => {
   });
 
   test("When searching with text", async () => {
-    await DockerImageModel.create(MockDockerImage);
-    await DockerImageModel.create(MockDockerImage2);
+    await schema.DockerImageModel.create(mockData.MockDockerImage);
+    await schema.DockerImageModel.create(mockData.MockDockerImage2);
 
     const { req, res } = createMocks({
       method: "GET",
@@ -58,12 +51,12 @@ describe("Given a docker image handler with index", () => {
         Authorization: "Bearer " + token,
       },
       query: {
-        key: MockDockerImage.imageName,
+        key: mockData.MockDockerImage.imageName,
       },
     });
     //@ts-ignore
     await handler(req, res);
-    const result: IDockerImage[] = res._getJSONData();
+    const result: interfaces.db.DockerImageDBInterface[] = res._getJSONData();
     expect(res._getStatusCode()).toBe(StatusCodes.OK);
     expect(result.length).toBeGreaterThanOrEqual(1);
   });

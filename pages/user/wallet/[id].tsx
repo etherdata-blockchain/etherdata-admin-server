@@ -14,15 +14,14 @@ import Spacer from "../../../components/common/Spacer";
 import { RewardDisplay } from "../../../components/user/rewardDisplay";
 import { LargeDataCard } from "../../../components/cards/largeDataCard";
 import PageHeader from "../../../components/common/PageHeader";
-import { DeviceRegistrationPlugin } from "../../../internal/services/dbServices/device-registration-plugin";
-import { weiToETD } from "../../../internal/utils/weiToETD";
-import { Environments } from "../../../internal/const/environments";
-import { IStorageItem } from "../../../internal/services/dbSchema/device/storage/item";
+import { configs, utils } from "@etherdata-blockchain/common";
+import { dbServices } from "@etherdata-blockchain/services";
+import { schema } from "@etherdata-blockchain/storage-model";
 
 const pageSize = 20;
 
 type Props = {
-  devices: IStorageItem[];
+  devices: schema.IStorageItem[];
   totalPageNumber: number;
   totalNumRows: number;
   currentPage: number;
@@ -75,7 +74,7 @@ export default function UserDetail({
                   <ListItem>
                     <ListItemText
                       primary={t.time}
-                      secondary={`${weiToETD(t.value)} ETD - ${
+                      secondary={`${utils.weiToETD(t.value)} ETD - ${
                         t.from.toLowerCase() === id.toLowerCase()
                           ? "Sent"
                           : "Received"
@@ -117,8 +116,8 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
 
   const minerAddress = Web3.utils.toChecksumAddress(id as string);
   // Get devices by miner address
-  const plugin = new DeviceRegistrationPlugin();
-  const devicesPromise = plugin.getDevicesByMiner(
+  const registrationService = new dbServices.DeviceRegistrationService();
+  const devicesPromise = registrationService.getDevicesByMiner(
     minerAddress as string,
     parseInt((pageNumber as string) ?? "0"),
     pageSize
@@ -131,14 +130,14 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
     `api/v2/miningReward/${id}?start=${prev.format(
       "YYYY-MM-DD"
     )}&end=${now.format("YYYY-MM-DD")}`,
-    Environments.ServerSideEnvironments.STATS_SERVER
+    configs.Environments.ServerSideEnvironments.STATS_SERVER
   );
   const resultPromise = axios.get(url.toString());
 
   // Get recent transactions
   const txURL = new URL(
     `/api/v2/transactions/${minerAddress}`,
-    Environments.ServerSideEnvironments.STATS_SERVER
+    configs.Environments.ServerSideEnvironments.STATS_SERVER
   );
   const userResultPromise = axios.get(txURL.toString());
 

@@ -3,7 +3,7 @@ import React from "react";
 import Head from "next/head";
 import useScrollTrigger from "@mui/material/useScrollTrigger";
 import { UIProviderContext } from "../../pages/model/UIProvider";
-import { Configurations } from "../../internal/const/configurations";
+import { configs } from "@etherdata-blockchain/common";
 
 interface Props {
   title: string;
@@ -31,8 +31,8 @@ export default function PageHeader({ title, description, action }: Props) {
   return (
     <div
       style={{
-        paddingLeft: Configurations.defaultPadding,
-        paddingRight: Configurations.defaultPadding,
+        paddingLeft: configs.Configurations.defaultPadding,
+        paddingRight: configs.Configurations.defaultPadding,
       }}
     >
       <Head>

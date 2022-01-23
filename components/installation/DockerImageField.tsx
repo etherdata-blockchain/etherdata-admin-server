@@ -2,7 +2,7 @@ import Box from "@mui/material/Box";
 import { Form as BForm } from "react-bootstrap";
 import { DockerImageAutocompleteTextField } from "./DockerImageAutocompleteTextField";
 import * as React from "react";
-import { sleep } from "../../internal/utils/sleep";
+import { utils } from "@etherdata-blockchain/common";
 
 // eslint-disable-next-line require-jsdoc
 export function ImageField(props: any) {
@@ -17,7 +17,7 @@ export function ImageField(props: any) {
       const onTagChange = tag.props.onChange;
 
       onImageChange(v.image);
-      await sleep(100);
+      await utils.sleep(100);
       onTagChange(v.tag);
     },
     []

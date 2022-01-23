@@ -19,22 +19,20 @@ import { LargeDataCard } from "../../../../components/cards/largeDataCard";
 import { GridDataCard } from "../../../../components/cards/gridDataCard";
 import { useRouter } from "next/dist/client/router";
 import { DeviceContext, socket } from "../../../model/DeviceProvider";
-import { abbreviateNumber } from "../../../../internal/utils/valueFormatter";
 import { UIProviderContext } from "../../../model/UIProvider";
 import { GetServerSideProps } from "next";
-import { objectExpand } from "../../../../internal/utils/objectExpander";
-import Logger from "../../../../server/logger";
 import moment from "moment";
 import AllInboxIcon from "@mui/icons-material/AllInbox";
 import AlbumIcon from "@mui/icons-material/Album";
 import { ContainerDialog } from "../../../../components/device/dialog/containerDialog";
 import { ImageDialog } from "../../../../components/device/dialog/imageDialog";
-import { Configurations } from "../../../../internal/const/configurations";
-import { StorageManagementItemPlugin } from "../../../../internal/services/dbServices/storage-management-item-plugin";
-import { IStorageItem } from "../../../../internal/services/dbSchema/device/storage/item";
+import { configs, utils } from "@etherdata-blockchain/common";
+import { dbServices } from "@etherdata-blockchain/services";
+import { schema } from "@etherdata-blockchain/storage-model";
+import Logger from "@etherdata-blockchain/logger";
 
 type Props = {
-  device: IStorageItem | null;
+  device: schema.IStorageItem | null;
   online: boolean;
   found: boolean;
 };
@@ -48,12 +46,12 @@ export default function DeviceDetail({ device, found }: Props) {
   const [showImageDetails, setShowImageDetails] = React.useState(false);
 
   const [foundDevice, setFoundDevice] = React.useState<
-    IStorageItem | undefined
+    schema.IStorageItem | undefined
   >(device ?? undefined);
   const online =
     Math.abs(
       moment(foundDevice?.deviceStatus.lastSeen).diff(moment(), "seconds")
-    ) < Configurations.maximumNotSeenDuration;
+    ) < configs.Configurations.maximumNotSeenDuration;
 
   const storageInfo = {
     adminVersion: foundDevice?.deviceStatus.adminVersion,
@@ -213,20 +211,22 @@ export default function DeviceDetail({ device, found }: Props) {
               Mining info
             </Typography>
             <Card>
-              {/*@ts-ignore*/}
-              {objectExpand(foundDevice?.data, [
-                "__v",
-                "_id",
-                "miner",
-                "docker",
-              ]).map(({ key, value }, index) => (
-                <ListItem key={index}>
-                  <ListItemText
-                    primary={key}
-                    secondary={<Typography noWrap>{value}</Typography>}
-                  />
-                </ListItem>
-              ))}
+              {utils
+                //@ts-ignore
+                .objectExpand(foundDevice?.data, [
+                  "__v",
+                  "_id",
+                  "miner",
+                  "docker",
+                ])
+                .map(({ key, value }, index) => (
+                  <ListItem key={index}>
+                    <ListItemText
+                      primary={key}
+                      secondary={<Typography noWrap>{value}</Typography>}
+                    />
+                  </ListItem>
+                ))}
             </Card>
           </List>
 
@@ -270,7 +270,7 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
   let found: boolean = false;
 
   try {
-    const plugin = new StorageManagementItemPlugin();
+    const plugin = new dbServices.StorageManagementService();
     const client = await plugin.getDeviceByID(deviceId);
     if (client) {
       found = true;

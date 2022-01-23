@@ -4,7 +4,6 @@ import UpdateTemplatePanel from "../../../components/update/UpdateTemplatePanel"
 import { getServerSideProps } from "../../../pages/update";
 import React from "react";
 import { MongoMemoryServer } from "mongodb-memory-server";
-import { GetServerSidePropsContext } from "next";
 import mongoose from "mongoose";
 
 describe("Given a Update template component", () => {

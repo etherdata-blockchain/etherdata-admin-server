@@ -5,11 +5,9 @@ import { Grid } from "@mui/material";
 import ResponsiveCard from "../../components/common/ResponsiveCard";
 import Spacer from "../../components/common/Spacer";
 import { GetServerSideProps } from "next";
-import {
-  DeviceRegistrationPlugin,
-  VersionInfo,
-} from "../../internal/services/dbServices/device-registration-plugin";
+import { dbServices } from "@etherdata-blockchain/services";
 import randomColor from "randomcolor";
+import { VersionInfo } from "@etherdata-blockchain/services/src/mongodb/services/device/device_registration_service";
 
 const {
   Cell,
@@ -88,9 +86,10 @@ export default function Chart({ adminVersions, nodeVersions, colors }: Props) {
 export const getServerSideProps: GetServerSideProps<Props> = async (
   context
 ) => {
-  const plugin = new DeviceRegistrationPlugin();
-  const adminVersions = await plugin.getListOfAdminVersions();
-  const nodeVersions = await plugin.getListOfNodeVersion();
+  const deviceRegistrationService = new dbServices.DeviceRegistrationService();
+  const adminVersions =
+    await deviceRegistrationService.getListOfAdminVersions();
+  const nodeVersions = await deviceRegistrationService.getListOfNodeVersion();
   const size = Math.max(adminVersions.length, nodeVersions.length);
   const colors = randomColor({ count: size });
   return {

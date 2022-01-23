@@ -7,11 +7,11 @@ import moment from "moment";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 import Spacer from "../common/Spacer";
-import { Configurations } from "../../internal/const/configurations";
-import { IStorageItem } from "../../internal/services/dbSchema/device/storage/item";
+import { configs } from "@etherdata-blockchain/common";
+import { schema } from "@etherdata-blockchain/storage-model";
 
 type Props = {
-  devices?: IStorageItem[];
+  devices?: schema.IStorageItem[];
   loading?: boolean;
   currentPageNumber: number;
   totalPageNumber: number;
@@ -89,7 +89,7 @@ export function DeviceTable({
       deviceId: d.qr_code,
       online: d.deviceStatus?.lastSeen
         ? Math.abs(moment(d.deviceStatus?.lastSeen).diff(moment(), "seconds")) <
-          Configurations.maximumNotSeenDuration
+          configs.Configurations.maximumNotSeenDuration
         : false,
       blockNumber: d.deviceStatus?.data?.number,
       name: d.name,

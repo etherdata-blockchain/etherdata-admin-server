@@ -1,12 +1,16 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { jwtVerificationHandler } from "../../../../internal/nextHandler/jwt_verification_handler";
 import { StatusCodes } from "http-status-codes";
-import { methodAllowedHandler } from "../../../../internal/nextHandler/method_allowed_handler";
 import HTTPMethod from "http-method-enum";
-import { DockerImagePlugin } from "../../../../internal/services/dbServices/docker-image-plugin";
-import { IDockerImage } from "../../../../internal/services/dbSchema/docker/docker-image";
+import { interfaces } from "@etherdata-blockchain/common";
+import { dbServices } from "@etherdata-blockchain/services";
+import {
+  jwtVerificationHandler,
+  methodAllowedHandler,
+} from "@etherdata-blockchain/next-js-handlers";
 
-type Response = { err?: string; message?: string } | IDockerImage;
+type Response =
+  | { err?: string; message?: string }
+  | interfaces.db.DockerImageDBInterface;
 
 /**
  * This will handle docker request by id.
@@ -19,8 +23,8 @@ type Response = { err?: string; message?: string } | IDockerImage;
  */
 async function handler(req: NextApiRequest, res: NextApiResponse<Response>) {
   const id = req.query.id;
-  const dockerImagePlugin = new DockerImagePlugin();
-  const dockerImage = await dockerImagePlugin.get(id as string);
+  const dockerImageService = new dbServices.DockerImageService();
+  const dockerImage = await dockerImageService.get(id as string);
   if (dockerImage === undefined) {
     res
       .status(StatusCodes.NOT_FOUND)
@@ -35,18 +39,18 @@ async function handler(req: NextApiRequest, res: NextApiResponse<Response>) {
 
   switch (req.method) {
     case "GET":
-      res.status(StatusCodes.OK).json(dockerImage);
+      res.status(StatusCodes.OK).json(dockerImage as any);
       break;
 
     case "PATCH":
-      const patchResult = await dockerImagePlugin.create(data, {
+      const patchResult = await dockerImageService.create(data, {
         upsert: true,
       });
-      res.status(StatusCodes.OK).json(patchResult!);
+      res.status(StatusCodes.OK).json(patchResult! as any);
       break;
 
     case "DELETE":
-      await dockerImagePlugin.delete(data);
+      await dockerImageService.delete(data);
       res.status(StatusCodes.OK).json({ message: "OK" });
       break;
   }

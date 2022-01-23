@@ -8,14 +8,13 @@ import { AddUserBtn } from "../../components/user/addUserBtn";
 import { GetServerSideProps } from "next";
 import { Pagination } from "@mui/material";
 import { useRouter } from "next/dist/client/router";
-import { TestingValues } from "../../internal/const/testingValues";
-import { PaginationResult } from "../../internal/const/common_interfaces";
-import { StorageManagementOwnerPlugin } from "../../internal/services/dbServices/storage-management-owner-plugin";
-import { IStorageOwner } from "../../internal/services/dbSchema/device/storage/owner";
 import { PaddingBox } from "../../components/common/PaddingBox";
+import { interfaces } from "@etherdata-blockchain/common";
+import { dbServices } from "@etherdata-blockchain/services";
+import { schema } from "@etherdata-blockchain/storage-model";
 
 type Props = {
-  paginationResult: PaginationResult<IStorageOwner>;
+  paginationResult: interfaces.PaginationResult<schema.IStorageOwner>;
   currentPage: number;
 };
 
@@ -39,7 +38,7 @@ export default function User({ paginationResult, currentPage }: Props) {
       <PaddingBox>
         <ResponsiveCard>
           <Pagination
-            data-testid={TestingValues.pagination}
+            data-testid={"pagination"}
             color={"primary"}
             onChange={async (e, cur) => {
               await handlePageChange(cur);
@@ -63,8 +62,9 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
   context
 ) => {
   const currentPage = parseInt((context.query.page as string) ?? "1");
-  const plugin = new StorageManagementOwnerPlugin();
-  const users = await plugin.getListOfUsers(currentPage);
+  const storageManagementOwnerService =
+    new dbServices.StorageManagementOwnerService();
+  const users = await storageManagementOwnerService.getListOfUsers(currentPage);
 
   return {
     props: {

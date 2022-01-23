@@ -11,24 +11,18 @@ import { BlockMinerDisplay } from "../../components/home/blockMinerDisplay";
 import { TransactionDisplay } from "../../components/home/transactionDisplay";
 import { DifficultyHistoryDisplay } from "../../components/home/difficultyHistoryDisplay";
 import { ETDContext } from "../model/ETDProvider";
-import { abbreviateNumber } from "../../internal/utils/valueFormatter";
 import { LargeDataCard } from "../../components/cards/largeDataCard";
 import style from "../../styles/Device.module.css";
-
 import StorageIcon from "@material-ui/icons/Storage";
 import AppsIcon from "@material-ui/icons/Apps";
 import HourglassEmptyIcon from "@material-ui/icons/HourglassEmpty";
 import FunctionsIcon from "@material-ui/icons/Functions";
 import { DeviceContext } from "../model/DeviceProvider";
 import { DefaultPaginationResult } from "../../internal/const/defaultValues";
-import { Environments } from "../../internal/const/environments";
 import { PaddingBox } from "../../components/common/PaddingBox";
 import { GetServerSideProps } from "next";
-import { DockerImagePlugin } from "../../internal/services/dbServices/docker-image-plugin";
-import { StaticNodePlugin } from "../../internal/services/dbServices/static-node-plugin";
-import { InstallationPlugin } from "../../internal/services/dbServices/installation-plugin";
-import { Configurations } from "../../internal/const/configurations";
-import { DeviceRegistrationPlugin } from "../../internal/services/dbServices/device-registration-plugin";
+import { configs, utils } from "@etherdata-blockchain/common";
+import { dbServices } from "@etherdata-blockchain/services";
 
 type Props = {
   onlineCount: number;
@@ -54,7 +48,7 @@ export default function Index(props: Props) {
     <div>
       <PageHeader
         title={"Dashboard"}
-        description={`Version ${Environments.ClientSideEnvironments.NEXT_PUBLIC_VERSION}`}
+        description={`Version ${configs.Environments.ClientSideEnvironments.NEXT_PUBLIC_VERSION}`}
       />
       <Spacer height={10} />
       <PaddingBox>
@@ -88,7 +82,7 @@ export default function Index(props: Props) {
           <Grid item md={3} xs={6}>
             <LargeDataCard
               icon={<HourglassEmptyIcon />}
-              title={`${abbreviateNumber(difficulty ?? 0)}`}
+              title={`${utils.abbreviateNumber(difficulty ?? 0)}`}
               color={"#03cafc"}
               subtitleColor={"white"}
               iconColor={"white"}
@@ -101,7 +95,7 @@ export default function Index(props: Props) {
           <Grid item md={3} xs={6}>
             <LargeDataCard
               icon={<FunctionsIcon />}
-              title={`${abbreviateNumber(networkHashRate)}`}
+              title={`${utils.abbreviateNumber(networkHashRate)}`}
               color={"#03cafc"}
               subtitleColor={"white"}
               iconColor={"white"}
@@ -162,11 +156,11 @@ export default function Index(props: Props) {
 export const getServerSideProps: GetServerSideProps<Props> = async (
   context
 ) => {
-  const plugin = new DeviceRegistrationPlugin();
+  const deviceRegistrationService = new dbServices.DeviceRegistrationService();
 
   const data: Props = {
-    onlineCount: await plugin.getOnlineDevicesCount(),
-    totalCount: await plugin.count(),
+    onlineCount: await deviceRegistrationService.getOnlineDevicesCount(),
+    totalCount: await deviceRegistrationService.count(),
   };
 
   return {

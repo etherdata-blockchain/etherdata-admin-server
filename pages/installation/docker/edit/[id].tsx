@@ -5,20 +5,20 @@ import PageHeader from "../../../../components/common/PageHeader";
 import Spacer from "../../../../components/common/Spacer";
 import Form from "@rjsf/bootstrap-4";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { jsonSchema } from "../../../../internal/services/dbSchema/docker/docker-image-utils";
 import { UIProviderContext } from "../../../model/UIProvider";
 import { getAxiosClient } from "../../../../internal/const/defaultValues";
-import { Routes } from "../../../../internal/const/routes";
 import { Backdrop, Button, CircularProgress } from "@mui/material";
 import { useRouter } from "next/dist/client/router";
 import { GetServerSideProps } from "next";
-import { IDockerImage } from "../../../../internal/services/dbSchema/docker/docker-image";
-import { DockerImagePlugin } from "../../../../internal/services/dbServices/docker-image-plugin";
-import Logger from "../../../../server/logger";
 import { PaddingBox } from "../../../../components/common/PaddingBox";
+import { dbServices } from "@etherdata-blockchain/services";
+import { Routes } from "@etherdata-blockchain/common/src/configs/routes";
+import { jsonSchema } from "../../../../internal/handlers/docker_image_handler";
+import Logger from "@etherdata-blockchain/logger";
+import { schema } from "@etherdata-blockchain/storage-model";
 
 type Props = {
-  dockerImage: IDockerImage;
+  dockerImage: schema.IDockerImage;
 };
 
 /**
@@ -103,7 +103,7 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
 ) => {
   Logger.info("Getting docker");
   const id = context.query.id;
-  const dockerPlugin = new DockerImagePlugin();
+  const dockerPlugin = new dbServices.DockerImageService();
   const foundImage = await dockerPlugin.get(id as string);
   if (!foundImage) {
     return {
@@ -112,7 +112,7 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
   }
 
   const data: Props = {
-    dockerImage: foundImage,
+    dockerImage: foundImage as any,
   };
   return {
     props: JSON.parse(JSON.stringify(data)),

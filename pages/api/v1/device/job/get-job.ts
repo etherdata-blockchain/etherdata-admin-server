@@ -1,20 +1,14 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { DeviceRegistrationPlugin } from "../../../../../internal/services/dbServices/device-registration-plugin";
-import { jwtVerificationHandler } from "../../../../../internal/nextHandler/jwt_verification_handler";
-import Logger from "../../../../../server/logger";
-import {
-  AnyValueType,
-  IPendingJob,
-  JobTaskType,
-  UpdateTemplateValueType,
-} from "../../../../../internal/services/dbSchema/queue/pending-job";
-import { PendingJobPlugin } from "../../../../../internal/services/dbServices/pending-job-plugin";
-import { ExecutionPlanPlugin } from "../../../../../internal/services/dbServices/execution-plan-plugin";
-import { IExecutionPlan } from "../../../../../internal/services/dbSchema/update-template/execution_plan";
+import { enums } from "@etherdata-blockchain/common";
+import { dbServices } from "@etherdata-blockchain/services";
+import { schema } from "@etherdata-blockchain/storage-model";
+import Logger from "@etherdata-blockchain/logger";
+import { jwtVerificationHandler } from "@etherdata-blockchain/next-js-handlers";
+import { StatusCodes } from "http-status-codes";
 
 type Data = {
   error?: string;
-  job?: IPendingJob<AnyValueType>;
+  job?: schema.IPendingJob<enums.AnyValueType>;
   key?: string;
 };
 
@@ -34,37 +28,37 @@ async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
   const returnData: Data = {};
 
   try {
-    const plugin = new PendingJobPlugin();
-    const executionPlanPlugin = new ExecutionPlanPlugin();
+    const plugin = new dbServices.PendingJobService();
+    const executionPlanPlugin = new dbServices.ExecutionPlanService();
 
-    const devicePlugin = new DeviceRegistrationPlugin();
+    const devicePlugin = new dbServices.DeviceRegistrationService();
     const [authorized, newKey] = await devicePlugin.auth(deviceId, key);
     if (authorized) {
-      const job = await plugin.getJob<UpdateTemplateValueType>(deviceId);
-      if (job?.task.type === JobTaskType.UpdateTemplate) {
+      const job = await plugin.getJob<enums.UpdateTemplateValueType>(deviceId);
+      if (job?.task.type === enums.JobTaskType.UpdateTemplate) {
         const plan: any = {
           description: "Waiting for job result",
           isDone: false,
           isError: false,
           name: `${job.targetDeviceId} received job`,
-          updateTemplate: job.task.value.templateId,
+          updateTemplate: (job.task.value as any).templateId,
         };
         await executionPlanPlugin.create(plan, { upsert: false });
       }
 
       returnData.job = job;
       returnData.key = newKey;
-      res.status(200).json(returnData);
+      res.status(StatusCodes.OK).json(returnData);
     } else {
       Logger.error("Device is not in our DB");
       returnData.error = "Device is not in our DB";
-      res.status(500).json(returnData);
+      res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(returnData);
     }
   } catch (err) {
     Logger.error(err);
     // @ts-ignore
     returnData.error = err;
-    res.status(500).json(returnData);
+    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(returnData);
   }
 }
 

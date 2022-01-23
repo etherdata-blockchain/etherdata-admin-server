@@ -3,10 +3,9 @@ import * as React from "react";
 import { Autocomplete, TextField } from "@mui/material";
 import { throttle } from "lodash";
 import qs from "query-string";
-import { Routes } from "../../internal/const/routes";
 import { getAxiosClient } from "../../internal/const/defaultValues";
-import { Configurations } from "../../internal/const/configurations";
-import { IStorageItem } from "../../internal/services/dbSchema/device/storage/item";
+import { Routes } from "@etherdata-blockchain/common/src/configs/routes";
+import { configs, interfaces } from "@etherdata-blockchain/common";
 
 type Props = {
   id: string;
@@ -40,12 +39,16 @@ export function DeviceIdsAutoComplete(props: Props) {
           query: { key: newValue },
         });
         const result = await getAxiosClient().get(url);
-        setOptions((result.data as IStorageItem[]).map((s) => s.qr_code));
+        setOptions(
+          (result.data as interfaces.db.StorageItemDBInterface[]).map(
+            (s) => s.qr_code
+          )
+        );
       } catch (e) {
       } finally {
         setIsLoading(false);
       }
-    }, Configurations.defaultThrottleDuration),
+    }, configs.Configurations.defaultThrottleDuration),
     []
   );
 
