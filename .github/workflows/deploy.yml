@@ -129,7 +129,7 @@ jobs:
 
   release:
     runs-on: ubuntu-latest
-    if: ${{ (github.event.pusher.name != 'github action') && (github.ref == 'refs/heads/dev') }}
+    if: ${{ (github.event.pusher.name != 'github action') && (github.ref == 'refs/heads/main') }}
     needs: [ deploy ]
     steps:
       - name: Checkout 🛎️
