@@ -99,29 +99,56 @@ jobs:
             NEXT_PUBLIC_SECRET=${{secrets.NEXT_PUBLIC_SECRET}}
             VERSION=${{ steps.prep.outputs.tags }}
 
-  publish-k8s-release:
+
+  pre-release:
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main'
+    if: ${{ (github.event.pusher.name != 'github action') && (github.ref == 'refs/heads/dev') }}
     needs: [ deploy ]
     steps:
       - name: Checkout 🛎️
         uses: actions/checkout@v2
-
-      - name: Deploy to Release
-        uses: JamesIves/github-pages-deploy-action@4.1.5
+      - uses: actions/setup-node@v2
         with:
-          branch: k8s-release
-          folder: example_configs/k8s
-
-  publish-k8s-dev:
-    runs-on: ubuntu-latest
-    if: startsWith(github.ref, 'refs/tags/v')
-    needs: [ deploy ]
-    steps:
-      - name: Checkout 🛎️
-        uses: actions/checkout@v2
-      - name: Deploy to Release
+          node-version: "16"
+      - run: yarn install
+        name: Installing dependencies
+      - name: Setup git identity
+        run: |
+          git config --global user.email "github-action.github.com"
+          git config --global user.name "github action"
+      - name: Pre-release
+        run: yarn release --ci --preRelease=beta
+        env:
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+      - name: Deploy to GitHub Page
         uses: JamesIves/github-pages-deploy-action@4.1.5
         with:
           branch: k8s-release-dev
+          folder: example_configs/k8s
+
+
+  release:
+    runs-on: ubuntu-latest
+    if: ${{ (github.event.pusher.name != 'github action') && (github.ref == 'refs/heads/dev') }}
+    needs: [ deploy ]
+    steps:
+      - name: Checkout 🛎️
+        uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: "16"
+      - run: yarn install
+        name: Installing dependencies
+      - name: Setup git identity
+        run: |
+          git config --global user.email "github-action.github.com"
+          git config --global user.name "github action"
+      - name: Pre-release
+        run: yarn release --ci
+        env:
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+      - name: Deploy to GitHub Page
+        uses: JamesIves/github-pages-deploy-action@4.1.5
+        with:
+          branch: k8s-release
           folder: example_configs/k8s
