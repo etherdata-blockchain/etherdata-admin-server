@@ -3,12 +3,6 @@ import { Snackbar } from "@mui/material";
 
 interface UIProviderInterface {
   drawerOpen: boolean;
-  /**
-   * Right side message draw
-   */
-  messageDrawerOpen: boolean;
-  messageDrawerContent?: React.ReactElement;
-
   appBarTitle?: string;
   appBarTitleShow: boolean;
 
@@ -19,10 +13,6 @@ interface UIProviderInterface {
   showAppBarTitle(v: string): void;
 
   hideAppBarTitle(): void;
-
-  setMessageDrawerOpen(v: boolean): void;
-
-  setMessageDrawerContent(c?: React.ReactElement): void;
 }
 
 // @ts-ignore
@@ -44,12 +34,6 @@ export default function UIProviderProvider(props: any) {
 
   const [snackBarShow, setSnackBarShow] = React.useState(false);
   const [snackBarMessage, setSnackBarMessage] = React.useState<string>();
-
-  // Message drawer
-  const [messageDrawerOpen, setMessageDrawerOpen] =
-    React.useState<boolean>(false);
-  const [messageDrawerContent, setMessageDrawerContent] =
-    React.useState<React.ReactElement>();
 
   const showSnackBarMessage = React.useCallback((message: string) => {
     setSnackBarShow(true);
@@ -75,21 +59,16 @@ export default function UIProviderProvider(props: any) {
     drawerOpen,
     setDrawerOpen,
     showSnackBarMessage,
-    // Appbar title
     showAppBarTitle,
     hideAppBarTitle,
     appBarTitle,
     appBarTitleShow,
-    // Message content
-    messageDrawerOpen,
-    setMessageDrawerContent,
-    messageDrawerContent,
-    setMessageDrawerOpen,
   };
 
   return (
     <UIProviderContext.Provider value={value}>
       {children}
+
       <Snackbar
         open={snackBarShow}
         message={snackBarMessage}

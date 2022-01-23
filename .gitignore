@@ -43,4 +43,3 @@ globalConfig.json
 coverage
 *.mp4
 yarn.lock
-*.tsbuildinfo

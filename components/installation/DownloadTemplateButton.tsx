@@ -1,8 +1,8 @@
 import React from "react";
 import { getAxiosClient } from "../../internal/const/defaultValues";
+import { Routes } from "../../internal/const/routes";
 import { saveAs } from "file-saver";
 import { LoadingButton } from "@mui/lab";
-import { Routes } from "@etherdata-blockchain/common/src/configs/routes";
 
 interface Props {
   templateName: string;

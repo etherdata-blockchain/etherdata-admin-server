@@ -1,11 +1,11 @@
 import React from "react";
 import { DataGrid } from "@mui/x-data-grid";
+import { columns } from "../../internal/services/dbSchema/install-script/static-node-utils";
 import { Box } from "@mui/material";
-import { schema } from "@etherdata-blockchain/storage-model";
-import { columns } from "../../internal/handlers/static_node_handler";
+import { IStaticNode } from "../../internal/services/dbSchema/install-script/static-node";
 
 interface Props {
-  staticNodes: schema.IStaticNode[];
+  staticNodes: IStaticNode[];
 }
 
 /**

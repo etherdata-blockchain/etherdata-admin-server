@@ -3,11 +3,11 @@ import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
-import PageHeader from "../../../../../components/common/PageHeader";
-import Spacer from "../../../../../components/common/Spacer";
+import PageHeader from "../../../../../components/PageHeader";
+import Spacer from "../../../../../components/Spacer";
 import { GeneralPanel } from "../../../../../components/device/generalPanel";
 import { GetServerSideProps } from "next";
-
+import { DeviceRegistrationPlugin } from "../../../../../internal/services/dbServices/device-registration-plugin";
 import {
   Admin,
   Clique,
@@ -24,13 +24,12 @@ import { UIProviderContext } from "../../../../model/UIProvider";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { DeviceContext, socket } from "../../../../model/DeviceProvider";
 import { DockerPanel } from "../../../../../components/device/dockerPanel";
-import { dbServices } from "@etherdata-blockchain/services";
-import { schema } from "@etherdata-blockchain/storage-model";
+import { IDevice } from "../../../../../internal/services/dbSchema/device";
 
 interface Props {
   user: string | null;
   deviceId: string | null;
-  device: schema.IDevice | null;
+  device: IDevice | null;
 }
 
 interface TabPanelProps {
@@ -75,9 +74,9 @@ export default function DeviceEditDetail({ user, deviceId, device }: Props) {
   const { showSnackBarMessage } = React.useContext(UIProviderContext);
   const { joinDetail, leaveDetail, sendCommand } =
     React.useContext(DeviceContext);
-  const [foundDevice, setFoundDevice] = React.useState<
-    schema.IDevice | undefined
-  >(undefined);
+  const [foundDevice, setFoundDevice] = React.useState<IDevice | undefined>(
+    undefined
+  );
 
   React.useEffect(() => {
     console.log("Joining room", deviceId);
@@ -208,7 +207,7 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
     };
   }
 
-  const plugin = new dbServices.DeviceRegistrationService();
+  const plugin = new DeviceRegistrationPlugin();
   const device = await plugin.get(deviceId);
 
   const props = {

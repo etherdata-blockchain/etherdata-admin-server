@@ -22,9 +22,7 @@
     "operator-linebreak": "off",
     "space-before-function-paren": "off",
     "spaced-comment": "off",
-    "camelcase": "warn",
-    "no-invalid-this": "off",
-    "no-unused-vars": "off"
+    "camelcase": "warn"
   },
   "ignorePatterns": [
     "cypress"

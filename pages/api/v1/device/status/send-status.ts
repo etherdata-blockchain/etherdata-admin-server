@@ -1,18 +1,14 @@
 import type { NextApiRequest, NextApiResponse } from "next";
+import { postOnlyMiddleware } from "../../../../../internal/nextHandler/postOnlyHandler";
+import { DeviceRegistrationPlugin } from "../../../../../internal/services/dbServices/device-registration-plugin";
+import { jwtVerificationHandler } from "../../../../../internal/nextHandler/jwt_verification_handler";
+import { IDevice } from "../../../../../internal/services/dbSchema/device";
 import moment from "moment";
-import { dbServices } from "@etherdata-blockchain/services";
-import { schema } from "@etherdata-blockchain/storage-model";
-import Logger from "@etherdata-blockchain/logger";
-import { StatusCodes } from "http-status-codes";
-import {
-  jwtVerificationHandler,
-  methodAllowedHandler,
-} from "@etherdata-blockchain/next-js-handlers";
-import HTTPMethod from "http-method-enum";
+import Logger from "../../../../../server/logger";
 
 type Data = {
   error?: string;
-  data?: schema.IDevice;
+  data?: IDevice;
   key?: string;
 };
 
@@ -29,12 +25,12 @@ async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
   if (!nodeName) {
     Logger.error(`${user}: You must provide a node name`);
     returnData.error = "You must provide a node name";
-    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(returnData);
+    res.status(500).json(returnData);
     return;
   }
 
   try {
-    const plugin = new dbServices.DeviceRegistrationService();
+    const plugin = new DeviceRegistrationPlugin();
     const [authenticated, newKey] = await plugin.auth(user, key);
     if (!authenticated) {
       Logger.error(
@@ -55,7 +51,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
       docker,
     };
 
-    const responseData = await plugin.patch(deviceData as schema.IDevice);
+    const responseData = await plugin.patch(deviceData as IDevice);
     res.status(201).json({ data: responseData, key: newKey });
   } catch (err) {
     Logger.error(err);
@@ -65,6 +61,4 @@ async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
   }
 }
 
-export default methodAllowedHandler(jwtVerificationHandler(handler), [
-  HTTPMethod.POST,
-]);
+export default postOnlyMiddleware(jwtVerificationHandler(handler));

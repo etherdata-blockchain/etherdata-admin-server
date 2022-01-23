@@ -1,13 +1,21 @@
+global.TextEncoder = require("util").TextEncoder;
+global.TextDecoder = require("util").TextDecoder;
+
 import mongoose from "mongoose";
 import { MongoMemoryServer } from "mongodb-memory-server";
 import { createMocks } from "node-mocks-http";
 import jwt from "jsonwebtoken";
 import handler from "../../../pages/api/v1/device/job/get-job";
-import { mockData } from "@etherdata-blockchain/common";
-import { schema } from "@etherdata-blockchain/storage-model";
-import { StatusCodes } from "http-status-codes";
+import { mockDeviceData } from "../../data/mockDeviceData";
+import { PendingJobModel } from "../../../internal/services/dbSchema/queue/pending-job";
+import { StorageManagementSystemPlugin } from "../../../internal/services/dbServices/storage-management-system-plugin";
 
-describe("Given a pending job", () => {
+jest.mock("../../../internal/services/dbSchema/queue/pending-job");
+jest.mock(
+  "../../../internal/services/dbServices/storage-management-system-plugin"
+);
+
+describe("Test getting a pending job", () => {
   let dbServer: MongoMemoryServer;
   const oldEnv = process.env;
 
@@ -20,22 +28,26 @@ describe("Given a pending job", () => {
     await mongoose.connect(dbServer.getUri().concat("etd"));
   });
 
-  beforeEach(async () => {
-    await schema.StorageItemModel.create({
-      qr_code: "test-user",
-    });
-  });
-
   afterEach(async () => {
-    await schema.PendingJobModel.deleteMany({});
+    try {
+      await PendingJobModel.collection.drop();
+    } catch (e) {
+      // console.log("Collection not exists");
+    }
   });
 
-  afterAll(async () => {
-    await dbServer.stop();
-    await mongoose.disconnect();
+  afterAll(() => {
+    dbServer.stop();
   });
 
-  test("When calling get a pending job", async () => {
+  test("Get a pending job", async () => {
+    //@ts-ignore
+    StorageManagementSystemPlugin.mockImplementation(() => {
+      return {
+        findDeviceById: jest.fn(() => Promise.resolve({ a: "a" })),
+      };
+    });
+
     const data: any = {
       from: "abcde",
       targetDeviceId: "test-user",
@@ -45,7 +57,7 @@ describe("Given a pending job", () => {
       },
       time: new Date(),
     };
-    await schema.PendingJobModel.create(data);
+    await PendingJobModel.create(data);
 
     const token = jwt.sign({ user: "test-user" }, "test");
     const { req, res } = createMocks({
@@ -53,11 +65,11 @@ describe("Given a pending job", () => {
       headers: {
         Authorization: "Bearer " + token,
       },
-      body: mockData.MockDeviceData,
+      body: mockDeviceData,
     });
 
     //@ts-ignore
     await handler(req, res);
-    expect(res._getStatusCode()).toBe(StatusCodes.OK);
+    expect(res._getStatusCode()).toBe(200);
   });
 });

@@ -1,16 +1,19 @@
-import { StatusCodes } from "http-status-codes";
-
+global.TextEncoder = require("util").TextEncoder;
+global.TextDecoder = require("util").TextDecoder;
 import mongoose from "mongoose";
-
+import { DeviceModel } from "../../../internal/services/dbSchema/device";
 import { MongoMemoryServer } from "mongodb-memory-server";
 import { createMocks } from "node-mocks-http";
 import jwt from "jsonwebtoken";
 import handler from "../../../pages/api/v1/device/status/send-status";
+import { mockDeviceData } from "../../data/mockDeviceData";
 import axios from "axios";
-import { mockData } from "@etherdata-blockchain/common";
-import { schema } from "@etherdata-blockchain/storage-model";
+import { StorageManagementSystemPlugin } from "../../../internal/services/dbServices/storage-management-system-plugin";
 
 jest.mock("axios");
+jest.mock(
+  "../../../internal/services/dbServices/storage-management-system-plugin"
+);
 
 describe("Test sending a user status", () => {
   let dbServer: MongoMemoryServer;
@@ -21,39 +24,35 @@ describe("Test sending a user status", () => {
     axios.get.mockResolvedValue({});
     process.env = {
       ...oldEnv,
-      PUBLIC_SECRET: mockData.MockConstant.mockTestingSecret,
+      PUBLIC_SECRET: "test",
     };
     dbServer = await MongoMemoryServer.create();
     await mongoose.connect(dbServer.getUri().concat("etd"));
   });
 
-  beforeEach(async () => {
-    await schema.StorageItemModel.create({
-      qr_code: mockData.MockConstant.mockTestingUser,
-    });
-  });
-
   afterEach(async () => {
-    await schema.DeviceModel.deleteMany({});
-    await schema.StorageItemModel.deleteMany({});
-  });
-
-  afterAll(async () => {
-    await dbServer.stop();
-    await mongoose.disconnect();
+    try {
+      await DeviceModel.collection.drop();
+    } catch (e) {
+      // console.log("Collection not exists");
+    }
   });
 
   test("Add new user and update", async () => {
-    const token = jwt.sign(
-      { user: mockData.MockConstant.mockTestingUser },
-      mockData.MockConstant.mockTestingSecret
-    );
+    //@ts-ignore
+    StorageManagementSystemPlugin.mockImplementation(() => {
+      return {
+        findDeviceById: jest.fn(() => Promise.resolve({ a: "a" })),
+      };
+    });
+
+    const token = jwt.sign({ user: "test-user" }, "test");
     const { req, res } = createMocks({
       method: "POST",
       headers: {
         Authorization: "Bearer " + token,
       },
-      body: mockData.MockDeviceData,
+      body: mockDeviceData,
     });
 
     //@ts-ignore
@@ -62,20 +61,24 @@ describe("Test sending a user status", () => {
   });
 
   test("Add new user without correct token", async () => {
-    const token = jwt.sign(
-      { user: mockData.MockConstant.mockTestingUser },
-      "test1"
-    );
+    //@ts-ignore
+    StorageManagementSystemPlugin.mockImplementation(() => {
+      return {
+        findDeviceById: jest.fn(() => Promise.resolve({ a: "a" })),
+      };
+    });
+
+    const token = jwt.sign({ user: "test-user" }, "test1");
     const { req, res } = createMocks({
       method: "POST",
       headers: {
         Authorization: "Bearer " + token,
       },
-      body: mockData.MockDeviceData,
+      body: mockDeviceData,
     });
 
     //@ts-ignore
     await handler(req, res);
-    expect(res._getStatusCode()).toBe(StatusCodes.UNAUTHORIZED);
+    expect(res._getStatusCode()).toBe(403);
   });
 });

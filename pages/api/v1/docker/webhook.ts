@@ -1,19 +1,17 @@
 import type { NextApiRequest, NextApiResponse } from "next";
+import { IDockerImage } from "../../../../internal/services/dbSchema/docker/docker-image";
+import { DockerImagePlugin } from "../../../../internal/services/dbServices/docker-image-plugin";
+import { PaginationResult } from "../../../../server/plugin/basePlugin";
 import { StatusCodes } from "http-status-codes";
+import { paginationHandler } from "../../../../internal/nextHandler/paginationHandler";
+import { jwtVerificationQueryHandler } from "../../../../internal/nextHandler/jwt_verification_query_handler";
+import { methodAllowedHandler } from "../../../../internal/nextHandler/method_allowed_handler";
 import HTTPMethod from "http-method-enum";
-import { interfaces } from "@etherdata-blockchain/common";
-import { dbServices } from "@etherdata-blockchain/services";
-import {
-  jwtVerificationQueryHandler,
-  methodAllowedHandler,
-  paginationHandler,
-} from "@etherdata-blockchain/next-js-handlers";
-import { schema } from "@etherdata-blockchain/storage-model";
 
 type Response =
   | { err?: string; message?: string }
-  | interfaces.PaginationResult<schema.IDockerImage>
-  | schema.IDockerImage;
+  | PaginationResult<IDockerImage>
+  | IDockerImage;
 
 /**
  * Handle docker update, delete, and list request.
@@ -30,11 +28,11 @@ type Response =
  * @param {NextApiResponse} res
  */
 async function handler(req: NextApiRequest, res: NextApiResponse<Response>) {
-  const dockerImageService = new dbServices.DockerImageService();
+  const dockerPlugin = new DockerImagePlugin();
 
   switch (req.method) {
     case "POST":
-      await dockerImageService.createWithDockerWebhookData(req.body);
+      await dockerPlugin.createWithDockerWebhookData(req.body);
       res.status(StatusCodes.CREATED).json({});
       break;
   }

@@ -1,14 +1,13 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { enums } from "@etherdata-blockchain/common";
-import { dbServices } from "@etherdata-blockchain/services";
-import { schema } from "@etherdata-blockchain/storage-model";
-import Logger from "@etherdata-blockchain/logger";
-import { jwtVerificationHandler } from "@etherdata-blockchain/next-js-handlers";
-import { StatusCodes } from "http-status-codes";
+import { DeviceRegistrationPlugin } from "../../../../../internal/services/dbServices/device-registration-plugin";
+import { jwtVerificationHandler } from "../../../../../internal/nextHandler/jwt_verification_handler";
+import Logger from "../../../../../server/logger";
+import { IPendingJob } from "../../../../../internal/services/dbSchema/queue/pending-job";
+import { PendingJobPlugin } from "../../../../../internal/services/dbServices/pending-job-plugin";
 
 type Data = {
   error?: string;
-  job?: schema.IPendingJob<enums.AnyValueType>;
+  job?: IPendingJob;
   key?: string;
 };
 
@@ -28,37 +27,24 @@ async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
   const returnData: Data = {};
 
   try {
-    const plugin = new dbServices.PendingJobService();
-    const executionPlanPlugin = new dbServices.ExecutionPlanService();
-
-    const devicePlugin = new dbServices.DeviceRegistrationService();
+    const plugin = new PendingJobPlugin();
+    const devicePlugin = new DeviceRegistrationPlugin();
     const [authorized, newKey] = await devicePlugin.auth(deviceId, key);
     if (authorized) {
-      const job = await plugin.getJob<enums.UpdateTemplateValueType>(deviceId);
-      if (job?.task.type === enums.JobTaskType.UpdateTemplate) {
-        const plan: any = {
-          description: "Waiting for job result",
-          isDone: false,
-          isError: false,
-          name: `${job.targetDeviceId} received job`,
-          updateTemplate: (job.task.value as any).templateId,
-        };
-        await executionPlanPlugin.create(plan, { upsert: false });
-      }
-
+      const job = await plugin.getJob(deviceId);
       returnData.job = job;
       returnData.key = newKey;
-      res.status(StatusCodes.OK).json(returnData);
+      res.status(200).json(returnData);
     } else {
       Logger.error("Device is not in our DB");
       returnData.error = "Device is not in our DB";
-      res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(returnData);
+      res.status(500).json(returnData);
     }
   } catch (err) {
     Logger.error(err);
     // @ts-ignore
     returnData.error = err;
-    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(returnData);
+    res.status(500).json(returnData);
   }
 }
 

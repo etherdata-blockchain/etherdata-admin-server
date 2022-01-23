@@ -1,60 +1,75 @@
 import mock = jest.mock;
+
+global.TextEncoder = require("util").TextEncoder;
+global.TextDecoder = require("util").TextDecoder;
+
+import { MockConstant } from "../../data/mock_constant";
 import jwt from "jsonwebtoken";
 import mongoose from "mongoose";
+import {
+  DockerImageModel,
+  IDockerImage,
+} from "../../../internal/services/dbSchema/docker/docker-image";
 import { MongoMemoryServer } from "mongodb-memory-server";
 import handler from "../../../pages/api/v1/installation-template/download/index";
 import { createMocks } from "node-mocks-http";
+import {
+  MockComplicatedTemplateData,
+  MockDockerImage,
+  MockDockerImage2,
+  MockInstallationTemplateData,
+} from "../../data/mock_template_data";
 import { StatusCodes } from "http-status-codes";
-import { configs, mockData } from "@etherdata-blockchain/common";
+import { InstallationTemplateModel } from "../../../internal/services/dbSchema/install-script/install-script";
+import { expect } from "@jest/globals";
+import { InstallationPlugin } from "../../../internal/services/dbServices/installation-plugin";
 import YAML from "yaml";
-import { dbServices } from "@etherdata-blockchain/services";
-import { schema } from "@etherdata-blockchain/storage-model";
 
 mock("adm-zip");
 
 describe("Given a installation template download handler", () => {
   let dbServer: MongoMemoryServer;
   const oldEnv = process.env;
-  const plugin = new dbServices.InstallationService();
+  const plguin = new InstallationPlugin();
   const token = jwt.sign(
-    { user: mockData.MockConstant.mockTestingUser },
-    mockData.MockConstant.mockTestingSecret
+    { user: MockConstant.mockTestingUser },
+    MockConstant.mockTestingSecret
   );
 
   beforeAll(async () => {
     //@ts-ignore
     process.env = {
       ...oldEnv,
-      PUBLIC_SECRET: mockData.MockConstant.mockTestingSecret,
+      PUBLIC_SECRET: MockConstant.mockTestingSecret,
     };
-    dbServer = await MongoMemoryServer.create({
-      binary: { version: configs.Configurations.mongodbVersion },
-    });
+    dbServer = await MongoMemoryServer.create();
     await mongoose.connect(
-      dbServer.getUri().concat(mockData.MockConstant.mockDatabaseName)
+      dbServer.getUri().concat(MockConstant.mockDatabaseName)
     );
   });
 
   afterEach(async () => {
-    await schema.InstallationTemplateModel.deleteMany({});
-    await schema.DockerImageModel.deleteMany({});
+    try {
+      await InstallationTemplateModel.collection.drop();
+      await DockerImageModel.collection.drop();
+    } catch (e) {}
   });
 
   afterAll(() => {
     dbServer.stop();
   });
 
-  test("When sending a post request to the server", async () => {
-    const result = await schema.DockerImageModel.create(
-      mockData.MockDockerImage
-    );
-    const reqData = JSON.parse(
-      JSON.stringify(mockData.MockInstallationTemplateData)
-    );
-    reqData.services[0].service.image.image = result._id;
-    reqData.services[0].service.image.tag = result.tags[0]._id;
+  test("When trying to generate a env file", () => {
+    const result = plguin.generateEnvFile({ name: "hello", value: 1 });
+    expect(result).toBe("name=hello\nvalue=1\n");
+  });
 
-    await schema.InstallationTemplateModel.create(reqData);
+  test("When sending a post request to the server", async () => {
+    const result = await DockerImageModel.create(MockDockerImage);
+    const reqData = JSON.parse(JSON.stringify(MockInstallationTemplateData));
+    reqData.services.worker.image = result.tags[0]._id;
+
+    await InstallationTemplateModel.create(reqData);
     const { req, res } = createMocks({
       method: "POST",
       headers: {
@@ -71,90 +86,65 @@ describe("Given a installation template download handler", () => {
   });
 
   test("When generating a docker compose file", async () => {
-    await schema.DockerImageModel.create(mockData.MockDockerImage);
-    const reqData = JSON.parse(
-      JSON.stringify(mockData.MockInstallationTemplateData)
-    );
-    const deepCopiedImage = JSON.parse(
-      JSON.stringify(mockData.MockDockerImage)
-    );
-    deepCopiedImage.tag = deepCopiedImage.tags[0];
-    reqData.services[0].service.image = deepCopiedImage;
+    await DockerImageModel.create(MockDockerImage);
+    const reqData = JSON.parse(JSON.stringify(MockInstallationTemplateData));
+    reqData.services.worker.image = MockDockerImage;
 
-    const returnResult = plugin.generateDockerComposeFile(reqData);
+    const returnResult = plguin.generateDockerComposeFile(reqData);
     expect(returnResult).toBeDefined();
     const parsedObject = YAML.parse(returnResult);
-    expect(parsedObject.version).toBe(
-      mockData.MockInstallationTemplateData.version
-    );
+    expect(parsedObject.version).toBe(MockInstallationTemplateData.version);
     expect(parsedObject._id).toBeUndefined();
     expect(parsedObject.createdAt).toBeUndefined();
     expect(parsedObject.updatedAt).toBeUndefined();
     expect(parsedObject.services.worker.image).toBe(
-      `${mockData.MockDockerImage.imageName}:${mockData.MockDockerImage.tags[0].tag}`
+      `${MockDockerImage.imageName}:${MockDockerImage.tags[0].tag}`
     );
   });
 
   test("When calling get a template with docker image", async () => {
-    const result = await schema.DockerImageModel.create(
-      mockData.MockDockerImage
-    );
-    const reqData = JSON.parse(
-      JSON.stringify(mockData.MockInstallationTemplateData)
-    );
-    reqData.services[0].service.image.image = result._id;
-    reqData.services[0].service.image.tag = result.tags[0]._id;
+    const result: IDockerImage = await DockerImageModel.create(MockDockerImage);
+    const reqData = JSON.parse(JSON.stringify(MockInstallationTemplateData));
+    reqData.services.worker.image = result.tags[0]._id;
 
-    const templateResult = await schema.InstallationTemplateModel.create(
-      reqData
-    );
-    const templateWithDockerImage = await plugin.getTemplateWithDockerImages(
+    const templateResult = await InstallationTemplateModel.create(reqData);
+    const templateWithDockerImage = await plguin.getTemplateWithDockerImages(
       templateResult._id
     );
     expect(templateWithDockerImage).toBeDefined();
     expect(templateWithDockerImage?.template_tag).toBe(
-      mockData.MockInstallationTemplateData.template_tag
+      MockInstallationTemplateData.template_tag
     );
-    expect(templateWithDockerImage?.services[0].service.image!.imageName).toBe(
-      mockData.MockInstallationTemplateData.services[0].service.image.imageName
+    expect(templateWithDockerImage?.services["worker"].image!.imageName).toBe(
+      MockInstallationTemplateData.services.worker.image.imageName
     );
   });
 
   test("When calling get a template with multiple docker image", async () => {
-    const result1 = await schema.DockerImageModel.create(
-      mockData.MockDockerImage
+    const result1: IDockerImage = await DockerImageModel.create(
+      MockDockerImage
     );
-    const result2 = await schema.DockerImageModel.create(
-      mockData.MockDockerImage3
+    const result2: IDockerImage = await DockerImageModel.create(
+      MockDockerImage2
     );
 
-    console.log(JSON.stringify(result1, null, 4));
-    console.log(JSON.stringify(result2, null, 4));
+    const reqData = JSON.parse(JSON.stringify(MockComplicatedTemplateData));
+    reqData.services.worker.image = result1.tags[0]._id;
+    reqData.services.admin.image = result2.tags[0]._id;
 
-    const reqData = JSON.parse(
-      JSON.stringify(mockData.MockComplicatedTemplateData)
-    );
-    reqData.services[0].service.image.image = result1._id;
-    reqData.services[0].service.image.tag = result1.tags[0]._id;
-
-    reqData.services[1].service.image.image = result2._id;
-    reqData.services[1].service.image.tag = result2.tags[0]._id;
-
-    const templateResult = await schema.InstallationTemplateModel.create(
-      reqData
-    );
-    const templateWithDockerImage = await plugin.getTemplateWithDockerImages(
+    const templateResult = await InstallationTemplateModel.create(reqData);
+    const templateWithDockerImage = await plguin.getTemplateWithDockerImages(
       templateResult._id
     );
     expect(templateWithDockerImage).toBeDefined();
     expect(templateWithDockerImage?.template_tag).toBe(
-      mockData.MockComplicatedTemplateData.template_tag
+      MockComplicatedTemplateData.template_tag
     );
-    expect(templateWithDockerImage?.services[0].service.image!.imageName).toBe(
-      mockData.MockComplicatedTemplateData.services[0].service.image.imageName
+    expect(templateWithDockerImage?.services.worker.image!.imageName).toBe(
+      MockComplicatedTemplateData.services.worker.image.imageName
     );
-    expect(templateWithDockerImage?.services[1].service.image!.imageName).toBe(
-      mockData.MockComplicatedTemplateData.services[1].service.image.imageName
+    expect(templateWithDockerImage?.services.admin.image!.imageName).toBe(
+      MockComplicatedTemplateData.services.admin.image.imageName
     );
   });
 });

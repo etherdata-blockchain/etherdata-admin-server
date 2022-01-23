@@ -1,7 +1,6 @@
 // @flow
 import * as React from "react";
-
-const {
+import {
   Bar,
   BarChart,
   Legend,
@@ -9,7 +8,7 @@ const {
   Tooltip,
   XAxis,
   YAxis,
-} = require("recharts");
+} from "recharts";
 
 type Props = {
   rewards: { date: string; reward: number }[];

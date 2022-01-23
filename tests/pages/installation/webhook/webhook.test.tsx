@@ -1,24 +1,29 @@
+import { createMatchMedia } from "../../../utils/utils";
 import { fireEvent, render } from "@testing-library/react";
 import React from "react";
 import WebhookPanel from "../../../../components/installation/WebhookPanel";
-import { beforeUITest } from "../../../utils/ui-test";
-import { configs, mockData } from "@etherdata-blockchain/common";
+import { Configurations } from "../../../../internal/const/configurations";
+import { MockURL } from "../../../data/mock_url";
+import { MockConstant } from "../../../data/mock_constant";
 
 describe("Given a webhook panel", () => {
   beforeAll(() => {
-    beforeUITest();
+    // @ts-ignore
+    window.matchMedia = createMatchMedia(window.innerWidth);
+    process.env = {
+      ...process.env,
+      NEXT_PUBLIC_SECRET: MockConstant.mockTestingSecret,
+    };
   });
 
   test("When rendering the page", async () => {
-    const screen = await render(
-      <WebhookPanel host={mockData.MockURL.mockHTTPURL} />
-    );
+    const screen = await render(<WebhookPanel host={MockURL.mockHTTPURL} />);
     const expireField = screen.getByDisplayValue(
-      configs.Configurations.defaultExpireDuration
+      Configurations.defaultExpireDuration
     ) as HTMLInputElement;
 
     const userField = screen.getByDisplayValue(
-      configs.Configurations.defaultWebhookUser
+      Configurations.defaultWebhookUser
     ) as HTMLInputElement;
     const webhookField = screen.getByTestId("webhook-url") as HTMLInputElement;
 

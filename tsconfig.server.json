@@ -3,13 +3,9 @@
   "compilerOptions": {
     "module": "commonjs",
     "outDir": "dist",
-    "noEmit": false,
-    "skipLibCheck": true,
+    "noEmit": false
   },
   "include": [
     "server"
-  ],
-  "exclude": [
-    "node_modules"
   ]
 }

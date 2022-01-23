@@ -1,21 +1,16 @@
 // @flow
 import * as React from "react";
-import PageHeader from "../../components/common/PageHeader";
+import PageHeader from "../../components/PageHeader";
 import { Grid } from "@mui/material";
-import ResponsiveCard from "../../components/common/ResponsiveCard";
-import Spacer from "../../components/common/Spacer";
+import ResponsiveCard from "../../components/ResponsiveCard";
+import Spacer from "../../components/Spacer";
 import { GetServerSideProps } from "next";
-import { dbServices } from "@etherdata-blockchain/services";
+import {
+  DeviceRegistrationPlugin,
+  VersionInfo,
+} from "../../internal/services/dbServices/device-registration-plugin";
+import { Cell, Pie, PieChart, ResponsiveContainer, Tooltip } from "recharts";
 import randomColor from "randomcolor";
-import { VersionInfo } from "@etherdata-blockchain/services/src/mongodb/services/device/device_registration_service";
-
-const {
-  Cell,
-  Pie,
-  PieChart,
-  ResponsiveContainer,
-  Tooltip,
-} = require("recharts");
 
 type Props = {
   adminVersions: VersionInfo[];
@@ -86,10 +81,9 @@ export default function Chart({ adminVersions, nodeVersions, colors }: Props) {
 export const getServerSideProps: GetServerSideProps<Props> = async (
   context
 ) => {
-  const deviceRegistrationService = new dbServices.DeviceRegistrationService();
-  const adminVersions =
-    await deviceRegistrationService.getListOfAdminVersions();
-  const nodeVersions = await deviceRegistrationService.getListOfNodeVersion();
+  const plugin = new DeviceRegistrationPlugin();
+  const adminVersions = await plugin.getListOfAdminVersions();
+  const nodeVersions = await plugin.getListOfNodeVersion();
   const size = Math.max(adminVersions.length, nodeVersions.length);
   const colors = randomColor({ count: size });
   return {

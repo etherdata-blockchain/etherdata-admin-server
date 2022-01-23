@@ -1,12 +1,12 @@
 // @flow
 import * as React from "react";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
-import ResponsiveCard from "../common/ResponsiveCard";
-import { schema } from "@etherdata-blockchain/storage-model";
+import { ITransaction } from "../../internal/services/dbSchema/transaction";
+import ResponsiveCard from "../ResponsiveCard";
 import styles from "../../styles/Transactions.module.css";
 
 type Props = {
-  transactions: schema.ITransaction[];
+  transactions: ITransaction[];
 };
 
 // eslint-disable-next-line require-jsdoc

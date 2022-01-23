@@ -1,12 +1,15 @@
 const YAML = require("yaml");
-const fs = require("fs");
 
-const version = process.argv[2];
+module.exports.readVersion = function (contents) {
+  const yamlFileContent = YAML.parse(contents);
+  const image = yamlFileContent.spec.template.spec.containers[0].image;
+  const version = image.split(":")[1];
+  return version.replace("v", "");
+};
 
-const filePath = "example_configs/k8s/deployment.yml";
-const fileContent = fs.readFileSync(filePath, "utf-8");
-const yamlFileContent = YAML.parse(fileContent);
-yamlFileContent.spec.template.spec.containers[0].image = `sirily11/etd-remote-admin-server:v${version}`;
-yamlFileContent.spec.template.spec.containers[0].env[0].value = `v${version}`;
-const newFileContent = YAML.stringify(yamlFileContent);
-fs.writeFileSync(filePath, newFileContent);
+module.exports.writeVersion = function (contents, version) {
+  const yamlFileContent = YAML.parse(contents);
+  yamlFileContent.spec.template.spec.containers[0].image = `sirily11/etd-remote-admin-server:v${version}`;
+  yamlFileContent.spec.template.spec.containers[0].env[0].value = `v${version}`;
+  return YAML.stringify(yamlFileContent);
+};

@@ -1,8 +1,6 @@
 // @flow
 import * as React from "react";
-import { ETDContext } from "../../pages/model/ETDProvider";
-
-const {
+import {
   Bar,
   BarChart,
   Legend,
@@ -10,7 +8,8 @@ const {
   Tooltip,
   XAxis,
   YAxis,
-} = require("recharts");
+} from "recharts";
+import { ETDContext } from "../../pages/model/ETDProvider";
 
 type Props = {};
 

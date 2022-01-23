@@ -1,11 +1,13 @@
 import React from "react";
+import { IDockerImage } from "../../internal/services/dbSchema/docker/docker-image";
 import { DataGrid } from "@mui/x-data-grid";
+import { columns } from "../../internal/services/dbSchema/docker/docker-image-utils";
 import { Box } from "@mui/material";
-import { schema } from "@etherdata-blockchain/storage-model";
-import { columns } from "../../internal/handlers/docker_image_handler";
+// import Form from "@rjsf/bootstrap-4";
+// import axios from "axios";
 
 interface Props {
-  dockerImages: schema.IDockerImage[];
+  dockerImages: IDockerImage[];
 }
 
 /**

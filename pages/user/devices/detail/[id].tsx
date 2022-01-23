@@ -1,14 +1,15 @@
 // @flow
 import * as React from "react";
-import PageHeader from "../../../../components/common/PageHeader";
-import Spacer from "../../../../components/common/Spacer";
+import PageHeader from "../../../../components/PageHeader";
+import Spacer from "../../../../components/Spacer";
+import ResponsiveCard from "../../../../components/ResponsiveCard";
 import {
   Button,
-  Card,
   Grid,
   List,
   ListItem,
   ListItemAvatar,
+  ListItemButton,
   ListItemText,
   ListSubheader,
   Typography,
@@ -19,20 +20,22 @@ import { LargeDataCard } from "../../../../components/cards/largeDataCard";
 import { GridDataCard } from "../../../../components/cards/gridDataCard";
 import { useRouter } from "next/dist/client/router";
 import { DeviceContext, socket } from "../../../model/DeviceProvider";
+import { abbreviateNumber } from "../../../../internal/utils/valueFormatter";
 import { UIProviderContext } from "../../../model/UIProvider";
 import { GetServerSideProps } from "next";
+import { DeviceRegistrationPlugin } from "../../../../internal/services/dbServices/device-registration-plugin";
+import { IDevice } from "../../../../internal/services/dbSchema/device";
+import { objectExpand } from "../../../../internal/utils/objectExpander";
+import Logger from "../../../../server/logger";
 import moment from "moment";
 import AllInboxIcon from "@mui/icons-material/AllInbox";
 import AlbumIcon from "@mui/icons-material/Album";
 import { ContainerDialog } from "../../../../components/device/dialog/containerDialog";
 import { ImageDialog } from "../../../../components/device/dialog/imageDialog";
-import { configs, utils } from "@etherdata-blockchain/common";
-import { dbServices } from "@etherdata-blockchain/services";
-import { schema } from "@etherdata-blockchain/storage-model";
-import Logger from "@etherdata-blockchain/logger";
+import { Configurations } from "../../../../internal/const/configurations";
 
 type Props = {
-  device: schema.IStorageItem | null;
+  device: IDevice | null;
   online: boolean;
   found: boolean;
 };
@@ -45,29 +48,20 @@ export default function DeviceDetail({ device, found }: Props) {
   const [showContainerDetails, setShowContainerDetails] = React.useState(false);
   const [showImageDetails, setShowImageDetails] = React.useState(false);
 
-  const [foundDevice, setFoundDevice] = React.useState<
-    schema.IStorageItem | undefined
-  >(device ?? undefined);
+  const [foundDevice, setFoundDevice] = React.useState<IDevice | undefined>(
+    device ?? undefined
+  );
   const online =
-    Math.abs(
-      moment(foundDevice?.deviceStatus.lastSeen).diff(moment(), "seconds")
-    ) < configs.Configurations.maximumNotSeenDuration;
-
-  const storageInfo = {
-    adminVersion: foundDevice?.deviceStatus.adminVersion,
-    owner: foundDevice?.owner_id,
-  };
+    Math.abs(moment(foundDevice?.lastSeen).diff(moment(), "seconds")) <
+    Configurations.maximumNotSeenDuration;
 
   React.useEffect(() => {
-    console.log("Joining room", device?.qr_code);
+    console.log("Joining room", device?.id);
     // @ts-ignore
-    if (found) joinDetail(device?.qr_code);
+    if (found) joinDetail(device?.id);
 
     socket?.on("detail-info", (data) => {
-      if (foundDevice) {
-        foundDevice.deviceStatus = data;
-      }
-      setFoundDevice(JSON.parse(JSON.stringify(foundDevice)));
+      setFoundDevice(data);
     });
 
     return () => {
@@ -76,12 +70,11 @@ export default function DeviceDetail({ device, found }: Props) {
     };
   }, []);
 
-  // @ts-ignore
   return (
     <div>
       <PageHeader
         title={"Device"}
-        description={`${device?.qr_code}`}
+        description={`${device?.id}`}
         action={
           <Button
             onClick={() =>
@@ -111,7 +104,7 @@ export default function DeviceDetail({ device, found }: Props) {
         <Grid item md={3} xs={6}>
           <LargeDataCard
             icon={<ComputerIcon />}
-            title={`${foundDevice?.deviceStatus?.data?.number}`}
+            title={`${foundDevice?.data?.number}`}
             color={"#ba03fc"}
             subtitleColor={"white"}
             iconColor={"white"}
@@ -142,7 +135,7 @@ export default function DeviceDetail({ device, found }: Props) {
         <Grid item xs={6}>
           <LargeDataCard
             icon={<AllInboxIcon />}
-            title={`${foundDevice?.deviceStatus.docker?.containers?.length}`}
+            title={`${foundDevice?.docker?.containers.length}`}
             color={"#ba03fc"}
             subtitleColor={"white"}
             iconColor={"white"}
@@ -157,7 +150,7 @@ export default function DeviceDetail({ device, found }: Props) {
         <Grid item xs={6}>
           <LargeDataCard
             icon={<AlbumIcon />}
-            title={`${foundDevice?.deviceStatus.docker?.images?.length}`}
+            title={`${foundDevice?.docker?.images.length}`}
             color={"#ba03fc"}
             subtitleColor={"white"}
             iconColor={"white"}
@@ -168,91 +161,65 @@ export default function DeviceDetail({ device, found }: Props) {
           />
         </Grid>
         <Grid item xs={12}>
-          <Typography variant={"subtitle1"} style={{ margin: 15 }}>
-            Status
-          </Typography>
-          <Card>
+          <ResponsiveCard>
+            <ListItem>
+              <ListItemText
+                primary={"Is Online"}
+                secondary={`${found && online}`}
+              />
+            </ListItem>
+
+            <ListItemButton
+              onClick={async () => {
+                await router.push("/user/" + foundDevice?.data?.miner);
+              }}
+            >
+              <ListItemText
+                primary={"miner"}
+                secondary={
+                  <Typography noWrap>{foundDevice?.data?.miner}</Typography>
+                }
+              />
+            </ListItemButton>
+
             <List>
-              <ListItem>
-                <ListItemText
-                  primary={"Online"}
-                  secondary={<Typography noWrap>{`${online}`}</Typography>}
-                />
-              </ListItem>
-              <ListItem>
-                <ListItemText
-                  primary={"Last Seen"}
-                  secondary={
-                    <Typography noWrap>
-                      {foundDevice?.deviceStatus.lastSeen}
-                    </Typography>
-                  }
-                />
-              </ListItem>
+              {objectExpand(foundDevice!, [
+                "__v",
+                "_id",
+                "miner",
+                "docker",
+              ]).map(({ key, value }, index) => (
+                <ListItem key={index}>
+                  <ListItemText
+                    primary={key}
+                    secondary={<Typography noWrap>{value}</Typography>}
+                  />
+                </ListItem>
+              ))}
+
+              <ListSubheader>Peers</ListSubheader>
+              {foundDevice?.data?.peers.map((p, i) => (
+                <ListItem key={i}>
+                  <ListItemAvatar>{i + 1}</ListItemAvatar>
+                  <ListItemText primary={"Device IP"} secondary={"abcde"} />
+                </ListItem>
+              ))}
             </List>
-          </Card>
-          <Typography variant={"subtitle1"} style={{ margin: 15 }}>
-            Storage Info
-          </Typography>
-          <Card>
-            {/*@ts-ignore*/}
-            {objectExpand(storageInfo, []).map(({ key, value }, index) => (
-              <ListItem key={index}>
-                <ListItemText
-                  primary={key}
-                  secondary={<Typography noWrap>{value}</Typography>}
-                />
-              </ListItem>
-            ))}
-          </Card>
-
-          <List>
-            <Typography variant={"subtitle1"} style={{ margin: 15 }}>
-              Mining info
-            </Typography>
-            <Card>
-              {utils
-                //@ts-ignore
-                .objectExpand(foundDevice?.data, [
-                  "__v",
-                  "_id",
-                  "miner",
-                  "docker",
-                ])
-                .map(({ key, value }, index) => (
-                  <ListItem key={index}>
-                    <ListItemText
-                      primary={key}
-                      secondary={<Typography noWrap>{value}</Typography>}
-                    />
-                  </ListItem>
-                ))}
-            </Card>
-          </List>
-
-          <List>
-            <ListSubheader>Peers</ListSubheader>
-            {foundDevice?.deviceStatus.data?.peers?.map((p, i) => (
-              <ListItem key={i}>
-                <ListItemAvatar>{i + 1}</ListItemAvatar>
-                <ListItemText primary={"Device IP"} secondary={"abcde"} />
-              </ListItem>
-            ))}
-          </List>
+          </ResponsiveCard>
         </Grid>
       </Grid>
 
-      {foundDevice?.deviceStatus.docker?.containers && (
+      {foundDevice?.docker?.containers && (
         <ContainerDialog
           show={showContainerDetails}
           onClose={() => setShowContainerDetails(false)}
-          containers={foundDevice?.deviceStatus.docker?.containers}
+          containers={foundDevice?.docker?.containers}
         />
       )}
 
-      {foundDevice?.deviceStatus.docker?.images && (
+      {foundDevice?.docker?.images && (
         <ImageDialog
-          images={foundDevice.deviceStatus.docker.images}
+          images={foundDevice.docker.images}
           show={showImageDetails}
           onClose={() => setShowImageDetails(false)}
         />
@@ -270,8 +237,8 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
   let found: boolean = false;
 
   try {
-    const plugin = new dbServices.StorageManagementService();
-    const client = await plugin.getDeviceByID(deviceId);
+    const plugin = new DeviceRegistrationPlugin();
+    const client = await plugin.findDeviceByDeviceID(deviceId);
     if (client) {
       found = true;
       device = client;
@@ -280,13 +247,11 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
     Logger.error("Cannot read details: " + e);
   }
 
-  const data: Props = {
-    device,
-    online,
-    found,
-  };
-
   return {
-    props: JSON.parse(JSON.stringify(data)),
+    props: {
+      device,
+      online,
+      found,
+    },
   };
 };

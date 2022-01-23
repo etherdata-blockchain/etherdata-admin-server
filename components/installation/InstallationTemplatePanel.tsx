@@ -1,11 +1,13 @@
 import React from "react";
 import { DataGrid } from "@mui/x-data-grid";
+import { columns } from "../../internal/services/dbSchema/install-script/install-script-utils";
+import { IInstallationTemplate } from "../../internal/services/dbSchema/install-script/install-script";
 import { Box } from "@mui/material";
-import { schema } from "@etherdata-blockchain/storage-model";
-import { columns } from "../../internal/handlers/install_script_handler";
+// import Form from "@rjsf/bootstrap-4";
+// import axios from "axios";
 
 interface Props {
-  installationTemplates: schema.IInstallationTemplate[];
+  installationTemplates: IInstallationTemplate[];
 }
 
 /**
