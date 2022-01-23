@@ -1,3 +1,10 @@
+## [1.10.13](https://github.com/etherdata-blockchain/etherdata-admin-server/compare/v1.10.12...v1.10.13) (2022-01-23)
+
+
+### Bug Fixes
+
+* add custom bumper ([e62c688](https://github.com/etherdata-blockchain/etherdata-admin-server/commit/e62c688b4efff55276f3c48dbef73f009ef8b121))
+
 ## [1.10.12](https://github.com/etherdata-blockchain/etherdata-admin-server/compare/v1.10.11...v1.10.12) (2022-01-23)
 
 
