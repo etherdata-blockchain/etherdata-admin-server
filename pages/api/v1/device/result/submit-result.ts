@@ -70,7 +70,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
       res.status(StatusCodes.CREATED).json(returnData);
     } else {
       returnData.error = "Device is not in our DB";
-      res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(returnData);
+      res.status(StatusCodes.NOT_FOUND).json(returnData);
     }
   } catch (err) {
     Logger.error(err);

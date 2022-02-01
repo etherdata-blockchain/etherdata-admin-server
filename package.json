@@ -18,13 +18,13 @@
   },
   "dependencies": {
     "@ant-design/icons": "^4.7.0",
-    "@emotion/react": "^11.4.1",
+    "@emotion/react": "^11.7.1",
     "@emotion/styled": "^11.3.0",
-    "@etherdata-blockchain/common": "^1.6.2",
-    "@etherdata-blockchain/history": "^1.6.1",
-    "@etherdata-blockchain/logger": "^1.6.1",
-    "@etherdata-blockchain/next-js-handlers": "^1.6.1",
-    "@etherdata-blockchain/services": "^1.6.1",
+    "@etherdata-blockchain/common": "^1.7.2",
+    "@etherdata-blockchain/history": "^1.7.2",
+    "@etherdata-blockchain/logger": "^1.7.2",
+    "@etherdata-blockchain/next-js-handlers": "^1.7.2",
+    "@etherdata-blockchain/services": "^1.7.2",
     "@etherdata-blockchain/storage-model": "^1.6.1",
     "@mui/icons-material": "^5.0.4",
     "@mui/lab": "^5.0.0-alpha.55",
@@ -80,7 +80,7 @@
     "url-join": "^4.0.1"
   },
   "devDependencies": {
-    "@babel/plugin-syntax-jsx": "^7.16.0",
+    "@babel/plugin-syntax-jsx": "^7.16.7",
     "@babel/preset-env": "^7.16.4",
     "@babel/preset-react": "^7.16.0",
     "@babel/preset-typescript": "^7.14.5",
