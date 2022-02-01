@@ -1,10 +1,26 @@
 // @flow
 import * as React from "react";
-import { Alert, Box, Card, CardContent, List, Typography } from "@mui/material";
+import {
+  Alert,
+  Box,
+  Card,
+  CardContent,
+  Chip,
+  List,
+  ListItem,
+  ListItemText,
+  Stack,
+  Typography,
+} from "@mui/material";
 import useSWR from "swr";
 import { getAxiosClient } from "../../internal/const/defaultValues";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
-import { configs, enums, interfaces } from "@etherdata-blockchain/common";
+import {
+  configs,
+  enums,
+  interfaces,
+  utils,
+} from "@etherdata-blockchain/common";
 import { schema } from "@etherdata-blockchain/storage-model";
 import { Routes } from "@etherdata-blockchain/common/src/configs/routes";
 
@@ -36,10 +52,25 @@ export function PendingJobPanel(props: Props) {
             <Card>
               <CardContent>
                 <Typography gutterBottom>{r.createdAt}</Typography>
-                <Typography variant={"subtitle1"}>
-                  {r.from} <ChevronRightIcon /> {r.targetDeviceId}
-                </Typography>
-                <Typography>{JSON.stringify(r.task)}</Typography>
+                <Stack direction={"row"} spacing={1}>
+                  <Chip label={`${r.task.type}`} color={"success"} />
+                  <Chip
+                    label={
+                      <div>
+                        {r.from} <ChevronRightIcon /> {r.targetDeviceId}
+                      </div>
+                    }
+                  />
+                </Stack>
+                <List>
+                  {utils
+                    .objectExpand(r.task.value, [])
+                    .map(({ key, value }, i) => (
+                      <ListItem key={i}>
+                        <ListItemText primary={key} secondary={value} />
+                      </ListItem>
+                    ))}
+                </List>
               </CardContent>
             </Card>
           </Box>

@@ -5,6 +5,7 @@ import Spacer from "../../../../components/common/Spacer";
 import {
   Button,
   Card,
+  Chip,
   Grid,
   List,
   ListItem,
@@ -30,6 +31,7 @@ import { configs, utils } from "@etherdata-blockchain/common";
 import { dbServices } from "@etherdata-blockchain/services";
 import { schema } from "@etherdata-blockchain/storage-model";
 import Logger from "@etherdata-blockchain/logger";
+import { PaddingBox } from "../../../../components/common/PaddingBox";
 
 type Props = {
   device: schema.IStorageItem | null;
@@ -79,6 +81,7 @@ export default function DeviceDetail({ device, found }: Props) {
   // @ts-ignore
   return (
     <div>
+      <Spacer height={20} />
       <PageHeader
         title={"Device"}
         description={`${device?.qr_code}`}
@@ -94,131 +97,115 @@ export default function DeviceDetail({ device, found }: Props) {
         }
       />
       <Spacer height={20} />
-      <Grid container spacing={5}>
-        <Grid item md={3} xs={6}>
-          <LargeDataCard
-            icon={<ComputerIcon />}
-            // @ts-ignore
-            title={`${abbreviateNumber(foundDevice?.data?.difficulty ?? 0)}`}
-            color={"#ba03fc"}
-            subtitleColor={"white"}
-            iconColor={"white"}
-            iconBackgroundColor={"#9704cc"}
-            subtitle={"Current Difficulty"}
-            className={style.detailDataCard}
-          />
-        </Grid>
-        <Grid item md={3} xs={6}>
-          <LargeDataCard
-            icon={<ComputerIcon />}
-            title={`${foundDevice?.deviceStatus?.data?.number}`}
-            color={"#ba03fc"}
-            subtitleColor={"white"}
-            iconColor={"white"}
-            iconBackgroundColor={"#9704cc"}
-            subtitle={"Current Block Number"}
-            className={style.detailDataCard}
-          />
-        </Grid>
+      <PaddingBox>
+        <Grid container spacing={5}>
+          <Grid item md={3} xs={6}>
+            <LargeDataCard
+              icon={<ComputerIcon />}
+              title={`${utils.abbreviateNumber(
+                (foundDevice as any)?.data?.difficulty ?? 0
+              )}`}
+              color={"#ba03fc"}
+              subtitleColor={"white"}
+              iconColor={"white"}
+              iconBackgroundColor={"#9704cc"}
+              subtitle={"Current Difficulty"}
+              className={style.detailDataCard}
+            />
+          </Grid>
+          <Grid item md={3} xs={6}>
+            <LargeDataCard
+              icon={<ComputerIcon />}
+              title={`${foundDevice?.deviceStatus?.data?.number}`}
+              color={"#ba03fc"}
+              subtitleColor={"white"}
+              iconColor={"white"}
+              iconBackgroundColor={"#9704cc"}
+              subtitle={"Current Block Number"}
+              className={style.detailDataCard}
+            />
+          </Grid>
 
-        <Grid item md={6} xs={12}>
-          <GridDataCard
-            className={style.detailDataCard}
-            backgroundColor={"#3385ff"}
-            titleColor={"white"}
-            subtitleColor={"white"}
-            items={[
-              { title: "100%", subtitle: "CPU", icon: <ComputerIcon /> },
-              { title: "100%", subtitle: "Memory", icon: <ComputerIcon /> },
-              { title: "100%", subtitle: "Hard Disk", icon: <ComputerIcon /> },
-              {
-                title: "100%",
-                subtitle: "Update Time",
-                icon: <ComputerIcon />,
-              },
-            ]}
-          />
-        </Grid>
-        <Grid item xs={6}>
-          <LargeDataCard
-            icon={<AllInboxIcon />}
-            title={`${foundDevice?.deviceStatus.docker?.containers?.length}`}
-            color={"#ba03fc"}
-            subtitleColor={"white"}
-            iconColor={"white"}
-            iconBackgroundColor={"#9704cc"}
-            subtitle={"Docker containers"}
-            className={style.detailDataCard}
-            onClick={() => {
-              setShowContainerDetails(true);
-            }}
-          />
-        </Grid>
-        <Grid item xs={6}>
-          <LargeDataCard
-            icon={<AlbumIcon />}
-            title={`${foundDevice?.deviceStatus.docker?.images?.length}`}
-            color={"#ba03fc"}
-            subtitleColor={"white"}
-            iconColor={"white"}
-            iconBackgroundColor={"#9704cc"}
-            subtitle={"Docker installation-template"}
-            className={style.detailDataCard}
-            onClick={() => setShowImageDetails(true)}
-          />
-        </Grid>
-        <Grid item xs={12}>
-          <Typography variant={"subtitle1"} style={{ margin: 15 }}>
-            Status
-          </Typography>
-          <Card>
-            <List>
-              <ListItem>
-                <ListItemText
-                  primary={"Online"}
-                  secondary={<Typography noWrap>{`${online}`}</Typography>}
-                />
-              </ListItem>
-              <ListItem>
-                <ListItemText
-                  primary={"Last Seen"}
-                  secondary={
-                    <Typography noWrap>
-                      {foundDevice?.deviceStatus.lastSeen}
-                    </Typography>
-                  }
-                />
-              </ListItem>
-            </List>
-          </Card>
-          <Typography variant={"subtitle1"} style={{ margin: 15 }}>
-            Storage Info
-          </Typography>
-          <Card>
-            {/*@ts-ignore*/}
-            {objectExpand(storageInfo, []).map(({ key, value }, index) => (
-              <ListItem key={index}>
-                <ListItemText
-                  primary={key}
-                  secondary={<Typography noWrap>{value}</Typography>}
-                />
-              </ListItem>
-            ))}
-          </Card>
-
-          <List>
-            <Typography variant={"subtitle1"} style={{ margin: 15 }}>
-              Mining info
-            </Typography>
+          <Grid item md={6} xs={12}>
+            <GridDataCard
+              className={style.detailDataCard}
+              backgroundColor={"#3385ff"}
+              titleColor={"white"}
+              subtitleColor={"white"}
+              items={[
+                { title: "100%", subtitle: "CPU", icon: <ComputerIcon /> },
+                { title: "100%", subtitle: "Memory", icon: <ComputerIcon /> },
+                {
+                  title: "100%",
+                  subtitle: "Hard Disk",
+                  icon: <ComputerIcon />,
+                },
+                {
+                  title: "100%",
+                  subtitle: "Update Time",
+                  icon: <ComputerIcon />,
+                },
+              ]}
+            />
+          </Grid>
+          <Grid item xs={6}>
+            <LargeDataCard
+              icon={<AllInboxIcon />}
+              title={`${foundDevice?.deviceStatus.docker?.containers?.length}`}
+              color={"#ba03fc"}
+              subtitleColor={"white"}
+              iconColor={"white"}
+              iconBackgroundColor={"#9704cc"}
+              subtitle={"Docker containers"}
+              className={style.detailDataCard}
+              onClick={() => {
+                setShowContainerDetails(true);
+              }}
+            />
+          </Grid>
+          <Grid item xs={6}>
+            <LargeDataCard
+              icon={<AlbumIcon />}
+              title={`${foundDevice?.deviceStatus.docker?.images?.length}`}
+              color={"#ba03fc"}
+              subtitleColor={"white"}
+              iconColor={"white"}
+              iconBackgroundColor={"#9704cc"}
+              subtitle={"Docker installation-template"}
+              className={style.detailDataCard}
+              onClick={() => setShowImageDetails(true)}
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <Spacer height={10} />
+            <Chip label={"Status"} />
+            <Spacer height={10} />
+            <Card>
+              <List>
+                <ListItem>
+                  <ListItemText
+                    primary={"Online"}
+                    secondary={<Typography noWrap>{`${online}`}</Typography>}
+                  />
+                </ListItem>
+                <ListItem>
+                  <ListItemText
+                    primary={"Last Seen"}
+                    secondary={
+                      <Typography noWrap>
+                        {foundDevice?.deviceStatus.lastSeen}
+                      </Typography>
+                    }
+                  />
+                </ListItem>
+              </List>
+            </Card>
+            <Spacer height={10} />
+            <Chip label={"Storage Info"} />
+            <Spacer height={10} />
             <Card>
               {utils
-                //@ts-ignore
-                .objectExpand(foundDevice?.data, [
-                  "__v",
-                  "_id",
-                  "miner",
-                  "docker",
-                ])
+                .objectExpand(storageInfo, [])
                 .map(({ key, value }, index) => (
                   <ListItem key={index}>
                     <ListItemText
@@ -228,35 +215,58 @@ export default function DeviceDetail({ device, found }: Props) {
                   </ListItem>
                 ))}
             </Card>
-          </List>
 
-          <List>
-            <ListSubheader>Peers</ListSubheader>
-            {foundDevice?.deviceStatus.data?.peers?.map((p, i) => (
-              <ListItem key={i}>
-                <ListItemAvatar>{i + 1}</ListItemAvatar>
-                <ListItemText primary={"Device IP"} secondary={"abcde"} />
-              </ListItem>
-            ))}
-          </List>
+            <List>
+              <Spacer height={10} />
+              <Chip label={"Mining Info"} />
+              <Spacer height={10} />
+              <Card>
+                {utils
+                  .objectExpand((foundDevice as any)?.data ?? {}, [
+                    "__v",
+                    "_id",
+                    "miner",
+                    "docker",
+                  ])
+                  .map(({ key, value }, index) => (
+                    <ListItem key={index}>
+                      <ListItemText
+                        primary={key}
+                        secondary={<Typography noWrap>{value}</Typography>}
+                      />
+                    </ListItem>
+                  ))}
+              </Card>
+            </List>
+
+            <List>
+              <ListSubheader>Peers</ListSubheader>
+              {foundDevice?.deviceStatus.data?.peers?.map((p, i) => (
+                <ListItem key={i}>
+                  <ListItemAvatar>{i + 1}</ListItemAvatar>
+                  <ListItemText primary={"Device IP"} secondary={"abcde"} />
+                </ListItem>
+              ))}
+            </List>
+          </Grid>
         </Grid>
-      </Grid>
 
-      {foundDevice?.deviceStatus.docker?.containers && (
-        <ContainerDialog
-          show={showContainerDetails}
-          onClose={() => setShowContainerDetails(false)}
-          containers={foundDevice?.deviceStatus.docker?.containers}
-        />
-      )}
+        {foundDevice?.deviceStatus.docker?.containers && (
+          <ContainerDialog
+            show={showContainerDetails}
+            onClose={() => setShowContainerDetails(false)}
+            containers={foundDevice?.deviceStatus.docker?.containers}
+          />
+        )}
 
-      {foundDevice?.deviceStatus.docker?.images && (
-        <ImageDialog
-          images={foundDevice.deviceStatus.docker.images}
-          show={showImageDetails}
-          onClose={() => setShowImageDetails(false)}
-        />
-      )}
+        {foundDevice?.deviceStatus.docker?.images && (
+          <ImageDialog
+            images={foundDevice.deviceStatus.docker.images}
+            show={showImageDetails}
+            onClose={() => setShowImageDetails(false)}
+          />
+        )}
+      </PaddingBox>
     </div>
   );
 }

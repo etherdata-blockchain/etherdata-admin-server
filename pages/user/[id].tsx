@@ -81,7 +81,8 @@ export default function ({
       );
 
       return result.data;
-    }
+    },
+    { refreshInterval: configs.Configurations.defaultRefreshInterval }
   );
 
   return (

@@ -6,6 +6,7 @@ import {
   Box,
   Collapse,
   Divider,
+  Grid,
   LinearProgress,
   Step,
   StepContent,
@@ -26,7 +27,6 @@ import { PlayCircle } from "@mui/icons-material";
 import { LoadingButton } from "@mui/lab";
 import { interfaces, utils } from "@etherdata-blockchain/common";
 import { dbServices } from "@etherdata-blockchain/services";
-import { schema } from "@etherdata-blockchain/storage-model";
 import { getAxiosClient } from "../../../../internal/const/defaultValues";
 import { Routes } from "@etherdata-blockchain/common/src/configs/routes";
 import { Configurations } from "@etherdata-blockchain/common/src/configs/configurations";
@@ -46,7 +46,9 @@ type Props = {
  */
 export default function Run(props: Props) {
   const [isLoading, setIsLoading] = React.useState(false);
-  const { data, error, isValidating } = useSWR<schema.IExecutionPlan[]>(
+  const { data, error, isValidating } = useSWR<
+    interfaces.db.ExecutionPlanDBInterface[]
+  >(
     { id: props.updateTemplate._id },
     async ({ id }) => {
       const data = await getAxiosClient().get(
@@ -93,61 +95,76 @@ export default function Run(props: Props) {
       />
       <Spacer height={20} />
       <PaddingBox>
-        <ResponsiveCard title={"Status"}>
-          <Collapse
-            in={data === undefined && error === undefined}
-            mountOnEnter
-            unmountOnExit
-          >
-            <LinearProgress />
-          </Collapse>
-
-          <Collapse in={error !== undefined} mountOnEnter unmountOnExit>
-            <Typography>{`${error}`}</Typography>
-          </Collapse>
-
-          <Collapse mountOnEnter unmountOnExit in={data !== undefined}>
-            <Stepper activeStep={findActiveIndex()} orientation={"vertical"}>
-              {data?.map((plan) => (
-                <Step key={plan._id}>
-                  <StepLabel>
-                    {plan.name} - {plan.createdAt}
-                  </StepLabel>
-                  <StepContent>
-                    <Typography>{plan.description}</Typography>
-                  </StepContent>
-                </Step>
-              ))}
-            </Stepper>
-          </Collapse>
-
-          <Spacer height={20} />
-
-          <Divider>OR Run with new plan</Divider>
-          <Box alignItems={"center"} justifyContent={"center"} display={"flex"}>
-            <LoadingButton
-              loading={isLoading}
-              onClick={runPlan}
-              size={"large"}
-              variant="contained"
-              endIcon={<PlayCircle />}
+        <Grid container spacing={5}>
+          <Grid item md={6}>
+            <ResponsiveCard
+              title={"Template overview"}
+              style={{ maxHeight: "85vh", overflow: "scroll" }}
             >
-              Run Plan
-            </LoadingButton>
-          </Box>
-        </ResponsiveCard>
+              <Form
+                schema={jsonSchema}
+                formData={props.updateTemplate}
+                liveValidate={true}
+                widgets={{ image: ImageField }}
+                uiSchema={UISchema}
+                readonly
+              />
+            </ResponsiveCard>
+          </Grid>
 
-        <Spacer height={20} />
-        <ResponsiveCard title={"Template overview"}>
-          <Form
-            schema={jsonSchema}
-            formData={props.updateTemplate}
-            liveValidate={true}
-            widgets={{ image: ImageField }}
-            uiSchema={UISchema}
-            readonly
-          />
-        </ResponsiveCard>
+          <Grid item md={6}>
+            <ResponsiveCard title={"Status"}>
+              <Collapse
+                in={data === undefined && error === undefined}
+                mountOnEnter
+                unmountOnExit
+              >
+                <LinearProgress />
+              </Collapse>
+
+              <Collapse in={error !== undefined} mountOnEnter unmountOnExit>
+                <Typography>{`${error}`}</Typography>
+              </Collapse>
+
+              <Collapse mountOnEnter unmountOnExit in={data !== undefined}>
+                <Stepper
+                  activeStep={findActiveIndex()}
+                  orientation={"vertical"}
+                >
+                  {data?.map((plan) => (
+                    <Step key={(plan as any)._id}>
+                      <StepLabel>
+                        {plan.name} - {plan.createdAt}
+                      </StepLabel>
+                      <StepContent>
+                        <Typography>{plan.description}</Typography>
+                      </StepContent>
+                    </Step>
+                  ))}
+                </Stepper>
+              </Collapse>
+
+              <Spacer height={20} />
+
+              <Divider>OR Run with new plan</Divider>
+              <Box
+                alignItems={"center"}
+                justifyContent={"center"}
+                display={"flex"}
+              >
+                <LoadingButton
+                  loading={isLoading}
+                  onClick={runPlan}
+                  size={"large"}
+                  variant="contained"
+                  endIcon={<PlayCircle />}
+                >
+                  Run Plan
+                </LoadingButton>
+              </Box>
+            </ResponsiveCard>
+          </Grid>
+        </Grid>
       </PaddingBox>
     </div>
   );
