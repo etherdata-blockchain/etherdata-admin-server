@@ -1,3 +1,10 @@
+## 1.10.14-beta.1 (2022-02-09)
+
+
+### Bug Fixes
+
+* 0 online device and update template broken ([#35](https://github.com/etherdata-blockchain/etherdata-admin-server/issues/35)) ([c8e0084](https://github.com/etherdata-blockchain/etherdata-admin-server/commit/c8e00842a3335a6005107170eb866e53fc2745a1))
+
 ## 1.10.14-beta.0 (2022-01-23)
 
 
