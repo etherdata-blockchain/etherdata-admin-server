@@ -5,6 +5,7 @@ import PlayCircleIcon from "@mui/icons-material/PlayCircle";
 import { Button, IconButton } from "@mui/material";
 import { DeviceIdField } from "../../components/update/DeviceIdField";
 import { Routes } from "@etherdata-blockchain/common/src/configs/routes";
+import { ImageField } from "../../components/installation/DockerImageField";
 
 export const jsonSchema: JSONSchema7 = {
   description:
@@ -32,8 +33,12 @@ export const jsonSchema: JSONSchema7 = {
       description: "Will use this field to pull images from remote",
       type: "array",
       items: {
-        title: "Docker Image",
-        type: "string",
+        type: "object",
+        title: "Docker Image ID",
+        properties: {
+          image: { type: "string" },
+          tag: { type: "string" },
+        },
       },
     },
     containerStacks: {
@@ -48,8 +53,12 @@ export const jsonSchema: JSONSchema7 = {
             title: "Container Name",
           },
           image: {
-            type: "string",
-            description: "Which image will be used",
+            type: "object",
+            title: "Docker Image ID",
+            properties: {
+              image: { type: "string" },
+              tag: { type: "string" },
+            },
           },
           config: {
             title: "Container Configurations",
@@ -162,5 +171,17 @@ export const columns: GridColDef[] = [
 export const UISchema = {
   targetDeviceIds: {
     "ui:ArrayFieldTemplate": DeviceIdField,
+  },
+  imageStacks: {
+    items: {
+      "ui:ObjectFieldTemplate": ImageField,
+    },
+  },
+  containerStacks: {
+    items: {
+      image: {
+        "ui:ObjectFieldTemplate": ImageField,
+      },
+    },
   },
 };

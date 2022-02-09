@@ -53,9 +53,7 @@ describe("Given a result plugin", () => {
       headers: {
         Authorization: "Bearer " + token,
       },
-      body: {
-        result: mockJobResultData,
-      },
+      body: mockJobResultData,
     });
 
     //@ts-ignore
@@ -73,9 +71,7 @@ describe("Given a result plugin", () => {
       headers: {
         Authorization: "Bearer " + token,
       },
-      body: {
-        result: mockData.MockJobResultData,
-      },
+      body: mockData.MockJobResultData,
     });
 
     //@ts-ignore
@@ -101,9 +97,7 @@ describe("Given a result plugin", () => {
       headers: {
         Authorization: "Bearer " + token,
       },
-      body: {
-        result: mockJobResultData,
-      },
+      body: mockJobResultData,
     });
 
     //@ts-ignore
@@ -139,9 +133,7 @@ describe("Given a result plugin", () => {
       headers: {
         Authorization: "Bearer " + token,
       },
-      body: {
-        result: mockJobResultData,
-      },
+      body: mockJobResultData,
     });
 
     //@ts-ignore

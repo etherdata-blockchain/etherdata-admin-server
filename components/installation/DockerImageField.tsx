@@ -31,9 +31,9 @@ export function ImageField(props: any) {
         label={title}
         placeholder={title}
         selection={formData}
-        onChange={(v) => {
-          const obj = { image: v._id, tag: v.tags[0]._id };
-          onChange(obj);
+        onChange={async (v) => {
+          const obj = { image: (v as any)._id, tag: (v.tags[0] as any)._id };
+          await onChange(obj);
         }}
       />
     </Box>

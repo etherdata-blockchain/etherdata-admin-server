@@ -16,7 +16,7 @@ describe("Given a Update template component", () => {
   });
 
   afterAll(async () => {
-    dbServer.stop();
+    await dbServer.stop();
   });
 
   test("When calling getServerSideProps", async () => {

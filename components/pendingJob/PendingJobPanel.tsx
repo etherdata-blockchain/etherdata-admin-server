@@ -10,6 +10,7 @@ import {
   ListItem,
   ListItemText,
   Stack,
+  Tooltip,
   Typography,
 } from "@mui/material";
 import useSWR from "swr";
@@ -23,6 +24,8 @@ import {
 } from "@etherdata-blockchain/common";
 import { schema } from "@etherdata-blockchain/storage-model";
 import { Routes } from "@etherdata-blockchain/common/src/configs/routes";
+import DoneIcon from "@mui/icons-material/Done";
+import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 
 type Props = {};
 
@@ -51,7 +54,29 @@ export function PendingJobPanel(props: Props) {
           <Box key={r._id} p={2}>
             <Card>
               <CardContent>
-                <Typography gutterBottom>{r.createdAt}</Typography>
+                <Stack direction={"row"} spacing={1}>
+                  <Typography gutterBottom>{r.createdAt}</Typography>
+                  <div>
+                    {r.retrieved ? (
+                      <Tooltip title={"Retrieved"}>
+                        <Chip
+                          size={"small"}
+                          label={<DoneIcon />}
+                          color={"success"}
+                        />
+                      </Tooltip>
+                    ) : (
+                      <Tooltip title={"Pending"}>
+                        <Chip
+                          size={"small"}
+                          label={<MoreHorizIcon />}
+                          color={"warning"}
+                        />
+                      </Tooltip>
+                    )}
+                  </div>
+                </Stack>
+
                 <Stack direction={"row"} spacing={1}>
                   <Chip label={`${r.task.type}`} color={"success"} />
                   <Chip

@@ -7,6 +7,7 @@ import { JSONSchema7 } from "json-schema";
 import { Button } from "@mui/material";
 import DownloadTemplateButton from "../../components/installation/DownloadTemplateButton";
 import { Routes } from "@etherdata-blockchain/common/src/configs/routes";
+import { ImageField } from "../../components/installation/DockerImageField";
 
 export const jsonSchema: JSONSchema7 = {
   title: "Installation template",
@@ -128,3 +129,15 @@ export const columns: GridColDef[] = [
     },
   },
 ];
+
+export const uiSchema = {
+  services: {
+    items: {
+      service: {
+        image: {
+          "ui:ObjectFieldTemplate": ImageField,
+        },
+      },
+    },
+  },
+};

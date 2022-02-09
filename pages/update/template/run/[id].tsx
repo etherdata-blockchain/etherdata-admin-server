@@ -4,6 +4,7 @@ import { GetServerSideProps } from "next";
 
 import {
   Box,
+  Chip,
   Collapse,
   Divider,
   Grid,
@@ -12,6 +13,7 @@ import {
   StepContent,
   StepLabel,
   Stepper,
+  Tooltip,
   Typography,
 } from "@mui/material";
 import useSWR from "swr";
@@ -23,7 +25,7 @@ import Form from "@rjsf/bootstrap-4";
 import { ImageField } from "../../../../components/installation/DockerImageField";
 import "bootstrap/dist/css/bootstrap.min.css";
 import join from "url-join";
-import { PlayCircle } from "@mui/icons-material";
+import { Clear, Done, PlayCircle } from "@mui/icons-material";
 import { LoadingButton } from "@mui/lab";
 import { interfaces, utils } from "@etherdata-blockchain/common";
 import { dbServices } from "@etherdata-blockchain/services";
@@ -112,7 +114,7 @@ export default function Run(props: Props) {
             </ResponsiveCard>
           </Grid>
 
-          <Grid item md={6}>
+          <Grid item md={6} style={{ maxHeight: "85vh", overflow: "scroll" }}>
             <ResponsiveCard title={"Status"}>
               <Collapse
                 in={data === undefined && error === undefined}
@@ -133,8 +135,12 @@ export default function Run(props: Props) {
                 >
                   {data?.map((plan) => (
                     <Step key={(plan as any)._id}>
-                      <StepLabel>
-                        {plan.name} - {plan.createdAt}
+                      <StepLabel error={plan.isError}>
+                        <Tooltip title={plan.description}>
+                          <Typography>
+                            {plan.name} - {plan.createdAt}{" "}
+                          </Typography>
+                        </Tooltip>
                       </StepLabel>
                       <StepContent>
                         <Typography>{plan.description}</Typography>
