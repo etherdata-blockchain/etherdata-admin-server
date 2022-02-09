@@ -19,18 +19,19 @@ import { configs } from "@etherdata-blockchain/common";
 import { dbServices } from "@etherdata-blockchain/services";
 import { schema } from "@etherdata-blockchain/storage-model";
 import { Routes } from "@etherdata-blockchain/common/src/configs/routes";
-import { jsonSchema } from "../../../internal/handlers/install_script_handler";
+import {
+  jsonSchema,
+  uiSchema,
+} from "../../../internal/handlers/install_script_handler";
 
-type Props = {
-  images: schema.IDockerImage[];
-};
+type Props = {};
 
 /**
  * Installation template page
  * @param{Props} props
  * @constructor
  */
-export default function Index({ images }: Props) {
+export default function Index(props: Props) {
   const [isLoading, setIsLoading] = React.useState(false);
   const { showSnackBarMessage } = React.useContext(UIProviderContext);
   const [formData, setFormData] = React.useState();
@@ -76,20 +77,7 @@ export default function Index({ images }: Props) {
             onSubmit={async (data) => {
               await submitData(data.formData);
             }}
-            uiSchema={{
-              services: {
-                items: {
-                  service: {
-                    image: {
-                      "ui:ObjectFieldTemplate": ImageField,
-                      "ui:options": {
-                        images: images,
-                      },
-                    },
-                  },
-                },
-              },
-            }}
+            uiSchema={uiSchema}
           />
         </Box>
       </PaddingBox>
@@ -102,23 +90,3 @@ export default function Index({ images }: Props) {
     </div>
   );
 }
-
-export const getServerSideProps: GetServerSideProps<Props> = async (
-  context
-) => {
-  //TODO: Add pagination
-  const dockerImagePlugin = new dbServices.DockerImageService();
-
-  const images = await dockerImagePlugin.list(
-    configs.Configurations.defaultPaginationStartingPage,
-    configs.Configurations.numberPerPage
-  );
-
-  const data: Props = {
-    images: images?.results ?? [],
-  };
-
-  return {
-    props: JSON.parse(JSON.stringify(data)),
-  };
-};

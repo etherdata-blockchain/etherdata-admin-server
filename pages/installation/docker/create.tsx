@@ -10,8 +10,8 @@ import { Backdrop, CircularProgress } from "@mui/material";
 import { useRouter } from "next/dist/client/router";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { PaddingBox } from "../../../components/common/PaddingBox";
-import { jsonSchema } from "../../../internal/handlers/install_script_handler";
 import { Routes } from "@etherdata-blockchain/common/src/configs/routes";
+import { jsonSchema } from "../../../internal/handlers/docker_image_handler";
 
 type Props = {};
 

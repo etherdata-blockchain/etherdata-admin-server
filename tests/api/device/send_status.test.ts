@@ -58,7 +58,7 @@ describe("Test sending a user status", () => {
 
     //@ts-ignore
     await handler(req, res);
-    expect(res._getStatusCode()).toBe(201);
+    expect(res._getStatusCode()).toBe(StatusCodes.OK);
   });
 
   test("Add new user without correct token", async () => {

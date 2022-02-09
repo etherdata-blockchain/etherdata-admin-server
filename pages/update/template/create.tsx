@@ -8,20 +8,17 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { UIProviderContext } from "../../model/UIProvider";
 import { Backdrop, CircularProgress } from "@mui/material";
 import { useRouter } from "next/dist/client/router";
-import { GetServerSideProps } from "next";
 import { PaddingBox } from "../../../components/common/PaddingBox";
 import { getAxiosClient } from "../../../internal/const/defaultValues";
-import { configs, interfaces } from "@etherdata-blockchain/common";
-import { dbServices } from "@etherdata-blockchain/services";
+import { interfaces } from "@etherdata-blockchain/common";
 import {
   jsonSchema,
   UISchema,
 } from "../../../internal/handlers/update_template_handler";
 import { Routes } from "@etherdata-blockchain/common/src/configs/routes";
-import { schema } from "@etherdata-blockchain/storage-model";
 
 type Props = {
-  images: schema.IDockerImage[];
+  images: interfaces.db.DockerImageDBInterface[];
 };
 
 /**
@@ -86,22 +83,3 @@ export default function Index({ images }: Props) {
     </div>
   );
 }
-
-export const getServerSideProps: GetServerSideProps<Props> = async (
-  context
-) => {
-  const dockerImageService = new dbServices.DockerImageService();
-
-  const images = await dockerImageService.list(
-    configs.Configurations.defaultPaginationStartingPage,
-    configs.Configurations.numberPerPage
-  );
-
-  const data: Props = {
-    images: images?.results ?? [],
-  };
-
-  return {
-    props: JSON.parse(JSON.stringify(data)),
-  };
-};

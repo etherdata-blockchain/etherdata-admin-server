@@ -3,18 +3,17 @@ import * as React from "react";
 import { Autocomplete, TextField } from "@mui/material";
 import { throttle } from "lodash";
 import { getAxiosClient } from "../../internal/const/defaultValues";
-import { configs, utils } from "@etherdata-blockchain/common";
-import { schema } from "@etherdata-blockchain/storage-model";
+import { configs, interfaces, utils } from "@etherdata-blockchain/common";
 import qs from "query-string";
 import { Routes } from "@etherdata-blockchain/common/src/configs/routes";
 
 type Props = {
-  defaultValues?: schema.IDockerImage[];
+  defaultValues?: interfaces.db.DockerImageDBInterface[];
   selection: any;
   label: string;
   id: string;
   placeholder: string;
-  onChange(value: schema.IDockerImage): void;
+  onChange(value: interfaces.db.DockerImageDBInterface): void;
 };
 
 /**
@@ -24,9 +23,9 @@ type Props = {
  * @constructor
  */
 export function DockerImageAutocompleteTextField(props: Props) {
-  const [options, setOptions] = React.useState<schema.IDockerImage[]>(
-    utils.expandImages(props.defaultValues ?? ([] as any)) as any
-  );
+  const [options, setOptions] = React.useState<
+    interfaces.db.DockerImageDBInterface[]
+  >(utils.expandImages(props.defaultValues ?? ([] as any)) as any);
   const [isLoading, setIsLoading] = React.useState(false);
 
   const search = React.useCallback(
@@ -68,11 +67,13 @@ export function DockerImageAutocompleteTextField(props: Props) {
         <TextField {...params} variant="filled" label={props.label} />
       )}
       options={options}
-      getOptionLabel={(o: schema.IDockerImage) => {
+      getOptionLabel={(o: interfaces.db.DockerImageDBInterface) => {
         if (o.tags?.length > 0) {
           return `${o.imageName}:${o.tags[0].tag}`;
-        } else if (o.tag) {
+        } else if (o.tag && typeof o.tag === "object" && o.tag.tag) {
           return `${o.imageName}:${o.tag.tag}`;
+        } else if (typeof o.tags === "object") {
+          return `${o.imageName}:${(o.tags as any).tag}`;
         }
         return "Invalid value";
       }}
