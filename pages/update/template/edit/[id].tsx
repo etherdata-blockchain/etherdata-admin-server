@@ -18,7 +18,6 @@ import { PaddingBox } from "../../../../components/common/PaddingBox";
 
 import { interfaces } from "@etherdata-blockchain/common";
 import { dbServices } from "@etherdata-blockchain/services";
-import { schema } from "@etherdata-blockchain/storage-model";
 import { Routes } from "@etherdata-blockchain/common/src/configs/routes";
 import {
   jsonSchema,
@@ -41,7 +40,7 @@ export default function Index({ updateTemplate }: Props) {
   const router = useRouter();
   const url = `${Routes.updateTemplateAPIEdit}/${updateTemplate._id}`;
 
-  const submitData = async (data: schema.IUpdateTemplate) => {
+  const submitData = async (data: interfaces.db.UpdateTemplateDBInterface) => {
     setIsLoading(true);
     try {
       await getAxiosClient().patch(url, data);

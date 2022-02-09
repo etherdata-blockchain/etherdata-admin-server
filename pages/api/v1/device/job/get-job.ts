@@ -50,7 +50,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
       returnData.key = newKey;
       res.status(StatusCodes.OK).json(returnData);
     } else {
-      Logger.error("Device is not in our DB");
+      Logger.error(`${__filename} Device is not in our DB`);
       returnData.error = "Device is not in our DB";
       res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(returnData);
     }

@@ -1,12 +1,31 @@
 // @flow
 import * as React from "react";
-import { Alert, Box, Card, CardContent, List, Typography } from "@mui/material";
+import {
+  Alert,
+  Box,
+  Card,
+  CardContent,
+  Chip,
+  List,
+  ListItem,
+  ListItemText,
+  Stack,
+  Tooltip,
+  Typography,
+} from "@mui/material";
 import useSWR from "swr";
 import { getAxiosClient } from "../../internal/const/defaultValues";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
-import { configs, enums, interfaces } from "@etherdata-blockchain/common";
+import {
+  configs,
+  enums,
+  interfaces,
+  utils,
+} from "@etherdata-blockchain/common";
 import { schema } from "@etherdata-blockchain/storage-model";
 import { Routes } from "@etherdata-blockchain/common/src/configs/routes";
+import DoneIcon from "@mui/icons-material/Done";
+import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 
 type Props = {};
 
@@ -35,11 +54,48 @@ export function PendingJobPanel(props: Props) {
           <Box key={r._id} p={2}>
             <Card>
               <CardContent>
-                <Typography gutterBottom>{r.createdAt}</Typography>
-                <Typography variant={"subtitle1"}>
-                  {r.from} <ChevronRightIcon /> {r.targetDeviceId}
-                </Typography>
-                <Typography>{JSON.stringify(r.task)}</Typography>
+                <Stack direction={"row"} spacing={1}>
+                  <Typography gutterBottom>{r.createdAt}</Typography>
+                  <div>
+                    {r.retrieved ? (
+                      <Tooltip title={"Retrieved"}>
+                        <Chip
+                          size={"small"}
+                          label={<DoneIcon />}
+                          color={"success"}
+                        />
+                      </Tooltip>
+                    ) : (
+                      <Tooltip title={"Pending"}>
+                        <Chip
+                          size={"small"}
+                          label={<MoreHorizIcon />}
+                          color={"warning"}
+                        />
+                      </Tooltip>
+                    )}
+                  </div>
+                </Stack>
+
+                <Stack direction={"row"} spacing={1}>
+                  <Chip label={`${r.task.type}`} color={"success"} />
+                  <Chip
+                    label={
+                      <div>
+                        {r.from} <ChevronRightIcon /> {r.targetDeviceId}
+                      </div>
+                    }
+                  />
+                </Stack>
+                <List>
+                  {utils
+                    .objectExpand(r.task.value, [])
+                    .map(({ key, value }, i) => (
+                      <ListItem key={i}>
+                        <ListItemText primary={key} secondary={value} />
+                      </ListItem>
+                    ))}
+                </List>
               </CardContent>
             </Card>
           </Box>

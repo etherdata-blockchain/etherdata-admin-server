@@ -9,6 +9,7 @@ import {
   methodAllowedHandler,
 } from "@etherdata-blockchain/next-js-handlers";
 import HTTPMethod from "http-method-enum";
+import path from "path";
 
 type Data = {
   error?: string;
@@ -56,11 +57,11 @@ async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
     };
 
     const responseData = await plugin.patch(deviceData as schema.IDevice);
-    res.status(201).json({ data: responseData, key: newKey });
+    res.status(StatusCodes.OK).json({ data: responseData, key: newKey });
   } catch (err) {
-    Logger.error(err);
+    Logger.error(`${__filename}: ${err}`);
     returnData.error = `${err}`;
-    res.status(500).json(returnData);
+    res.status(StatusCodes.NOT_FOUND).json(returnData);
     return;
   }
 }
