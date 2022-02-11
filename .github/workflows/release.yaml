@@ -22,7 +22,7 @@ jobs:
       - name: Prepare
         id: prep
         run: |
-          DOCKER_IMAGE=sirily11/etd-admin-node
+          DOCKER_IMAGE=sirily11/etd-remote-admin-server
           VERSION=${{ github.event.release.tag_name }}
           TAGS="${DOCKER_IMAGE}:${VERSION}"
           echo ::set-output name=version::${VERSION}
@@ -45,7 +45,7 @@ jobs:
         with:
           context: .
           file: ./Dockerfile
-          platforms: linux/arm64,linux/amd64
+          platforms: linux/amd64
           push: true
           tags: ${{ steps.prep.outputs.tags }}
           cache-from: type=local,src=/tmp/.buildx-cache
