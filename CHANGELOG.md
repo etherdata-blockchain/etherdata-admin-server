@@ -1,3 +1,10 @@
+## 1.10.18 (2022-02-11)
+
+
+### Bug Fixes
+
+* deployment.yaml should not add v to the version ([15cfe3c](https://github.com/etherdata-blockchain/etherdata-admin-server/commit/15cfe3c3dda6f1cd7134bd97958768cd82c34fd0))
+
 ## 1.10.17 (2022-02-11)
 
 
