@@ -1,7 +1,7 @@
 import React from "react";
-import {useRouter} from "next/dist/client/router";
+import { useRouter } from "next/dist/client/router";
 import Web3 from "web3";
-import {CircularProgress, InputBase} from "@mui/material";
+import { CircularProgress, InputBase } from "@mui/material";
 
 /**
  * Search bar will perform a search operation

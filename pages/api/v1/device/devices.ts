@@ -1,6 +1,6 @@
-import type {NextApiRequest, NextApiResponse} from "next";
-import {dbServices} from "@etherdata-blockchain/services";
-import {jwtVerificationHandler} from "@etherdata-blockchain/next-js-handlers";
+import type { NextApiRequest, NextApiResponse } from "next";
+import { dbServices } from "@etherdata-blockchain/services";
+import { jwtVerificationHandler } from "@etherdata-blockchain/next-js-handlers";
 
 /**
  * Found user by given user
