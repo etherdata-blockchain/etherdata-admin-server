@@ -1,3 +1,10 @@
+## 1.10.17 (2022-02-11)
+
+
+### Bug Fixes
+
+* release action ([7c2ed94](https://github.com/etherdata-blockchain/etherdata-admin-server/commit/7c2ed945ef691418eafcf4545d9075059f41055f))
+
 ## 1.10.16 (2022-02-11)
 
 
