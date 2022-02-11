@@ -1,3 +1,10 @@
+## 1.10.16 (2022-02-11)
+
+
+### Bug Fixes
+
+* release action won't trigger problem ([8440db9](https://github.com/etherdata-blockchain/etherdata-admin-server/commit/8440db98d8d818380946d4f7103b6495ec2c7cba))
+
 ## 1.10.15 (2022-02-11)
 
 
