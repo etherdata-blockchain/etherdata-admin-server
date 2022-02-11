@@ -1,3 +1,10 @@
+## 1.10.19 (2022-02-11)
+
+
+### Bug Fixes
+
+* version without v ([e47a9fa](https://github.com/etherdata-blockchain/etherdata-admin-server/commit/e47a9fafd52975f82134ab4fd1c1014f0008b41e))
+
 ## 1.10.18 (2022-02-11)
 
 
