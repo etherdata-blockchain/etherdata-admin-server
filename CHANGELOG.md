@@ -1,3 +1,10 @@
+## 1.10.21-beta.0 (2022-02-11)
+
+
+### Bug Fixes
+
+* edit docker images problem ([b4978e3](https://github.com/etherdata-blockchain/etherdata-admin-server/commit/b4978e33f2f713cceaa407e60497b88b80040f27))
+
 ## 1.10.20 (2022-02-11)
 
 
