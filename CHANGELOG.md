@@ -1,3 +1,10 @@
+## 1.10.20 (2022-02-11)
+
+
+### Bug Fixes
+
+* yarn start problem ([2251210](https://github.com/etherdata-blockchain/etherdata-admin-server/commit/2251210bd70a697ada3e3649b2ac306543cb8d7e))
+
 ## 1.10.19 (2022-02-11)
 
 
