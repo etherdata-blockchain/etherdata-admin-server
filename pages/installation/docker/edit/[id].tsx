@@ -15,10 +15,10 @@ import { dbServices } from "@etherdata-blockchain/services";
 import { Routes } from "@etherdata-blockchain/common/src/configs/routes";
 import { jsonSchema } from "../../../../internal/handlers/docker_image_handler";
 import Logger from "@etherdata-blockchain/logger";
-import { schema } from "@etherdata-blockchain/storage-model";
+import { interfaces } from "@etherdata-blockchain/common";
 
 type Props = {
-  dockerImage: schema.IDockerImage;
+  dockerImage: interfaces.db.DockerImageDBInterface;
 };
 
 /**
@@ -31,7 +31,7 @@ export default function Index({ dockerImage }: Props) {
   const { showSnackBarMessage } = React.useContext(UIProviderContext);
   const [formData, setFormData] = React.useState(dockerImage);
   const router = useRouter();
-  const url = `${Routes.dockerImageAPICreate}/${dockerImage._id}`;
+  const url = `${Routes.dockerImageAPICreate}/${(dockerImage as any)._id}`;
 
   const submitData = async (data: any) => {
     setIsLoading(true);
