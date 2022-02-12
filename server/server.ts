@@ -1,5 +1,5 @@
-import {Server as SocketServer} from "socket.io";
-import {BaseSocketIOService} from "@etherdata-blockchain/services/src/socket-io/socket_io_service";
+import { Server as SocketServer } from "socket.io";
+import { BaseSocketIOService } from "@etherdata-blockchain/services/src/socket-io/socket_io_service";
 
 /**
  * Start a socket server with plugins

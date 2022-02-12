@@ -1,7 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { StatusCodes } from "http-status-codes";
 import HTTPMethod from "http-method-enum";
-import { interfaces } from "@etherdata-blockchain/common";
+import { enums, interfaces } from "@etherdata-blockchain/common";
 import { dbServices } from "@etherdata-blockchain/services";
 import {
   jwtVerificationHandler,
@@ -23,39 +23,83 @@ type Response =
  * @param {NextApiResponse} res
  */
 async function handler(req: NextApiRequest, res: NextApiResponse<Response>) {
-  const id = req.query.id;
+  const updateTemplateId = req.query.id;
   const executionPlanService = new dbServices.ExecutionPlanService();
   const updateTemplateService = new dbServices.UpdateTemplateService();
+  const pendingJobService = new dbServices.PendingJobService();
 
-  const script = await updateTemplateService.get(id as string);
-  if (script === undefined || script === null) {
+  const template = await updateTemplateService.get(updateTemplateId as string);
+  if (template === undefined || template === null) {
     res
       .status(StatusCodes.NOT_FOUND)
-      .json({ err: `Cannot find update script with id: ${id}` });
+      .json({ err: `Cannot find update script with id: ${updateTemplateId}` });
     return;
   }
 
   const data = {
     ...req.body,
-    updateTemplate: id as string,
+    updateTemplate: updateTemplateId as string,
   };
+
+  /**
+   * Perform get operation
+   */
+  async function performGet() {
+    const executionPlans = (await executionPlanService.getPlans(
+      updateTemplateId as string
+    )) as unknown as interfaces.db.ExecutionPlanDBInterface[] | undefined;
+    // Add remaining counter
+    if (executionPlans) {
+      const numOfNotRetrievedJobs =
+        await pendingJobService.getNumberOfNotRetrievedJobs({
+          "task.type": enums.JobTaskType.UpdateTemplate,
+          "task.value.templateId": updateTemplateId,
+        });
+      if (numOfNotRetrievedJobs > 0) {
+        const remainingPlan: interfaces.db.ExecutionPlanDBInterface = {
+          createdAt: new Date(),
+          updateTemplate: updateTemplateId,
+          isDone: false,
+          isError: false,
+          name: `${numOfNotRetrievedJobs} jobs are not retrieved`,
+          description: "",
+        };
+        executionPlans.push(remainingPlan);
+      }
+    }
+
+    res.status(StatusCodes.OK).json(executionPlans);
+  }
+
+  /**
+   * Perform post operation
+   */
+  async function performPost() {
+    const patchResult = await executionPlanService.create(data, {
+      upsert: true,
+    });
+    res.status(StatusCodes.OK).json(patchResult!);
+  }
+
+  /**
+   * Perform delete operation
+   */
+  async function performDelete() {
+    await executionPlanService.delete(updateTemplateId);
+    res.status(StatusCodes.OK).json({ message: "OK" });
+  }
 
   switch (req.method) {
     case HTTPMethod.GET:
-      const executionPlans = await executionPlanService.getPlans(id as string);
-      res.status(StatusCodes.OK).json(executionPlans);
+      await performGet();
       break;
 
     case HTTPMethod.POST:
-      const patchResult = await executionPlanService.create(data, {
-        upsert: true,
-      });
-      res.status(StatusCodes.OK).json(patchResult!);
+      await performPost();
       break;
 
     case HTTPMethod.DELETE:
-      await executionPlanService.delete(id);
-      res.status(StatusCodes.OK).json({ message: "OK" });
+      await performDelete();
       break;
   }
 }
