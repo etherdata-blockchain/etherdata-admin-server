@@ -4,16 +4,15 @@ import { GetServerSideProps } from "next";
 
 import {
   Box,
-  Chip,
+  Button,
+  Card,
+  CardContent,
+  CircularProgress,
   Collapse,
   Divider,
   Grid,
   LinearProgress,
-  Step,
-  StepContent,
-  StepLabel,
-  Stepper,
-  Tooltip,
+  Stack,
   Typography,
 } from "@mui/material";
 import useSWR from "swr";
@@ -26,8 +25,16 @@ import { ImageField } from "../../../../components/installation/DockerImageField
 import "bootstrap/dist/css/bootstrap.min.css";
 import join from "url-join";
 import { Clear, Done, PlayCircle } from "@mui/icons-material";
-import { LoadingButton } from "@mui/lab";
-import { interfaces, utils } from "@etherdata-blockchain/common";
+import {
+  LoadingButton,
+  Timeline,
+  TimelineConnector,
+  TimelineDot,
+  TimelineItem,
+  TimelineOppositeContent,
+  TimelineSeparator,
+} from "@mui/lab";
+import { configs, interfaces, utils } from "@etherdata-blockchain/common";
 import { dbServices } from "@etherdata-blockchain/services";
 import { getAxiosClient } from "../../../../internal/const/defaultValues";
 import { Routes } from "@etherdata-blockchain/common/src/configs/routes";
@@ -36,6 +43,7 @@ import {
   jsonSchema,
   UISchema,
 } from "../../../../internal/handlers/update_template_handler";
+import { useRouter } from "next/dist/client/router";
 
 type Props = {
   updateTemplate: interfaces.db.UpdateTemplateWithDockerImageDBInterface;
@@ -47,6 +55,7 @@ type Props = {
  * @constructor
  */
 export default function Run(props: Props) {
+  const router = useRouter();
   const [isLoading, setIsLoading] = React.useState(false);
   const { data, error, isValidating } = useSWR<
     interfaces.db.ExecutionPlanDBInterface[]
@@ -75,25 +84,22 @@ export default function Run(props: Props) {
     }
   }, [props.updateTemplate]);
 
-  const findActiveIndex = React.useCallback(() => {
-    if (data === undefined) {
-      return 0;
-    }
-    let index = 0;
-    for (const plan of data) {
-      if (!plan.isDone) {
-        break;
-      }
-      index += 1;
-    }
-    return index;
-  }, [data]);
-
   return (
     <div>
       <PageHeader
         title={`Run template ${props.updateTemplate.name}`}
         description={"Running template"}
+        action={
+          <Button
+            onClick={() =>
+              router.push(
+                join(Routes.updateTemplateEdit, props.updateTemplate._id)
+              )
+            }
+          >
+            Edit
+          </Button>
+        }
       />
       <Spacer height={20} />
       <PaddingBox>
@@ -101,7 +107,10 @@ export default function Run(props: Props) {
           <Grid item md={6}>
             <ResponsiveCard
               title={"Template overview"}
-              style={{ maxHeight: "85vh", overflow: "scroll" }}
+              style={{
+                maxHeight: `calc(100vh - ${configs.Configurations.appbarHeight}px)`,
+                overflow: "scroll",
+              }}
             >
               <Form
                 schema={jsonSchema}
@@ -113,61 +122,94 @@ export default function Run(props: Props) {
               />
             </ResponsiveCard>
           </Grid>
-
-          <Grid item md={6} style={{ maxHeight: "85vh", overflow: "scroll" }}>
-            <ResponsiveCard title={"Status"}>
-              <Collapse
-                in={data === undefined && error === undefined}
-                mountOnEnter
-                unmountOnExit
-              >
-                <LinearProgress />
-              </Collapse>
-
-              <Collapse in={error !== undefined} mountOnEnter unmountOnExit>
-                <Typography>{`${error}`}</Typography>
-              </Collapse>
-
-              <Collapse mountOnEnter unmountOnExit in={data !== undefined}>
-                <Stepper
-                  activeStep={findActiveIndex()}
-                  orientation={"vertical"}
+          <Grid item md={6}>
+            <ResponsiveCard
+              title={"Status"}
+              style={{
+                maxHeight: `calc(100vh - ${configs.Configurations.appbarHeight}px)`,
+                overflowY: "scroll",
+                width: "100%",
+              }}
+            >
+              <Stack spacing={2}>
+                <Collapse
+                  in={data === undefined && error === undefined}
+                  mountOnEnter
+                  unmountOnExit
                 >
-                  {data?.map((plan) => (
-                    <Step key={(plan as any)._id}>
-                      <StepLabel error={plan.isError}>
-                        <Tooltip title={plan.description}>
-                          <Typography>
-                            {plan.name} - {plan.createdAt}{" "}
-                          </Typography>
-                        </Tooltip>
-                      </StepLabel>
-                      <StepContent>
-                        <Typography>{plan.description}</Typography>
-                      </StepContent>
-                    </Step>
-                  ))}
-                </Stepper>
-              </Collapse>
+                  <LinearProgress />
+                </Collapse>
 
-              <Spacer height={20} />
+                <Collapse in={error !== undefined} mountOnEnter unmountOnExit>
+                  <Typography>{`${error}`}</Typography>
+                </Collapse>
 
-              <Divider>OR Run with new plan</Divider>
-              <Box
-                alignItems={"center"}
-                justifyContent={"center"}
-                display={"flex"}
-              >
-                <LoadingButton
-                  loading={isLoading}
-                  onClick={runPlan}
-                  size={"large"}
-                  variant="contained"
-                  endIcon={<PlayCircle />}
+                <Collapse mountOnEnter unmountOnExit in={data !== undefined}>
+                  <Timeline position={"right"}>
+                    {data?.map((step, i) => (
+                      <TimelineItem key={i}>
+                        <TimelineSeparator>
+                          <TimelineConnector />
+                          <TimelineDot
+                            color={
+                              step.isDone
+                                ? step.isError
+                                  ? "error"
+                                  : "success"
+                                : "grey"
+                            }
+                          >
+                            {step.isDone ? (
+                              step.isError ? (
+                                <Clear />
+                              ) : (
+                                <Done />
+                              )
+                            ) : (
+                              <CircularProgress size={25} color={"inherit"} />
+                            )}
+                          </TimelineDot>
+                          {i < data?.length - 1 && (
+                            <TimelineConnector sx={{ minHeight: 80 }} />
+                          )}
+                        </TimelineSeparator>
+                        <TimelineOppositeContent sx={{ textAlign: "left" }}>
+                          <Card variant={"outlined"}>
+                            <CardContent>
+                              <Typography variant={"subtitle1"}>
+                                {step.name}
+                              </Typography>
+                              <Typography variant={"caption"}>
+                                {step.createdAt}
+                              </Typography>
+                              <Typography style={{ wordWrap: "break-word" }}>
+                                {step.description}
+                              </Typography>
+                            </CardContent>
+                          </Card>
+                        </TimelineOppositeContent>
+                      </TimelineItem>
+                    ))}
+                  </Timeline>
+                </Collapse>
+
+                <Divider>OR Run with new plan</Divider>
+                <Box
+                  alignItems={"center"}
+                  justifyContent={"center"}
+                  display={"flex"}
                 >
-                  Run Plan
-                </LoadingButton>
-              </Box>
+                  <LoadingButton
+                    loading={isLoading}
+                    onClick={runPlan}
+                    size={"large"}
+                    variant="contained"
+                    endIcon={<PlayCircle />}
+                  >
+                    Run Plan
+                  </LoadingButton>
+                </Box>
+              </Stack>
             </ResponsiveCard>
           </Grid>
         </Grid>

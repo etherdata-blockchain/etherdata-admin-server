@@ -36,6 +36,8 @@ async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
     if (authorized) {
       const job = await plugin.getJob<enums.UpdateTemplateValueType>(deviceId);
       if (job?.task.type === enums.JobTaskType.UpdateTemplate) {
+        // If the job type is update template
+        // Add waiting job result to execution plan
         const plan: any = {
           description: "Waiting for job result",
           isDone: false,
