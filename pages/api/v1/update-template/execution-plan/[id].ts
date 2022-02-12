@@ -2,7 +2,7 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import { StatusCodes } from "http-status-codes";
 import HTTPMethod from "http-method-enum";
 import { enums, interfaces } from "@etherdata-blockchain/common";
-import { dbServices } from "@etherdata-blockchain/services";
+import { dbServices, socketServices } from "@etherdata-blockchain/services";
 import {
   jwtVerificationHandler,
   methodAllowedHandler,
@@ -12,6 +12,37 @@ type Response =
   | { err?: string; message?: string }
   | interfaces.db.ExecutionPlanDBInterface[]
   | any;
+
+/**
+ * Add pending indicator to the execution plans
+ * @param executionPlans
+ * @param pendingJobService
+ * @param updateTemplateId
+ */
+export async function addPendingPlans(
+  executionPlans: interfaces.db.ExecutionPlanDBInterface[] | undefined,
+  pendingJobService: dbServices.PendingJobService,
+  updateTemplateId: string | string[]
+) {
+  if (executionPlans) {
+    const numOfNotRetrievedJobs =
+      await pendingJobService.getNumberOfNotRetrievedJobs({
+        "task.type": enums.JobTaskType.UpdateTemplate,
+        "task.value.templateId": updateTemplateId,
+      });
+    if (numOfNotRetrievedJobs > 0) {
+      const remainingPlan: interfaces.db.ExecutionPlanDBInterface = {
+        createdAt: new Date(),
+        updateTemplate: updateTemplateId,
+        isDone: false,
+        isError: false,
+        name: `${numOfNotRetrievedJobs} jobs are not retrieved`,
+        description: "",
+      };
+      executionPlans.push(remainingPlan);
+    }
+  }
+}
 
 /**
  * This will handle get execution plans by update template
@@ -49,24 +80,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse<Response>) {
       updateTemplateId as string
     )) as unknown as interfaces.db.ExecutionPlanDBInterface[] | undefined;
     // Add remaining counter
-    if (executionPlans) {
-      const numOfNotRetrievedJobs =
-        await pendingJobService.getNumberOfNotRetrievedJobs({
-          "task.type": enums.JobTaskType.UpdateTemplate,
-          "task.value.templateId": updateTemplateId,
-        });
-      if (numOfNotRetrievedJobs > 0) {
-        const remainingPlan: interfaces.db.ExecutionPlanDBInterface = {
-          createdAt: new Date(),
-          updateTemplate: updateTemplateId,
-          isDone: false,
-          isError: false,
-          name: `${numOfNotRetrievedJobs} jobs are not retrieved`,
-          description: "",
-        };
-        executionPlans.push(remainingPlan);
-      }
-    }
+    await addPendingPlans(executionPlans, pendingJobService, updateTemplateId);
 
     res.status(StatusCodes.OK).json(executionPlans);
   }

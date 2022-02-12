@@ -3,6 +3,7 @@ import * as React from "react";
 import { GetServerSideProps } from "next";
 
 import {
+  Alert,
   Box,
   Button,
   Card,
@@ -11,11 +12,9 @@ import {
   Collapse,
   Divider,
   Grid,
-  LinearProgress,
   Stack,
   Typography,
 } from "@mui/material";
-import useSWR from "swr";
 import { PaddingBox } from "../../../../components/common/PaddingBox";
 import ResponsiveCard from "../../../../components/common/ResponsiveCard";
 import Spacer from "../../../../components/common/Spacer";
@@ -34,19 +33,26 @@ import {
   TimelineOppositeContent,
   TimelineSeparator,
 } from "@mui/lab";
-import { configs, interfaces, utils } from "@etherdata-blockchain/common";
+import {
+  configs,
+  enums,
+  interfaces,
+  utils,
+} from "@etherdata-blockchain/common";
 import { dbServices } from "@etherdata-blockchain/services";
 import { getAxiosClient } from "../../../../internal/const/defaultValues";
 import { Routes } from "@etherdata-blockchain/common/src/configs/routes";
-import { Configurations } from "@etherdata-blockchain/common/src/configs/configurations";
 import {
   jsonSchema,
   UISchema,
 } from "../../../../internal/handlers/update_template_handler";
 import { useRouter } from "next/dist/client/router";
+import { socket } from "../../../model/DeviceProvider";
+import { addPendingPlans } from "../../../api/v1/update-template/execution-plan/[id]";
 
 type Props = {
   updateTemplate: interfaces.db.UpdateTemplateWithDockerImageDBInterface;
+  executionPlans: interfaces.db.ExecutionPlanDBInterface[];
 };
 
 /**
@@ -57,18 +63,30 @@ type Props = {
 export default function Run(props: Props) {
   const router = useRouter();
   const [isLoading, setIsLoading] = React.useState(false);
-  const { data, error, isValidating } = useSWR<
+  const [error, setError] = React.useState<string>();
+  const [executionPlans, setExecutionPlans] = React.useState<
     interfaces.db.ExecutionPlanDBInterface[]
-  >(
-    { id: props.updateTemplate._id },
-    async ({ id }) => {
-      const data = await getAxiosClient().get(
-        join(Routes.executionPlanAPIGet, id)
-      );
-      return data.data;
-    },
-    { refreshInterval: Configurations.defaultRefreshInterval }
-  );
+  >(props.executionPlans);
+
+  React.useEffect(() => {
+    socket?.emit(enums.SocketIOEvents.joinRoom, props.updateTemplate._id);
+
+    socket?.on(enums.SocketIOEvents.executionPlan, async (data) => {
+      try {
+        const executionPlans = await getAxiosClient().get(
+          join(Routes.executionPlanAPIGet, props.updateTemplate._id)
+        );
+        setExecutionPlans(executionPlans.data);
+        setError(undefined);
+      } catch (e) {
+        setError(`${e}`);
+      }
+    });
+
+    return () => {
+      socket?.emit(enums.SocketIOEvents.leaveRoom, props.updateTemplate._id);
+    };
+  }, []);
 
   const runPlan = React.useCallback(async () => {
     try {
@@ -132,66 +150,55 @@ export default function Run(props: Props) {
               }}
             >
               <Stack spacing={2}>
-                <Collapse
-                  in={data === undefined && error === undefined}
-                  mountOnEnter
-                  unmountOnExit
-                >
-                  <LinearProgress />
+                <Collapse in={error !== undefined}>
+                  <Alert severity={"error"}>{error}</Alert>
                 </Collapse>
-
-                <Collapse in={error !== undefined} mountOnEnter unmountOnExit>
-                  <Typography>{`${error}`}</Typography>
-                </Collapse>
-
-                <Collapse mountOnEnter unmountOnExit in={data !== undefined}>
-                  <Timeline position={"right"}>
-                    {data?.map((step, i) => (
-                      <TimelineItem key={i}>
-                        <TimelineSeparator>
-                          <TimelineConnector />
-                          <TimelineDot
-                            color={
-                              step.isDone
-                                ? step.isError
-                                  ? "error"
-                                  : "success"
-                                : "grey"
-                            }
-                          >
-                            {step.isDone ? (
-                              step.isError ? (
-                                <Clear />
-                              ) : (
-                                <Done />
-                              )
+                <Timeline position={"right"}>
+                  {executionPlans.map((step, i) => (
+                    <TimelineItem key={i}>
+                      <TimelineSeparator>
+                        <TimelineConnector />
+                        <TimelineDot
+                          color={
+                            step.isDone
+                              ? step.isError
+                                ? "error"
+                                : "success"
+                              : "grey"
+                          }
+                        >
+                          {step.isDone ? (
+                            step.isError ? (
+                              <Clear />
                             ) : (
-                              <CircularProgress size={25} color={"inherit"} />
-                            )}
-                          </TimelineDot>
-                          {i < data?.length - 1 && (
-                            <TimelineConnector sx={{ minHeight: 80 }} />
+                              <Done />
+                            )
+                          ) : (
+                            <CircularProgress size={25} color={"inherit"} />
                           )}
-                        </TimelineSeparator>
-                        <TimelineOppositeContent sx={{ textAlign: "left" }}>
-                          <Card variant={"outlined"}>
-                            <CardContent>
-                              <Typography variant={"subtitle1"}>
-                                {step.name}
-                              </Typography>
-                              <Typography variant={"caption"}>
-                                {step.createdAt}
-                              </Typography>
-                              <Typography style={{ wordWrap: "break-word" }}>
-                                {step.description}
-                              </Typography>
-                            </CardContent>
-                          </Card>
-                        </TimelineOppositeContent>
-                      </TimelineItem>
-                    ))}
-                  </Timeline>
-                </Collapse>
+                        </TimelineDot>
+                        {i < executionPlans.length - 1 && (
+                          <TimelineConnector sx={{ minHeight: 80 }} />
+                        )}
+                      </TimelineSeparator>
+                      <TimelineOppositeContent sx={{ textAlign: "left" }}>
+                        <Card variant={"outlined"}>
+                          <CardContent>
+                            <Typography variant={"subtitle1"}>
+                              {step.name}
+                            </Typography>
+                            <Typography variant={"caption"}>
+                              {step.createdAt}
+                            </Typography>
+                            <Typography style={{ wordWrap: "break-word" }}>
+                              {step.description}
+                            </Typography>
+                          </CardContent>
+                        </Card>
+                      </TimelineOppositeContent>
+                    </TimelineItem>
+                  ))}
+                </Timeline>
 
                 <Divider>OR Run with new plan</Divider>
                 <Box
@@ -223,9 +230,12 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
 ) => {
   const id = context.query.id;
   const updateScriptPlugin = new dbServices.UpdateTemplateService();
+  const executionPlanService = new dbServices.ExecutionPlanService();
+  const pendingJobService = new dbServices.PendingJobService();
 
-  const [foundTemplate] = await Promise.all([
+  const [foundTemplate, executionPlans] = await Promise.all([
     updateScriptPlugin.getUpdateTemplateWithDockerImage(id as string),
+    executionPlanService.getPlans(id as string),
   ]);
 
   if (!foundTemplate) {
@@ -234,8 +244,11 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
     };
   }
 
+  await addPendingPlans(executionPlans, pendingJobService, id as string);
+
   const data: Props = {
     updateTemplate: foundTemplate!,
+    executionPlans: (executionPlans as any) ?? [],
   };
   return {
     props: JSON.parse(JSON.stringify(data)),
