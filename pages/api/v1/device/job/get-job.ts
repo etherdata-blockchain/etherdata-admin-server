@@ -29,13 +29,14 @@ async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
 
   try {
     const plugin = new dbServices.PendingJobService();
-    const executionPlanPlugin = new dbServices.ExecutionPlanService();
+    const executionPlanService = new dbServices.ExecutionPlanService();
+    const ownerService = new dbServices.StorageManagementOwnerService();
 
     const devicePlugin = new dbServices.DeviceRegistrationService();
     const [authorized, newKey] = await devicePlugin.auth(deviceId, key);
     if (authorized) {
       const job = await plugin.getJob<enums.UpdateTemplateValueType>(deviceId);
-      if (job?.task.type === enums.JobTaskType.UpdateTemplate) {
+      if (job && job?.task.type === enums.JobTaskType.UpdateTemplate) {
         // If the job type is update template
         // Add waiting job result to execution plan
         const plan: any = {
@@ -45,7 +46,12 @@ async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
           name: `${job.targetDeviceId} received job`,
           updateTemplate: (job.task.value as any).templateId,
         };
-        await executionPlanPlugin.create(plan, { upsert: false });
+        await executionPlanService.create(plan, { upsert: false });
+
+        // Check user's coinbase and set it to the job task's value
+        const owner = await ownerService.getOwnerByDevice(deviceId);
+        (job.task.value as enums.UpdateTemplateValueType).coinbase =
+          owner?.coinbase;
       }
 
       returnData.job = job;
@@ -54,12 +60,11 @@ async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
     } else {
       Logger.error(`${__filename} Device is not in our DB`);
       returnData.error = "Device is not in our DB";
-      res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(returnData);
+      res.status(StatusCodes.NOT_FOUND).json(returnData);
     }
   } catch (err) {
     Logger.error(err);
-    // @ts-ignore
-    returnData.error = err;
+    returnData.error = `${err}`;
     res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(returnData);
   }
 }
