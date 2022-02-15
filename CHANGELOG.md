@@ -1,3 +1,10 @@
+## [1.10.21-beta.2](https://github.com/etherdata-blockchain/etherdata-admin-server/compare/1.10.21-beta.1...1.10.21-beta.2) (2022-02-15)
+
+
+### Bug Fixes
+
+* use codeql for security scanning ([#41](https://github.com/etherdata-blockchain/etherdata-admin-server/issues/41)) ([d80c7a6](https://github.com/etherdata-blockchain/etherdata-admin-server/commit/d80c7a6165f6e9db5a0c21f5be39abf1f2f85793))
+
 ## [1.10.21-beta.1](https://github.com/etherdata-blockchain/etherdata-admin-server/compare/1.10.21-beta.0...1.10.21-beta.1) (2022-02-15)
 
 
