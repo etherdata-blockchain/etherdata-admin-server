@@ -1,3 +1,16 @@
+## [1.10.21-beta.1](https://github.com/etherdata-blockchain/etherdata-admin-server/compare/1.10.21-beta.0...1.10.21-beta.1) (2022-02-15)
+
+
+### Bug Fixes
+
+* add coinbase to the response from get job ([#39](https://github.com/etherdata-blockchain/etherdata-admin-server/issues/39)) ([cfe0fad](https://github.com/etherdata-blockchain/etherdata-admin-server/commit/cfe0fadcd1a1f6b0dd3db0a5bf55c7207d4a5157))
+* update some ui design ([#37](https://github.com/etherdata-blockchain/etherdata-admin-server/issues/37)) ([7dc9afe](https://github.com/etherdata-blockchain/etherdata-admin-server/commit/7dc9afe7cbb68fbc3dcb27642204463086cd7bce))
+
+
+### Features
+
+* add realtime update to run update template page ([#40](https://github.com/etherdata-blockchain/etherdata-admin-server/issues/40)) ([e324388](https://github.com/etherdata-blockchain/etherdata-admin-server/commit/e324388a2f9bdb36a85144b7f2c746c1583b1235))
+
 ## 1.10.21-beta.0 (2022-02-11)
 
 
