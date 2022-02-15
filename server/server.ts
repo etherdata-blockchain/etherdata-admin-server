@@ -6,8 +6,6 @@ import { socketServices } from "@etherdata-blockchain/services";
 import mongoose from "mongoose";
 import { configs, enums } from "@etherdata-blockchain/common";
 import Logger from "@etherdata-blockchain/logger";
-import { DeviceRegistrationService } from "@etherdata-blockchain/services/dist/mongodb";
-import { schema } from "@etherdata-blockchain/storage-model";
 import { BaseSocketIOService } from "@etherdata-blockchain/services/dist/socket-io/socket_io_service";
 
 /**
