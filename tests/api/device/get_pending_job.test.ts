@@ -79,6 +79,7 @@ describe("Given a pending job", () => {
         },
         createdAt: new Date().toISOString(),
         retrieved: false,
+        tries: 0,
       };
     await schema.PendingJobModel.create(data);
 
@@ -123,6 +124,7 @@ describe("Given a pending job", () => {
         },
         createdAt: new Date().toISOString(),
         retrieved: false,
+        tries: 0,
       };
     await schema.PendingJobModel.create(data);
 
