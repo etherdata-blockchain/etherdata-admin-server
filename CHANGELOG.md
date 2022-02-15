@@ -1,3 +1,10 @@
+## [1.10.21-beta.3](https://github.com/etherdata-blockchain/etherdata-admin-server/compare/1.10.21-beta.2...1.10.21-beta.3) (2022-02-15)
+
+
+### Bug Fixes
+
+* use cache and upgrade dependencies version ([#42](https://github.com/etherdata-blockchain/etherdata-admin-server/issues/42)) ([287a350](https://github.com/etherdata-blockchain/etherdata-admin-server/commit/287a3505a0934596c0da7fcd3940a9fd3374e41b))
+
 ## [1.10.21-beta.2](https://github.com/etherdata-blockchain/etherdata-admin-server/compare/1.10.21-beta.1...1.10.21-beta.2) (2022-02-15)
 
 
