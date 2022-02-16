@@ -20,7 +20,7 @@ import { PaddingBox } from "../../../../components/common/PaddingBox";
 import { dbServices } from "@etherdata-blockchain/services";
 import { schema } from "@etherdata-blockchain/storage-model";
 import { Routes } from "@etherdata-blockchain/common/src/configs/routes";
-import { jsonSchema } from "../../../../internal/handlers/update_template_handler";
+import { jsonSchema } from "../../../../internal/handlers/install_script_handler";
 import { uiSchema } from "../../../../internal/handlers/install_script_handler";
 
 type Props = {
