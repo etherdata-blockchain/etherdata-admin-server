@@ -1,3 +1,10 @@
+## [1.10.21-beta.4](https://github.com/etherdata-blockchain/etherdata-admin-server/compare/1.10.21-beta.3...1.10.21-beta.4) (2022-02-16)
+
+
+### Bug Fixes
+
+* wrong schema for installation detail page ([#43](https://github.com/etherdata-blockchain/etherdata-admin-server/issues/43)) ([7b045d0](https://github.com/etherdata-blockchain/etherdata-admin-server/commit/7b045d038b426ec2a77c8cae3cac704dc80efb67))
+
 ## [1.10.21-beta.3](https://github.com/etherdata-blockchain/etherdata-admin-server/compare/1.10.21-beta.2...1.10.21-beta.3) (2022-02-15)
 
 
