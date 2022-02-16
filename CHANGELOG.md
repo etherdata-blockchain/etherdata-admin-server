@@ -1,3 +1,5 @@
+## [1.10.21](https://github.com/etherdata-blockchain/etherdata-admin-server/compare/1.10.21-beta.4...1.10.21) (2022-02-16)
+
 ## [1.10.21-beta.4](https://github.com/etherdata-blockchain/etherdata-admin-server/compare/1.10.21-beta.3...1.10.21-beta.4) (2022-02-16)
 
 
