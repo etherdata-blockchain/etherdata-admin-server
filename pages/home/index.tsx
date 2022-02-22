@@ -13,16 +13,13 @@ import { DifficultyHistoryDisplay } from "../../components/home/difficultyHistor
 import { ETDContext } from "../model/ETDProvider";
 import { LargeDataCard } from "../../components/cards/largeDataCard";
 import style from "../../styles/Device.module.css";
-import StorageIcon from "@material-ui/icons/Storage";
-import AppsIcon from "@material-ui/icons/Apps";
-import HourglassEmptyIcon from "@material-ui/icons/HourglassEmpty";
-import FunctionsIcon from "@material-ui/icons/Functions";
 import { DeviceContext } from "../model/DeviceProvider";
 import { DefaultPaginationResult } from "../../internal/const/defaultValues";
 import { PaddingBox } from "../../components/common/PaddingBox";
 import { GetServerSideProps } from "next";
 import { configs, utils } from "@etherdata-blockchain/common";
 import { dbServices } from "@etherdata-blockchain/services";
+import { Apps, Functions, HourglassBottom, Storage } from "@mui/icons-material";
 
 type Props = {
   onlineCount: number;
@@ -55,7 +52,7 @@ export default function Index(props: Props) {
         <Grid container spacing={3}>
           <Grid item md={3} xs={6}>
             <LargeDataCard
-              icon={<StorageIcon />}
+              icon={<Storage />}
               title={`${realtimeStatus.onlineCount ?? props.onlineCount}/${
                 realtimeStatus.totalCount ?? props.totalCount
               }`}
@@ -69,7 +66,7 @@ export default function Index(props: Props) {
           </Grid>
           <Grid item md={3} xs={6}>
             <LargeDataCard
-              icon={<AppsIcon />}
+              icon={<Apps />}
               title={`${blockNumber}`}
               color={"#ba03fc"}
               subtitleColor={"white"}
@@ -81,7 +78,7 @@ export default function Index(props: Props) {
           </Grid>
           <Grid item md={3} xs={6}>
             <LargeDataCard
-              icon={<HourglassEmptyIcon />}
+              icon={<HourglassBottom />}
               title={`${utils.abbreviateNumber(difficulty ?? 0)}`}
               color={"#03cafc"}
               subtitleColor={"white"}
@@ -94,7 +91,7 @@ export default function Index(props: Props) {
 
           <Grid item md={3} xs={6}>
             <LargeDataCard
-              icon={<FunctionsIcon />}
+              icon={<Functions />}
               title={`${utils.abbreviateNumber(networkHashRate)}`}
               color={"#03cafc"}
               subtitleColor={"white"}

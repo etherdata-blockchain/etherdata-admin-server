@@ -20,9 +20,7 @@ import ResponsiveCard from "../../components/common/ResponsiveCard";
 import { RewardDisplay } from "../../components/user/rewardDisplay";
 import { DeviceTable } from "../../components/device/deviceTable";
 import { ETDContext } from "../model/ETDProvider";
-import StorageIcon from "@material-ui/icons/Storage";
 import style from "../../styles/Device.module.css";
-import ComputerIcon from "@material-ui/icons/Computer";
 import { DeviceAction } from "../../components/device/deviceAction";
 import useSWR from "swr";
 import { getAxiosClient } from "../../internal/const/defaultValues";
@@ -30,6 +28,7 @@ import { PaddingBox } from "../../components/common/PaddingBox";
 import { configs, interfaces, utils } from "@etherdata-blockchain/common";
 import { Routes } from "@etherdata-blockchain/common/src/configs/routes";
 import { schema } from "@etherdata-blockchain/storage-model";
+import { Computer, Storage } from "@mui/icons-material";
 
 interface Props {
   coinbase: string | undefined;
@@ -93,7 +92,7 @@ export default function ({
         <Grid container spacing={4}>
           <Grid item md={4} xs={6}>
             <LargeDataCard
-              icon={<StorageIcon />}
+              icon={<Storage />}
               title={`${history?.latestBlockNumber ?? 0}`}
               color={"#ba03fc"}
               subtitleColor={"white"}
@@ -105,7 +104,7 @@ export default function ({
           </Grid>
           <Grid item md={4} xs={6}>
             <LargeDataCard
-              icon={<ComputerIcon />}
+              icon={<Computer />}
               title={`${data?.count}`}
               color={"#ba03fc"}
               subtitleColor={"white"}
@@ -117,7 +116,7 @@ export default function ({
           </Grid>
           <Grid item md={4} xs={12}>
             <LargeDataCard
-              icon={<ComputerIcon />}
+              icon={<Computer />}
               title={`${data?.count}`}
               color={"#ba03fc"}
               subtitleColor={"white"}

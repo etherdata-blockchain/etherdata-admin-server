@@ -41,6 +41,6 @@ async function handler(req: NextApiRequest, res: NextApiResponse<Response>) {
 }
 
 export default methodAllowedHandler(
-  jwtVerificationQueryHandler(paginationHandler(handler)),
+  jwtVerificationQueryHandler(paginationHandler(handler as any)),
   [HTTPMethod.POST]
 );

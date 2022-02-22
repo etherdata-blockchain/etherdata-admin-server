@@ -22,6 +22,6 @@ async function handler(req: NextApiRequest, res: NextApiResponse<Response>) {
   res.status(StatusCodes.OK).json(dockerImages);
 }
 
-export default methodAllowedHandler(jwtVerificationHandler(handler), [
+export default methodAllowedHandler(jwtVerificationHandler(handler as any), [
   HTTPMethod.GET,
 ]);

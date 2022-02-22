@@ -97,6 +97,6 @@ async function handler(req: NextApiRequest, res: NextApiResponse<Response>) {
   }
 }
 
-export default methodAllowedHandler(jwtVerificationHandler(handler), [
+export default methodAllowedHandler(jwtVerificationHandler(handler as any), [
   HTTPMethod.POST,
 ]);

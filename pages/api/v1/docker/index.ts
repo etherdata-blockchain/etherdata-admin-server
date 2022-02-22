@@ -40,4 +40,4 @@ async function handler(req: NextApiRequest, res: NextApiResponse<Response>) {
   }
 }
 
-export default jwtVerificationHandler(paginationHandler(handler));
+export default jwtVerificationHandler(paginationHandler(handler as any));
