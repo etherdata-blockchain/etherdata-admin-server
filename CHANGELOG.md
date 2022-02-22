@@ -1,3 +1,10 @@
+## [1.11.1-beta.0](https://github.com/etherdata-blockchain/etherdata-admin-server/compare/v1.11.0...v1.11.1-beta.0) (2022-02-22)
+
+
+### Bug Fixes
+
+* add depedencies checker ([#50](https://github.com/etherdata-blockchain/etherdata-admin-server/issues/50)) ([b236289](https://github.com/etherdata-blockchain/etherdata-admin-server/commit/b23628969f2e6593fa171f16e87d62a68b958a0e))
+
 # [1.11.0](https://github.com/etherdata-blockchain/etherdata-admin-server/compare/v0.1.0...v1.11.0) (2022-02-17)
 
 
