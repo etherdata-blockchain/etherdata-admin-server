@@ -69,4 +69,4 @@ async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
   }
 }
 
-export default jwtVerificationHandler(handler);
+export default jwtVerificationHandler(handler as any);

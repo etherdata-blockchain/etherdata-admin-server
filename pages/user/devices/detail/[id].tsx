@@ -14,7 +14,6 @@ import {
   ListSubheader,
   Typography,
 } from "@mui/material";
-import ComputerIcon from "@material-ui/icons/Computer";
 import style from "../../../../styles/Device.module.css";
 import { LargeDataCard } from "../../../../components/cards/largeDataCard";
 import { GridDataCard } from "../../../../components/cards/gridDataCard";
@@ -32,6 +31,7 @@ import { dbServices } from "@etherdata-blockchain/services";
 import { schema } from "@etherdata-blockchain/storage-model";
 import Logger from "@etherdata-blockchain/logger";
 import { PaddingBox } from "../../../../components/common/PaddingBox";
+import { Computer } from "@mui/icons-material";
 
 type Props = {
   device: schema.IStorageItem | null;
@@ -101,7 +101,7 @@ export default function DeviceDetail({ device, found }: Props) {
         <Grid container spacing={5}>
           <Grid item md={3} xs={6}>
             <LargeDataCard
-              icon={<ComputerIcon />}
+              icon={<Computer />}
               title={`${utils.abbreviateNumber(
                 (foundDevice as any)?.data?.difficulty ?? 0
               )}`}
@@ -115,7 +115,7 @@ export default function DeviceDetail({ device, found }: Props) {
           </Grid>
           <Grid item md={3} xs={6}>
             <LargeDataCard
-              icon={<ComputerIcon />}
+              icon={<Computer />}
               title={`${foundDevice?.deviceStatus?.data?.number}`}
               color={"#ba03fc"}
               subtitleColor={"white"}
@@ -133,17 +133,17 @@ export default function DeviceDetail({ device, found }: Props) {
               titleColor={"white"}
               subtitleColor={"white"}
               items={[
-                { title: "100%", subtitle: "CPU", icon: <ComputerIcon /> },
-                { title: "100%", subtitle: "Memory", icon: <ComputerIcon /> },
+                { title: "100%", subtitle: "CPU", icon: <Computer /> },
+                { title: "100%", subtitle: "Memory", icon: <Computer /> },
                 {
                   title: "100%",
                   subtitle: "Hard Disk",
-                  icon: <ComputerIcon />,
+                  icon: <Computer />,
                 },
                 {
                   title: "100%",
                   subtitle: "Update Time",
-                  icon: <ComputerIcon />,
+                  icon: <Computer />,
                 },
               ]}
             />

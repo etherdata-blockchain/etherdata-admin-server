@@ -120,7 +120,7 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
   const id = context.query.id;
   const installationService = new dbServices.InstallationService();
 
-  const [foundTemplate, images] = await Promise.all([
+  const [foundTemplate] = await Promise.all([
     installationService.getTemplateWithDockerImages(id as string),
   ]);
 

@@ -1,8 +1,8 @@
 // @flow
 import * as React from "react";
 import { IconButton, Menu, MenuItem } from "@mui/material";
-import MoreVertIcon from "@material-ui/icons/MoreVert";
 import PopupState, { bindMenu, bindTrigger } from "material-ui-popup-state";
+import { MoreVert } from "@mui/icons-material";
 
 type Props = {};
 
@@ -17,7 +17,7 @@ export function DurationSelectorBtn(props: Props) {
       {(popupState) => (
         <React.Fragment>
           <IconButton {...bindTrigger(popupState)}>
-            <MoreVertIcon />
+            <MoreVert />
           </IconButton>
 
           <Menu {...bindMenu(popupState)}>
