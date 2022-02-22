@@ -1,3 +1,10 @@
+## [1.11.1](https://github.com/etherdata-blockchain/etherdata-admin-server/compare/v1.11.1-beta.0...v1.11.1) (2022-02-22)
+
+
+### Bug Fixes
+
+* merge dev won't trigger deploy action ([0995258](https://github.com/etherdata-blockchain/etherdata-admin-server/commit/0995258b2e7ee5c124b9d66bfd61c23137ffc291))
+
 ## [1.11.1-beta.0](https://github.com/etherdata-blockchain/etherdata-admin-server/compare/v1.11.0...v1.11.1-beta.0) (2022-02-22)
 
 
