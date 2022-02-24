@@ -1,3 +1,10 @@
+## [1.11.2](https://github.com/etherdata-blockchain/etherdata-admin-server/compare/v1.11.1...v1.11.2) (2022-02-24)
+
+
+### Bug Fixes
+
+* webhook will write an empty tag ([#51](https://github.com/etherdata-blockchain/etherdata-admin-server/issues/51)) ([bb8c5e4](https://github.com/etherdata-blockchain/etherdata-admin-server/commit/bb8c5e4d3f1e90bfa4241d1324fb15c3bb395f24))
+
 ## [1.11.1](https://github.com/etherdata-blockchain/etherdata-admin-server/compare/v1.11.1-beta.0...v1.11.1) (2022-02-22)
 
 
