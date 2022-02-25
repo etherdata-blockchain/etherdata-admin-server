@@ -9,6 +9,8 @@ import { configs, enums } from "@etherdata-blockchain/common";
 interface DeviceInterface {
   realtimeStatus: RealtimeStatus;
 
+  hasReceivedData: boolean;
+
   sendDockerCommand(v: enums.DockerValueType): Promise<any>;
 
   joinDetail(deviceId: string): void;
@@ -35,6 +37,8 @@ export default function DeviceProvider(props: any) {
     DefaultRealtimeStatus
   );
 
+  const [hasReceivedData, setHasReceivedData] = React.useState(false);
+
   React.useEffect(() => {
     socket = io("/clients", {
       auth: {
@@ -52,7 +56,7 @@ export default function DeviceProvider(props: any) {
     socket.on(
       enums.SocketIOEvents.latestInfo,
       ({ onlineCount, totalCount }) => {
-        console.log(onlineCount);
+        setHasReceivedData(true);
         setRealtimeStatus((status) => {
           status.onlineCount = onlineCount;
           status.totalCount = totalCount;
@@ -127,6 +131,7 @@ export default function DeviceProvider(props: any) {
     sendCommand,
     sendDockerCommand,
     realtimeStatus,
+    hasReceivedData,
   };
 
   return (

@@ -48,7 +48,7 @@ export function LargeDataCard({
     <Card
       style={{
         backgroundColor: color,
-        cursor: onClick !== undefined ? "grab" : undefined,
+        cursor: onClick !== undefined ? "pointer" : undefined,
       }}
       className={className}
       onClick={onClick}

@@ -7,6 +7,200 @@ import { DeviceIdField } from "../../components/update/DeviceIdField";
 import { Routes } from "@etherdata-blockchain/common/src/configs/routes";
 import { ImageField } from "../../components/installation/DockerImageField";
 
+const hostConfig: JSONSchema7 = {
+  title: "Host Config",
+  properties: {
+    AutoRemove: {
+      type: "boolean",
+    },
+    Binds: {
+      type: "array",
+      description: "Bind your local volume to ",
+      items: {
+        type: "string",
+      },
+    },
+    ContainerIDFile: {
+      type: "string",
+    },
+    LogConfig: {
+      type: "object",
+      properties: {
+        Type: {
+          type: "string",
+        },
+        Config: {},
+      },
+      additionalProperties: false,
+    },
+    NetworkMode: {
+      type: "string",
+    },
+    PortBindings: {},
+    RestartPolicy: {},
+    VolumeDriver: {
+      type: "string",
+    },
+    VolumesFrom: {},
+    CapAdd: {},
+    CapDrop: {},
+    Dns: {
+      type: "array",
+      items: {},
+    },
+    DnsOptions: {
+      type: "array",
+      items: {},
+    },
+    DnsSearch: {
+      type: "array",
+      items: {},
+    },
+    ExtraHosts: {},
+    GroupAdd: {
+      type: "array",
+      items: {
+        type: "string",
+      },
+    },
+    IpcMode: {
+      type: "string",
+    },
+    Cgroup: {
+      type: "string",
+    },
+    Links: {},
+    OomScoreAdj: {
+      type: "number",
+    },
+    PidMode: {
+      type: "string",
+    },
+    Privileged: {
+      type: "boolean",
+    },
+    PublishAllPorts: {
+      type: "boolean",
+    },
+    ReadonlyRootfs: {
+      type: "boolean",
+    },
+    SecurityOpt: {},
+    StorageOpt: {
+      type: "object",
+      additionalProperties: {
+        type: "string",
+      },
+    },
+    Tmpfs: {
+      type: "object",
+      additionalProperties: {
+        type: "string",
+      },
+    },
+    UTSMode: {
+      type: "string",
+    },
+    UsernsMode: {
+      type: "string",
+    },
+    ShmSize: {
+      type: "number",
+    },
+    Sysctls: {
+      type: "object",
+      additionalProperties: {
+        type: "string",
+      },
+    },
+    Runtime: {
+      type: "string",
+    },
+    ConsoleSize: {
+      type: "array",
+      items: {
+        type: "number",
+      },
+    },
+    Isolation: {
+      type: "string",
+    },
+    MaskedPaths: {
+      type: "array",
+      items: {
+        type: "string",
+      },
+    },
+    ReadonlyPaths: {
+      type: "array",
+      items: {
+        type: "string",
+      },
+    },
+    CpuShares: {
+      type: "number",
+    },
+    CgroupParent: {
+      type: "string",
+    },
+    BlkioWeight: {
+      type: "number",
+    },
+    BlkioWeightDevice: {},
+    BlkioDeviceReadBps: {},
+    BlkioDeviceWriteBps: {},
+    BlkioDeviceReadIOps: {},
+    BlkioDeviceWriteIOps: {},
+    CpuPeriod: {
+      type: "number",
+    },
+    CpuQuota: {
+      type: "number",
+    },
+    CpusetCpus: {
+      type: "string",
+    },
+    CpusetMems: {
+      type: "string",
+    },
+    Devices: {},
+    DeviceCgroupRules: {
+      type: "array",
+      items: {
+        type: "string",
+      },
+    },
+    DiskQuota: {
+      type: "number",
+    },
+    KernelMemory: {
+      type: "number",
+    },
+    Memory: {
+      type: "number",
+    },
+    MemoryReservation: {
+      type: "number",
+    },
+    MemorySwap: {
+      type: "number",
+    },
+    MemorySwappiness: {
+      type: "number",
+    },
+    OomKillDisable: {
+      type: "boolean",
+    },
+    Init: {
+      type: "boolean",
+    },
+    PidsLimit: {
+      type: "number",
+    },
+    Ulimits: {},
+  },
+};
+
 export const jsonSchema: JSONSchema7 = {
   description:
     "Update template is a declarative syntax of update template. It will be sent to every devices" +
@@ -107,6 +301,7 @@ export const jsonSchema: JSONSchema7 = {
               },
               StopSignal: { type: "string" },
               StopTimeout: { type: "number" },
+              HostConfig: hostConfig,
             },
           },
         },

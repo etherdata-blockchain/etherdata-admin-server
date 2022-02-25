@@ -31,7 +31,7 @@ export default function ImageTreeView({ images }: { images: ImageInfo[] }) {
   return (
     <TreeView
       aria-label="containers"
-      defaultExpanded={["3"]}
+      defaultExpanded={[]}
       defaultCollapseIcon={<ArrowDropDownIcon />}
       defaultExpandIcon={<ArrowRightIcon />}
       defaultEndIcon={<div style={{ width: 24 }} />}
@@ -53,7 +53,7 @@ export default function ImageTreeView({ images }: { images: ImageInfo[] }) {
             bgColor="#e8f0fe"
           />
           <StyledTreeItem
-            nodeId="6"
+            nodeId={`${image.Id}-6`}
             labelText={"Created time"}
             labelIcon={BuildIcon}
             labelInfo={moment(image.Created * 1000).format(
@@ -63,7 +63,7 @@ export default function ImageTreeView({ images }: { images: ImageInfo[] }) {
             bgColor="#fcefe3"
           />
           <StyledTreeItem
-            nodeId="7"
+            nodeId={`${image.Id}-7`}
             labelText="Maintainer "
             labelIcon={AccessTimeFilledIcon}
             labelInfo={`${image?.Labels?.maintainer}`}

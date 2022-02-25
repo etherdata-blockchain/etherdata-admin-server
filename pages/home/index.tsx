@@ -33,7 +33,7 @@ type Props = {
  */
 export default function Index(props: Props) {
   const { history } = React.useContext(ETDContext);
-  const { realtimeStatus } = React.useContext(DeviceContext);
+  const { realtimeStatus, hasReceivedData } = React.useContext(DeviceContext);
   const {} = DefaultPaginationResult;
 
   const blockNumber = history?.latestBlockNumber;
@@ -41,6 +41,13 @@ export default function Index(props: Props) {
   const difficulty = history?.latestDifficulty;
   const blockTime = history?.latestAvgBlockTime;
   const networkHashRate = difficulty && blockTime ? difficulty / blockTime : 0;
+  const onlineCount = hasReceivedData
+    ? realtimeStatus.onlineCount
+    : props.onlineCount;
+  const totalCount = hasReceivedData
+    ? realtimeStatus.totalCount
+    : props.totalCount;
+
   return (
     <div>
       <PageHeader
@@ -53,9 +60,7 @@ export default function Index(props: Props) {
           <Grid item md={3} xs={6}>
             <LargeDataCard
               icon={<Storage />}
-              title={`${realtimeStatus.onlineCount ?? props.onlineCount}/${
-                realtimeStatus.totalCount ?? props.totalCount
-              }`}
+              title={`${onlineCount}/${totalCount}`}
               color={"#ba03fc"}
               subtitleColor={"white"}
               iconColor={"white"}
@@ -154,10 +159,11 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
   context
 ) => {
   const deviceRegistrationService = new dbServices.DeviceRegistrationService();
+  const storageService = new dbServices.StorageManagementService();
 
   const data: Props = {
     onlineCount: await deviceRegistrationService.getOnlineDevicesCount(),
-    totalCount: await deviceRegistrationService.count(),
+    totalCount: await storageService.count(),
   };
 
   return {
