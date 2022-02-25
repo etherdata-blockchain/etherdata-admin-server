@@ -17,6 +17,7 @@ import React from "react";
  * @param subtitle
  * @param style
  * @param action
+ * @param containerStyle
  * @constructor
  */
 export default function ResponsiveCard({
@@ -26,16 +27,18 @@ export default function ResponsiveCard({
   subtitle,
   style,
   action,
+  containerStyle,
 }: {
   children: any;
   className?: any;
   title?: string | JSX.Element;
   subtitle?: string;
   style?: React.CSSProperties;
+  containerStyle?: React.CSSProperties;
   action?: JSX.Element;
 }) {
   return (
-    <div>
+    <div style={containerStyle}>
       <Hidden only={["sm", "md", "lg", "xl"]}>{children}</Hidden>
       <Hidden only={["xs"]}>
         <Card className={className} style={style}>

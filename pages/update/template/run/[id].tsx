@@ -129,6 +129,10 @@ export default function Run(props: Props) {
                 maxHeight: `calc(100vh - ${configs.Configurations.appbarHeight}px)`,
                 overflow: "scroll",
               }}
+              containerStyle={{
+                position: "sticky",
+                top: configs.Configurations.appbarHeight + 10,
+              }}
             >
               <Form
                 schema={jsonSchema}
@@ -144,7 +148,6 @@ export default function Run(props: Props) {
             <ResponsiveCard
               title={"Status"}
               style={{
-                maxHeight: `calc(100vh - ${configs.Configurations.appbarHeight}px)`,
                 overflowY: "scroll",
                 width: "100%",
               }}
@@ -221,6 +224,7 @@ export default function Run(props: Props) {
           </Grid>
         </Grid>
       </PaddingBox>
+      <Spacer height={20} />
     </div>
   );
 }

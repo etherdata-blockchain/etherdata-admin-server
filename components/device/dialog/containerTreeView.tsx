@@ -16,7 +16,7 @@ import { ContainerInfo } from "dockerode";
 import moment from "moment";
 import { DeviceContext } from "../../../pages/model/DeviceProvider";
 import { UIProviderContext } from "../../../pages/model/UIProvider";
-import { CircularProgress } from "@mui/material";
+import { CircularProgress, List, ListItemButton } from "@mui/material";
 
 declare module "react" {
   // eslint-disable-next-line no-unused-vars
@@ -141,7 +141,7 @@ export default function ContainerTreeView({
       defaultEndIcon={<div style={{ width: 24 }} />}
       sx={{ flexGrow: 1, overflowY: "auto" }}
       onNodeToggle={async (e, v) => {
-        if (v[0].includes("log-")) {
+        if (v[0]?.includes("log-")) {
           await getLog(v[0].replace("log-", ""));
         }
       }}
@@ -195,11 +195,13 @@ export default function ContainerTreeView({
           >
             <Box pl={10} color={"black"} pt={1}>
               {isLoading && <CircularProgress size={20} />}
-              {result &&
-                !isLoading &&
-                result
-                  .split("\n")
-                  .map((r, i) => <Typography key={`r-${i}`}>{r}</Typography>)}
+              {result && !isLoading && (
+                <List>
+                  {result.split("\n").map((r, i) => (
+                    <ListItemButton key={`r-${i}`}>{r}</ListItemButton>
+                  ))}
+                </List>
+              )}
             </Box>
           </StyledTreeItem>
         </StyledTreeItem>
