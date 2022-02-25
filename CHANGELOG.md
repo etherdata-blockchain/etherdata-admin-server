@@ -1,4 +1,12 @@
-## [1.11.2](https://github.com/etherdata-blockchain/etherdata-admin-server/compare/v1.11.1...v1.11.2) (2022-02-24)
+undefined
+
+## [1.11.3](https://github.com/etherdata-blockchain/etherdata-admin-server/compare/v1.11.1...v1.11.3) (2022-02-25)
+
+
+### Bug Fixes
+
+* update ui ([#52](https://github.com/etherdata-blockchain/etherdata-admin-server/issues/52)) ([6bce92a](https://github.com/etherdata-blockchain/etherdata-admin-server/commit/6bce92a732e45b7d163c4ab990c157ea110d19f0))
+* webhook will write an empty tag ([#51](https://github.com/etherdata-blockchain/etherdata-admin-server/issues/51)) ([bb8c5e4](https://github.com/etherdata-blockchain/etherdata-admin-server/commit/bb8c5e4d3f1e90bfa4241d1324fb15c3bb395f24))## [1.11.2](https://github.com/etherdata-blockchain/etherdata-admin-server/compare/v1.11.1...v1.11.2) (2022-02-24)
 
 
 ### Bug Fixes
@@ -694,4 +702,3 @@
 
 
 # [0.1.0](https://github.com/etherdata-blockchain/etherdata-admin-server/compare/v1.10.11...v1.10.12) (2021-08-16)
-
