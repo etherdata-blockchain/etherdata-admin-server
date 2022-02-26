@@ -5,6 +5,7 @@ import { schema } from "@etherdata-blockchain/storage-model";
 import Logger from "@etherdata-blockchain/logger";
 import { StatusCodes } from "http-status-codes";
 import {
+  deviceAuthorizationHandler,
   jwtVerificationHandler,
   methodAllowedHandler,
 } from "@etherdata-blockchain/next-js-handlers";
@@ -36,15 +37,6 @@ async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
 
   try {
     const plugin = new dbServices.DeviceRegistrationService();
-    const [authenticated, newKey] = await plugin.auth(user, key);
-    if (!authenticated) {
-      Logger.error(
-        `${user}: is not registered in our storage management system`
-      );
-      returnData.error = "Device is not registered";
-      res.status(403).json(returnData);
-      return;
-    }
 
     const lastSeen = moment().toDate();
     const deviceData = {
@@ -57,7 +49,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
     };
 
     const responseData = await plugin.patch(deviceData as schema.IDevice);
-    res.status(StatusCodes.OK).json({ data: responseData, key: newKey });
+    res.status(StatusCodes.OK).json({ data: responseData, key: key });
   } catch (err) {
     Logger.error(`${__filename}: ${err}`);
     returnData.error = `${err}`;
@@ -66,6 +58,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
   }
 }
 
-export default methodAllowedHandler(jwtVerificationHandler(handler as any), [
-  HTTPMethod.POST,
-]);
+export default methodAllowedHandler(
+  jwtVerificationHandler(deviceAuthorizationHandler(handler as any)),
+  [HTTPMethod.POST]
+);
