@@ -1,5 +1,12 @@
 undefined
 
+# [1.12.0](https://github.com/etherdata-blockchain/etherdata-admin-server/compare/v1.11.3...v1.12.0) (2022-02-26)
+
+
+### Features
+
+* add new authorization endpoint and use next handler ([#53](https://github.com/etherdata-blockchain/etherdata-admin-server/issues/53)) ([7ce30b1](https://github.com/etherdata-blockchain/etherdata-admin-server/commit/7ce30b1f637747703adcfda9f6cfc998a6fbf8c2))undefined
+
 ## [1.11.3](https://github.com/etherdata-blockchain/etherdata-admin-server/compare/v1.11.1...v1.11.3) (2022-02-25)
 
 
