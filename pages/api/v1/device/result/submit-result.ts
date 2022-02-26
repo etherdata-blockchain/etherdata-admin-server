@@ -29,15 +29,10 @@ async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
 
   try {
     const jobResultService = new dbServices.JobResultService();
-    const deviceRegistrationService =
-      new dbServices.DeviceRegistrationService();
+
     const pendingJobService = new dbServices.PendingJobService();
     const executionPlanService = new dbServices.ExecutionPlanService();
 
-    const [authorized, newKey] = await deviceRegistrationService.auth(
-      user,
-      key
-    );
     const pendingJob = await pendingJobService.get(jobId);
 
     if (pendingJob === undefined || pendingJob === null) {
@@ -48,44 +43,39 @@ async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
       return;
     }
 
-    if (authorized) {
-      body.deviceID = user;
-      body._id = new ObjectId(jobId);
-      returnData.key = newKey;
-      // Update job result
-      await jobResultService.patch(body);
+    body.deviceID = user;
+    body._id = new ObjectId(jobId);
+    returnData.key = key;
+    // Update job result
+    await jobResultService.patch(body);
 
-      if (pendingJob.task.type === enums.JobTaskType.UpdateTemplate) {
-        const job =
-          pendingJob as unknown as interfaces.db.PendingJobDBInterface<enums.UpdateTemplateValueType>;
-        // Get last execution plan
-        const plans = await executionPlanService.getPlans(
-          job.task.value.templateId
-        );
+    if (pendingJob.task.type === enums.JobTaskType.UpdateTemplate) {
+      const job =
+        pendingJob as unknown as interfaces.db.PendingJobDBInterface<enums.UpdateTemplateValueType>;
+      // Get last execution plan
+      const plans = await executionPlanService.getPlans(
+        job.task.value.templateId
+      );
 
-        if (plans && plans.length > 0) {
-          const lastPlan = plans[plans.length - 1];
-          lastPlan.isDone = true;
-          await executionPlanService.patch(lastPlan);
-        }
-
-        // Update execution plan
-        const plan: interfaces.db.ExecutionPlanDBInterface = {
-          description: `${body.result}`,
-          isDone: true,
-          isError: !body.success,
-          name: `${job.targetDeviceId} finished processing job`,
-          updateTemplate: job.task.value.templateId,
-          createdAt: new Date(),
-        };
-        await executionPlanService.create(plan as any, { upsert: false });
+      if (plans && plans.length > 0) {
+        const lastPlan = plans[plans.length - 1];
+        lastPlan.isDone = true;
+        await executionPlanService.patch(lastPlan);
       }
-      await pendingJobService.delete(pendingJob._id);
-      res.status(StatusCodes.CREATED).json(returnData);
-    } else {
-      returnData.error = "Device is not in our DB";
-      res.status(StatusCodes.NOT_FOUND).json(returnData);
+
+      // Update execution plan
+      const plan: interfaces.db.ExecutionPlanDBInterface = {
+        description: `${body.result}`,
+        isDone: true,
+        isError: !body.success,
+        name: `${job.targetDeviceId} finished processing job`,
+        updateTemplate: job.task.value.templateId,
+        createdAt: new Date(),
+      };
+      await executionPlanService.create(plan as any, { upsert: false });
     }
+    await pendingJobService.delete(pendingJob._id);
+    res.status(StatusCodes.CREATED).json(returnData);
   } catch (err) {
     Logger.error(err);
     returnData.error = `${err}`;

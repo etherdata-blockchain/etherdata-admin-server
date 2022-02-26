@@ -3,7 +3,10 @@ import { enums } from "@etherdata-blockchain/common";
 import { dbServices } from "@etherdata-blockchain/services";
 import { schema } from "@etherdata-blockchain/storage-model";
 import Logger from "@etherdata-blockchain/logger";
-import { jwtVerificationHandler } from "@etherdata-blockchain/next-js-handlers";
+import {
+  deviceAuthorizationHandler,
+  jwtVerificationHandler,
+} from "@etherdata-blockchain/next-js-handlers";
 import { StatusCodes } from "http-status-codes";
 
 type Data = {
@@ -18,12 +21,6 @@ type Data = {
  * @param res
  */
 async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
-  //User is the device id and key is the key used in previous request.
-  //If this is the first time that device calls this api, then token is undefined.
-  //The reason why we provide both key and user for to our api is that
-  //the key's verification process happens in memory and no database connection required.
-  //However, when key is not presented, then the database connection is required
-  //to authenticate the user is valid.
   const { user: deviceId, key } = req.body;
   const returnData: Data = {};
 
@@ -32,36 +29,28 @@ async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
     const executionPlanService = new dbServices.ExecutionPlanService();
     const ownerService = new dbServices.StorageManagementOwnerService();
 
-    const devicePlugin = new dbServices.DeviceRegistrationService();
-    const [authorized, newKey] = await devicePlugin.auth(deviceId, key);
-    if (authorized) {
-      const job = await plugin.getJob<enums.UpdateTemplateValueType>(deviceId);
-      if (job && job?.task.type === enums.JobTaskType.UpdateTemplate) {
-        // If the job type is update template
-        // Add waiting job result to execution plan
-        const plan: any = {
-          description: "Waiting for job result",
-          isDone: false,
-          isError: false,
-          name: `${job.targetDeviceId} received job`,
-          updateTemplate: (job.task.value as any).templateId,
-        };
-        await executionPlanService.create(plan, { upsert: false });
+    const job = await plugin.getJob<enums.UpdateTemplateValueType>(deviceId);
+    if (job && job?.task.type === enums.JobTaskType.UpdateTemplate) {
+      // If the job type is update template
+      // Add waiting job result to execution plan
+      const plan: any = {
+        description: "Waiting for job result",
+        isDone: false,
+        isError: false,
+        name: `${job.targetDeviceId} received job`,
+        updateTemplate: (job.task.value as any).templateId,
+      };
+      await executionPlanService.create(plan, { upsert: false });
 
-        // Check user's coinbase and set it to the job task's value
-        const owner = await ownerService.getOwnerByDevice(deviceId);
-        (job.task.value as enums.UpdateTemplateValueType).coinbase =
-          owner?.coinbase;
-      }
-
-      returnData.job = job;
-      returnData.key = newKey;
-      res.status(StatusCodes.OK).json(returnData);
-    } else {
-      Logger.error(`${__filename} Device is not in our DB`);
-      returnData.error = "Device is not in our DB";
-      res.status(StatusCodes.NOT_FOUND).json(returnData);
+      // Check user's coinbase and set it to the job task's value
+      const owner = await ownerService.getOwnerByDevice(deviceId);
+      (job.task.value as enums.UpdateTemplateValueType).coinbase =
+        owner?.coinbase;
     }
+
+    returnData.job = job;
+    returnData.key = key;
+    res.status(StatusCodes.OK).json(returnData);
   } catch (err) {
     Logger.error(err);
     returnData.error = `${err}`;
@@ -69,4 +58,6 @@ async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
   }
 }
 
-export default jwtVerificationHandler(handler as any);
+export default jwtVerificationHandler(
+  deviceAuthorizationHandler(handler as any)
+);
