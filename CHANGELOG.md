@@ -1,5 +1,12 @@
 undefined
 
+## [1.12.1](https://github.com/etherdata-blockchain/etherdata-admin-server/compare/v1.12.0...v1.12.1) (2022-02-28)
+
+
+### Bug Fixes
+
+* docker build problem ([#54](https://github.com/etherdata-blockchain/etherdata-admin-server/issues/54)) ([5c2279a](https://github.com/etherdata-blockchain/etherdata-admin-server/commit/5c2279aecffc39bc97505567bad27c67121f3814))undefined
+
 # [1.12.0](https://github.com/etherdata-blockchain/etherdata-admin-server/compare/v1.11.3...v1.12.0) (2022-02-26)
 
 
