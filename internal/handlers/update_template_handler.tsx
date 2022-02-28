@@ -38,7 +38,10 @@ const hostConfig: JSONSchema7 = {
       enum: ["bridge", "host", "none"],
     },
     PortBindings: {},
-    RestartPolicy: {},
+    RestartPolicy: {
+      type: "string",
+      enum: ["no", "on-failure", "always", "unless-stopped"],
+    },
     VolumeDriver: {
       type: "string",
     },

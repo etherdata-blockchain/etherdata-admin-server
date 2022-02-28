@@ -43,6 +43,8 @@ export default function Index({ updateTemplate }: Props) {
   const submitData = async (data: interfaces.db.UpdateTemplateDBInterface) => {
     setIsLoading(true);
     try {
+      console.log(data);
+
       await getAxiosClient().patch(url, data);
       await router.push(`${Routes.update}`);
     } catch (e) {
