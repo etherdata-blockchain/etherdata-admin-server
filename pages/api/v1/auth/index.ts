@@ -1,5 +1,4 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { dbServices } from "@etherdata-blockchain/services";
 import {
   jwtVerificationHandler,
   methodAllowedHandler,
@@ -17,7 +16,7 @@ import { StatusCodes } from "http-status-codes";
  * @param res
  */
 async function handler(req: NextApiRequest, res: NextApiResponse<any>) {
-  res.status(StatusCodes.OK);
+  res.status(StatusCodes.OK).json({});
 }
 
 export default methodAllowedHandler(

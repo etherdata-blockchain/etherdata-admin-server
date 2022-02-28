@@ -13,5 +13,8 @@
   },
   "hooks": {
     "after:bump": "node example_configs/k8s/update-version.js ${version}"
+  },
+  "git": {
+    "requireCleanWorkingDir": false
   }
 }
