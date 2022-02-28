@@ -35,6 +35,7 @@ const hostConfig: JSONSchema7 = {
     },
     NetworkMode: {
       type: "string",
+      enum: ["bridge", "host", "none"],
     },
     PortBindings: {},
     RestartPolicy: {},
