@@ -1,5 +1,12 @@
 undefined
 
+## [1.12.4](https://github.com/etherdata-blockchain/etherdata-admin-server/compare/v1.12.3...v1.12.4) (2022-03-01)
+
+
+### Bug Fixes
+
+* server side env and client side env is wrong ([#58](https://github.com/etherdata-blockchain/etherdata-admin-server/issues/58)) ([788d428](https://github.com/etherdata-blockchain/etherdata-admin-server/commit/788d428b05250287f9a3ed2faab647f23c00e9ce))undefined
+
 ## [1.12.3](https://github.com/etherdata-blockchain/etherdata-admin-server/compare/v1.12.2...v1.12.3) (2022-03-01)
 
 
