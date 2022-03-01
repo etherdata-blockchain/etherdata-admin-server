@@ -106,8 +106,8 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
   const data: Props = {
     tabIndex: parseInt(index as string),
     envs: {
-      clientEnvs: { ...configs.Environments.ServerSideEnvironments },
-      serverEnvs: { ...configs.Environments.ClientSideEnvironments },
+      clientEnvs: { ...configs.Environments.ClientSideEnvironments },
+      serverEnvs: { ...configs.Environments.ServerSideEnvironments },
     },
   };
 
