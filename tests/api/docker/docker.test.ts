@@ -77,7 +77,7 @@ describe("Given a docker handler", () => {
     expect(data.tags[0]._id).toBeDefined();
   });
 
-  test("When trying make a post request to webhook with existing image data", async () => {
+  test("When trying to make a post request to webhook with existing image data", async () => {
     const data = {
       imageName: mockData.MockWebHookData.repository.repo_name,
       tags: [{ tag: "v1.0" }],
@@ -98,7 +98,7 @@ describe("Given a docker handler", () => {
       imageName: "test/testhook",
     }).exec())!;
     expect(await schema.DockerImageModel.countDocuments()).toBe(1);
-    expect(dockerData.tags.length).toBe(2);
+    expect(dockerData.tags.length).toBe(1);
   });
 
   test("When making a get request", async () => {
