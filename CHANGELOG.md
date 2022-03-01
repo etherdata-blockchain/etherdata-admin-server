@@ -1,5 +1,12 @@
 undefined
 
+## [1.12.2](https://github.com/etherdata-blockchain/etherdata-admin-server/compare/v1.12.1...v1.12.2) (2022-03-01)
+
+
+### Bug Fixes
+
+* add enum to json schema ([#55](https://github.com/etherdata-blockchain/etherdata-admin-server/issues/55)) ([127edfe](https://github.com/etherdata-blockchain/etherdata-admin-server/commit/127edfe98060ce2582883c2681e1d3261daa1f9b))undefined
+
 ## [1.12.1](https://github.com/etherdata-blockchain/etherdata-admin-server/compare/v1.12.0...v1.12.1) (2022-02-28)
 
 
