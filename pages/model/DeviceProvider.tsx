@@ -42,9 +42,7 @@ export default function DeviceProvider(props: any) {
   React.useEffect(() => {
     socket = io("/clients", {
       auth: {
-        token:
-          configs.Environments.ClientSideEnvironments
-            .NEXT_PUBLIC_CLIENT_PASSWORD,
+        token: configs.Environments.ClientSideEnvironments.NEXT_PUBLIC_SECRET,
       },
       transports: ["websocket"],
     });
