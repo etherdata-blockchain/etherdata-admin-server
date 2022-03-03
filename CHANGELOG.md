@@ -1,5 +1,12 @@
 undefined
 
+## [1.12.5](https://github.com/etherdata-blockchain/etherdata-admin-server/compare/v1.12.4...v1.12.5) (2022-03-03)
+
+
+### Bug Fixes
+
+* remove envs from build file ([#63](https://github.com/etherdata-blockchain/etherdata-admin-server/issues/63)) ([effddfe](https://github.com/etherdata-blockchain/etherdata-admin-server/commit/effddfec5f10de91e1529986ac804b1fd713fbc2))undefined
+
 ## [1.12.4](https://github.com/etherdata-blockchain/etherdata-admin-server/compare/v1.12.3...v1.12.4) (2022-03-01)
 
 
