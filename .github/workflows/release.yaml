@@ -52,7 +52,6 @@ jobs:
           cache-to: type=local,dest=/tmp/.buildx-cache-new
           build-args: |
             APP_ID=${{ secrets.APP_ID }}
-            PUBLIC_CLIENT_PASSWORD=${{secrets.PUBLIC_CLIENT_PASSWORD}}
             PUBLIC_STATS_SERVER=${{secrets.PUBLIC_STATS_SERVER}}
             NEXT_PUBLIC_SECRET=${{secrets.NEXT_PUBLIC_SECRET}}
             VERSION=${{ steps.prep.outputs.tags }}
