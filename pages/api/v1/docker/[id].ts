@@ -13,13 +13,68 @@ type Response =
   | interfaces.db.DockerImageDBInterface;
 
 /**
- * This will handle docker request by id.
+ * @swagger
+ * /api/v1/docker/[id]:
+ *   name: Modify the given docker image
+ *   get:
+ *     tags: ["Docker"]
+ *     description: List all the docker images stored on this server
+ *     summary: Modify the given docker image
+ *     responses:
+ *       200:
+ *         description: Ok.
+ *         schema:
+ *           type: "object"
+ *           $ref: "#/definitions/DockerImageDBInterface"
+ *       404:
+ *         description: Not found
+ *         schema:
+ *           type: object
+ *           properties:
+ *             err:
+ *               type: string
+ *               description: Error reason
  *
- * - **Patch**: will update specific docker image
- * - **Delete**: Will try to delete a docker image
- * - **Get**: Will try to return the docker image by id
- * @param {NextApiRequest} req
- * @param {NextApiResponse} res
+ *   patch:
+ *      tags: ["Docker"]
+ *      description: Update the given docker image
+ *      summary: Update the given docker image
+ *      parameters:
+ *        - name: data
+ *          type: object
+ *          in: body
+ *          schema:
+ *            $ref: "#/definitions/DockerImageDBInterface"
+ *      responses:
+ *        200:
+ *          description: ok
+ *          schema:
+ *            type: object
+ *            $ref: "#/definitions/DockerImageDBInterface"
+ *        404:
+ *         description: Not found
+ *         schema:
+ *           type: object
+ *           properties:
+ *             err:
+ *               type: string
+ *               description: Error reason
+ *   delete:
+ *      tags: ["Docker"]
+ *      description: Delete the given docker image
+ *      summary: Delete the given docker image
+ *      responses:
+ *        204:
+ *          description: Deleted
+ *        404:
+ *         description: Not found
+ *         schema:
+ *           type: object
+ *           properties:
+ *             err:
+ *               type: string
+ *               description: Error reason
+ *
  */
 async function handler(req: NextApiRequest, res: NextApiResponse<Response>) {
   const id = req.query.id;
@@ -51,7 +106,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse<Response>) {
 
     case "DELETE":
       await dockerImageService.delete(data);
-      res.status(StatusCodes.OK).json({ message: "OK" });
+      res.status(StatusCodes.NO_CONTENT).json({ message: "OK" });
       break;
   }
 }

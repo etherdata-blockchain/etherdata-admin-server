@@ -9,11 +9,66 @@ import {
 } from "@etherdata-blockchain/next-js-handlers";
 
 /**
- * Sttaic node api will provide follow functionalities
- * - **post**: Create a new static node
- * - **get**: List static nodes by page number and page size
- * @param{NextApiRequest} req
- * @param{NextApiResponse} res
+ * @swagger
+ * /api/v1/static-node:
+ *   name: Static node operation
+ *   get:
+ *     tags: ["Static Node"]
+ *     description: List all the static nodes
+ *     summary: List all static nodes
+ *     parameters:
+ *       - name: page
+ *         in: query
+ *         type: number
+ *         required: false
+ *       - name: pageSize
+ *         in: query
+ *         type: number
+ *         required: false
+ *     responses:
+ *       200:
+ *         description: Ok.
+ *         schema:
+ *           type: "object"
+ *           properties:
+ *             count:
+ *                 type: number
+ *                 description: total number of objects
+ *
+ *             totalPage:
+ *                 type: number
+ *                 description: total number of page
+ *
+ *             currentPage:
+ *                 type: number
+ *                 description: current page number
+ *
+ *             pageSize:
+ *                 type: number
+ *                 description: number of items per page
+ *
+ *             results:
+ *                 type: array
+ *                 items:
+ *                      $ref: "#/definitions/StaticNodeDBInterface"
+ *   post:
+ *      tags: ["Static Node"]
+ *      description: Create a new static node
+ *      summary: Create a new static node
+ *      parameters:
+ *        - name: data
+ *          type: object
+ *          in: body
+ *          schema:
+ *            $ref: "#/definitions/StaticNodeDBInterface"
+ *      responses:
+ *        200:
+ *          description: ok
+ *          schema:
+ *            type: object
+ *            $ref: "#/definitions/StaticNodeDBInterface"
+ *
+ *
  */
 async function handler(req: NextApiRequest, res: NextApiResponse) {
   const staticNodeService = new dbServices.StaticNodeService();

@@ -4,14 +4,14 @@ import mongoose from "mongoose";
 import { MongoMemoryServer } from "mongodb-memory-server";
 import { createMocks } from "node-mocks-http";
 import jwt from "jsonwebtoken";
-import handler from "../../../pages/api/v1/device/devices-with-status";
+import handler from "../../../pages/api/v1/device/by_user";
 import axios from "axios";
 import { interfaces, mockData } from "@etherdata-blockchain/common";
 import { schema } from "@etherdata-blockchain/storage-model";
 
 jest.mock("axios");
 
-describe("Given a device with status handler", () => {
+describe("Given a devices handler", () => {
   let dbServer: MongoMemoryServer;
   const oldEnv = process.env;
 

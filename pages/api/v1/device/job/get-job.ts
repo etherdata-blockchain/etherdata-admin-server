@@ -16,9 +16,37 @@ type Data = {
 };
 
 /**
- * Get a job from DB
- * @param req
- * @param res
+ * @swagger
+ * /api/v1/device/job/get-job:
+ *   name: Get a pending job
+ *   get:
+ *     tags: ["Job"]
+ *     description: |
+ *        Returns a pending job to the client
+ *        If a job result is not sent to the server in a certain amount of time,
+ *        then this job will be marked as retrievable and add retries counter by 1.
+ *        If the job's retries exceed the limit, then this job will be removed.
+ *
+ *     summary: Get a pending job
+ *     responses:
+ *       200:
+ *         description: Ok.
+ *         schema:
+ *           type: "object"
+ *           properties:
+ *             key:
+ *                 type: string
+ *                 description: jwt key for next request
+ *             error:
+ *               type: string
+ *               description: error
+ *             job:
+ *               type: array
+ *               description: an object which contains the job
+ *               $ref: "#/definitions/PendingJob"
+ *
+ *       401:
+ *         description: The given user is not authenticated
  */
 async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
   const { user: deviceId, key } = req.body;

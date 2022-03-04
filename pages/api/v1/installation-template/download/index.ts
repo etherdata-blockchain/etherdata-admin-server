@@ -17,12 +17,52 @@ type Response =
   | Buffer;
 
 /**
- * This will handle installation template request.
- * - **Post**: Will create a zip file for download.
- * if try to get a zip file using POST request, then a list of env query parameters in body is expected.
- * The env could look like this. {envs: [{name: "hello", age: 24}]}
- * @param {NextApiRequest} req
- * @param {NextApiResponse} res
+ * @swagger
+ * /api/v1/installation-template/download:
+ *   name: Download the installation template
+ *   post:
+ *      tags: ["Installation Template"]
+ *      description: Update the given installation template
+ *      summary: Update the given installation template
+ *      parameters:
+ *        - name: envs
+ *          type: object
+ *          in: body
+ *          description: Expect to be a key value pair's map.
+ *        - name: template
+ *          type: string
+ *          in: body
+ *          description: template id
+ *      responses:
+ *        200:
+ *          description: ok
+ *          schema:
+ *            type: object
+ *            $ref: "#/definitions/InstallationTemplateDBInterface"
+ *        404:
+ *         description: Not found
+ *         schema:
+ *           type: object
+ *           properties:
+ *             err:
+ *               type: string
+ *               description: Error reason
+ *   delete:
+ *      tags: ["Installation Template"]
+ *      description: Delete the given installation template
+ *      summary: Delete the given installation template
+ *      responses:
+ *        200:
+ *          description: ok
+ *        404:
+ *         description: Not found
+ *         schema:
+ *           type: object
+ *           properties:
+ *             err:
+ *               type: string
+ *               description: Error reason
+ *
  */
 async function handler(req: NextApiRequest, res: NextApiResponse<Response>) {
   const installationService = new dbServices.InstallationService();
@@ -33,25 +73,25 @@ async function handler(req: NextApiRequest, res: NextApiResponse<Response>) {
    * and generate a zip file contains all required files
    */
   const handlePostRequest = async () => {
-    const templateName = req.body.template;
+    const templateTag = req.body.template;
     const envs = req.body.envs;
     const template = await installationService.filter(
       {
-        template_tag: templateName,
+        template_tag: templateTag,
       },
       1,
       1
     );
     //TODO: Added random pick function
     const staticNodes = await staticNodeService.list(
-      1,
+      configs.Configurations.defaultPaginationStartingPage,
       configs.Configurations.numberPerPage
     );
 
     if (template?.count === 0) {
       res
         .status(StatusCodes.NOT_FOUND)
-        .json({ err: "Cannot find a template with name: " + templateName });
+        .json({ err: "Cannot find a template with name: " + templateTag });
       return;
     }
 
@@ -94,7 +134,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse<Response>) {
       "content-disposition",
       "attachment; filename=installation-template-script.zip"
     );
-    res.send(data);
+    res.status(StatusCodes.OK).send(data);
   };
 
   switch (req.method) {

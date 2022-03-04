@@ -95,7 +95,7 @@ describe("Given a docker image handler with index", () => {
     //@ts-ignore
     await handler(req, res);
     const result = res._getJSONData();
-    expect(res._getStatusCode()).toBe(StatusCodes.OK);
+    expect(res._getStatusCode()).toBe(StatusCodes.NO_CONTENT);
     expect(result.message).toBe("OK");
   });
 

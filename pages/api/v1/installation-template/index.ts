@@ -16,12 +16,65 @@ type Response =
   | Buffer;
 
 /**
- * This will handle installation template request.
+ * @swagger
+ * /api/v1/installation-template:
+ *   get:
+ *     tags: ["Installation Template"]
+ *     description: List all installation templates
+ *     summary: List all installation templates
+ *     parameters:
+ *       - name: page
+ *         in: query
+ *         type: number
+ *         required: false
+ *       - name: pageSize
+ *         in: query
+ *         type: number
+ *         required: false
+ *     responses:
+ *       200:
+ *         description: Ok.
+ *         schema:
+ *           type: "object"
+ *           properties:
+ *             count:
+ *                 type: number
+ *                 description: total number of objects
  *
- * - **Post**: Will create a new template based on user request.
- * - **Get**: Will list templates
- * @param {NextApiRequest} req
- * @param {NextApiResponse} res
+ *             totalPage:
+ *                 type: number
+ *                 description: total number of page
+ *
+ *             currentPage:
+ *                 type: number
+ *                 description: current page number
+ *
+ *             pageSize:
+ *                 type: number
+ *                 description: number of items per page
+ *
+ *             results:
+ *                 type: array
+ *                 items:
+ *                      $ref: "#/definitions/InstallationTemplateDBInterface"
+ *   post:
+ *      tags: ["Installation Template"]
+ *      description: Create a new installation template
+ *      summary: Create a new installation template
+ *      parameters:
+ *        - name: data
+ *          type: object
+ *          in: body
+ *          schema:
+ *            $ref: "#/definitions/InstallationTemplateDBInterface"
+ *      responses:
+ *        200:
+ *          description: ok
+ *          schema:
+ *            type: object
+ *            $ref: "#/definitions/InstallationTemplateDBInterface"
+ *
+ *
  */
 async function handler(req: NextApiRequest, res: NextApiResponse<Response>) {
   const installationService = new dbServices.InstallationService();

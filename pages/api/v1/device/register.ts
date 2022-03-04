@@ -12,12 +12,12 @@ type Data = {
 };
 
 /**
- * Handle device register request.
- * When user submit a register device,
- * this handler will try to find the matched device,
- * and try to register the user info in the database
- * @param req
- * @param res
+ * @swagger
+ * /api/v1/device/register:
+ *   name: Register device with the given user
+ *   get:
+ *     tags: ["Device"]
+ *     deprecated: true
  */
 async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
   const { user, device } = req.body;

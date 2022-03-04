@@ -9,9 +9,12 @@ import { Home, Person, PieChart, Settings } from "@mui/icons-material";
 import NextNprogress from "nextjs-progressbar";
 import DownloadingIcon from "@mui/icons-material/Downloading";
 import BrowserUpdatedIcon from "@mui/icons-material/BrowserUpdated";
+import MenuBookIcon from "@mui/icons-material/MenuBook";
 
 import { configs } from "@etherdata-blockchain/common";
-import { Routes } from "@etherdata-blockchain/common/src/configs/routes";
+
+const Routes = configs.Routes;
+
 // Setup realm for login
 export const realmApp = new Realm.App({
   id: configs.Environments.ClientSideEnvironments.NEXT_PUBLIC_APP_ID,
@@ -107,6 +110,11 @@ function MyApp(props: AppProps) {
       title: "Settings",
       icon: <Settings />,
       link: Routes.settings,
+    },
+    {
+      title: "Documentation",
+      icon: <MenuBookIcon />,
+      link: Routes.documentation,
     },
   ];
 

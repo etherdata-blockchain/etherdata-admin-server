@@ -13,13 +13,68 @@ type Response =
   | interfaces.db.StaticNodeDBInterface;
 
 /**
- * This will handle static node request by id;
+ * @swagger
+ * /api/v1/static-node/[id]:
+ *   name: Modify the given static node
+ *   get:
+ *     tags: ["Static Node"]
+ *     description: Get the static node by id
+ *     summary: Get the static node by id
+ *     responses:
+ *       200:
+ *         description: Ok.
+ *         schema:
+ *           type: "object"
+ *           $ref: "#/definitions/StaticNodeDBInterface"
+ *       404:
+ *         description: Not found
+ *         schema:
+ *           type: object
+ *           properties:
+ *             err:
+ *               type: string
+ *               description: Error reason
  *
- * - **Patch**: will update a specific static node
- * - **Delete**: Will try to delete a static node
- * - **Get**: Will try to return the static node by id
- * @param {NextApiRequest} req
- * @param {NextApiResponse} res
+ *   patch:
+ *      tags: ["Static Node"]
+ *      description: Update the given static node
+ *      summary: Update the given static node
+ *      parameters:
+ *        - name: data
+ *          type: object
+ *          in: body
+ *          schema:
+ *            $ref: "#/definitions/StaticNodeDBInterface"
+ *      responses:
+ *        200:
+ *          description: ok
+ *          schema:
+ *            type: object
+ *            $ref: "#/definitions/StaticNodeDBInterface"
+ *        404:
+ *         description: Not found
+ *         schema:
+ *           type: object
+ *           properties:
+ *             err:
+ *               type: string
+ *               description: Error reason
+ *   delete:
+ *      tags: ["Static Node"]
+ *      description: Delete the given static node
+ *      summary: Delete the given static node
+ *      responses:
+ *        204:
+ *          description: Deleted
+ *        404:
+ *         description: Not found
+ *         schema:
+ *           type: object
+ *           properties:
+ *             err:
+ *               type: string
+ *               description: Error reason
+ *
  */
 async function handler(req: NextApiRequest, res: NextApiResponse<Response>) {
   const id = req.query.id;
