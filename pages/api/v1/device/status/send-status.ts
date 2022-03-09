@@ -10,7 +10,6 @@ import {
   methodAllowedHandler,
 } from "@etherdata-blockchain/next-js-handlers";
 import HTTPMethod from "http-method-enum";
-import path from "path";
 
 type Data = {
   error?: string;
@@ -19,43 +18,53 @@ type Data = {
 };
 
 /**
- * Found user by given user
- * @param req
- * @param res
+ * @swagger
+ * /api/v1/device/status/send-status:
+ *   name: Send device status to the server
+ *   post:
+ *     tags: ["Device"]
+ *     description: Sends the latest status info to the server
+ *     summary: Sends status to server
+ *     parameters:
+ *       - name: status data
+ *         in: body
+ *         type: object
+ *         required: true
+ *         schema:
+ *           $ref: "#/definitions/DeviceDBInterface"
+ *     responses:
+ *       200:
+ *         description: Ok.
+ *         schema:
+ *           type: "object"
+ *           properties:
+ *             key:
+ *                 type: string
+ *                 description: jwt key for next request
+ *
+ *             data:
+ *                 type: object
+ *                 schema:
+ *                      $ref: "#/definitions/DeviceDBInterface"
+ *       401:
+ *         description: The given user is not authenticated
  */
 async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
   const { user, data, nodeName, adminVersion, key, docker } = req.body;
 
-  const returnData: Data = {};
+  const plugin = new dbServices.DeviceRegistrationService();
+  const lastSeen = moment().toDate();
+  const deviceData = {
+    lastSeen: lastSeen,
+    id: user,
+    name: nodeName,
+    data: data,
+    adminVersion,
+    docker,
+  };
 
-  if (!nodeName) {
-    Logger.error(`${user}: You must provide a node name`);
-    returnData.error = "You must provide a node name";
-    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(returnData);
-    return;
-  }
-
-  try {
-    const plugin = new dbServices.DeviceRegistrationService();
-
-    const lastSeen = moment().toDate();
-    const deviceData = {
-      lastSeen: lastSeen,
-      id: user,
-      name: nodeName,
-      data: data,
-      adminVersion,
-      docker,
-    };
-
-    const responseData = await plugin.patch(deviceData as schema.IDevice);
-    res.status(StatusCodes.OK).json({ data: responseData, key: key });
-  } catch (err) {
-    Logger.error(`${__filename}: ${err}`);
-    returnData.error = `${err}`;
-    res.status(StatusCodes.NOT_FOUND).json(returnData);
-    return;
-  }
+  const responseData = await plugin.patch(deviceData as schema.IDevice);
+  res.status(StatusCodes.OK).json({ data: responseData, key: key });
 }
 
 export default methodAllowedHandler(

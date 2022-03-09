@@ -19,13 +19,14 @@
     "jsx": "preserve",
     "incremental": true,
     "sourceMap": true,
-    "outDir": "dist"
+    "outDir": "dist",
+    "downlevelIteration": true
   },
   "include": [
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
-    "server.js",
+    "server.js"
   ],
   "exclude": [
     "cypress"

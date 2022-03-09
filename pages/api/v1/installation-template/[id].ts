@@ -14,13 +14,68 @@ type Response =
   | interfaces.db.InstallationTemplateDBInterface;
 
 /**
- * This will handle installation template request by id.
+ * @swagger
+ * /api/v1/installation-template/[id]:
+ *   name: Modify the given static node
+ *   get:
+ *     tags: ["Installation Template"]
+ *     description: Get the installation template by id
+ *     summary: Get the installation template by id
+ *     responses:
+ *       200:
+ *         description: Ok.
+ *         schema:
+ *           type: "object"
+ *           $ref: "#/definitions/InstallationTemplateDBInterface"
+ *       404:
+ *         description: Not found
+ *         schema:
+ *           type: object
+ *           properties:
+ *             err:
+ *               type: string
+ *               description: Error reason
  *
- * - **Patch**: will update specific installation template
- * - **Delete**: Will try to delete a template
- * - **Get**: Will try to return the template by id
- * @param {NextApiRequest} req
- * @param {NextApiResponse} res
+ *   patch:
+ *      tags: ["Installation Template"]
+ *      description: Update the given installation template
+ *      summary: Update the given installation template
+ *      parameters:
+ *        - name: data
+ *          type: object
+ *          in: body
+ *          schema:
+ *            $ref: "#/definitions/InstallationTemplateDBInterface"
+ *      responses:
+ *        200:
+ *          description: ok
+ *          schema:
+ *            type: object
+ *            $ref: "#/definitions/InstallationTemplateDBInterface"
+ *        404:
+ *         description: Not found
+ *         schema:
+ *           type: object
+ *           properties:
+ *             err:
+ *               type: string
+ *               description: Error reason
+ *   delete:
+ *      tags: ["Installation Template"]
+ *      description: Delete the given installation template
+ *      summary: Delete the given installation template
+ *      responses:
+ *        204:
+ *          description: Deleted
+ *        404:
+ *         description: Not found
+ *         schema:
+ *           type: object
+ *           properties:
+ *             err:
+ *               type: string
+ *               description: Error reason
+ *
  */
 async function handler(req: NextApiRequest, res: NextApiResponse<Response>) {
   const id = req.query.id;

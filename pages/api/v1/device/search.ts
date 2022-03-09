@@ -8,9 +8,34 @@ import {
 } from "@etherdata-blockchain/next-js-handlers";
 
 /**
- * Search devices by id
- * @param {NextApiRequest} req request
- * @param {NextApiResponse} res response
+ * @swagger
+ * /api/v1/device/search:
+ *   name: Search devices by key
+ *   get:
+ *     tags: ["Device"]
+ *     description: Returns a list of devices by key
+ *     summary: Search devices by key
+ *     parameters:
+ *       - name: user
+ *         in: query
+ *         type: string
+ *         required: true
+ *         description: JWT token of the storage user with structure like
+ *       - name: page
+ *         in: query
+ *         type: number
+ *         required: false
+ *         description: page number
+ *
+ *     responses:
+ *       200:
+ *         description: Ok.
+ *         schema:
+ *           type: "array"
+ *           items:
+ *             $ref: "#/definitions/StorageItemDBInterface"
+ *       404:
+ *         description: No devices with the given key found
  */
 async function handler(req: NextApiRequest, res: NextApiResponse) {
   const { key } = req.query;
@@ -20,7 +45,9 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (devices) {
     res.status(StatusCodes.OK).json(devices);
   } else {
-    res.status(StatusCodes.NOT_FOUND).json({ reason: "" });
+    res
+      .status(StatusCodes.NOT_FOUND)
+      .json({ reason: `No result for the given key ${key}` });
   }
 }
 

@@ -16,9 +16,35 @@ type Data = {
 };
 
 /**
- * Get a job from DB
- * @param req
- * @param res
+ * @swagger
+ * /api/v1/device/result/submit-result:
+ *   name: Submit the job result
+ *   post:
+ *     tags: ["Job"]
+ *     description: Submit the job result to the server
+ *     summary: Submit the job result
+ *     parameters:
+ *       - name: result data
+ *         in: body
+ *         type: object
+ *         required: true
+ *         schema:
+ *           $ref: "#/definitions/JobResultDBInterface"
+ *     responses:
+ *       200:
+ *         description: Ok.
+ *         schema:
+ *           type: "object"
+ *           properties:
+ *             key:
+ *                 type: string
+ *                 description: jwt key for next request
+ *
+ *             error:
+ *               type: string
+ *               description: error
+ *       401:
+ *         description: The given user is not authenticated
  */
 async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
   const body = req.body;
@@ -29,7 +55,6 @@ async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
 
   try {
     const jobResultService = new dbServices.JobResultService();
-
     const pendingJobService = new dbServices.PendingJobService();
     const executionPlanService = new dbServices.ExecutionPlanService();
 

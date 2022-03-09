@@ -1,24 +1,17 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import HTTPMethod from "http-method-enum";
 import { StatusCodes } from "http-status-codes";
-import { configs, enums, interfaces } from "@etherdata-blockchain/common";
+import { configs } from "@etherdata-blockchain/common";
 import { dbServices } from "@etherdata-blockchain/services";
-import { schema } from "@etherdata-blockchain/storage-model";
-import {
-  jwtVerificationHandler,
-  methodAllowedHandler,
-} from "@etherdata-blockchain/next-js-handlers";
-
-type Data = interfaces.PaginationResult<schema.IPendingJob<enums.AnyValueType>>;
+import { jwtVerificationHandler } from "@etherdata-blockchain/next-js-handlers";
 
 /**
  * @swagger
- * /api/v1/device/job:
- *   name: Get list of jobs
+ * /api/v1/device/by_user:
+ *   name: Get devices by user
  *   get:
- *     tags: ["Job"]
- *     description: Returns a list of pending jobs
- *     summary: Get a list of jobs
+ *     tags: ["Device"]
+ *     description: Returns a list of devices by authenticated user
+ *     summary: Get owned devices
  *     parameters:
  *       - name: user
  *         in: query
@@ -56,26 +49,32 @@ type Data = interfaces.PaginationResult<schema.IPendingJob<enums.AnyValueType>>;
  *             results:
  *                 type: array
  *                 items:
- *                      $ref: "#/definitions/PendingJob"
+ *                      $ref: "#/definitions/StorageItemDBInterface"
  *       404:
  *         description: No device owned by the given user
  *       401:
  *         description: The given user is not authenticated
  */
-async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
-  const pendingJobService = new dbServices.PendingJobService();
-  const results = await pendingJobService.list(
-    configs.Configurations.defaultPaginationStartingPage,
-    configs.Configurations.numberPerPage
+async function handler(req: NextApiRequest, res: NextApiResponse) {
+  const { user, page } = req.query;
+
+  const storagePlugin = new dbServices.StorageManagementService();
+
+  const pageNum = parseInt(
+    (page ??
+      configs.Configurations.defaultPaginationStartingPage.toString()) as string
+  );
+  const storageItems = await storagePlugin.getDevicesByUser(
+    pageNum,
+    user as string
   );
 
-  if (results) {
-    res.status(StatusCodes.OK).json(results);
-  } else {
-    res.status(StatusCodes.NOT_FOUND);
+  if (storageItems === undefined) {
+    res.status(StatusCodes.NOT_FOUND).json({});
+    return;
   }
+
+  res.status(StatusCodes.OK).json(storageItems);
 }
 
-export default methodAllowedHandler(jwtVerificationHandler(handler as any), [
-  HTTPMethod.GET,
-]);
+export default jwtVerificationHandler(handler as any);
