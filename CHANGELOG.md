@@ -1,5 +1,7 @@
 undefined
 
+## [1.13.1](https://github.com/etherdata-blockchain/etherdata-admin-server/compare/v1.13.0...v1.13.1) (2022-03-09)undefined
+
 # [1.13.0](https://github.com/etherdata-blockchain/etherdata-admin-server/compare/v1.12.5...v1.13.0) (2022-03-09)
 
 
