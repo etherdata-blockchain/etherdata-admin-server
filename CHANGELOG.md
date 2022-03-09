@@ -1,5 +1,12 @@
 undefined
 
+# [1.13.0](https://github.com/etherdata-blockchain/etherdata-admin-server/compare/v1.12.5...v1.13.0) (2022-03-09)
+
+
+### Features
+
+* add api documentation page ([#65](https://github.com/etherdata-blockchain/etherdata-admin-server/issues/65)) ([f4e2ad7](https://github.com/etherdata-blockchain/etherdata-admin-server/commit/f4e2ad7c51510bbe02a11881f99fe443c98e4b78))undefined
+
 ## [1.12.5](https://github.com/etherdata-blockchain/etherdata-admin-server/compare/v1.12.4...v1.12.5) (2022-03-03)
 
 
