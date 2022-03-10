@@ -1,4 +1,13 @@
-undefined
+# Changelog
+
+## [1.13.3](https://github.com/etherdata-blockchain/etherdata-admin-server/compare/v1.13.2...v1.13.3) (2022-03-10)
+
+
+### Bug Fixes
+
+* add header ([8b3e89c](https://github.com/etherdata-blockchain/etherdata-admin-server/commit/8b3e89c2ee6f84541b656b12b972b7953d4fcfb1))
+* publish docker to github packages ([5352f57](https://github.com/etherdata-blockchain/etherdata-admin-server/commit/5352f57afbea8150bd62ff1bb671d9744d541eb5))
+* update github action ([#67](https://github.com/etherdata-blockchain/etherdata-admin-server/issues/67)) ([ff9317f](https://github.com/etherdata-blockchain/etherdata-admin-server/commit/ff9317f179d39d5b5b193d2c0b65ce22f5079f1f))undefined
 
 ## [1.13.2](https://github.com/etherdata-blockchain/etherdata-admin-server/compare/v1.13.1...v1.13.2) (2022-03-09)undefined
 
