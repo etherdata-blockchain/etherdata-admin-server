@@ -44,9 +44,22 @@ jobs:
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
 
-  deploy:
+  build:
     runs-on: ubuntu-latest
-    needs: [ test, dependencies ]
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: "16"
+          cache: 'yarn'
+      - run: yarn install
+      - run: yarn build
+        env:
+          NEXT_PUBLIC_APP_ID: ${{ secrets.APP_ID }}
+
+  docker:
+    runs-on: ubuntu-latest
+    needs: [ dependencies ]
     steps:
       - uses: actions/checkout@v2
       - name: Set up QEMU
@@ -77,13 +90,6 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USER }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-      - name: Cache Docker layers
-        uses: actions/cache@v2
-        with:
-          path: /tmp/.buildx-cache
-          key: ${{ runner.os }}-single-buildx-${{ github.sha }}
-          restore-keys: |
-            ${{ runner.os }}-single-buildx
 
       - name: Build and push
         uses: docker/build-push-action@v2
@@ -105,7 +111,7 @@ jobs:
   pre-release:
     runs-on: ubuntu-latest
     if: ${{ (github.event.head_commit.author.name != 'github action') && (github.ref == 'refs/heads/dev') }}
-    needs: [ deploy ]
+    needs: [ docker, build ]
     steps:
       - name: Checkout 🛎️
         uses: actions/checkout@v2
@@ -135,7 +141,7 @@ jobs:
   release:
     runs-on: ubuntu-latest
     if: ${{ (github.event.head_commit.author.name != 'github action') && (github.ref == 'refs/heads/main') }}
-    needs: [ deploy ]
+    needs: [ docker, build ]
     steps:
       - name: Checkout 🛎️
         uses: actions/checkout@v2
