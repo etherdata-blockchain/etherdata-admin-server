@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.13.4](https://github.com/etherdata-blockchain/etherdata-admin-server/compare/v1.13.3...v1.13.4) (2022-03-11)
+
+
+### Bug Fixes
+
+* adding push action ([5de3367](https://github.com/etherdata-blockchain/etherdata-admin-server/commit/5de336710c924514cf1fdb55b75468285eddfdcb))
+
 ## [1.13.3](https://github.com/etherdata-blockchain/etherdata-admin-server/compare/v1.13.2...v1.13.3) (2022-03-10)
 
 
