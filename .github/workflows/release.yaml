@@ -54,8 +54,8 @@ jobs:
           platforms: linux/amd64
           push: true
           tags: ${{ steps.prep.outputs.tags }}
-          cache-from: type=local,src=/tmp/.buildx-cache
-          cache-to: type=local,dest=/tmp/.buildx-cache-new
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
           build-args: |
             APP_ID=${{ secrets.APP_ID }}
             PUBLIC_STATS_SERVER=${{secrets.PUBLIC_STATS_SERVER}}
