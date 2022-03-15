@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.13.5](https://github.com/etherdata-blockchain/etherdata-admin-server/compare/v1.13.4...v1.13.5) (2022-03-15)
+
+
+### Bug Fixes
+
+* update dependencies ([#70](https://github.com/etherdata-blockchain/etherdata-admin-server/issues/70)) ([beac5d3](https://github.com/etherdata-blockchain/etherdata-admin-server/commit/beac5d3f1df12fa5e33ae4a0fa39a6439e331d21))
+
 ## [1.13.4](https://github.com/etherdata-blockchain/etherdata-admin-server/compare/v1.13.3...v1.13.4) (2022-03-11)
 
 
