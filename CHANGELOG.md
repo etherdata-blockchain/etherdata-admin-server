@@ -1,5 +1,18 @@
 # Changelog
 
+# [2.0.0](https://github.com/etherdata-blockchain/etherdata-admin-server/compare/v1.13.5...v2.0.0) (2022-03-28)
+
+
+### Features
+
+* using string replacement package in install and update ([#75](https://github.com/etherdata-blockchain/etherdata-admin-server/issues/75)) ([2d39066](https://github.com/etherdata-blockchain/etherdata-admin-server/commit/2d390667c5e5c102013472f3ea09e3e0a6d40842))
+
+
+### BREAKING CHANGES
+
+* * will any string in ${{}} format with its corresponding values in replacement map
+  * add more tests to test the get installation template api
+
 ## [1.13.5](https://github.com/etherdata-blockchain/etherdata-admin-server/compare/v1.13.4...v1.13.5) (2022-03-15)
 
 
