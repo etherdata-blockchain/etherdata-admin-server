@@ -1,4 +1,3 @@
-import mock = jest.mock;
 import jwt from "jsonwebtoken";
 import mongoose from "mongoose";
 import { MongoMemoryServer } from "mongodb-memory-server";
@@ -9,8 +8,34 @@ import { configs, mockData } from "@etherdata-blockchain/common";
 import YAML from "yaml";
 import { dbServices } from "@etherdata-blockchain/services";
 import { schema } from "@etherdata-blockchain/storage-model";
+import { MockDockerImage } from "@etherdata-blockchain/common/src/mockdata/mock_docker_data";
+import Zip from "adm-zip";
 
-mock("adm-zip");
+jest.mock("adm-zip");
+
+export const MockInstallationTemplateDataWithReplacement = {
+  version: "3",
+  services: [
+    {
+      name: "worker",
+      service: {
+        image: MockDockerImage,
+        restart: "always",
+        environment: [
+          "hello=${{ etd_admin_url }}",
+          "hello=${{etd_node_id}}",
+          "hello=world",
+        ],
+        volumes: [],
+        labels: [],
+      },
+    },
+  ],
+  // eslint-disable-next-line camelcase
+  template_tag: "test",
+  // eslint-disable-next-line camelcase
+  created_by: "",
+};
 
 describe("Given a installation template download handler", () => {
   let dbServer: MongoMemoryServer;
@@ -45,11 +70,19 @@ describe("Given a installation template download handler", () => {
   });
 
   test("When sending a post request to the server", async () => {
+    const addFile = jest.fn();
+    (Zip as any).mockImplementation(() => ({
+      addFile: addFile,
+      toBuffer: jest.fn().mockReturnValue(Buffer.from("hello world")),
+    }));
+
+    const r = new Zip();
+
     const result = await schema.DockerImageModel.create(
       mockData.MockDockerImage
     );
     const reqData = JSON.parse(
-      JSON.stringify(mockData.MockInstallationTemplateData)
+      JSON.stringify(MockInstallationTemplateDataWithReplacement)
     );
     reqData.services[0].service.image.image = result._id;
     reqData.services[0].service.image.tag = result.tags[0]._id;
@@ -68,6 +101,15 @@ describe("Given a installation template download handler", () => {
     await handler(req, res);
     expect(res._getStatusCode()).toBe(StatusCodes.OK);
     expect(res._getData()).toBeDefined();
+
+    const composeFile: Buffer = addFile.mock.calls[0][1];
+    const composeFileContent = composeFile.toString();
+    const composeFileParsed = YAML.parse(composeFileContent);
+    expect(composeFileParsed.services.worker.environment).toStrictEqual([
+      "hello=undefined://undefined",
+      "hello=test-user",
+      "hello=world",
+    ]);
   });
 
   test("When generating a docker compose file", async () => {
