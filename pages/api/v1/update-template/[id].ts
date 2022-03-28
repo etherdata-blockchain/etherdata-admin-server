@@ -7,6 +7,8 @@ import {
   jwtVerificationHandler,
   methodAllowedHandler,
 } from "@etherdata-blockchain/next-js-handlers";
+import { getReplacementMap } from "../../../../internal/const/replacement_map";
+import { StringReplacer } from "@etherdata-blockchain/string-replacer";
 
 type Response =
   | { err?: string; message?: string }
@@ -24,10 +26,10 @@ type Response =
  */
 async function handler(req: NextApiRequest, res: NextApiResponse<Response>) {
   const id = req.query.id;
+  const { user } = req.body;
   const updateTemplateService = new dbServices.UpdateTemplateService();
-  const script = await updateTemplateService.getUpdateTemplateWithDockerImage(
-    id as string
-  );
+  let script: any =
+    await updateTemplateService.getUpdateTemplateWithDockerImage(id as string);
   if (script === undefined) {
     res
       .status(StatusCodes.NOT_FOUND)
@@ -40,8 +42,20 @@ async function handler(req: NextApiRequest, res: NextApiResponse<Response>) {
     _id: id,
   };
 
+  const https =
+    req.headers["x-forwarded-proto"] || req.headers.referer?.split("://")[0];
+  const url = `${https}://${req.headers.host}`;
+
+  const replacementMap = getReplacementMap({
+    nodeName: user,
+    nodeId: user,
+    host: url,
+  });
+  const stringReplacer = new StringReplacer(replacementMap);
+
   switch (req.method) {
     case "GET":
+      script = stringReplacer.replaceObject(script!);
       res.status(StatusCodes.OK).json(script);
       break;
 

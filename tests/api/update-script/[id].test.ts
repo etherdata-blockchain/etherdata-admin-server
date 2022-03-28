@@ -6,6 +6,28 @@ import { createMocks } from "node-mocks-http";
 import { interfaces, mockData } from "@etherdata-blockchain/common";
 import { schema } from "@etherdata-blockchain/storage-model";
 import { StatusCodes } from "http-status-codes";
+import { MockUser } from "@etherdata-blockchain/common/src/mockdata/mock_storage_item";
+
+export const MockUpdateScriptDataWithReplacement = {
+  name: "Mock_template_1",
+  targetDeviceIds: ["${{ etd_node_id }}"],
+  targetGroupIds: ["group_id"],
+  from: MockUser.user_id,
+  time: new Date(),
+  imageStacks: [
+    {
+      tag: "",
+    },
+  ],
+  containerStacks: [
+    {
+      containerName: "my_container",
+      image: {
+        tag: "",
+      },
+    },
+  ],
+};
 
 describe("Given a update script api handler", () => {
   let dbServer: MongoMemoryServer;
@@ -76,6 +98,49 @@ describe("Given a update script api handler", () => {
     expect(jsonData.containerStacks[0].image.imageName).toBe(
       mockData.MockDockerImage.imageName
     );
+  });
+
+  test("When calling get with replacement", async () => {
+    const data = (
+      await schema.DockerImageModel.create(mockData.MockDockerImage)
+    ).toJSON();
+
+    const imageId = data._id;
+    const tagId = data.tags[0]._id;
+
+    const mockUpdateScriptData = JSON.parse(
+      JSON.stringify(MockUpdateScriptDataWithReplacement)
+    );
+
+    mockUpdateScriptData.imageStacks[0].tag = tagId;
+    mockUpdateScriptData.imageStacks[0].image = imageId;
+
+    mockUpdateScriptData.containerStacks[0].image.image = imageId;
+    mockUpdateScriptData.containerStacks[0].image.tag = tagId;
+
+    const updateScriptData = await schema.UpdateScriptModel.create(
+      mockUpdateScriptData
+    );
+
+    const { req, res } = createMocks({
+      method: "GET",
+      headers: {
+        Authorization: "Bearer " + token,
+      },
+      query: {
+        id: updateScriptData._id.toString(),
+      },
+    });
+    //@ts-ignore
+    await handler(req, res);
+    expect(res.statusCode).toBe(StatusCodes.OK);
+    const jsonData: interfaces.db.UpdateTemplateWithDockerImageDBInterface =
+      res._getJSONData();
+    expect(jsonData._id).toStrictEqual(updateScriptData._id.toString());
+    expect(jsonData.containerStacks[0].image.imageName).toBe(
+      mockData.MockDockerImage.imageName
+    );
+    expect(jsonData.targetDeviceIds[0]).toBe("test-user");
   });
 
   test("When calling delete", async () => {

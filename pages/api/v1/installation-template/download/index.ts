@@ -10,6 +10,8 @@ import {
   paginationHandler,
 } from "@etherdata-blockchain/next-js-handlers";
 import { schema } from "@etherdata-blockchain/storage-model";
+import { StringReplacer } from "@etherdata-blockchain/string-replacer";
+import { getReplacementMap } from "../../../../../internal/const/replacement_map";
 
 type Response =
   | { err?: string; message?: string }
@@ -67,6 +69,17 @@ type Response =
 async function handler(req: NextApiRequest, res: NextApiResponse<Response>) {
   const installationService = new dbServices.InstallationService();
   const staticNodeService = new dbServices.StaticNodeService();
+  const { user } = req.body;
+  const https =
+    req.headers["x-forwarded-proto"] || req.headers.referer?.split("://")[0];
+  const url = `${https}://${req.headers.host}`;
+
+  const replacementMap = getReplacementMap({
+    nodeName: user,
+    nodeId: user,
+    host: url,
+  });
+  const stringReplacer = new StringReplacer(replacementMap);
 
   /**
    * Handle get request. Will try to find template by template tag
@@ -96,10 +109,14 @@ async function handler(req: NextApiRequest, res: NextApiResponse<Response>) {
     }
 
     const zip = new AdmZip();
-    const templateWithDockerCompose =
+    let templateWithDockerCompose: any =
       await installationService.getTemplateWithDockerImages(
         template!.results[0].id
       );
+
+    templateWithDockerCompose = stringReplacer.replaceObject(
+      templateWithDockerCompose!
+    );
 
     zip.addFile(
       "docker-compose.yml",
