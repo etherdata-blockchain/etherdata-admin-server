@@ -72,6 +72,8 @@ export default function Index({ installationTemplate }: Props) {
     }
   };
 
+  console.log(formData);
+
   return (
     <div>
       <PageHeader
@@ -129,8 +131,6 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
       notFound: true,
     };
   }
-
-  console.log(foundTemplate.services[0].service.image);
   // @ts-ignore
   foundTemplate.services = foundTemplate.services.map((s) => ({
     ...s,

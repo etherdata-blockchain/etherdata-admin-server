@@ -215,6 +215,10 @@ export const jsonSchema: JSONSchema7 = {
       type: "string",
       description: "Template's name",
     },
+    description: {
+      type: "string",
+      description: "Template's description",
+    },
     targetDeviceIds: {
       title: "Target Devices' id",
       type: "array",
@@ -368,6 +372,9 @@ export const columns: GridColDef[] = [
 ];
 
 export const UISchema = {
+  description: {
+    "ui:widget": "textarea",
+  },
   targetDeviceIds: {
     "ui:ArrayFieldTemplate": DeviceIdField,
   },

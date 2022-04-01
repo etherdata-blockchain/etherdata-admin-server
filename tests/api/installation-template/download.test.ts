@@ -35,6 +35,7 @@ export const MockInstallationTemplateDataWithReplacement = {
   template_tag: "test",
   // eslint-disable-next-line camelcase
   created_by: "",
+  description: "mock_description",
 };
 
 describe("Given a installation template download handler", () => {

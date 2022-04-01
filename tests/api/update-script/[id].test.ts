@@ -10,6 +10,7 @@ import { MockUser } from "@etherdata-blockchain/common/src/mockdata/mock_storage
 
 export const MockUpdateScriptDataWithReplacement = {
   name: "Mock_template_1",
+  description: "mock_description",
   targetDeviceIds: ["${{ etd_node_id }}"],
   targetGroupIds: ["group_id"],
   from: MockUser.user_id,

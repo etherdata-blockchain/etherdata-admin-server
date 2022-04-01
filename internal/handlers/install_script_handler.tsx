@@ -26,6 +26,11 @@ export const jsonSchema: JSONSchema7 = {
       title: "Template tag",
       description: "Used to identify the template. Unique!",
     },
+    description: {
+      type: "string",
+      title: "Template description",
+      description: "Describe what is the function for this template",
+    },
     services: {
       type: "array",
       title: "Services",
@@ -131,6 +136,9 @@ export const columns: GridColDef[] = [
 ];
 
 export const uiSchema = {
+  description: {
+    "ui:widget": "textarea",
+  },
   services: {
     items: {
       service: {

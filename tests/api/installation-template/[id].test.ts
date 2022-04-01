@@ -70,6 +70,9 @@ describe("Given a installation template handler with index", () => {
     expect(result.template_tag).toBe(
       mockData.MockInstallationTemplateData.template_tag
     );
+    expect(result.description).toBe(
+      mockData.MockInstallationTemplateData.description
+    );
     expect(result.version).toBe(mockData.MockInstallationTemplateData.version);
   });
 
@@ -82,15 +85,17 @@ describe("Given a installation template handler with index", () => {
       query: {
         id: templateId,
       },
-      body: mockData.MockStaticNode,
+      body: {
+        template_tag: "new tag",
+        description: "new description",
+      },
     });
     //@ts-ignore
     await handler(req, res);
     const result: schema.IInstallationTemplate = res._getJSONData();
     expect(res._getStatusCode()).toBe(StatusCodes.OK);
-    expect(result.template_tag).toBe(
-      mockData.MockInstallationTemplateData.template_tag
-    );
+    expect(result.template_tag).toBe("new tag");
+    expect(result.description).toBe("new description");
     expect(result.version).toBe(mockData.MockInstallationTemplateData.version);
   });
 
