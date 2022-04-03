@@ -1,5 +1,7 @@
 # Changelog
 
+## [2.0.1](https://github.com/etherdata-blockchain/etherdata-admin-server/compare/v2.0.0...v2.0.1) (2022-04-03)
+
 # [2.0.0](https://github.com/etherdata-blockchain/etherdata-admin-server/compare/v1.13.5...v2.0.0) (2022-03-28)
 
 
