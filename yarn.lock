@@ -1317,10 +1317,10 @@
     minimatch "^3.0.4"
     strip-json-comments "^3.1.1"
 
-"@etherdata-blockchain/common@^2.0.0":
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/@etherdata-blockchain/common/-/common-2.0.0.tgz#43022ec7038c89de1bca2f6b64cf358adf2e924e"
-  integrity sha512-T5t79wfP6Jix42hD3nbKcQnxY0XeQ5sLciSXm5IDN0yXcSODs/CFQDCXdWz7+fOoWqducwh0NIDvhcC9nFClJw==
+"@etherdata-blockchain/common@^2.1.2":
+  version "2.1.2"
+  resolved "https://registry.yarnpkg.com/@etherdata-blockchain/common/-/common-2.1.2.tgz#b24b9977fd57ce645dd91c8b1b7a8320e655dc3b"
+  integrity sha512-fV/6I2IOytMpibTYR8wgYhlhMAhWDCjeaIsOnZFKR0jfJfC8QvDqwX8rUkl0wWslKe9v9N2CP0l3CzyescYVGw==
   dependencies:
     "@types/dockerode" "^3.3.1"
     "@types/json-schema" "^7.0.9"
@@ -1330,64 +1330,63 @@
     web3 "^1.6.1"
     yaml "^1.10.2"
 
-"@etherdata-blockchain/history@^2.0.0":
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/@etherdata-blockchain/history/-/history-2.0.0.tgz#c1ad3ad6614f1d75db8ce518f9d8dea6d1376b3b"
-  integrity sha512-10Aeex7poLySAmSDBZR5YLAT/8DqapSAQtwkonXjWxEjDGlvfqgJ9mUWn9UCSRlUaTnXUEzYPIzuLZL6UerojQ==
+"@etherdata-blockchain/history@^2.1.2":
+  version "2.1.2"
+  resolved "https://registry.yarnpkg.com/@etherdata-blockchain/history/-/history-2.1.2.tgz#4e134271d03ec6264978ebbe43b6b257da693973"
+  integrity sha512-/V+wSt/C/jKHKDD7PVVJwUBz7vIG5+c6mXD+TlGUHaTfF2x0IetakF0xm9lxMs5gBhJ8uVKGsTGTve8Y4RJSag==
   dependencies:
     moment "^2.29.1"
     typescript "^4.5.4"
 
-"@etherdata-blockchain/logger@^2.0.0":
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/@etherdata-blockchain/logger/-/logger-2.0.0.tgz#36a18283671966bd9bca7c364197800fc084d6e2"
-  integrity sha512-mKcpbnet7RFFsimRrFfufXdqiueS1KBvOKrV95GL8MJzk1COz05CiiXS1INWET8/TWDDFoc8PEtH2MjOVUTdgw==
+"@etherdata-blockchain/logger@^2.1.2":
+  version "2.1.2"
+  resolved "https://registry.yarnpkg.com/@etherdata-blockchain/logger/-/logger-2.1.2.tgz#eb4d40fe02686b34ab9a832dc9863787066709c0"
+  integrity sha512-eao8xIeXjsY4iCRKxSBM90AGuFMzB84LGzzV9fq22vjg4H+HixxM4TxvOlr0qZVLhNd69V109Y1iUfh7u8x8lw==
   dependencies:
     chalk "^5.0.0"
     typescript "^4.5.4"
 
-"@etherdata-blockchain/next-js-handlers@^2.0.0":
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/@etherdata-blockchain/next-js-handlers/-/next-js-handlers-2.0.0.tgz#bdd99244de91f20665a1a9a9d34e943fd6976809"
-  integrity sha512-iv58hAT1aMOjle5x0SRtDYb4WmaVF2k3nprzjszQhTPZRKZxFYotj7Tb8jIL0Q4SZCMvsfTAAv7n0DhWoNr5tQ==
+"@etherdata-blockchain/next-js-handlers@^2.1.2":
+  version "2.1.2"
+  resolved "https://registry.yarnpkg.com/@etherdata-blockchain/next-js-handlers/-/next-js-handlers-2.1.2.tgz#403a6c0751d2a7213d76919f3bcd099b2c188b62"
+  integrity sha512-b9xeJTt/X0O0TdNNvriMn3zI1M/Wkm1EiuDd+dw1kogoiS2Pa9tmUJkHV6xDhvoOXpwbnTlLW9seMCJvToA95Q==
   dependencies:
-    "@etherdata-blockchain/common" "^2.0.0"
-    "@etherdata-blockchain/services" "^2.0.0"
+    "@etherdata-blockchain/common" "^2.1.2"
+    "@etherdata-blockchain/services" "^2.1.2"
     http-method-enum "^1.0.0"
     http-status-codes "^2.2.0"
     next "^12.0.8"
     typescript "^4.5.4"
 
-"@etherdata-blockchain/services@^2.0.0":
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/@etherdata-blockchain/services/-/services-2.0.0.tgz#0491309427c2c328c5dbd102b18c7b270fc6061a"
-  integrity sha512-z2TgYZ1IE9MQNaujWv/8vbi1nrZNKAjgZAp1/dxwkHyph7n1NMwdIMDHtV9wKvV88yioDRNQ97PEV8OGHPtW9A==
+"@etherdata-blockchain/services@^2.1.2":
+  version "2.1.2"
+  resolved "https://registry.yarnpkg.com/@etherdata-blockchain/services/-/services-2.1.2.tgz#aeab4bdeef293375862dabe1c2f3d94dca611952"
+  integrity sha512-7ODhJ+9dQc/SQ8J4RElErhBIEpC/CTu/s+hkcEcbSapj6QdlGPcgU7aNDv9oLf0PgcU7HJaJN5N19UbN4eZpIA==
   dependencies:
-    "@etherdata-blockchain/logger" "^2.0.0"
-    "@etherdata-blockchain/storage-model" "^2.0.0"
+    "@etherdata-blockchain/logger" "^2.1.2"
+    "@etherdata-blockchain/storage-model" "^2.1.2"
     "@types/jsonwebtoken" "^8.5.7"
     axios "^0.24.0"
     jsonwebtoken "^8.5.1"
     moment "^2.29.1"
-    mongodb-memory-server "^8.2.0"
     query-string "^7.1.0"
     socket.io "^4.4.1"
     typescript "^4.5.4"
 
-"@etherdata-blockchain/storage-model@^2.0.0":
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/@etherdata-blockchain/storage-model/-/storage-model-2.0.0.tgz#985fef64df7bad9f75d5883297477a9a0f5db180"
-  integrity sha512-SUPSUg40jFamJK8lqWeLdbXxZfETBkVai8gDFnVVwp7lFCGf4yjuED6t1PbQb0RQcPKX8vVKnuGtDAT69tJfVQ==
+"@etherdata-blockchain/storage-model@^2.1.2":
+  version "2.1.2"
+  resolved "https://registry.yarnpkg.com/@etherdata-blockchain/storage-model/-/storage-model-2.1.2.tgz#76ec039c7190e1c44423a9ad1ade411580550893"
+  integrity sha512-oKYjKqT4oTEQae7KfA2A4ilvOHLhSSvp6pWvuQmrmBxJT9hohfWNNfC+awq8oABQZ9p/12qPChr6robhqK1zGw==
   dependencies:
-    "@etherdata-blockchain/common" "^2.0.0"
+    "@etherdata-blockchain/common" "^2.1.2"
     mongoose "6.2.4"
     typescript "4.5.4"
     web3-eth "1.6.1"
 
-"@etherdata-blockchain/string-replacer@^2.0.0":
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/@etherdata-blockchain/string-replacer/-/string-replacer-2.0.0.tgz#1df7ac1c5867077d1e25fcb9712993f2b878e268"
-  integrity sha512-lw8khfdRiHIiUJZzIHB81BvwaoAlizxZK1XJyBYamW8/K2F1PktthK/6ARMp7htAXeMZat+AHNZcxi2x6nNmlA==
+"@etherdata-blockchain/string-replacer@^2.1.2":
+  version "2.1.2"
+  resolved "https://registry.yarnpkg.com/@etherdata-blockchain/string-replacer/-/string-replacer-2.1.2.tgz#e75bc785cf2f477cbdecfd135c9a269bc84b1b52"
+  integrity sha512-QnYYZfuakiSev3FcNOEYCTiLi36wbOeKlMThBET0O6WlhtqsNsXqSDJQashTj7jRhjLLRPpqUqg3+XgTayGWTw==
   dependencies:
     "@types/dockerode" "^3.3.1"
     "@types/json-schema" "^7.0.9"
@@ -3241,7 +3240,7 @@
   resolved "https://registry.yarnpkg.com/@types/throttle-debounce/-/throttle-debounce-2.1.0.tgz#1c3df624bfc4b62f992d3012b84c56d41eab3776"
   integrity sha512-5eQEtSCoESnh2FsiLTxE121IiE60hnMqcb435fShf4bpLRjEu1Eoekht23y6zXS9Ts3l+Szu3TARnTsA0GkOkQ==
 
-"@types/tmp@^0.2.2", "@types/tmp@^0.2.3":
+"@types/tmp@^0.2.2":
   version "0.2.3"
   resolved "https://registry.yarnpkg.com/@types/tmp/-/tmp-0.2.3.tgz#908bfb113419fd6a42273674c00994d40902c165"
   integrity sha512-dDZH/tXzwjutnuk4UacGgFRwV+JSLaXL1ikvidfJprkb7L9Nx1njcRHHmi3Dsvt7pgqqTEeucQuOrWHPFgzVHA==
@@ -4367,7 +4366,7 @@ camelcase@^5.0.0, camelcase@^5.3.1:
   resolved "https://registry.yarnpkg.com/camelcase/-/camelcase-5.3.1.tgz#e3c9b31569e106811df242f715725a1f4c494320"
   integrity sha512-L28STB170nwWS63UjtlEOE3dldQApaJXZkOI1uMFfzf3rRuPegHaHesyee+YxQ+W6SvRDQV6UrdOdRiR153wJg==
 
-camelcase@^6.1.0, camelcase@^6.2.0, camelcase@^6.2.1:
+camelcase@^6.1.0, camelcase@^6.2.0:
   version "6.3.0"
   resolved "https://registry.yarnpkg.com/camelcase/-/camelcase-6.3.0.tgz#5685b95eb209ac9c0c177467778c9c84df58ba9a"
   integrity sha512-Gmy6FhYlCY7uOElZUSbxo2UCDH8owEk996gkbrpsgGtrJLM3J7jGxl9Ic7Qwwj4ivOE5AWZWRMecDdF7hqGjFA==
@@ -5322,7 +5321,7 @@ debug@2.6.9, debug@^2.2.0, debug@^2.6.9:
   dependencies:
     ms "2.0.0"
 
-debug@4, debug@4.3.3, debug@4.x, debug@^4.1.0, debug@^4.1.1, debug@^4.2.0, debug@^4.3.2, debug@^4.3.3, debug@~4.3.1, debug@~4.3.2:
+debug@4, debug@4.3.3, debug@4.x, debug@^4.1.0, debug@^4.1.1, debug@^4.2.0, debug@^4.3.2, debug@~4.3.1, debug@~4.3.2:
   version "4.3.3"
   resolved "https://registry.yarnpkg.com/debug/-/debug-4.3.3.tgz#04266e0b70a98d4462e6e288e38259213332b664"
   integrity sha512-/zxw5+vh1Tfv+4Qn7a5nsbcJKPaSvCDhojn6FEl9vupwK2VCSDtEiEtqr8DFtzYFOdz63LBkxec7DYuc2jon6Q==
@@ -9199,28 +9198,6 @@ mongodb-memory-server-core@7.6.3:
     uuid "^8.3.1"
     yauzl "^2.10.0"
 
-mongodb-memory-server-core@8.2.0:
-  version "8.2.0"
-  resolved "https://registry.yarnpkg.com/mongodb-memory-server-core/-/mongodb-memory-server-core-8.2.0.tgz#18d254f1598805033dc803e0808a4a5ed1b67ae3"
-  integrity sha512-7NO+PJQ74wpo/e/fJYIvjjkbhMRn27yFTQzZZKf94y1Cqw/2pJZ+RSI8QJclT53/lyVyx0BLgA/ik6viKy4hDg==
-  dependencies:
-    "@types/tmp" "^0.2.3"
-    async-mutex "^0.3.2"
-    camelcase "^6.2.1"
-    debug "^4.3.3"
-    find-cache-dir "^3.3.2"
-    get-port "^5.1.1"
-    https-proxy-agent "^5.0.0"
-    md5-file "^5.0.0"
-    mongodb "^4.2.2"
-    new-find-package-json "^1.1.0"
-    semver "^7.3.5"
-    tar-stream "^2.1.4"
-    tmp "^0.2.1"
-    tslib "^2.3.1"
-    uuid "^8.3.1"
-    yauzl "^2.10.0"
-
 mongodb-memory-server@7.6.3:
   version "7.6.3"
   resolved "https://registry.yarnpkg.com/mongodb-memory-server/-/mongodb-memory-server-7.6.3.tgz#8b2827363ca16aaf250cba07f7a2b49e502735d4"
@@ -9229,15 +9206,7 @@ mongodb-memory-server@7.6.3:
     mongodb-memory-server-core "7.6.3"
     tslib "^2.3.0"
 
-mongodb-memory-server@^8.2.0:
-  version "8.2.0"
-  resolved "https://registry.yarnpkg.com/mongodb-memory-server/-/mongodb-memory-server-8.2.0.tgz#11f156ad41211610ff98195af2cfd41f55d3dcf9"
-  integrity sha512-ahp93rbJzvqVInJ6EOH4pkdfcm3+5gGQ0WjTQvyB8X3n61jn7yITKGCE0wwvg5JME32XemiQUNAp44XdlD+fpg==
-  dependencies:
-    mongodb-memory-server-core "8.2.0"
-    tslib "^2.3.1"
-
-mongodb@4.3.1, mongodb@^4.2.2:
+mongodb@4.3.1:
   version "4.3.1"
   resolved "https://registry.yarnpkg.com/mongodb/-/mongodb-4.3.1.tgz#e346f76e421ec6f47ddea5c8f5140e6181aaeb94"
   integrity sha512-sNa8APSIk+r4x31ZwctKjuPSaeKuvUeNb/fu/3B6dRM02HpEgig7hTHM8A/PJQTlxuC/KFWlDlQjhsk/S43tBg==
