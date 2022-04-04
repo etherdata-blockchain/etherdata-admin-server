@@ -1,5 +1,12 @@
 # Changelog
 
+# [2.1.0](https://github.com/etherdata-blockchain/etherdata-admin-server/compare/v2.0.1...v2.1.0) (2022-04-04)
+
+
+### Features
+
+* add description field ([#77](https://github.com/etherdata-blockchain/etherdata-admin-server/issues/77)) ([651491e](https://github.com/etherdata-blockchain/etherdata-admin-server/commit/651491e50108e818d19abc491c5dccdab7f615fa))
+
 ## [2.0.1](https://github.com/etherdata-blockchain/etherdata-admin-server/compare/v2.0.0...v2.0.1) (2022-04-03)
 
 # [2.0.0](https://github.com/etherdata-blockchain/etherdata-admin-server/compare/v1.13.5...v2.0.0) (2022-03-28)
