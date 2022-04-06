@@ -136,6 +136,7 @@ describe("Given a installation template download handler", () => {
     expect(parsedObject.services.worker.image).toBe(
       `${mockData.MockDockerImage.imageName}:${mockData.MockDockerImage.tags[0].tag}`
     );
+    expect(parsedObject.description).toBeUndefined();
   });
 
   test("When calling get a template with docker image", async () => {
