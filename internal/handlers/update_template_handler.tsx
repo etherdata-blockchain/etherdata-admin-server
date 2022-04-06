@@ -48,7 +48,7 @@ const hostConfig: JSONSchema7 = {
         },
         maximumRetryCount: {
           type: "number",
-          default: "0",
+          default: 0,
         },
       },
     },
@@ -336,6 +336,7 @@ export const columns: GridColDef[] = [
   {
     field: "name",
     headerName: "Name",
+    flex: 8,
   },
   {
     field: "createdAt",
