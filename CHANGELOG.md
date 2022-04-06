@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.2.2](https://github.com/etherdata-blockchain/etherdata-admin-server/compare/v2.2.1...v2.2.2) (2022-04-06)
+
+
+### Bug Fixes
+
+* restart policy's json schema ([#84](https://github.com/etherdata-blockchain/etherdata-admin-server/issues/84)) ([a726998](https://github.com/etherdata-blockchain/etherdata-admin-server/commit/a726998994c4dc3a4b8430546a567be01183bec8))
+
 ## [2.2.1](https://github.com/etherdata-blockchain/etherdata-admin-server/compare/v2.2.0...v2.2.1) (2022-04-06)
 
 
