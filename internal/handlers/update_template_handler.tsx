@@ -39,8 +39,18 @@ const hostConfig: JSONSchema7 = {
     },
     PortBindings: {},
     RestartPolicy: {
-      type: "string",
-      enum: ["no", "on-failure", "always", "unless-stopped"],
+      type: "object",
+      properties: {
+        name: {
+          type: "string",
+          enum: ["no", "on-failure", "always", "unless-stopped"],
+          default: "always",
+        },
+        maximumRetryCount: {
+          type: "number",
+          default: "0",
+        },
+      },
     },
     VolumeDriver: {
       type: "string",
