@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.2.1](https://github.com/etherdata-blockchain/etherdata-admin-server/compare/v2.2.0...v2.2.1) (2022-04-06)
+
+
+### Bug Fixes
+
+* update package version to fix installation template's problem ([#82](https://github.com/etherdata-blockchain/etherdata-admin-server/issues/82)) ([d48cbd7](https://github.com/etherdata-blockchain/etherdata-admin-server/commit/d48cbd76fb4faae2f5aeef657598b03bd2c076dc))
+
 # [2.2.0](https://github.com/etherdata-blockchain/etherdata-admin-server/compare/v2.0.1...v2.2.0) (2022-04-05)
 
 
