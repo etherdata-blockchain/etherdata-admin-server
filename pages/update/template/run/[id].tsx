@@ -22,7 +22,7 @@ import PageHeader from "../../../../components/common/PageHeader";
 import Form from "@rjsf/bootstrap-4";
 import { ImageField } from "../../../../components/installation/DockerImageField";
 import "bootstrap/dist/css/bootstrap.min.css";
-import join from "url-join";
+import join from "@etherdata-blockchain/url-join";
 import { Clear, Done, PlayCircle } from "@mui/icons-material";
 import {
   LoadingButton,

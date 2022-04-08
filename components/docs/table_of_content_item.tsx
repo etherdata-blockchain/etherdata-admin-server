@@ -11,7 +11,6 @@ import {
 } from "@mui/material";
 import { configs } from "@etherdata-blockchain/common";
 import { useRouter } from "next/router";
-import { debounce, throttle } from "throttle-debounce";
 
 type Props = {
   title: string;

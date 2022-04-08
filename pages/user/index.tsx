@@ -6,12 +6,13 @@ import { UserTable } from "../../components/user/userTable";
 import ResponsiveCard from "../../components/common/ResponsiveCard";
 import { AddUserBtn } from "../../components/user/addUserBtn";
 import { GetServerSideProps } from "next";
-import { Pagination } from "@mui/material";
+import { Divider, Pagination } from "@mui/material";
 import { useRouter } from "next/dist/client/router";
 import { PaddingBox } from "../../components/common/PaddingBox";
 import { interfaces } from "@etherdata-blockchain/common";
 import { dbServices } from "@etherdata-blockchain/services";
 import { schema } from "@etherdata-blockchain/storage-model";
+import { DeviceIdSearchField } from "../../components/user/deviceIdSearchField";
 
 type Props = {
   paginationResult: interfaces.PaginationResult<schema.IStorageOwner>;
@@ -29,6 +30,7 @@ export default function User({ paginationResult, currentPage }: Props) {
 
   return (
     <div>
+      <Spacer height={20} />
       <PageHeader
         title={"User"}
         description={"users"}
@@ -46,6 +48,9 @@ export default function User({ paginationResult, currentPage }: Props) {
             count={totalPage}
             page={currentPage}
           />
+          <Spacer height={10} />
+          <Divider />
+          <DeviceIdSearchField />
           <Spacer height={10} />
           <UserTable
             storageUser={paginationResult}

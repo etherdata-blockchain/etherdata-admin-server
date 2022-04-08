@@ -1,11 +1,7 @@
 // @flow
 import * as React from "react";
 import { Autocomplete, TextField } from "@mui/material";
-import { throttle } from "lodash";
-import qs from "query-string";
-import { getAxiosClient } from "../../internal/const/defaultValues";
-import { Routes } from "@etherdata-blockchain/common/src/configs/routes";
-import { configs, interfaces } from "@etherdata-blockchain/common";
+import { useDeviceAutoComplete } from "../hooks/useDeviceAutoComplete";
 
 type Props = {
   id: string;
@@ -24,33 +20,10 @@ type Props = {
  * @constructor
  */
 export function DeviceIdsAutoComplete(props: Props) {
-  const [options, setOptions] = React.useState<string[]>([]);
   const [selectedOptions, setSelectedOptions] = React.useState<string[]>(
     props.defaultValues
   );
-  const [isLoading, setIsLoading] = React.useState(false);
-
-  const search = React.useCallback(
-    throttle(async (newValue: string) => {
-      try {
-        setIsLoading(true);
-        const url = qs.stringifyUrl({
-          url: Routes.itemSearch,
-          query: { key: newValue },
-        });
-        const result = await getAxiosClient().get(url);
-        setOptions(
-          (result.data as interfaces.db.StorageItemDBInterface[]).map(
-            (s) => s.qr_code
-          )
-        );
-      } catch (e) {
-      } finally {
-        setIsLoading(false);
-      }
-    }, configs.Configurations.defaultThrottleDuration),
-    []
-  );
+  const { isLoading, options, search } = useDeviceAutoComplete();
 
   return (
     <Autocomplete
@@ -63,7 +36,7 @@ export function DeviceIdsAutoComplete(props: Props) {
       )}
       getOptionLabel={(o) => `${o}`}
       onInputChange={(e, value) => search(value)}
-      options={options}
+      options={options.map((o) => o.qr_code)}
       disabled={props.readonly}
       onChange={(e, value, reason, details) => {
         if (value) {

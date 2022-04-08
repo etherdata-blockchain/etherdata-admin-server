@@ -1,8 +1,8 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import {
+  deviceAuthorizationHandler,
   jwtVerificationHandler,
   methodAllowedHandler,
-  deviceAuthorizationHandler,
 } from "@etherdata-blockchain/next-js-handlers";
 import HTTPMethod from "http-method-enum";
 import { StatusCodes } from "http-status-codes";

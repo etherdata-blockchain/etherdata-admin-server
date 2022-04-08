@@ -4,14 +4,10 @@ import PageHeader from "../../../../components/common/PageHeader";
 import Spacer from "../../../../components/common/Spacer";
 import {
   Button,
-  Card,
-  Chip,
   Grid,
   List,
   ListItem,
-  ListItemAvatar,
   ListItemText,
-  ListSubheader,
   Typography,
 } from "@mui/material";
 import style from "../../../../styles/Device.module.css";
@@ -31,7 +27,10 @@ import { dbServices } from "@etherdata-blockchain/services";
 import { schema } from "@etherdata-blockchain/storage-model";
 import Logger from "@etherdata-blockchain/logger";
 import { PaddingBox } from "../../../../components/common/PaddingBox";
-import { Computer } from "@mui/icons-material";
+import { AccessTime, Computer, LockClock, People } from "@mui/icons-material";
+import ResponsiveCard from "../../../../components/common/ResponsiveCard";
+import { abbreviateNumber } from "@etherdata-blockchain/common/dist/utils";
+import ConstructionIcon from "@mui/icons-material/Construction";
 
 type Props = {
   device: schema.IStorageItem | null;
@@ -103,7 +102,7 @@ export default function DeviceDetail({ device, found }: Props) {
             <LargeDataCard
               icon={<Computer />}
               title={`${utils.abbreviateNumber(
-                (foundDevice as any)?.data?.difficulty ?? 0
+                foundDevice?.deviceStatus?.data?.difficulty ?? 0
               )}`}
               color={"#ba03fc"}
               subtitleColor={"white"}
@@ -133,17 +132,27 @@ export default function DeviceDetail({ device, found }: Props) {
               titleColor={"white"}
               subtitleColor={"white"}
               items={[
-                { title: "100%", subtitle: "CPU", icon: <Computer /> },
-                { title: "100%", subtitle: "Memory", icon: <Computer /> },
                 {
-                  title: "100%",
-                  subtitle: "Hard Disk",
-                  icon: <Computer />,
+                  title: `${foundDevice?.deviceStatus?.data?.systemInfo?.peerCount}`,
+                  subtitle: "Peers",
+                  icon: <People />,
                 },
                 {
-                  title: "100%",
-                  subtitle: "Update Time",
-                  icon: <Computer />,
+                  title: `${abbreviateNumber(
+                    foundDevice?.deviceStatus?.data?.systemInfo?.hashRate ?? 0
+                  )}`,
+                  subtitle: "HashRate",
+                  icon: <ConstructionIcon />,
+                },
+                {
+                  title: `${foundDevice?.deviceStatus?.data?.blockTime}s`,
+                  subtitle: "Block Time",
+                  icon: <LockClock />,
+                },
+                {
+                  title: `${foundDevice?.deviceStatus?.data?.avgBlockTime}s`,
+                  subtitle: "Average Block Time",
+                  icon: <AccessTime />,
                 },
               ]}
             />
@@ -171,16 +180,13 @@ export default function DeviceDetail({ device, found }: Props) {
               subtitleColor={"white"}
               iconColor={"white"}
               iconBackgroundColor={"#9704cc"}
-              subtitle={"Docker installation-template"}
+              subtitle={"Docker images"}
               className={style.detailDataCard}
               onClick={() => setShowImageDetails(true)}
             />
           </Grid>
           <Grid item xs={12}>
-            <Spacer height={10} />
-            <Chip label={"Status"} />
-            <Spacer height={10} />
-            <Card>
+            <ResponsiveCard title={"Status"}>
               <List>
                 <ListItem>
                   <ListItemText
@@ -193,17 +199,36 @@ export default function DeviceDetail({ device, found }: Props) {
                     primary={"Last Seen"}
                     secondary={
                       <Typography noWrap>
-                        {foundDevice?.deviceStatus.lastSeen}
+                        {moment(foundDevice?.deviceStatus.lastSeen).fromNow()}
+                      </Typography>
+                    }
+                  />
+                </ListItem>
+                <ListItem>
+                  <ListItemText
+                    primary={"Is Mining"}
+                    secondary={
+                      <Typography noWrap>
+                        {`${foundDevice?.deviceStatus?.data?.systemInfo.isMining}`}
+                      </Typography>
+                    }
+                  />
+                </ListItem>
+
+                <ListItem>
+                  <ListItemText
+                    primary={"Is Syncing"}
+                    secondary={
+                      <Typography noWrap>
+                        {`${foundDevice?.deviceStatus?.data?.systemInfo.isMining}`}
                       </Typography>
                     }
                   />
                 </ListItem>
               </List>
-            </Card>
-            <Spacer height={10} />
-            <Chip label={"Storage Info"} />
-            <Spacer height={10} />
-            <Card>
+            </ResponsiveCard>
+            <Spacer height={20} />
+            <ResponsiveCard title={"Storage Info"}>
               {utils
                 .objectExpand(storageInfo, [])
                 .map(({ key, value }, index) => (
@@ -214,40 +239,37 @@ export default function DeviceDetail({ device, found }: Props) {
                     />
                   </ListItem>
                 ))}
-            </Card>
+            </ResponsiveCard>
 
-            <List>
-              <Spacer height={10} />
-              <Chip label={"Mining Info"} />
-              <Spacer height={10} />
-              <Card>
-                {utils
-                  .objectExpand((foundDevice as any)?.data ?? {}, [
-                    "__v",
-                    "_id",
-                    "miner",
-                    "docker",
-                  ])
-                  .map(({ key, value }, index) => (
-                    <ListItem key={index}>
-                      <ListItemText
-                        primary={key}
-                        secondary={<Typography noWrap>{value}</Typography>}
-                      />
-                    </ListItem>
-                  ))}
-              </Card>
-            </List>
-
-            <List>
-              <ListSubheader>Peers</ListSubheader>
-              {foundDevice?.deviceStatus.data?.peers?.map((p, i) => (
-                <ListItem key={i}>
-                  <ListItemAvatar>{i + 1}</ListItemAvatar>
-                  <ListItemText primary={"Device IP"} secondary={"abcde"} />
-                </ListItem>
-              ))}
-            </List>
+            <Spacer height={20} />
+            <ResponsiveCard title={"Mining Info"}>
+              {utils
+                .objectExpand(foundDevice?.deviceStatus?.data ?? {}, [
+                  "__v",
+                  "_id",
+                  "miner",
+                  "docker",
+                  "avgBlockTime",
+                  "blockTime",
+                  "timestamp",
+                  "transactionsRoot",
+                  "isMining",
+                  "isSyncing",
+                  "name",
+                  "nodeId",
+                  "number",
+                  "peerCount",
+                  "hashRate",
+                ])
+                .map(({ key, value }, index) => (
+                  <ListItem key={index}>
+                    <ListItemText
+                      primary={key}
+                      secondary={<Typography noWrap>{value}</Typography>}
+                    />
+                  </ListItem>
+                ))}
+            </ResponsiveCard>
           </Grid>
         </Grid>
 

@@ -3,20 +3,18 @@ import * as React from "react";
 import PageHeader from "../../components/common/PageHeader";
 import { GetServerSideProps } from "next";
 import Spacer from "../../components/common/Spacer";
-import Box from "@mui/material/Box";
-import Tabs from "@mui/material/Tabs";
-import Tab from "@mui/material/Tab";
 import { Button } from "@mui/material";
 import { useRouter } from "next/dist/client/router";
 import qs from "query-string";
-import { a11yProps, TabPanel } from "../../components/common/tabs/horizontal";
-import { UIProviderContext } from "../model/UIProvider";
+import { TabPanel } from "../../components/common/tabs/horizontal";
 import { PaddingBox } from "../../components/common/PaddingBox";
 import UpdateTemplatePanel from "../../components/update/UpdateTemplatePanel";
 import { configs, interfaces } from "@etherdata-blockchain/common";
 import { dbServices } from "@etherdata-blockchain/services";
 import { schema } from "@etherdata-blockchain/storage-model";
 import { Routes } from "@etherdata-blockchain/common/src/configs/routes";
+import { useStickyTabBar } from "../../components/hooks/useStickyTabBar";
+import { StickyTabs } from "../../components/common/stickyTabs";
 
 type Props = {
   updateTemplate: interfaces.PaginationResult<schema.IUpdateTemplate>;
@@ -30,8 +28,7 @@ type Props = {
  */
 export default function Index({ tabIndex, updateTemplate }: Props) {
   // eslint-disable-next-line no-unused-vars
-  const [value, setValue] = React.useState(tabIndex);
-  const { appBarTitleShow } = React.useContext(UIProviderContext);
+  const [value, setValue] = useStickyTabBar();
   const router = useRouter();
 
   const handleChange = async (
@@ -55,33 +52,19 @@ export default function Index({ tabIndex, updateTemplate }: Props) {
 
   return (
     <div>
+      <Spacer height={20} />
       <PageHeader
         title={"Update template"}
         description={`Update template`}
         action={actions[value]}
       />
       <Spacer height={20} />
-
-      <Box
-        sx={{
-          bgcolor: appBarTitleShow ? "background.paper" : undefined,
-          width: "100%",
-        }}
-        style={{ position: "sticky", top: configs.Configurations.appbarHeight }}
-      >
-        <Tabs
-          variant="scrollable"
-          value={value}
-          onChange={handleChange}
-          aria-label="Vertical tabs example"
-          style={{
-            paddingLeft: configs.Configurations.defaultPadding,
-            paddingRight: configs.Configurations.defaultPadding,
-          }}
-        >
-          <Tab label="Update Template" {...a11yProps(0)} />
-        </Tabs>
-      </Box>
+      <StickyTabs
+        initialIndex={tabIndex}
+        labels={["Update Template"]}
+        pushTo={Routes.update}
+        urlKeyName={"index"}
+      />
       <PaddingBox>
         <TabPanel index={0} value={value}>
           <UpdateTemplatePanel updateTemplates={updateTemplate.results} />

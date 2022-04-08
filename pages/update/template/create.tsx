@@ -64,10 +64,10 @@ export default function Index({ images }: Props) {
             schema={jsonSchema}
             liveValidate={true}
             formData={formData}
-            onChange={(value) => {
+            onChange={(value: any) => {
               setFormData(value.formData);
             }}
-            onSubmit={async (data) => {
+            onSubmit={async (data: any) => {
               await submitData(data.formData);
             }}
             uiSchema={UISchema}

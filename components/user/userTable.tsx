@@ -1,12 +1,13 @@
 // @flow
 import * as React from "react";
-import { DataGrid, GridColDef } from "@mui/x-data-grid";
+import { GridColDef } from "@mui/x-data-grid";
 import { useRouter } from "next/dist/client/router";
 import { Button } from "@mui/material";
 import { DefaultStorageUser } from "../../internal/const/defaultValues";
 import qs from "query-string";
 import { interfaces } from "@etherdata-blockchain/common";
 import { schema } from "@etherdata-blockchain/storage-model";
+import { StyledDataGrid } from "../common/styledDataGrid";
 
 type Props = {
   storageUser: interfaces.PaginationResult<schema.IStorageOwner>;
@@ -73,12 +74,13 @@ export function UserTable({
   });
 
   return (
-    <DataGrid
+    <StyledDataGrid
       columns={columns}
       rows={rows}
       autoHeight
       disableSelectionOnClick
       paginationMode={"server"}
+      hideFooterPagination={true}
       page={currentPage - 1}
       rowCount={count}
       pageSize={pageSize}

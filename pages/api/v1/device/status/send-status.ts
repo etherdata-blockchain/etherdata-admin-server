@@ -2,7 +2,6 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import moment from "moment";
 import { dbServices } from "@etherdata-blockchain/services";
 import { schema } from "@etherdata-blockchain/storage-model";
-import Logger from "@etherdata-blockchain/logger";
 import { StatusCodes } from "http-status-codes";
 import {
   deviceAuthorizationHandler,

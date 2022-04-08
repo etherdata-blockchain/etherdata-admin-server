@@ -20,3 +20,8 @@ a {
     padding: 10px;
     margin: 15px;
 }
+
+.offline-text{
+    color: grey;
+    text-decoration: line-through;
+}

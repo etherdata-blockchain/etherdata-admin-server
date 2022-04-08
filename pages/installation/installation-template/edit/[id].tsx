@@ -20,8 +20,10 @@ import { PaddingBox } from "../../../../components/common/PaddingBox";
 import { dbServices } from "@etherdata-blockchain/services";
 import { schema } from "@etherdata-blockchain/storage-model";
 import { Routes } from "@etherdata-blockchain/common/src/configs/routes";
-import { jsonSchema } from "../../../../internal/handlers/install_script_handler";
-import { uiSchema } from "../../../../internal/handlers/install_script_handler";
+import {
+  jsonSchema,
+  uiSchema,
+} from "../../../../internal/handlers/install_script_handler";
 
 type Props = {
   installationTemplate: schema.IInstallationTemplate;
@@ -95,10 +97,10 @@ export default function Index({ installationTemplate }: Props) {
             schema={jsonSchema}
             formData={formData}
             liveValidate={true}
-            onChange={(value) => {
+            onChange={(value: any) => {
               setFormData(value.formData);
             }}
-            onSubmit={async (data) => {
+            onSubmit={async (data: any) => {
               await submitData(data.formData);
             }}
             widgets={{ image: ImageField }}
