@@ -61,7 +61,7 @@
     "lodash": "^4.17.21",
     "material-ui-popup-state": "^2.0.0",
     "mobx": "^6.5.0",
-    "moment": "^2.29.1",
+    "moment": "^2.29.2",
     "next": "12.1.1",
     "next-swagger-doc": "^0.2.1",
     "nextjs-progressbar": "^0.0.14",
