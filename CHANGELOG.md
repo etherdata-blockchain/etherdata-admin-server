@@ -1,5 +1,17 @@
 # Changelog
 
+# [3.0.0](https://github.com/etherdata-blockchain/etherdata-admin-server/compare/v2.2.2...v3.0.0) (2022-04-11)
+
+
+### Features
+
+* adopt new UI design ([#86](https://github.com/etherdata-blockchain/etherdata-admin-server/issues/86)) ([16c12db](https://github.com/etherdata-blockchain/etherdata-admin-server/commit/16c12dbf3663603fa0a413e7e8e0cf81353b586a))
+
+
+### BREAKING CHANGES
+
+* new UI design
+
 ## [2.2.2](https://github.com/etherdata-blockchain/etherdata-admin-server/compare/v2.2.1...v2.2.2) (2022-04-06)
 
 
