@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.0.1](https://github.com/etherdata-blockchain/etherdata-admin-server/compare/v3.0.0...v3.0.1) (2022-04-11)
+
+
+### Bug Fixes
+
+* add stale action ([#90](https://github.com/etherdata-blockchain/etherdata-admin-server/issues/90)) ([e080766](https://github.com/etherdata-blockchain/etherdata-admin-server/commit/e080766aca893b4c8e91b84688a0a941ed968448))
+
 # [3.0.0](https://github.com/etherdata-blockchain/etherdata-admin-server/compare/v2.2.2...v3.0.0) (2022-04-11)
 
 
