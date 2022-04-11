@@ -14,3 +14,12 @@ jobs:
         uses: action-runner/dependencies-outdater@master
         with:
           access_token: ${{ secrets.RELEASE_TOKEN }}
+  stale:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/stale@v4
+        with:
+          stale-issue-message: 'Message to comment on stale issues. If none provided, will not mark issues stale'
+          stale-pr-message: 'Message to comment on stale PRs. If none provided, will not mark PRs stale'
+          days-before-stale: 7
+          days-before-close: 7
