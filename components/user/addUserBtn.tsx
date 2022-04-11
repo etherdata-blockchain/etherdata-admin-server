@@ -21,7 +21,7 @@ export function AddUserBtn(props: Props) {
   return (
     <div>
       <Button
-        variant={"outlined"}
+        variant={"contained"}
         color={"primary"}
         className={styles.sendBtn}
         onClick={() => setShow(true)}

@@ -93,10 +93,10 @@ export default function Index({ updateTemplate }: Props) {
             schema={jsonSchema}
             formData={formData}
             liveValidate={true}
-            onChange={(value) => {
+            onChange={(value: any) => {
               setFormData(value.formData);
             }}
-            onSubmit={async (data) => {
+            onSubmit={async (data: any) => {
               await submitData(data.formData);
             }}
             widgets={{ image: ImageField }}

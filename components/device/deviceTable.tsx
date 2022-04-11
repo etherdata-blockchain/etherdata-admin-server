@@ -1,6 +1,6 @@
 // @flow
 import * as React from "react";
-import { DataGrid, GridColDef } from "@mui/x-data-grid";
+import { GridColDef } from "@mui/x-data-grid";
 import { Button, Pagination } from "@mui/material";
 import { useRouter } from "next/dist/client/router";
 import moment from "moment";
@@ -9,6 +9,7 @@ import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 import Spacer from "../common/Spacer";
 import { configs } from "@etherdata-blockchain/common";
 import { schema } from "@etherdata-blockchain/storage-model";
+import { StyledDataGrid } from "../common/styledDataGrid";
 
 type Props = {
   devices?: schema.IStorageItem[];
@@ -112,7 +113,7 @@ export function DeviceTable({
         page={currentPageNumber}
       />
       <Spacer height={10} />
-      <DataGrid
+      <StyledDataGrid
         style={{ width: "100%" }}
         loading={loading}
         columns={columns}
@@ -127,6 +128,14 @@ export function DeviceTable({
         disableSelectionOnClick
         pagination
         page={currentPageNumber - 1}
+        hideFooterPagination={true}
+        getRowClassName={(params) => {
+          if (!params.row.online) {
+            return "offline-text";
+          }
+
+          return "online-text";
+        }}
       />
     </div>
   );

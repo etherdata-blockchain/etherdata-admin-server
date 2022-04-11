@@ -9,11 +9,10 @@ import {
 } from "../../internal/handlers/swagger_api_handler";
 import PageHeader from "../../components/common/PageHeader";
 import { RedocStandalone } from "redoc";
-import { Breadcrumbs, Grid, Link } from "@mui/material";
+import { Grid } from "@mui/material";
 import { Configurations } from "@etherdata-blockchain/common/dist/configs";
 import React from "react";
 import { StickySideBar } from "../../components/docs/StickySideBar";
-import { configs } from "@etherdata-blockchain/common";
 import { NavigationBar } from "../../components/docs/navigation_bar";
 
 interface Props {

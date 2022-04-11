@@ -1,7 +1,8 @@
 import {
+  Box,
   Card,
   CardContent,
-  CardHeader,
+  Divider,
   Hidden,
   Typography,
 } from "@mui/material";
@@ -42,17 +43,15 @@ export default function ResponsiveCard({
       <Hidden only={["sm", "md", "lg", "xl"]}>{children}</Hidden>
       <Hidden only={["xs"]}>
         <Card className={className} style={style}>
-          {title && (
-            <CardHeader
-              title={<Typography variant={"subtitle1"}>{title}</Typography>}
-              subheader={
-                <Typography variant={"caption"}>{subtitle}</Typography>
-              }
-              action={action}
-            />
-          )}
-
-          <CardContent style={{ height: "100%" }}>{children}</CardContent>
+          <CardContent style={{ height: "100%" }}>
+            <Box p={2}>
+              <Typography variant={"h5"} fontWeight={"bold"} fontSize={20}>
+                {title}
+              </Typography>
+            </Box>
+            {title && <Divider />}
+            {children}
+          </CardContent>
         </Card>
       </Hidden>
     </div>

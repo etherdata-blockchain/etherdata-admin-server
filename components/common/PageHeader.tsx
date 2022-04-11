@@ -1,4 +1,4 @@
-import { Divider, Fab, Fade, Stack, Typography } from "@mui/material";
+import { Fab, Fade, Stack, Typography } from "@mui/material";
 import React from "react";
 import Head from "next/head";
 import useScrollTrigger from "@mui/material/useScrollTrigger";
@@ -50,18 +50,10 @@ export default function PageHeader({ title, description, action }: Props) {
         <Stack direction={"row"} alignItems={"center"}>
           <div>
             <Typography
-              variant="caption"
-              style={{ fontSize: 20, fontWeight: "bold" }}
+              variant="h4"
+              style={{ fontSize: 30, fontWeight: "bold" }}
             >
               {title}
-            </Typography>
-            <Typography
-              id={"subtitle"}
-              variant="subtitle1"
-              noWrap
-              style={{ maxWidth: "100vw" }}
-            >
-              {description}
             </Typography>
           </div>
           <div style={{ flexGrow: 1 }} />
@@ -86,7 +78,6 @@ export default function PageHeader({ title, description, action }: Props) {
             </Fade>
           )}
         </Stack>
-        <Divider style={{ width: "100%" }} />
       </Stack>
     </div>
   );

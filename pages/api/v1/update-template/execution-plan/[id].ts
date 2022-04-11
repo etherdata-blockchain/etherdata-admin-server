@@ -2,7 +2,7 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import { StatusCodes } from "http-status-codes";
 import HTTPMethod from "http-method-enum";
 import { enums, interfaces } from "@etherdata-blockchain/common";
-import { dbServices, socketServices } from "@etherdata-blockchain/services";
+import { dbServices } from "@etherdata-blockchain/services";
 import {
   jwtVerificationHandler,
   methodAllowedHandler,

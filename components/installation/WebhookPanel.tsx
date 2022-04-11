@@ -2,10 +2,11 @@ import React from "react";
 import { Alert, Box } from "@mui/material";
 import Form from "@rjsf/bootstrap-4";
 import { Form as RForm } from "react-bootstrap";
-import join from "url-join";
+import join from "@etherdata-blockchain/url-join";
 import Spacer from "../common/Spacer";
 import { configs } from "@etherdata-blockchain/common";
-import { Routes } from "@etherdata-blockchain/common/src/configs/routes";
+
+const { Routes } = configs;
 import {
   generateWebhookURL,
   schema,
@@ -45,7 +46,7 @@ export default function WebhookPanel({ host }: Props) {
         formData={formData}
         liveValidate={true}
         showErrorList={false}
-        onChange={(e, v) => {
+        onChange={(e: any) => {
           const data = e.formData;
           const [err, result] = generateWebhookURL(
             url,

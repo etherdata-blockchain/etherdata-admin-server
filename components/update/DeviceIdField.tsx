@@ -33,7 +33,7 @@ export function DeviceIdField(props: ArrayFieldTemplateProps) {
   }, []);
 
   const onDelete = React.useCallback(
-    async (index) => {
+    async (index: number) => {
       const item = items[index];
       item.onDropIndexClick(index)();
     },

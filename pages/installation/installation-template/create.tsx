@@ -12,11 +12,7 @@ import {
 } from "../../../internal/const/defaultValues";
 import { Backdrop, CircularProgress } from "@mui/material";
 import { useRouter } from "next/dist/client/router";
-import { GetServerSideProps } from "next";
-import { ImageField } from "../../../components/installation/DockerImageField";
 import { PaddingBox } from "../../../components/common/PaddingBox";
-import { configs } from "@etherdata-blockchain/common";
-import { dbServices } from "@etherdata-blockchain/services";
 import { schema } from "@etherdata-blockchain/storage-model";
 import { Routes } from "@etherdata-blockchain/common/src/configs/routes";
 import {
@@ -71,10 +67,10 @@ export default function Index(props: Props) {
             schema={jsonSchema}
             liveValidate={true}
             formData={formData}
-            onChange={(value) => {
+            onChange={(value: any) => {
               setFormData(value.formData);
             }}
-            onSubmit={async (data) => {
+            onSubmit={async (data: any) => {
               await submitData(data.formData);
             }}
             uiSchema={uiSchema}

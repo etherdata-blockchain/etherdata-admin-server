@@ -87,10 +87,12 @@ export default function DeviceProvider(props: any) {
         console.log(`Waiting for ${uuid}'s result`);
         socket?.emit(enums.SocketIOEvents.rpcCommand, { method, params }, uuid);
         socket?.once(`${enums.SocketIOEvents.rpcResult}-${uuid}`, (data) => {
+          console.log("result");
           resolve(data);
           socket?.off(`${enums.SocketIOEvents.rpcError}-${uuid}`);
         });
         socket?.once(`${enums.SocketIOEvents.rpcError}-${uuid}`, (data) => {
+          console.error("error");
           reject(data);
           socket?.off(`${enums.SocketIOEvents.rpcResult}-${uuid}`);
         });

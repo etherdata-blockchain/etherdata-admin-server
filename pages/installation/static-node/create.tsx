@@ -64,14 +64,14 @@ export default function Index({}: Props) {
           <Form
             schema={jsonSchema}
             formData={formData}
-            onChange={(v) => setFormData(v.formData)}
-            validate={(data, errors) => {
+            onChange={(v: any) => setFormData(v.formData)}
+            validate={(data: any, errors: any) => {
               if (!data.nodeURL.startsWith("enode://")) {
                 errors.addError("Enode URL should start with enode");
               }
               return errors;
             }}
-            onSubmit={async (data) => {
+            onSubmit={async (data: any) => {
               await submitData(data.formData);
             }}
           />

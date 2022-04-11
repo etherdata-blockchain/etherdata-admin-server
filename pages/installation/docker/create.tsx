@@ -57,8 +57,8 @@ export default function Index({}: Props) {
           <Form
             schema={jsonSchema}
             formData={formData}
-            onChange={(v) => setFormData(v.formData)}
-            onSubmit={async (data) => {
+            onChange={(v: any) => setFormData(v.formData)}
+            onSubmit={async (data: any) => {
               await submitData(data.formData);
             }}
           />
