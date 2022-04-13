@@ -27,7 +27,11 @@ export function UserAvatar({ username, userId, coinbase }: Props) {
           {username}
         </Typography>
         <Typography>
-          coinbase: <Chip label={coinbase} size={"small"} />
+          coinbase:{" "}
+          <Chip
+            label={coinbase.length > 0 ? coinbase : "None"}
+            size={"small"}
+          />
         </Typography>
       </Stack>
     </Stack>

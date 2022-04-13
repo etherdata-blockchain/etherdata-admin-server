@@ -3,6 +3,8 @@ import { DataGrid } from "@mui/x-data-grid";
 import { Box } from "@mui/material";
 import { schema } from "@etherdata-blockchain/storage-model";
 import { columns } from "../../internal/handlers/static_node_handler";
+import ResponsiveCard from "../common/ResponsiveCard";
+import { StyledDataGrid } from "../common/styledDataGrid";
 
 interface Props {
   staticNodes: schema.IStaticNode[];
@@ -14,8 +16,8 @@ interface Props {
  */
 export default function StaticNodePanel({ staticNodes }: Props) {
   return (
-    <Box style={{ minHeight: "85vh", width: "100%" }}>
-      <DataGrid
+    <ResponsiveCard style={{ width: "100%" }}>
+      <StyledDataGrid
         isRowSelectable={() => false}
         columns={columns}
         rows={staticNodes.map((d, index) => {
@@ -27,6 +29,6 @@ export default function StaticNodePanel({ staticNodes }: Props) {
         })}
         autoHeight
       />
-    </Box>
+    </ResponsiveCard>
   );
 }

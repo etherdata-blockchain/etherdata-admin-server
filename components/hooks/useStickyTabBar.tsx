@@ -12,7 +12,11 @@ export function useStickyTabBar(
 
   React.useEffect(() => {
     if (initialIndex !== undefined) {
-      setValue(initialIndex);
+      if (typeof initialIndex === "number") {
+        setValue(initialIndex);
+      } else if (typeof initialIndex === "string") {
+        setValue(parseInt(initialIndex));
+      }
     }
   }, [initialIndex]);
 

@@ -4,9 +4,11 @@ import {
   CardContent,
   Divider,
   Hidden,
+  Stack,
   Typography,
 } from "@mui/material";
 import React from "react";
+import Spacer from "./Spacer";
 
 /**
  * Will display a card component by current screen width.
@@ -45,11 +47,19 @@ export default function ResponsiveCard({
         <Card className={className} style={style}>
           <CardContent style={{ height: "100%" }}>
             <Box p={2}>
-              <Typography variant={"h5"} fontWeight={"bold"} fontSize={20}>
-                {title}
-              </Typography>
+              <Stack
+                direction={"row"}
+                justifyContent={"space-between"}
+                alignItems={"center"}
+              >
+                <Typography variant={"h5"} fontWeight={"bold"} fontSize={20}>
+                  {title}
+                </Typography>
+                {action}
+              </Stack>
             </Box>
             {title && <Divider />}
+            <Spacer height={10} />
             {children}
           </CardContent>
         </Card>

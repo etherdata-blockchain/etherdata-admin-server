@@ -42,8 +42,7 @@ export default function Index({
   host,
 }: Props) {
   // eslint-disable-next-line no-unused-vars
-  const [value, setValue] = useStickyTabBar();
-  const { appBarTitleShow } = React.useContext(UIProviderContext);
+  const [value, setValue] = useStickyTabBar(index);
   const router = useRouter();
 
   const actions: React.ReactElement[] = [

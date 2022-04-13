@@ -1341,10 +1341,23 @@
     web3 "^1.7.3"
     yaml "^2.0.0"
 
-"@etherdata-blockchain/history@^3.0.2":
-  version "3.0.2"
-  resolved "https://registry.yarnpkg.com/@etherdata-blockchain/history/-/history-3.0.2.tgz#6cdb131a7e3e68c8b9be6ac6b2562cadd7ea1fcd"
-  integrity sha512-kTbW5GdLcQvF4Tz/dZdst9Lkgofru8hcdn73EQagOG3Qlo4MevLUBRwG4uAVfFpRBz39DxbCrhb8QwgXLl9xFw==
+"@etherdata-blockchain/common@^3.0.4":
+  version "3.0.4"
+  resolved "https://registry.yarnpkg.com/@etherdata-blockchain/common/-/common-3.0.4.tgz#9d31c73fbd156e623366f2b0618f3ad635760ecc"
+  integrity sha512-zbrlqvseksFpozNe0nzuEyCrDtHSX2eEFAcsnTULeNjTs6pw1e3t49TywkSpTPsgfh7j3ejEwhSjfneGJKDKSw==
+  dependencies:
+    "@types/dockerode" "^3.3.8"
+    "@types/json-schema" "^7.0.11"
+    bson "^4.6.2"
+    json-schema "^0.4.0"
+    typescript "^4.6.3"
+    web3 "^1.7.3"
+    yaml "^2.0.0"
+
+"@etherdata-blockchain/history@^3.0.4":
+  version "3.0.4"
+  resolved "https://registry.yarnpkg.com/@etherdata-blockchain/history/-/history-3.0.4.tgz#9432ee0632d431ab3a1f6f38d3cd3d67b5db94f1"
+  integrity sha512-oGFw1zb2dvr4MwF04qw6IkkdGR61CfbvYHmdjONVckaqYuDZeM2QNkHXqAfDVy7LxIs6SYouwyNrjphWsugX6w==
   dependencies:
     moment "^2.29.2"
     typescript "^4.6.3"

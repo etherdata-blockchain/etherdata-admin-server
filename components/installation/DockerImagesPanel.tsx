@@ -3,6 +3,8 @@ import { DataGrid } from "@mui/x-data-grid";
 import { Box } from "@mui/material";
 import { schema } from "@etherdata-blockchain/storage-model";
 import { columns } from "../../internal/handlers/docker_image_handler";
+import { StyledDataGrid } from "../common/styledDataGrid";
+import ResponsiveCard from "../common/ResponsiveCard";
 
 interface Props {
   dockerImages: schema.IDockerImage[];
@@ -14,8 +16,8 @@ interface Props {
  */
 export default function DockerImagesPanel({ dockerImages }: Props) {
   return (
-    <Box style={{ minHeight: "85vh", width: "100%" }}>
-      <DataGrid
+    <ResponsiveCard style={{ width: "100%" }}>
+      <StyledDataGrid
         isRowSelectable={() => false}
         columns={columns}
         rows={dockerImages.map((d, index) => {
@@ -28,6 +30,6 @@ export default function DockerImagesPanel({ dockerImages }: Props) {
         })}
         autoHeight
       />
-    </Box>
+    </ResponsiveCard>
   );
 }
