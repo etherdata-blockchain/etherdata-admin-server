@@ -17,6 +17,7 @@ import moment from "moment";
 import { DeviceContext } from "../../../pages/model/DeviceProvider";
 import { UIProviderContext } from "../../../pages/model/UIProvider";
 import { CircularProgress, List, ListItemButton } from "@mui/material";
+import { interfaces } from "@etherdata-blockchain/common";
 
 declare module "react" {
   // eslint-disable-next-line no-unused-vars
@@ -110,28 +111,8 @@ export function StyledTreeItem(props: StyledTreeItemProps) {
 export default function ContainerTreeView({
   containers,
 }: {
-  containers: ContainerInfo[];
+  containers: interfaces.db.ContainerInfoWithLog[];
 }) {
-  const { sendDockerCommand } = React.useContext(DeviceContext);
-  const [result, setResult] = React.useState<string>();
-  const [isLoading, setIsLoading] = React.useState(false);
-  const { showSnackBarMessage } = React.useContext(UIProviderContext);
-
-  const getLog = async (container: string) => {
-    setIsLoading(true);
-    try {
-      const result: string = await sendDockerCommand({
-        method: "logs",
-        value: container,
-      });
-      setResult(result);
-    } catch (e) {
-      showSnackBarMessage(`${e}`);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
   return (
     <TreeView
       aria-label="containers"
@@ -140,14 +121,10 @@ export default function ContainerTreeView({
       defaultExpandIcon={<ArrowRightIcon />}
       defaultEndIcon={<div style={{ width: 24 }} />}
       sx={{ flexGrow: 1, overflowY: "auto" }}
-      onNodeToggle={async (e, v) => {
-        if (v[0]?.includes("log-")) {
-          await getLog(v[0].replace("log-", ""));
-        }
-      }}
     >
       {containers.map((container, index) => (
         <StyledTreeItem
+          data-testid={`container-${index}`}
           key={`container-${index}`}
           nodeId={`${index}`}
           labelText={container.Names.toString()}
@@ -190,18 +167,16 @@ export default function ContainerTreeView({
 
           <StyledTreeItem
             nodeId={`log-${container.Id}`}
+            data-testid={`log-${container.Id}`}
             labelIcon={InfoIcon}
             labelText={"Logs"}
           >
             <Box pl={10} color={"black"} pt={1}>
-              {isLoading && <CircularProgress size={20} />}
-              {result && !isLoading && (
-                <List>
-                  {result.split("\n").map((r, i) => (
-                    <ListItemButton key={`r-${i}`}>{r}</ListItemButton>
-                  ))}
-                </List>
-              )}
+              <List>
+                {container.logs?.split("\n").map((r, i) => (
+                  <ListItemButton key={`r-${i}`}>{r}</ListItemButton>
+                ))}
+              </List>
             </Box>
           </StyledTreeItem>
         </StyledTreeItem>
