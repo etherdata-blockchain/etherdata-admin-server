@@ -33,7 +33,7 @@ import { abbreviateNumber } from "@etherdata-blockchain/common/dist/utils";
 import ConstructionIcon from "@mui/icons-material/Construction";
 
 type Props = {
-  device: schema.IStorageItem | null;
+  device: schema.IStorageItem | undefined;
   online: boolean;
   found: boolean;
 };
@@ -48,7 +48,7 @@ export default function DeviceDetail({ device, found }: Props) {
 
   const [foundDevice, setFoundDevice] = React.useState<
     schema.IStorageItem | undefined
-  >(device ?? undefined);
+  >(device);
   const online =
     Math.abs(
       moment(foundDevice?.deviceStatus.lastSeen).diff(moment(), "seconds")
@@ -60,24 +60,21 @@ export default function DeviceDetail({ device, found }: Props) {
   };
 
   React.useEffect(() => {
-    console.log("Joining room", device?.qr_code);
-    // @ts-ignore
-    if (found) joinDetail(device?.qr_code);
+    console.log("Joining room", device!.qr_code);
+    if (found) joinDetail(device!.qr_code!);
 
     socket?.on("detail-info", (data) => {
       if (foundDevice) {
         foundDevice.deviceStatus = data;
+        setFoundDevice(JSON.parse(JSON.stringify(foundDevice)));
       }
-      setFoundDevice(JSON.parse(JSON.stringify(foundDevice)));
     });
 
     return () => {
-      // @ts-ignore
-      if (found) leaveDetail(device?.id);
+      if (found) leaveDetail(device!.id);
     };
   }, []);
 
-  // @ts-ignore
   return (
     <div>
       <Spacer height={20} />

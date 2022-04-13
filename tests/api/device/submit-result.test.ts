@@ -108,8 +108,8 @@ describe("Given a result plugin", () => {
 
     expect(executionPlan?.isError).toBeFalsy();
     expect(executionPlan?.isDone).toBeTruthy();
-    expect(executionPlan?.updateTemplate).toStrictEqual(
-      mockData.MockUpdateTemplate
+    expect(executionPlan?.updateTemplate.toString()).toStrictEqual(
+      mockData.MockUpdateTemplate.toString()
     );
 
     expect(await schema.JobResultModel.countDocuments()).toBe(1);
@@ -144,8 +144,8 @@ describe("Given a result plugin", () => {
 
     expect(executionPlan?.isError).toBeTruthy();
     expect(executionPlan?.isDone).toBeTruthy();
-    expect(executionPlan?.updateTemplate).toStrictEqual(
-      mockData.MockUpdateTemplate
+    expect(executionPlan?.updateTemplate.toString()).toStrictEqual(
+      mockData.MockUpdateTemplate.toString()
     );
 
     expect(await schema.JobResultModel.countDocuments()).toBe(1);
