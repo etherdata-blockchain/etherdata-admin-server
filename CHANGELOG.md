@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.2.1](https://github.com/etherdata-blockchain/etherdata-admin-server/compare/v3.2.0...v3.2.1) (2022-04-13)
+
+
+### Bug Fixes
+
+* device detail page display issue ([#103](https://github.com/etherdata-blockchain/etherdata-admin-server/issues/103)) ([abf3a35](https://github.com/etherdata-blockchain/etherdata-admin-server/commit/abf3a35b1f1d077027b3a076f8227899aec4e0ef))
+
 # [3.2.0](https://github.com/etherdata-blockchain/etherdata-admin-server/compare/v3.1.0...v3.2.0) (2022-04-13)
 
 
