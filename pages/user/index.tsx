@@ -38,7 +38,7 @@ export default function User({ paginationResult, currentPage }: Props) {
       />
       <Spacer height={20} />
       <PaddingBox>
-        <ResponsiveCard>
+        <ResponsiveCard title={"tables"} action={<DeviceIdSearchField />}>
           <Pagination
             data-testid={"pagination"}
             color={"primary"}
@@ -50,7 +50,6 @@ export default function User({ paginationResult, currentPage }: Props) {
           />
           <Spacer height={10} />
           <Divider />
-          <DeviceIdSearchField />
           <Spacer height={10} />
           <UserTable
             storageUser={paginationResult}

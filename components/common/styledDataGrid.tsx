@@ -5,4 +5,6 @@ import { DataGrid } from "@mui/x-data-grid";
 
 type Props = {};
 
-export const StyledDataGrid = styled(DataGrid)(({ theme }) => ({ border: 0 }));
+export const StyledDataGrid = styled(DataGrid)(({ theme }) => ({
+  border: 0,
+}));

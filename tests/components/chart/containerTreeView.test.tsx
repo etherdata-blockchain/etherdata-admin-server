@@ -1,10 +1,5 @@
 import ContainerTreeView from "../../../components/device/dialog/containerTreeView";
-import {
-  findByTestId,
-  fireEvent,
-  render,
-  screen,
-} from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import { interfaces } from "@etherdata-blockchain/common";
 import "@testing-library/jest-dom";
 
