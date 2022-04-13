@@ -1,5 +1,12 @@
 # Changelog
 
+# [3.1.0](https://github.com/etherdata-blockchain/etherdata-admin-server/compare/v3.0.1...v3.1.0) (2022-04-13)
+
+
+### Features
+
+* add docker logs support ([#96](https://github.com/etherdata-blockchain/etherdata-admin-server/issues/96)) ([d92b116](https://github.com/etherdata-blockchain/etherdata-admin-server/commit/d92b1161084dfa92dda689a43831538149eed902))
+
 ## [3.0.1](https://github.com/etherdata-blockchain/etherdata-admin-server/compare/v3.0.0...v3.0.1) (2022-04-11)
 
 
