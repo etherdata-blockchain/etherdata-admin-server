@@ -51,11 +51,11 @@ export default function DeviceDetail({ device, found }: Props) {
   >(device);
   const online =
     Math.abs(
-      moment(foundDevice?.deviceStatus.lastSeen).diff(moment(), "seconds")
+      moment(foundDevice?.deviceStatus?.lastSeen).diff(moment(), "seconds")
     ) < configs.Configurations.maximumNotSeenDuration;
 
   const storageInfo = {
-    adminVersion: foundDevice?.deviceStatus.adminVersion,
+    adminVersion: foundDevice?.deviceStatus?.adminVersion,
     owner: foundDevice?.owner_id,
   };
 
@@ -157,7 +157,7 @@ export default function DeviceDetail({ device, found }: Props) {
           <Grid item xs={6}>
             <LargeDataCard
               icon={<AllInboxIcon />}
-              title={`${foundDevice?.deviceStatus.docker?.containers?.length}`}
+              title={`${foundDevice?.deviceStatus?.docker?.containers?.length}`}
               color={"#ba03fc"}
               subtitleColor={"white"}
               iconColor={"white"}
@@ -172,7 +172,7 @@ export default function DeviceDetail({ device, found }: Props) {
           <Grid item xs={6}>
             <LargeDataCard
               icon={<AlbumIcon />}
-              title={`${foundDevice?.deviceStatus.docker?.images?.length}`}
+              title={`${foundDevice?.deviceStatus?.docker?.images?.length}`}
               color={"#ba03fc"}
               subtitleColor={"white"}
               iconColor={"white"}
@@ -196,7 +196,7 @@ export default function DeviceDetail({ device, found }: Props) {
                     primary={"Last Seen"}
                     secondary={
                       <Typography noWrap>
-                        {moment(foundDevice?.deviceStatus.lastSeen).fromNow()}
+                        {moment(foundDevice?.deviceStatus?.lastSeen).fromNow()}
                       </Typography>
                     }
                   />
@@ -206,7 +206,7 @@ export default function DeviceDetail({ device, found }: Props) {
                     primary={"Is Mining"}
                     secondary={
                       <Typography noWrap>
-                        {`${foundDevice?.deviceStatus?.data?.systemInfo.isMining}`}
+                        {`${foundDevice?.deviceStatus?.data?.systemInfo?.isMining}`}
                       </Typography>
                     }
                   />
@@ -217,7 +217,9 @@ export default function DeviceDetail({ device, found }: Props) {
                     primary={"Is Syncing"}
                     secondary={
                       <Typography noWrap>
-                        {`${foundDevice?.deviceStatus?.data?.systemInfo.isMining}`}
+                        {`${JSON.stringify(
+                          foundDevice?.deviceStatus?.data?.systemInfo?.isSyncing
+                        )}`}
                       </Typography>
                     }
                   />
@@ -226,16 +228,26 @@ export default function DeviceDetail({ device, found }: Props) {
             </ResponsiveCard>
             <Spacer height={20} />
             <ResponsiveCard title={"Storage Info"}>
-              {utils
-                .objectExpand(storageInfo, [])
-                .map(({ key, value }, index) => (
-                  <ListItem key={index}>
-                    <ListItemText
-                      primary={key}
-                      secondary={<Typography noWrap>{value}</Typography>}
-                    />
-                  </ListItem>
-                ))}
+              <ListItem>
+                <ListItemText
+                  primary={"Admin Version"}
+                  secondary={
+                    <Typography noWrap>
+                      {storageInfo.adminVersion ?? "None"}
+                    </Typography>
+                  }
+                />
+              </ListItem>
+              <ListItem>
+                <ListItemText
+                  primary={"Owner"}
+                  secondary={
+                    <Typography noWrap>
+                      {storageInfo.owner ?? "None"}
+                    </Typography>
+                  }
+                />
+              </ListItem>
             </ResponsiveCard>
 
             <Spacer height={20} />
@@ -270,7 +282,7 @@ export default function DeviceDetail({ device, found }: Props) {
           </Grid>
         </Grid>
 
-        {foundDevice?.deviceStatus.docker?.containers && (
+        {foundDevice?.deviceStatus?.docker?.containers && (
           <ContainerDialog
             show={showContainerDetails}
             onClose={() => setShowContainerDetails(false)}
@@ -278,7 +290,7 @@ export default function DeviceDetail({ device, found }: Props) {
           />
         )}
 
-        {foundDevice?.deviceStatus.docker?.images && (
+        {foundDevice?.deviceStatus?.docker?.images && (
           <ImageDialog
             images={foundDevice.deviceStatus.docker.images}
             show={showImageDetails}
@@ -308,6 +320,7 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
   } catch (e) {
     Logger.error("Cannot read details: " + e);
   }
+  console.log(device);
 
   const data: Props = {
     device,
