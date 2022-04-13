@@ -1,5 +1,12 @@
 # Changelog
 
+# [3.2.0](https://github.com/etherdata-blockchain/etherdata-admin-server/compare/v3.1.0...v3.2.0) (2022-04-13)
+
+
+### Features
+
+* add search device by id functionality in UI ([#100](https://github.com/etherdata-blockchain/etherdata-admin-server/issues/100)) ([26b2ad7](https://github.com/etherdata-blockchain/etherdata-admin-server/commit/26b2ad7707dbc000a295fc783c35f94090252783))
+
 # [3.1.0](https://github.com/etherdata-blockchain/etherdata-admin-server/compare/v3.0.1...v3.1.0) (2022-04-13)
 
 
