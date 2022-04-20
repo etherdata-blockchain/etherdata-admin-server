@@ -4,9 +4,9 @@ import { Avatar, Chip, Stack, Typography } from "@mui/material";
 import { deepOrange } from "@mui/material/colors";
 
 type Props = {
-  username: string;
-  userId: string;
-  coinbase: string;
+  username?: string;
+  userId?: string;
+  coinbase?: string;
 };
 
 /**
@@ -20,16 +20,15 @@ export function UserAvatar({ username, userId, coinbase }: Props) {
   return (
     <Stack direction={"row"} spacing={2} alignItems={"center"}>
       <Avatar sx={{ bgcolor: deepOrange[500] }}>
-        {username.length > 0 && username[0].toUpperCase()}
+        {(username?.length ?? 0) > 0 && username![0].toUpperCase()}
       </Avatar>
       <Stack>
         <Typography variant={"h5"} fontWeight={"bolder"}>
           {username}
         </Typography>
         <Typography>
-          coinbase:{" "}
           <Chip
-            label={coinbase.length > 0 ? coinbase : "None"}
+            label={(coinbase?.length ?? 0) > 0 ? coinbase : "None"}
             size={"small"}
           />
         </Typography>

@@ -22,4 +22,15 @@ describe("Given a userAvatar", () => {
     expect(screen.getByText("mock_username")).toBeInTheDocument();
     expect(screen.getByText("None")).toBeInTheDocument();
   });
+
+  test("Should render properly", () => {
+    render(
+      <UserAvatar
+        username={undefined}
+        userId={undefined}
+        coinbase={undefined}
+      />
+    );
+    expect(screen.getByText("None")).toBeInTheDocument();
+  });
 });
