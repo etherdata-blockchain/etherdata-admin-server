@@ -1,7 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { ObjectId } from "mongodb";
 import { StatusCodes } from "http-status-codes";
-import { enums, interfaces } from "@etherdata-blockchain/common";
+import { configs, enums, interfaces } from "@etherdata-blockchain/common";
 import { dbServices } from "@etherdata-blockchain/services";
 import Logger from "@etherdata-blockchain/logger";
 import {
@@ -77,15 +77,18 @@ async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
     if (pendingJob.task.type === enums.JobTaskType.UpdateTemplate) {
       const job =
         pendingJob as unknown as interfaces.db.PendingJobDBInterface<enums.UpdateTemplateValueType>;
-      // Get last execution plan
-      const plans = await executionPlanService.getPlans(
-        job.task.value.templateId
-      );
 
-      if (plans && plans.length > 0) {
-        const lastPlan = plans[plans.length - 1];
-        lastPlan.isDone = true;
-        await executionPlanService.patch(lastPlan);
+      // found plan with waiting for job result
+      const foundName = `${job.targetDeviceId} received job`;
+      const foundPlans = await executionPlanService.filter(
+        { isDone: false, name: foundName },
+        configs.Configurations.defaultPaginationStartingPage,
+        1
+      );
+      if (foundPlans!.count > 0) {
+        const foundPlan = foundPlans!.results[0];
+        foundPlan.isDone = true;
+        await executionPlanService.patch(foundPlan);
       }
 
       // Update execution plan
