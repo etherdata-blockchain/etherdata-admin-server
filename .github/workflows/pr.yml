@@ -1,9 +1,6 @@
 name: conventional-pr
 on:
   pull_request:
-    branches:
-      - main
-      - dev
     types:
       - opened
       - edited
