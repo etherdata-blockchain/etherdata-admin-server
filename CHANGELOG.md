@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.2.2](https://github.com/etherdata-blockchain/etherdata-admin-server/compare/v3.2.1...v3.2.2) (2022-04-20)
+
+
+### Bug Fixes
+
+* pagination error in user page ([#104](https://github.com/etherdata-blockchain/etherdata-admin-server/issues/104)) ([53d72d5](https://github.com/etherdata-blockchain/etherdata-admin-server/commit/53d72d5bc399f7f61c8b5aa8ead7f5c0555ea0d2))
+
 ## [3.2.1](https://github.com/etherdata-blockchain/etherdata-admin-server/compare/v3.2.0...v3.2.1) (2022-04-13)
 
 
