@@ -6,6 +6,8 @@ import mongoose from "mongoose";
 import { mockData } from "@etherdata-blockchain/common";
 import { schema } from "@etherdata-blockchain/storage-model";
 import { StatusCodes } from "http-status-codes";
+import { MockPendingUpdateTemplate2Job } from "@etherdata-blockchain/common/src/mockdata/mock_pending_job";
+import { MockDeviceID } from "@etherdata-blockchain/common/src/mockdata/mock_storage_item";
 
 describe("Given a result plugin", () => {
   let dbServer: MongoMemoryServer;
@@ -77,6 +79,103 @@ describe("Given a result plugin", () => {
     //@ts-ignore
     await handler(req, res);
     expect(res._getStatusCode()).toBe(StatusCodes.UNAUTHORIZED);
+  });
+
+  test("When submitting a pending update template job multiple", async () => {
+    const plan = {
+      description: "Waiting for job result",
+      isDone: false,
+      isError: false,
+      name: `${mockData.MockDeviceID} received job`,
+      updateTemplate: mockData.MockUpdateTemplate.toHexString(),
+    };
+
+    const plan2 = {
+      description: "Waiting for job result",
+      isDone: false,
+      isError: false,
+      name: `${mockData.MockDeviceID2} received job`,
+      updateTemplate: mockData.MockUpdateTemplate.toHexString(),
+    };
+
+    await schema.ExecutionPlanModel.create(plan);
+    await schema.ExecutionPlanModel.create(plan2);
+
+    const pendingJob = await schema.PendingJobModel.create(
+      mockData.MockPendingUpdateTemplateJob
+    );
+    const pendingJob2 = await schema.PendingJobModel.create(
+      mockData.MockPendingUpdateTemplate2Job
+    );
+
+    const mockJobResultData = JSON.parse(
+      JSON.stringify(mockData.MockJobResultData)
+    );
+    const mockJobResultData2 = JSON.parse(
+      JSON.stringify(mockData.MockJobResultData)
+    );
+
+    mockJobResultData.jobId = pendingJob._id;
+    mockJobResultData2.jobId = pendingJob2._id;
+
+    const token = jwt.sign(
+      { user: mockData.MockConstant.mockTestingUser },
+      mockData.MockConstant.mockTestingSecret
+    );
+
+    const { req, res } = createMocks({
+      method: "POST",
+      headers: {
+        Authorization: "Bearer " + token,
+      },
+      body: mockJobResultData,
+    });
+
+    //@ts-ignore
+    await handler(req, res);
+
+    const { req: req2, res: res2 } = createMocks({
+      method: "POST",
+      headers: {
+        Authorization: "Bearer " + token,
+      },
+      body: mockJobResultData2,
+    });
+
+    //@ts-ignore
+    await handler(req2, res2);
+
+    expect(res._getStatusCode()).toBe(StatusCodes.CREATED);
+    expect(res2._getStatusCode()).toBe(StatusCodes.CREATED);
+
+    const executionPlan = await schema.ExecutionPlanModel.find({}).exec();
+    expect(executionPlan.length).toBe(4);
+
+    expect(executionPlan[0]?.isError).toBeFalsy();
+    expect(executionPlan[0]?.isDone).toBeTruthy();
+    expect(executionPlan[0]?.updateTemplate.toString()).toStrictEqual(
+      mockData.MockUpdateTemplate.toString()
+    );
+
+    expect(executionPlan[1]?.isError).toBeFalsy();
+    expect(executionPlan[1]?.isDone).toBeTruthy();
+    expect(executionPlan[1]?.updateTemplate.toString()).toStrictEqual(
+      mockData.MockUpdateTemplate.toString()
+    );
+
+    expect(executionPlan[2]?.isError).toBeFalsy();
+    expect(executionPlan[2]?.isDone).toBeTruthy();
+    expect(executionPlan[2]?.updateTemplate.toString()).toStrictEqual(
+      mockData.MockUpdateTemplate.toString()
+    );
+
+    expect(executionPlan[3]?.isError).toBeFalsy();
+    expect(executionPlan[3]?.isDone).toBeTruthy();
+    expect(executionPlan[3]?.updateTemplate.toString()).toStrictEqual(
+      mockData.MockUpdateTemplate.toString()
+    );
+
+    expect(await schema.JobResultModel.countDocuments()).toBe(2);
   });
 
   test("When submitting a pending update template job", async () => {
