@@ -11,6 +11,7 @@ type Props = {
   readonly: boolean;
   onAdd(index: number, content: string): Promise<void>;
   onDelete(index: number): Promise<void>;
+  minRows?: number;
 };
 
 /**
@@ -32,7 +33,13 @@ export function DeviceIdsAutoComplete(props: Props) {
       loading={isLoading}
       defaultValue={props.defaultValues}
       renderInput={(p) => (
-        <TextField {...p} label={props.label} variant={"filled"} />
+        <TextField
+          {...p}
+          label={props.label}
+          variant={"filled"}
+          multiline
+          minRows={props.minRows ?? 1}
+        />
       )}
       getOptionLabel={(o) => `${o}`}
       onInputChange={(e, value) => search(value)}

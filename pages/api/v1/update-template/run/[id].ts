@@ -14,23 +14,69 @@ type Response =
   | any;
 
 /**
- * This will handle run request
+ * @swagger
+ * /api/v1/update-template/run/[id]:
+ *   name: Run update template
+ *   post:
+ *     tags: ["Update Template"]
+ *     description: Run update template
+ *     summary: Run update template
+ *     parameters:
+ *       - name: data
+ *         in: body
+ *         schema:
+ *           type: object
+ *           properties:
+ *             targetDeviceIds:
+ *               type: array
+ *               items:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         description: Ok. Start running execution plan
+ *       400:
+ *         description: Not a valid request.
+ *         schema:
+ *           type: object
+ *           properties:
+ *             err:
+ *               type: string
+ *               description: Error reason
+ *       500:
+ *         description: Something went wrong.
+ *         schema:
+ *           type: object
+ *           properties:
+ *             err:
+ *               type: string
+ *               description: Error reason
+ *       404:
+ *         description: Update template not found
+ *         schema:
+ *           type: object
+ *           properties:
+ *             err:
+ *               type: string
+ *               description: Error reason
  *
- * - **Post**: will create a list of pending jobs based on the update template's devices field
- * @param {NextApiRequest} req
- * @param {NextApiResponse} res
  */
 async function handler(req: NextApiRequest, res: NextApiResponse<Response>) {
   const id = req.query.id;
-  const { user } = req.body;
+  const { user, targetDeviceIds } = req.body;
   const updateTemplateService = new dbServices.UpdateTemplateService();
   const executionPlanService = new dbServices.ExecutionPlanService();
   const pendingJobService = new dbServices.PendingJobService();
 
-  const script = await updateTemplateService.getUpdateTemplateWithDockerImage(
+  const template = await updateTemplateService.getUpdateTemplateWithDockerImage(
     id as string
   );
-  if (script === undefined) {
+
+  if (targetDeviceIds === undefined) {
+    res.status(StatusCodes.BAD_REQUEST);
+    return;
+  }
+
+  if (template === undefined) {
     res
       .status(StatusCodes.NOT_FOUND)
       .json({ err: `Cannot find update script with id: ${id}` });
@@ -40,30 +86,30 @@ async function handler(req: NextApiRequest, res: NextApiResponse<Response>) {
   //Clear previous runs
   await executionPlanService.delete(id);
 
-  //@ts-ignore
-  const startPlanData: IExecutionPlan = {
-    description: `Start running plan. Total number of devices: ${script.targetDeviceIds.length}`,
+  const startPlanData: interfaces.db.ExecutionPlanDBInterface = {
+    description: `Start running plan. Total number of devices: ${template.targetDeviceIds.length}`,
     isDone: false,
     isError: false,
     name: "Start running plan",
     updateTemplate: id,
+    createdAt: new Date(),
   };
 
-  // @ts-ignore
-  const resultData: IExecutionPlan = {
+  const resultData: interfaces.db.ExecutionPlanDBInterface = {
     name: "Finished",
     description: "",
     isDone: false,
     isError: false,
     updateTemplate: id,
+    createdAt: new Date(),
   };
 
-  const startPlan = await executionPlanService.create(startPlanData, {
+  const startPlan = await executionPlanService.create(startPlanData as any, {
     upsert: false,
   });
 
   // Create list of update jobs
-  const pendingUpdateJobs: any[] = script.targetDeviceIds.map((d) => ({
+  const pendingUpdateJobs: any[] = (targetDeviceIds as string[]).map((d) => ({
     targetDeviceId: d,
     from: user,
     task: {
@@ -74,6 +120,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse<Response>) {
     },
   }));
 
+  // start running execution plan
   if (startPlan) {
     res.status(StatusCodes.OK).json({});
     try {
@@ -81,14 +128,19 @@ async function handler(req: NextApiRequest, res: NextApiResponse<Response>) {
       startPlan!.isDone = true;
       resultData.description = "Update successfully";
       resultData.isDone = true;
+      // update template, add targetDeviceIds to the template
+      // to keep the history
+      template.targetDeviceIds = targetDeviceIds;
+
+      await updateTemplateService.patch(template as any);
       await executionPlanService.patch(startPlan);
-      await executionPlanService.create(resultData, { upsert: false });
+      await executionPlanService.create(resultData as any, { upsert: false });
     } catch (err) {
       startPlan.isDone = true;
       startPlan.isError = true;
       startPlan.description = `${err}`;
       await executionPlanService.patch(startPlan);
-      await executionPlanService.create(resultData, { upsert: false });
+      await executionPlanService.create(resultData as any, { upsert: false });
     }
   } else {
     res

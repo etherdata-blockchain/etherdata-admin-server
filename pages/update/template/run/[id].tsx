@@ -49,6 +49,7 @@ import {
 import { useRouter } from "next/dist/client/router";
 import { socket } from "../../../model/DeviceProvider";
 import { addPendingPlans } from "../../../api/v1/update-template/execution-plan/[id]";
+import { RunDialog } from "../../../../components/update/RunDialog";
 
 type Props = {
   updateTemplate: interfaces.db.UpdateTemplateWithDockerImageDBInterface;
@@ -62,6 +63,7 @@ type Props = {
  */
 export default function Run(props: Props) {
   const router = useRouter();
+  const [openDialog, setOpenDialog] = React.useState(false);
   const [isLoading, setIsLoading] = React.useState(false);
   const [error, setError] = React.useState<string>();
   const [executionPlans, setExecutionPlans] = React.useState<
@@ -87,20 +89,6 @@ export default function Run(props: Props) {
       socket?.emit(enums.SocketIOEvents.leaveRoom, props.updateTemplate._id);
     };
   }, []);
-
-  const runPlan = React.useCallback(async () => {
-    try {
-      setIsLoading(true);
-      await utils.sleep(1000);
-      await getAxiosClient().post(
-        join(Routes.updateTemplateAPIRun, props.updateTemplate._id)
-      );
-    } catch (err) {
-      window.alert(`Cannot run due to ${err}`);
-    } finally {
-      setIsLoading(false);
-    }
-  }, [props.updateTemplate]);
 
   return (
     <div>
@@ -210,8 +198,7 @@ export default function Run(props: Props) {
                   display={"flex"}
                 >
                   <LoadingButton
-                    loading={isLoading}
-                    onClick={runPlan}
+                    onClick={() => setOpenDialog(true)}
                     size={"large"}
                     variant="contained"
                     endIcon={<PlayCircle />}
@@ -225,6 +212,12 @@ export default function Run(props: Props) {
         </Grid>
       </PaddingBox>
       <Spacer height={20} />
+      <RunDialog
+        templateId={props.updateTemplate._id}
+        defaultTargetDeviceIds={props.updateTemplate.targetDeviceIds}
+        open={openDialog}
+        onClose={() => setOpenDialog(false)}
+      />
     </div>
   );
 }

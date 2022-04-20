@@ -57,8 +57,9 @@ export function TableOfContentItem({
         <ListItemButton
           key={p.link}
           style={{ marginBottom: 2 }}
-          onClick={async () => {
-            await router.push(`${configs.Routes.apiDocumentation}${p.link}`);
+          onClick={() => {
+            window.location =
+              `${configs.Routes.apiDocumentation}${p.link}` as any;
           }}
           selected={currentHash === p.link}
         >

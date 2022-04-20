@@ -72,6 +72,9 @@ describe("Given a update script api handler", () => {
       query: {
         id: updateScriptData._id.toString(),
       },
+      body: {
+        targetDeviceIds: updateScriptData.targetDeviceIds,
+      },
     });
     //@ts-ignore
     await handler(req, res);
@@ -82,5 +85,42 @@ describe("Given a update script api handler", () => {
     expect(plans?.length).toBe(2);
     expect(plans[0].isDone).toBeTruthy();
     expect(plans[1].isDone).toBeTruthy();
+  });
+
+  test("When calling post", async () => {
+    const executionPlanService = new dbServices.ExecutionPlanService();
+    const updateScriptData = await schema.UpdateScriptModel.create(
+      mockUpdateScriptData
+    );
+
+    const { req, res } = createMocks({
+      method: "POST",
+      headers: {
+        Authorization: "Bearer " + token,
+      },
+      query: {
+        id: updateScriptData._id.toString(),
+      },
+      body: {
+        targetDeviceIds: ["mock_ids", "mock_ids_2"],
+      },
+    });
+    //@ts-ignore
+    await handler(req, res);
+    expect(res.statusCode).toBe(StatusCodes.OK);
+
+    await utils.sleep(200);
+    const plans = (await executionPlanService.getPlans(updateScriptData._id))!;
+    expect(plans?.length).toBe(2);
+    expect(plans[0].isDone).toBeTruthy();
+    expect(plans[1].isDone).toBeTruthy();
+
+    const newTemplate = await schema.UpdateScriptModel.findOne({
+      _id: updateScriptData._id,
+    });
+    expect(newTemplate!.targetDeviceIds).toStrictEqual([
+      "mock_ids",
+      "mock_ids_2",
+    ]);
   });
 });
