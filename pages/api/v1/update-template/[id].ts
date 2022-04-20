@@ -16,13 +16,65 @@ type Response =
   | any;
 
 /**
- * This will handle update template by id
+ * @swagger
+ * /api/v1/update-template/[id]:
+ *   name: Modify the given update template.
+ *   summary: Update template is the unique way to update all devices at once.
+ *   get:
+ *     tags: ["Update Template"]
+ *     description: Get the update template by id
+ *     summary: Get the update template by id
+ *     responses:
+ *       200:
+ *         description: Ok.
+ *         schema:
+ *           type: "object"
+ *       404:
+ *         description: Not found
+ *         schema:
+ *           type: object
+ *           properties:
+ *             err:
+ *               type: string
+ *               description: Error reason
  *
- * - **Patch**: will update a specific update template
- * - **Delete**: Will try to delete an update template
- * - **Get**: Will try to return the template by id
- * @param {NextApiRequest} req
- * @param {NextApiResponse} res
+ *   patch:
+ *      tags: ["Update Template"]
+ *      description: Update the given update template
+ *      summary: Update the given update template
+ *      parameters:
+ *        - name: data
+ *          type: object
+ *          in: body
+ *      responses:
+ *        200:
+ *          description: ok
+ *          schema:
+ *            type: object
+ *        404:
+ *         description: Not found
+ *         schema:
+ *           type: object
+ *           properties:
+ *             err:
+ *               type: string
+ *               description: Error reason
+ *   delete:
+ *      tags: ["Update Template"]
+ *      description: Delete the given update template
+ *      summary: Delete the given update template
+ *      responses:
+ *        204:
+ *          description: Deleted
+ *        404:
+ *         description: Not found
+ *         schema:
+ *           type: object
+ *           properties:
+ *             err:
+ *               type: string
+ *               description: Error reason
+ *
  */
 async function handler(req: NextApiRequest, res: NextApiResponse<Response>) {
   const id = req.query.id;

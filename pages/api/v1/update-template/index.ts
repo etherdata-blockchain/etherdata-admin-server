@@ -16,12 +16,59 @@ type Response =
   | schema.IUpdateTemplate;
 
 /**
- * Handle update script create, list.
- * ## Description
- * - **Post**: Create an update template
- * - **List**: Get list of update templates
- * @param {NextApiRequest} req
- * @param {NextApiResponse} res
+ * @swagger
+ * /api/v1/update-template:
+ *   name: Update template
+ *   get:
+ *     tags: ["Update Template"]
+ *     description: List all the update template
+ *     summary: List all update template
+ *     parameters:
+ *       - name: page
+ *         in: query
+ *         type: number
+ *         required: false
+ *       - name: pageSize
+ *         in: query
+ *         type: number
+ *         required: false
+ *     responses:
+ *       200:
+ *         description: Ok.
+ *         schema:
+ *           type: "object"
+ *           properties:
+ *             count:
+ *                 type: number
+ *                 description: total number of objects
+ *
+ *             totalPage:
+ *                 type: number
+ *                 description: total number of page
+ *
+ *             currentPage:
+ *                 type: number
+ *                 description: current page number
+ *
+ *             pageSize:
+ *                 type: number
+ *                 description: number of items per page
+ *
+ *             results:
+ *                 type: array
+ *   post:
+ *      tags: ["Update Template"]
+ *      description: Create a new update template
+ *      summary: Create a new update template
+ *      parameters:
+ *        - name: data
+ *          type: object
+ *          in: body
+ *      responses:
+ *        200:
+ *          description: ok
+ *          schema:
+ *            type: object
  */
 async function handler(req: NextApiRequest, res: NextApiResponse<Response>) {
   const updateTemplateService = new dbServices.UpdateTemplateService();
