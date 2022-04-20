@@ -1,5 +1,14 @@
 # Changelog
 
+# [3.3.0](https://github.com/etherdata-blockchain/etherdata-admin-server/compare/v3.2.2...v3.3.0) (2022-04-20)
+
+
+### Features
+
+* add run template by device ids ui ([#106](https://github.com/etherdata-blockchain/etherdata-admin-server/issues/106)) ([1ab30bc](https://github.com/etherdata-blockchain/etherdata-admin-server/commit/1ab30bc96d1f6f7ac15d0a275f5ae3e1597287cd))
+* add target ids in api ([accc332](https://github.com/etherdata-blockchain/etherdata-admin-server/commit/accc332cf01545038ca479fb5df0d2c6594117d8))
+* add target ids in api ([#105](https://github.com/etherdata-blockchain/etherdata-admin-server/issues/105)) ([906124f](https://github.com/etherdata-blockchain/etherdata-admin-server/commit/906124ff3b8beb49815a6b1715a7196084eb1762))
+
 ## [3.2.2](https://github.com/etherdata-blockchain/etherdata-admin-server/compare/v3.2.1...v3.2.2) (2022-04-20)
 
 
