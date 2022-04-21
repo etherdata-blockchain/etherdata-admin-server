@@ -185,10 +185,11 @@ export default function ({
                   return;
                 }
                 const query = queryString.stringify({
+                  ...router.query,
                   coinbase: coinbase,
                   page: page,
-                  ...router.query,
                 });
+
                 await router.push(`/user/${userID}?${query}`, undefined, {
                   scroll: false,
                 });
