@@ -24,7 +24,7 @@ export function DeviceIdSearchField(props: Props) {
       p={1}
       borderRadius={4}
       border={"1px solid rgb(224, 227, 231)"}
-      minWidth={300}
+      minWidth={400}
     >
       <Stack direction={"row"} spacing={2} alignItems={"center"}>
         <SearchIcon />
