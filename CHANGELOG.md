@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.3.1](https://github.com/etherdata-blockchain/etherdata-admin-server/compare/v3.3.0...v3.3.1) (2022-04-21)
+
+
+### Bug Fixes
+
+* update auto-complete field width ([38bbc50](https://github.com/etherdata-blockchain/etherdata-admin-server/commit/38bbc50471d17aadd9e0bd22fb4c845a5b5a7579))
+
 # [3.3.0](https://github.com/etherdata-blockchain/etherdata-admin-server/compare/v3.2.2...v3.3.0) (2022-04-20)
 
 
