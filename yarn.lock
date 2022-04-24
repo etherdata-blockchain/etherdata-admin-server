@@ -1341,10 +1341,23 @@
     web3 "^1.7.3"
     yaml "^2.0.1"
 
-"@etherdata-blockchain/history@^3.3.0":
-  version "3.3.0"
-  resolved "https://registry.yarnpkg.com/@etherdata-blockchain/history/-/history-3.3.0.tgz#e0e554b77e0241b56b1900ab8f9715a8d9ed64bc"
-  integrity sha512-zcvgz+kKIGZcSEQAwUWRO27XHWTvx4xYDdE+fCs7vMLcLcC+Ub4pMAo9d++TT9mXV2eqzrx0tO8QFQNu8Y7p9g==
+"@etherdata-blockchain/common@^3.4.0":
+  version "3.4.0"
+  resolved "https://registry.yarnpkg.com/@etherdata-blockchain/common/-/common-3.4.0.tgz#cff2b9388b894a3f5b01836e53c00c206de37e6e"
+  integrity sha512-FBazpLRaLr1BzEY6WfiVWnKOnHen4Pp9kZl5PLXUMkC+bIs85c/5t/BdAMvAu4eM1MUGzXpH3O1WYxUpnIu3rQ==
+  dependencies:
+    "@types/dockerode" "^3.3.8"
+    "@types/json-schema" "^7.0.11"
+    bson "^4.6.3"
+    json-schema "^0.4.0"
+    typescript "^4.6.3"
+    web3 "^1.7.3"
+    yaml "^2.0.1"
+
+"@etherdata-blockchain/history@^3.4.0":
+  version "3.4.0"
+  resolved "https://registry.yarnpkg.com/@etherdata-blockchain/history/-/history-3.4.0.tgz#3c18713d97561e90509f57042d3c0cb340142533"
+  integrity sha512-xCbqxncrrb0waD+xXgn6Sx/w1WIXiczwY1T9z6ckZgrXTUa1cf7x09JrDcUyeofVgITwOkodov5vkOupiPue4A==
   dependencies:
     moment "^2.29.3"
     typescript "^4.6.3"
@@ -1357,25 +1370,48 @@
     chalk "^5.0.1"
     typescript "^4.6.3"
 
-"@etherdata-blockchain/next-js-handlers@^3.3.0":
-  version "3.3.0"
-  resolved "https://registry.yarnpkg.com/@etherdata-blockchain/next-js-handlers/-/next-js-handlers-3.3.0.tgz#639a9e406a4653976b8bef14fb791e0565199379"
-  integrity sha512-X3+cUu1l5LuS9ef/F8b233ocxCobWP4xsY1WanJFfOOrmdeGfaYMuvC/uhzRSGMtz82NOmaDSZsoWMIt+HZSzw==
+"@etherdata-blockchain/logger@^3.4.0":
+  version "3.4.0"
+  resolved "https://registry.yarnpkg.com/@etherdata-blockchain/logger/-/logger-3.4.0.tgz#c49fd7c07a893138e34172ea3cce11dddb1148f1"
+  integrity sha512-MGQSqHDYuJoyWmX6TO9UU4IwOsNi4/sLGP6wy1kcxXzcfSU8YftF/Fqt4bRXjeFnFgJKadu05U6ydGcEQySmBw==
   dependencies:
-    "@etherdata-blockchain/common" "^3.1.0"
-    "@etherdata-blockchain/services" "^3.1.0"
+    chalk "^5.0.1"
+    typescript "^4.6.3"
+
+"@etherdata-blockchain/next-js-handlers@^3.4.0":
+  version "3.4.0"
+  resolved "https://registry.yarnpkg.com/@etherdata-blockchain/next-js-handlers/-/next-js-handlers-3.4.0.tgz#ee2b8c62d1626c40e4c6bf02e37b873aa57d80aa"
+  integrity sha512-19oKCKf4N8K8bC2LXfWXQi3il20AZsbmAY91zUAEIN3Bomwyg/hemg4yrIMAHKzO2dlrh8uzhbVSY1B7PgGBEw==
+  dependencies:
+    "@etherdata-blockchain/common" "^3.3.0"
+    "@etherdata-blockchain/services" "^3.3.0"
     http-method-enum "^1.0.0"
     http-status-codes "^2.2.0"
     next "^12.1.5"
     typescript "^4.6.3"
 
-"@etherdata-blockchain/services@^3.1.0", "@etherdata-blockchain/services@^3.3.0":
+"@etherdata-blockchain/services@^3.3.0":
   version "3.3.0"
   resolved "https://registry.yarnpkg.com/@etherdata-blockchain/services/-/services-3.3.0.tgz#2ca487791e1d54b34cdfda5d490aea65a2e2daf4"
   integrity sha512-w3yFA5go6kXOXRLyaLWaDx64NMdyQS7nuImKLPZwHlLKB8beka906bZkEXXYG3syTyo6bX7Nk8QOSFit75oXoA==
   dependencies:
     "@etherdata-blockchain/logger" "^3.1.0"
     "@etherdata-blockchain/storage-model" "^3.1.0"
+    "@types/jsonwebtoken" "^8.5.8"
+    axios "^0.26.1"
+    jsonwebtoken "^8.5.1"
+    moment "^2.29.3"
+    query-string "^7.1.1"
+    socket.io "^4.4.1"
+    typescript "^4.6.3"
+
+"@etherdata-blockchain/services@^3.4.0":
+  version "3.4.0"
+  resolved "https://registry.yarnpkg.com/@etherdata-blockchain/services/-/services-3.4.0.tgz#973b74edb671f901e4af64abbb95d38adfc3cc5e"
+  integrity sha512-ZbjJQLQ1UrFfujEv1TE6If+btdwck8c8IM61DQZoce7phxfbob8Ymae2DzVL+/4c3VWohUIN5QzYGhv2ZVukqQ==
+  dependencies:
+    "@etherdata-blockchain/logger" "^3.3.0"
+    "@etherdata-blockchain/storage-model" "^3.3.0"
     "@types/jsonwebtoken" "^8.5.8"
     axios "^0.26.1"
     jsonwebtoken "^8.5.1"
@@ -1394,10 +1430,20 @@
     typescript "4.6.3"
     web3-eth "1.7.3"
 
-"@etherdata-blockchain/string-replacer@^3.3.0":
-  version "3.3.0"
-  resolved "https://registry.yarnpkg.com/@etherdata-blockchain/string-replacer/-/string-replacer-3.3.0.tgz#c6866dce8a687f3d78b8823cb3d71797bcc04ee9"
-  integrity sha512-SYUwnYckY9Xc2Tmbw0UrM7EGlOCqj51wYh7IfAl63eiZcnCUaFUN6tzsa0tv6YYQhu/QZYOQVVVhZDziFomKTQ==
+"@etherdata-blockchain/storage-model@^3.4.0":
+  version "3.4.0"
+  resolved "https://registry.yarnpkg.com/@etherdata-blockchain/storage-model/-/storage-model-3.4.0.tgz#2a7c4e2b31c339a6e8e0e61b1d84b6012b1f6cf4"
+  integrity sha512-eHHt9ogbRgVDNEs8tzZC5EqY+Egl8H9KYFg3Pll9lvSXCbfo/wvAUm2ghPw3FuIcsj0++o/dK6fUbgjdheYv4A==
+  dependencies:
+    "@etherdata-blockchain/common" "^3.3.0"
+    mongoose "6.3.1"
+    typescript "4.6.3"
+    web3-eth "1.7.3"
+
+"@etherdata-blockchain/string-replacer@^3.4.0":
+  version "3.4.0"
+  resolved "https://registry.yarnpkg.com/@etherdata-blockchain/string-replacer/-/string-replacer-3.4.0.tgz#30c9fb5486a60fc318e1d4d82b2d69fc91f6c5d9"
+  integrity sha512-gmgLs0mFpm8sVcwFlHL9hesOieUnIa5dhr7J6NFA5Zo/YL24ROL97VDgqYaRog1OsrEjtX/BiYclLZcYY/bhGw==
   dependencies:
     "@types/dockerode" "^3.3.8"
     "@types/json-schema" "^7.0.11"
@@ -1407,10 +1453,10 @@
     web3 "^1.7.3"
     yaml "^2.0.1"
 
-"@etherdata-blockchain/url-join@^3.3.0":
-  version "3.3.0"
-  resolved "https://registry.yarnpkg.com/@etherdata-blockchain/url-join/-/url-join-3.3.0.tgz#c279d00373bb403eef677343009b55bb0ba50599"
-  integrity sha512-Ga6SnyJUrCwg2hxtbzfRZliU13fGFo3xgHNnj+lkB+Bl/YX7ouPnNxiG8S+EUdlgGdimLFYUQArPAkVc/4AoSg==
+"@etherdata-blockchain/url-join@^3.4.0":
+  version "3.4.0"
+  resolved "https://registry.yarnpkg.com/@etherdata-blockchain/url-join/-/url-join-3.4.0.tgz#9d447570b528a5777f158b1397e0e1a35f1a210d"
+  integrity sha512-Zz4sikT9/oJW3Rcyio1CHBvnQGzG5jfD+ZOhcXJBDjcQIAD3glMa6Xvc6yXxMO0XxOUxDnjZsNFvjQh1HqJ1MQ==
   dependencies:
     "@types/dockerode" "^3.3.8"
     "@types/json-schema" "^7.0.11"
@@ -2632,10 +2678,10 @@
   resolved "https://registry.yarnpkg.com/@socket.io/base64-arraybuffer/-/base64-arraybuffer-1.0.2.tgz#568d9beae00b0d835f4f8c53fd55714986492e61"
   integrity sha512-dOlCBKnDw4iShaIsH/bxujKTM18+2TOAsYz+KSc11Am38H4q5Xw8Bbz97ZYdrVNM+um3p7w86Bvvmcn9q+5+eQ==
 
-"@socket.io/component-emitter@~3.0.0":
-  version "3.0.0"
-  resolved "https://registry.yarnpkg.com/@socket.io/component-emitter/-/component-emitter-3.0.0.tgz#8863915676f837d9dad7b76f50cb500c1e9422e9"
-  integrity sha512-2pTGuibAXJswAPJjaKisthqS/NOK5ypG4LYT6tEAV0S/mxW0zOIvYvGK0V8w8+SHxAm6vRMSjqSalFXeBAqs+Q==
+"@socket.io/component-emitter@~3.1.0":
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/@socket.io/component-emitter/-/component-emitter-3.1.0.tgz#96116f2a912e0c02817345b3c10751069920d553"
+  integrity sha512-+9jVqKhRSpsc591z5vX+X5Yyw+he/HCB4iQ/RYxw35CEPaY1gnsNE43nf9n9AaYjAQrTiI/mOwKUKdUs9vf7Xg==
 
 "@szmarczak/http-timer@^1.1.2":
   version "1.1.2"
@@ -3906,11 +3952,6 @@ babel-preset-jest@^27.5.1:
   dependencies:
     babel-plugin-jest-hoist "^27.5.1"
     babel-preset-current-node-syntax "^1.0.0"
-
-backo2@~1.0.2:
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/backo2/-/backo2-1.0.2.tgz#31ab1ac8b129363463e35b3ebb69f4dfcfba7947"
-  integrity sha1-MasayLEpNjRj41s+u2n038+6eUc=
 
 balanced-match@^1.0.0:
   version "1.0.2"
@@ -5616,22 +5657,18 @@ end-of-stream@^1.1.0, end-of-stream@^1.4.1:
   dependencies:
     once "^1.4.0"
 
-engine.io-client@~6.1.1:
-  version "6.1.1"
-  resolved "https://registry.yarnpkg.com/engine.io-client/-/engine.io-client-6.1.1.tgz#800d4b9db5487d169686729e5bd887afa78d36b0"
-  integrity sha512-V05mmDo4gjimYW+FGujoGmmmxRaDsrVr7AXA3ZIfa04MWM1jOfZfUwou0oNqhNwy/votUDvGDt4JA4QF4e0b4g==
+engine.io-client@~6.2.1:
+  version "6.2.1"
+  resolved "https://registry.yarnpkg.com/engine.io-client/-/engine.io-client-6.2.1.tgz#b6d0be614c3f194faf6ab5505eba7eb456f56b0d"
+  integrity sha512-5cu7xubVxEwoB6O9hJ6Zfu990yBVjXfyMlE1ZvfO5L8if3Kvc9bgDNEapV0C5pMp+5Om1UZFnljxoOuFm6dBKA==
   dependencies:
-    "@socket.io/component-emitter" "~3.0.0"
+    "@socket.io/component-emitter" "~3.1.0"
     debug "~4.3.1"
-    engine.io-parser "~5.0.0"
-    has-cors "1.1.0"
-    parseqs "0.0.6"
-    parseuri "0.0.6"
+    engine.io-parser "~5.0.3"
     ws "~8.2.3"
     xmlhttprequest-ssl "~2.0.0"
-    yeast "0.1.2"
 
-engine.io-parser@~5.0.0:
+engine.io-parser@~5.0.0, engine.io-parser@~5.0.3:
   version "5.0.3"
   resolved "https://registry.yarnpkg.com/engine.io-parser/-/engine.io-parser-5.0.3.tgz#ca1f0d7b11e290b4bfda251803baea765ed89c09"
   integrity sha512-BtQxwF27XUNnSafQLvDi0dQ8s3i6VgzSoQMJacpIcGNrlUdfHSKbgm3jmjCVvQluGzqwujQMPAoMai3oYSTurg==
@@ -5652,6 +5689,22 @@ engine.io@~6.1.0:
     cors "~2.8.5"
     debug "~4.3.1"
     engine.io-parser "~5.0.0"
+    ws "~8.2.3"
+
+engine.io@~6.2.0:
+  version "6.2.0"
+  resolved "https://registry.yarnpkg.com/engine.io/-/engine.io-6.2.0.tgz#003bec48f6815926f2b1b17873e576acd54f41d0"
+  integrity sha512-4KzwW3F3bk+KlzSOY57fj/Jx6LyRQ1nbcyIadehl+AnXjKT7gDO0ORdRi/84ixvMKTym6ZKuxvbzN62HDDU1Lg==
+  dependencies:
+    "@types/cookie" "^0.4.1"
+    "@types/cors" "^2.8.12"
+    "@types/node" ">=10.0.0"
+    accepts "~1.3.4"
+    base64id "2.0.0"
+    cookie "~0.4.1"
+    cors "~2.8.5"
+    debug "~4.3.1"
+    engine.io-parser "~5.0.3"
     ws "~8.2.3"
 
 enquirer@^2.3.6:
@@ -6982,11 +7035,6 @@ has-bigints@^1.0.1:
   resolved "https://registry.yarnpkg.com/has-bigints/-/has-bigints-1.0.1.tgz#64fe6acb020673e3b78db035a5af69aa9d07b113"
   integrity sha512-LSBS2LjbNBTf6287JEbEzvJgftkF5qFkmCo9hDRpAzKhUOlJ+hx8dd4USs00SgsUNwc4617J9ki5YtEClM2ffA==
 
-has-cors@1.1.0:
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/has-cors/-/has-cors-1.1.0.tgz#5e474793f7ea9843d1bb99c23eef49ff126fff39"
-  integrity sha1-XkdHk/fqmEPRu5nCPu9J/xJv/zk=
-
 has-flag@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/has-flag/-/has-flag-3.0.0.tgz#b5d454dc2199ae225699f3467e5a07f3b955bafd"
@@ -7681,7 +7729,7 @@ is-yarn-global@^0.3.0:
   resolved "https://registry.yarnpkg.com/is-yarn-global/-/is-yarn-global-0.3.0.tgz#d502d3382590ea3004893746754c89139973e232"
   integrity sha512-VjSeb/lHmkoyd8ryPVIKvOCn4D1koMqY+vqyjjUfc3xyKtP4dYOxM44sZrnqQSzSds3xyOrUTLTC9LVCVgLngw==
 
-isarray@^2.0.5:
+isarray@2.0.5, isarray@^2.0.5:
   version "2.0.5"
   resolved "https://registry.yarnpkg.com/isarray/-/isarray-2.0.5.tgz#8af1e4c1221244cc62459faf38940d4e644a5723"
   integrity sha512-xHjhDr3cNBK0BzdUJSPXZntQUx/mwMS5Rw4A7lPJ90XGAO6ISP/ePDNuo0vhqOZU+UD5JoodwCAAoZQd3FeAKw==
@@ -9317,13 +9365,13 @@ new-github-release-url@1.0.0:
   dependencies:
     type-fest "^0.4.1"
 
-next-swagger-doc@^0.2.1:
-  version "0.2.1"
-  resolved "https://registry.yarnpkg.com/next-swagger-doc/-/next-swagger-doc-0.2.1.tgz#d215381962b126ced57e918c3c510af2dad6ace6"
-  integrity sha512-++X4Negnxn6xx7X+6XaqaS9BSERe6sLULj4UNrTmbD5/M7vVuQ5zaiHjy7IWDWrPWOFeuX8q0oGeXZLPqheuEg==
+next-swagger-doc@^0.3.0:
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/next-swagger-doc/-/next-swagger-doc-0.3.0.tgz#e60a398c53182c4f57150c0c7dcbb4c798b55a3d"
+  integrity sha512-D2FselrRzJWj1sxnbPODGHwM/2bVI5Dix9RvkY/J2BmO5FywRqzhbfz09xyq2Rp/CokTQfzthAWoITmcUc6hww==
   dependencies:
-    isarray "^2.0.5"
-    swagger-jsdoc "^6.1.0"
+    isarray "2.0.5"
+    swagger-jsdoc "6.2.1"
 
 next-tick@~1.0.0:
   version "1.0.0"
@@ -9861,16 +9909,6 @@ parse5@6.0.1:
   version "6.0.1"
   resolved "https://registry.yarnpkg.com/parse5/-/parse5-6.0.1.tgz#e1a1c085c569b3dc08321184f19a39cc27f7c30b"
   integrity sha512-Ofn/CTFzRGTTxwpNEs9PP93gXShHcTq255nzRYSKe8AkVpZY7e1fpmTfOyoIvjP5HG7Z2ZM7VS9PPhQGW2pOpw==
-
-parseqs@0.0.6:
-  version "0.0.6"
-  resolved "https://registry.yarnpkg.com/parseqs/-/parseqs-0.0.6.tgz#8e4bb5a19d1cdc844a08ac974d34e273afa670d5"
-  integrity sha512-jeAGzMDbfSHHA091hr0r31eYfTig+29g3GKKE/PPbEQ65X0lmMwlEoqmhzu0iztID5uJpZsFlUPDP8ThPL7M8w==
-
-parseuri@0.0.6:
-  version "0.0.6"
-  resolved "https://registry.yarnpkg.com/parseuri/-/parseuri-0.0.6.tgz#e1496e829e3ac2ff47f39a4dd044b32823c4a25a"
-  integrity sha512-AUjen8sAkGgao7UyCX6Ahv0gIK2fABKmYjvP4xmy5JaKvcbTRueIqIPHLAfq30xJddqSE033IOMUSOMCcK3Sow==
 
 parseurl@^1.3.3, parseurl@~1.3.3:
   version "1.3.3"
@@ -11743,17 +11781,20 @@ socket.io-adapter@~2.3.3:
   resolved "https://registry.yarnpkg.com/socket.io-adapter/-/socket.io-adapter-2.3.3.tgz#4d6111e4d42e9f7646e365b4f578269821f13486"
   integrity sha512-Qd/iwn3VskrpNO60BeRyCyr8ZWw9CPZyitW4AQwmRZ8zCiyDiL+znRnWX6tDHXnWn1sJrM1+b6Mn6wEDJJ4aYQ==
 
-socket.io-client@^4.4.1:
-  version "4.4.1"
-  resolved "https://registry.yarnpkg.com/socket.io-client/-/socket.io-client-4.4.1.tgz#b6aa9448149d09b8d0b2bbf3d2fac310631fdec9"
-  integrity sha512-N5C/L5fLNha5Ojd7Yeb/puKcPWWcoB/A09fEjjNsg91EDVr5twk/OEyO6VT9dlLSUNY85NpW6KBhVMvaLKQ3vQ==
+socket.io-adapter@~2.4.0:
+  version "2.4.0"
+  resolved "https://registry.yarnpkg.com/socket.io-adapter/-/socket.io-adapter-2.4.0.tgz#b50a4a9ecdd00c34d4c8c808224daa1a786152a6"
+  integrity sha512-W4N+o69rkMEGVuk2D/cvca3uYsvGlMwsySWV447y99gUPghxq42BxqLNMndb+a1mm/5/7NeXVQS7RLa2XyXvYg==
+
+socket.io-client@^4.5.0:
+  version "4.5.0"
+  resolved "https://registry.yarnpkg.com/socket.io-client/-/socket.io-client-4.5.0.tgz#3858b6183bab31c5c4eaf3efd0fa50840ebb4504"
+  integrity sha512-HW61c1G7OrYGxaI79WRn17+b03iBCdvhBj4iqyXHBoL5M8w2MSO/vChsjA93knG4GYEai1/vbXWJna9dzxXtSg==
   dependencies:
-    "@socket.io/component-emitter" "~3.0.0"
-    backo2 "~1.0.2"
+    "@socket.io/component-emitter" "~3.1.0"
     debug "~4.3.2"
-    engine.io-client "~6.1.1"
-    parseuri "0.0.6"
-    socket.io-parser "~4.1.1"
+    engine.io-client "~6.2.1"
+    socket.io-parser "~4.2.0"
 
 socket.io-parser@~4.0.4:
   version "4.0.4"
@@ -11764,12 +11805,12 @@ socket.io-parser@~4.0.4:
     component-emitter "~1.3.0"
     debug "~4.3.1"
 
-socket.io-parser@~4.1.1:
-  version "4.1.1"
-  resolved "https://registry.yarnpkg.com/socket.io-parser/-/socket.io-parser-4.1.1.tgz#0ad53d980781cab1eabe320417d8480c0133e62d"
-  integrity sha512-USQVLSkDWE5nbcY760ExdKaJxCE65kcsG/8k5FDGZVVxpD1pA7hABYXYkCUvxUuYYh/+uQw0N/fvBzfT8o07KA==
+socket.io-parser@~4.2.0:
+  version "4.2.0"
+  resolved "https://registry.yarnpkg.com/socket.io-parser/-/socket.io-parser-4.2.0.tgz#3f01e5bc525d94aa52a97ed5cbc12e229bbc4d6b"
+  integrity sha512-tLfmEwcEwnlQTxFB7jibL/q2+q8dlVQzj4JdRLJ/W/G1+Fu9VSxCx1Lo+n1HvXxKnM//dUuD0xgiA7tQf57Vng==
   dependencies:
-    "@socket.io/component-emitter" "~3.0.0"
+    "@socket.io/component-emitter" "~3.1.0"
     debug "~4.3.1"
 
 socket.io@^4.4.1:
@@ -11782,6 +11823,18 @@ socket.io@^4.4.1:
     debug "~4.3.2"
     engine.io "~6.1.0"
     socket.io-adapter "~2.3.3"
+    socket.io-parser "~4.0.4"
+
+socket.io@^4.5.0:
+  version "4.5.0"
+  resolved "https://registry.yarnpkg.com/socket.io/-/socket.io-4.5.0.tgz#78ae2e84784c29267086a416620c18ef95b37186"
+  integrity sha512-slTYqU2jCgMjXwresG8grhUi/cC6GjzmcfqArzaH3BN/9I/42eZk9yamNvZJdBfTubkjEdKAKs12NEztId+bUA==
+  dependencies:
+    accepts "~1.3.4"
+    base64id "~2.0.0"
+    debug "~4.3.2"
+    engine.io "~6.2.0"
+    socket.io-adapter "~2.4.0"
     socket.io-parser "~4.0.4"
 
 socks@^2.6.2:
@@ -12161,10 +12214,10 @@ swagger-client@^3.18.4:
     traverse "~0.6.6"
     url "~0.11.0"
 
-swagger-jsdoc@^6.1.0:
-  version "6.1.0"
-  resolved "https://registry.yarnpkg.com/swagger-jsdoc/-/swagger-jsdoc-6.1.0.tgz#c2b86321f2c4dde8947b418fe8a4bc94431d5522"
-  integrity sha512-xgep5M8Gq31MxpCbQLvJZpNqHfGPfI+sILCzujZbEXIQp2COtkZgoGASs0gacRs4xHmLDH+GuMGdorPITSG4tA==
+swagger-jsdoc@6.2.1:
+  version "6.2.1"
+  resolved "https://registry.yarnpkg.com/swagger-jsdoc/-/swagger-jsdoc-6.2.1.tgz#2f3f67c8433ae2c09e7e318d2f8fd9e09f0166b3"
+  integrity sha512-l2BwFf7wzNPb11+NRRy65X+kuHUGLb3ZuGFn6A8xDXXTu73YzJmCiy+LED/6QsOgPBPgO3u3sDEz6KuOHAlCtA==
   dependencies:
     commander "6.2.0"
     doctrine "3.0.0"
@@ -13580,11 +13633,6 @@ yauzl@^2.10.0:
   dependencies:
     buffer-crc32 "~0.2.3"
     fd-slicer "~1.1.0"
-
-yeast@0.1.2:
-  version "0.1.2"
-  resolved "https://registry.yarnpkg.com/yeast/-/yeast-0.1.2.tgz#008e06d8094320c372dbc2f8ed76a0ca6c8ac419"
-  integrity sha1-AI4G2AlDIMNy28L47XagymyKxBk=
 
 yn@3.1.1:
   version "3.1.1"
