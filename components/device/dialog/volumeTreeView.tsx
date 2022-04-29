@@ -2,14 +2,11 @@ import * as React from "react";
 import TreeView from "@mui/lab/TreeView";
 import ArchiveIcon from "@mui/icons-material/Archive";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
-import AccessTimeFilledIcon from "@mui/icons-material/AccessTimeFilled";
 import ArrowRightIcon from "@mui/icons-material/ArrowRight";
-import BuildIcon from "@mui/icons-material/Build";
 import AlbumIcon from "@mui/icons-material/Album";
-import { ImageInfo } from "dockerode";
-import moment from "moment";
+import { VolumeInspectInfo } from "dockerode";
 import { StyledTreeItem } from "./containerTreeView";
-import { DeviceContext } from "../../../pages/model/DeviceProvider";
+import { AccessTime, AspectRatio, Dns } from "@mui/icons-material";
 import { bindContextMenu, usePopupState } from "material-ui-popup-state/hooks";
 import {
   Button,
@@ -22,26 +19,21 @@ import {
   Typography,
 } from "@mui/material";
 import { bindMenu } from "material-ui-popup-state";
+import DeviceProvider, {
+  DeviceContext,
+} from "../../../pages/model/DeviceProvider";
 import { LoadingButton } from "@mui/lab";
-
-/**
- * Convert bytes to MB, GB, TB accordingly
- * @param bytes
- */
-function bytesToSize(bytes: number) {
-  const sizes = ["Bytes", "KB", "MB", "GB", "TB"];
-  if (bytes == 0) return "0 Byte";
-  const i = parseInt(Math.floor(Math.log(bytes) / Math.log(1024)).toString());
-
-  return (bytes / Math.pow(1024, i)).toFixed(2) + " " + sizes[i];
-}
 
 /**
  * Show list of docker installation-template
  * @param images
  * @constructor
  */
-export default function ImageTreeView({ images }: { images: ImageInfo[] }) {
+export default function VolumeTreeView({
+  volumes,
+}: {
+  volumes: VolumeInspectInfo[];
+}) {
   return (
     <TreeView
       aria-label="containers"
@@ -51,24 +43,28 @@ export default function ImageTreeView({ images }: { images: ImageInfo[] }) {
       defaultEndIcon={<div style={{ width: 24 }} />}
       sx={{ flexGrow: 1, overflowY: "auto" }}
     >
-      {images.map((image, index) => (
-        <ImageDetailItem image={image} index={index} key={`image-${index}`} />
+      {volumes.map((volume, index) => (
+        <VolumeDetailItem
+          volume={volume}
+          index={index}
+          key={`volume-${index}`}
+        />
       ))}
     </TreeView>
   );
 }
 
 /**
- * Image detail item
- * @param image Docker image info
- * @param index index of this detail
+ * Display list of detail list item
+ * @param volume volume info
+ * @param index volume's index in the list
  * @constructor
  */
-export function ImageDetailItem({
-  image,
+export function VolumeDetailItem({
+  volume,
   index,
 }: {
-  image: ImageInfo;
+  volume: VolumeInspectInfo;
   index: number;
 }) {
   const [openDeleteConfirmationDialog, setOpenDeleteConfirmationDialog] =
@@ -78,15 +74,15 @@ export function ImageDetailItem({
 
   const popupState = usePopupState({
     variant: "popover",
-    popupId: `image-${index}`,
+    popupId: `volume-${index}`,
   });
 
-  const deleteImage = React.useCallback(async () => {
+  const deleteVolume = React.useCallback(async () => {
     setIsLoading(true);
     try {
       await sendDockerCommand({
-        method: "removeImage",
-        value: image.Id,
+        method: "removeVolume",
+        value: volume.Name,
       });
     } catch (e) {
       alert(e);
@@ -94,39 +90,50 @@ export function ImageDetailItem({
       setIsLoading(false);
       setOpenDeleteConfirmationDialog(false);
     }
-  }, [image, sendDockerCommand]);
+  }, [volume, sendDockerCommand]);
 
   return (
     <div>
       <StyledTreeItem
         nodeId={`${index}`}
-        labelText={`${image?.RepoTags?.toString()}`}
+        labelText={`${volume.Name}`}
         labelIcon={ArchiveIcon}
         {...bindContextMenu(popupState)}
       >
         <StyledTreeItem
-          nodeId={`image-${index}-name`}
-          labelIcon={AlbumIcon}
-          labelInfo={bytesToSize(image.Size)}
-          labelText={"Image size"}
+          nodeId={`volume-${index}-name`}
+          labelIcon={Dns}
+          labelInfo={volume.Name}
+          labelText={"Name"}
           color="#1a73e8"
           bgColor="#e8f0fe"
         />
+
         <StyledTreeItem
-          nodeId={`${image.Id}-6`}
-          labelText={"Created time"}
-          labelIcon={BuildIcon}
-          labelInfo={moment(image.Created * 1000).format("YYYY-MM-DD hh:mm:ss")}
-          color="#e3742f"
-          bgColor="#fcefe3"
+          nodeId={`volume-${index}-size`}
+          labelIcon={AspectRatio}
+          labelInfo={volume.Mountpoint}
+          labelText={"Mount point"}
+          color="#1a73e8"
+          bgColor="#e8f0fe"
         />
+
         <StyledTreeItem
-          nodeId={`${image.Id}-7`}
-          labelText="Maintainer"
-          labelIcon={AccessTimeFilledIcon}
-          labelInfo={`${image?.Labels?.maintainer}`}
-          color="#a250f5"
-          bgColor="#f3e8fd"
+          nodeId={`volume-${index}-driver`}
+          labelIcon={AlbumIcon}
+          labelInfo={volume.Driver}
+          labelText={"Driver"}
+          color="#1a73e8"
+          bgColor="#e8f0fe"
+        />
+
+        <StyledTreeItem
+          nodeId={`volume-${index}-createdAt`}
+          labelIcon={AccessTime}
+          labelInfo={(volume as any).CreatedAt}
+          labelText={"Created At"}
+          color="#1a73e8"
+          bgColor="#e8f0fe"
         />
       </StyledTreeItem>
       <Menu
@@ -139,9 +146,10 @@ export function ImageDetailItem({
             setOpenDeleteConfirmationDialog(true);
           }}
         >
-          Delete image
+          Delete volume
         </MenuItem>
       </Menu>
+
       <Dialog
         open={openDeleteConfirmationDialog}
         onClose={() => setOpenDeleteConfirmationDialog(false)}
@@ -149,7 +157,7 @@ export function ImageDetailItem({
         <DialogTitle>Confirmation</DialogTitle>
         <DialogContent>
           <Typography>
-            This will delete image {image.Id} and will not be able to revert
+            This will delete volume {volume.Name} and will not be able to revert
             this action.
           </Typography>
         </DialogContent>
@@ -160,7 +168,7 @@ export function ImageDetailItem({
           <LoadingButton
             loading={isLoading}
             onClick={async () => {
-              await deleteImage();
+              await deleteVolume();
             }}
           >
             OK
