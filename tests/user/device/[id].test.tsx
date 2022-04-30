@@ -71,6 +71,17 @@ const testData: schema.IDevice = {
         ],
       },
     ],
+    volumes: [
+      {
+        Driver: "local",
+        Labels: {},
+        Mountpoint:
+          "/var/lib/docker/volumes/0bbd1291559d60d278cf9963c977145d396906157b40b89a128c5717f3381311/_data",
+        Name: "0bbd1291559d60d278cf9963c977145d396906157b40b89a128c5717f3381311",
+        Options: null,
+        Scope: "local",
+      },
+    ],
   },
   data: {
     difficulty: 100,

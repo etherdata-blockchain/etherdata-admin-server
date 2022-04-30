@@ -29,8 +29,8 @@ import Logger from "@etherdata-blockchain/logger";
 import { PaddingBox } from "../../../../components/common/PaddingBox";
 import { AccessTime, Computer, LockClock, People } from "@mui/icons-material";
 import ResponsiveCard from "../../../../components/common/ResponsiveCard";
-import { abbreviateNumber } from "@etherdata-blockchain/common/dist/utils";
 import ConstructionIcon from "@mui/icons-material/Construction";
+import { VolumeDialog } from "../../../../components/device/dialog/volumeDialog";
 
 type Props = {
   device: schema.IStorageItem | undefined;
@@ -45,6 +45,7 @@ export default function DeviceDetail({ device, found }: Props) {
   const {} = React.useContext(UIProviderContext);
   const [showContainerDetails, setShowContainerDetails] = React.useState(false);
   const [showImageDetails, setShowImageDetails] = React.useState(false);
+  const [showVolumeDetails, setShowVolumeDetails] = React.useState(false);
 
   const [foundDevice, setFoundDevice] = React.useState<
     schema.IStorageItem | undefined
@@ -135,7 +136,7 @@ export default function DeviceDetail({ device, found }: Props) {
                   icon: <People />,
                 },
                 {
-                  title: `${abbreviateNumber(
+                  title: `${utils.abbreviateNumber(
                     foundDevice?.deviceStatus?.data?.systemInfo?.hashRate ?? 0
                   )}`,
                   subtitle: "HashRate",
@@ -154,14 +155,14 @@ export default function DeviceDetail({ device, found }: Props) {
               ]}
             />
           </Grid>
-          <Grid item xs={6}>
+          <Grid item xs={4}>
             <LargeDataCard
               icon={<AllInboxIcon />}
               title={`${foundDevice?.deviceStatus?.docker?.containers?.length}`}
-              color={"#ba03fc"}
+              color={"#38d9a3"}
               subtitleColor={"white"}
               iconColor={"white"}
-              iconBackgroundColor={"#9704cc"}
+              iconBackgroundColor={"#25bf22"}
               subtitle={"Docker containers"}
               className={style.detailDataCard}
               onClick={() => {
@@ -169,17 +170,30 @@ export default function DeviceDetail({ device, found }: Props) {
               }}
             />
           </Grid>
-          <Grid item xs={6}>
+          <Grid item xs={4}>
             <LargeDataCard
               icon={<AlbumIcon />}
               title={`${foundDevice?.deviceStatus?.docker?.images?.length}`}
-              color={"#ba03fc"}
+              color={"#38d9a3"}
               subtitleColor={"white"}
               iconColor={"white"}
-              iconBackgroundColor={"#9704cc"}
+              iconBackgroundColor={"#25bf22"}
               subtitle={"Docker images"}
               className={style.detailDataCard}
               onClick={() => setShowImageDetails(true)}
+            />
+          </Grid>
+          <Grid item xs={4}>
+            <LargeDataCard
+              icon={<AllInboxIcon />}
+              title={`${foundDevice?.deviceStatus?.docker?.volumes?.length}`}
+              color={"#38d9a3"}
+              subtitleColor={"white"}
+              iconColor={"white"}
+              iconBackgroundColor={"#25bf22"}
+              subtitle={"Docker volumes"}
+              className={style.detailDataCard}
+              onClick={() => setShowVolumeDetails(true)}
             />
           </Grid>
           <Grid item xs={12}>
@@ -295,6 +309,14 @@ export default function DeviceDetail({ device, found }: Props) {
             images={foundDevice.deviceStatus.docker.images}
             show={showImageDetails}
             onClose={() => setShowImageDetails(false)}
+          />
+        )}
+
+        {foundDevice?.deviceStatus?.docker?.volumes && (
+          <VolumeDialog
+            volumes={foundDevice.deviceStatus.docker.volumes}
+            show={showVolumeDetails}
+            onClose={() => setShowVolumeDetails(false)}
           />
         )}
       </PaddingBox>
