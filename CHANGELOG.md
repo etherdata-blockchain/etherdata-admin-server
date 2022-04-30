@@ -1,5 +1,17 @@
 # Changelog
 
+# [4.0.0](https://github.com/etherdata-blockchain/etherdata-admin-server/compare/v3.3.2...v4.0.0) (2022-04-30)
+
+
+### Features
+
+* add delete volume action ([#113](https://github.com/etherdata-blockchain/etherdata-admin-server/issues/113)) ([5c627cd](https://github.com/etherdata-blockchain/etherdata-admin-server/commit/5c627cdb0da2ece9bbe61bc7e44e23cfe9897664))
+
+
+### BREAKING CHANGES
+
+* allow user to control the docker through admin
+
 ## [3.3.2](https://github.com/etherdata-blockchain/etherdata-admin-server/compare/v3.3.1...v3.3.2) (2022-04-21)
 
 
