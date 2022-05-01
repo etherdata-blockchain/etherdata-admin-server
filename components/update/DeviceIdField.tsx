@@ -51,6 +51,9 @@ export function DeviceIdField(props: ArrayFieldTemplateProps) {
         label={title}
         placeholder={title}
         readonly={readonly}
+        onClear={async () => {
+          //TODO: Add clear function
+        }}
       />
     </Box>
   );

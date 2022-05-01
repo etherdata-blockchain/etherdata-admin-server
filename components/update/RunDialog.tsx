@@ -62,6 +62,9 @@ export function RunDialog(props: Props) {
           placeholder={"Device IDs"}
           label={"Device IDs"}
           readonly={false}
+          onClear={async () => {
+            setSelectedDeviceIds([]);
+          }}
           onAdd={async (index, content) => {
             selectedDeviceIds.push(content);
             setSelectedDeviceIds(selectedDeviceIds);

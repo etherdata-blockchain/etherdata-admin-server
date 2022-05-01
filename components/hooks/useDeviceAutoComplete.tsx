@@ -25,6 +25,7 @@ export function useDeviceAutoComplete() {
           query: { key: newValue },
         });
         const result = await getAxiosClient().get(url);
+        console.log("result", result.data);
         setOptions(result.data);
       } catch (e) {
       } finally {

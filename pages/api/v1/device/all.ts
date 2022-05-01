@@ -3,7 +3,6 @@ import { StatusCodes } from "http-status-codes";
 import { configs } from "@etherdata-blockchain/common";
 import { dbServices } from "@etherdata-blockchain/services";
 import { jwtVerificationHandler } from "@etherdata-blockchain/next-js-handlers";
-import { Configurations } from "@etherdata-blockchain/common/dist/configs";
 
 /**
  * @swagger
@@ -67,7 +66,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
   );
   const storageItems = await storagePlugin.list(
     pageNum,
-    Configurations.numberPerPage
+    configs.Configurations.numberPerPage
   );
 
   if (storageItems === undefined) {
