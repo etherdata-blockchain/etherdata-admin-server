@@ -1,5 +1,12 @@
 # Changelog
 
+# [4.1.0](https://github.com/etherdata-blockchain/etherdata-admin-server/compare/v4.0.0...v4.1.0) (2022-05-01)
+
+
+### Features
+
+* add register devices by user ui ([#115](https://github.com/etherdata-blockchain/etherdata-admin-server/issues/115)) ([734b2ab](https://github.com/etherdata-blockchain/etherdata-admin-server/commit/734b2ab4b0073303bcb868533ae0457e9c0538bd))
+
 # [4.0.0](https://github.com/etherdata-blockchain/etherdata-admin-server/compare/v3.3.2...v4.0.0) (2022-04-30)
 
 
