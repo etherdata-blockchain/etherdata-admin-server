@@ -33,6 +33,7 @@ jobs:
           node-version: "16"
           cache: 'yarn'
       - run: yarn install
+      - uses: google/wireit@setup-github-actions-caching/v1
       - run: yarn test --coverage
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v1
@@ -48,6 +49,7 @@ jobs:
           node-version: "16"
           cache: 'yarn'
       - run: yarn install
+      - uses: google/wireit@setup-github-actions-caching/v1
       - run: yarn build
         env:
           NEXT_PUBLIC_APP_ID: ${{ secrets.APP_ID }}
@@ -85,7 +87,7 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USER }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-
+      - uses: google/wireit@setup-github-actions-caching/v1
       - name: Build and push
         uses: docker/build-push-action@v2
         with:

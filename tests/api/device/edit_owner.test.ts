@@ -4,7 +4,7 @@ import { schema } from "@etherdata-blockchain/storage-model";
 import { mockData } from "@etherdata-blockchain/common";
 import jwt from "jsonwebtoken";
 import { createMocks } from "node-mocks-http";
-import handler from "../../../pages/api/v1/device/edit/owner";
+import handler from "../../../pages/api/v1/device/edit/device-owner";
 import { StatusCodes } from "http-status-codes";
 import { dbServices } from "@etherdata-blockchain/services";
 

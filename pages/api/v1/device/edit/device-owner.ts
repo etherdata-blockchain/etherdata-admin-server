@@ -13,7 +13,7 @@ type Data = {
 
 /**
  * @swagger
- * /api/v1/device/edit/owner:
+ * /api/v1/device/edit/device-owner:
  *   name: Edit devices' owner by the given user
  *   post:
  *     summary: Edit devices' owner by the given user
