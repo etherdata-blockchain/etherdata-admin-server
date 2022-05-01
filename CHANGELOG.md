@@ -1,5 +1,12 @@
 # Changelog
 
+# [4.2.0](https://github.com/etherdata-blockchain/etherdata-admin-server/compare/v4.1.0...v4.2.0) (2022-05-01)
+
+
+### Features
+
+* add add/get/update user apis ([#116](https://github.com/etherdata-blockchain/etherdata-admin-server/issues/116)) ([fb3f8da](https://github.com/etherdata-blockchain/etherdata-admin-server/commit/fb3f8da919153cf8fb15d047f932e040d58d9ec5))
+
 # [4.1.0](https://github.com/etherdata-blockchain/etherdata-admin-server/compare/v4.0.0...v4.1.0) (2022-05-01)
 
 
