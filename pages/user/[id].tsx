@@ -157,10 +157,9 @@ export default function ({
           </Grid>
         )}
       </PaddingBox>
-
       <StickyTabs
         initialIndex={tabIndex}
-        labels={["Devices", "Transactions", "Mining reward"]}
+        labels={["Devices", "Transactions", "Mining reward", "Settings"]}
         top={0}
         pushTo={`/user/${userID}`}
         urlKeyName={"tabIndex"}

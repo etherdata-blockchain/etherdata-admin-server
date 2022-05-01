@@ -6,7 +6,7 @@ import { jwtVerificationHandler } from "@etherdata-blockchain/next-js-handlers";
 
 /**
  * @swagger
- * /api/v1/device/by_user:
+ * /api/v1/device/get/by_user:
  *   name: Get devices by user
  *   get:
  *     tags: ["Device"]

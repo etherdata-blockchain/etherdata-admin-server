@@ -17,19 +17,19 @@ export const DefaultStorageUser: interfaces.db.StorageUserDBInterface = {
   user_name: "Default",
 };
 
-const token = () =>
+const token = (user?: string) =>
   jwt.sign(
-    { user: "admin" },
+    { user: user || "admin" },
     configs.Environments.ClientSideEnvironments.NEXT_PUBLIC_SECRET
   );
 
 /**
  * Axios client for admin server api
  */
-export const getAxiosClient = () =>
+export const getAxiosClient = (user?: string) =>
   axios.create({
     headers: {
-      Authorization: `Bearer ${token()}`,
+      Authorization: `Bearer ${token(user)}`,
     },
   });
 

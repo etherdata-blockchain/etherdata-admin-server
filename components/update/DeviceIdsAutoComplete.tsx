@@ -11,6 +11,7 @@ type Props = {
   readonly: boolean;
   onAdd(index: number, content: string): Promise<void>;
   onDelete(index: number): Promise<void>;
+  onClear(): Promise<void>;
   minRows?: number;
 };
 
@@ -35,6 +36,7 @@ export function DeviceIdsAutoComplete(props: Props) {
       renderInput={(p) => (
         <TextField
           {...p}
+          data-testid={"auto-complete"}
           label={props.label}
           variant={"filled"}
           multiline
@@ -45,15 +47,17 @@ export function DeviceIdsAutoComplete(props: Props) {
       onInputChange={(e, value) => search(value)}
       options={options.map((o) => o.qr_code)}
       disabled={props.readonly}
-      onChange={(e, value, reason, details) => {
+      onChange={async (e, value, reason, details) => {
         if (value) {
           if (reason === "selectOption") {
-            props.onAdd(value.length - 1, details!.option);
+            await props.onAdd(value.length - 1, details!.option);
           } else if (reason === "removeOption") {
             const index = selectedOptions.findIndex(
               (s) => s === details?.option
             );
-            props.onDelete(index);
+            await props.onDelete(index);
+          } else if (reason === "clear") {
+            await props.onClear();
           }
           setSelectedOptions(value);
         }
