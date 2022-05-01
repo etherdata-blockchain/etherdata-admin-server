@@ -42,4 +42,5 @@ globalConfig.json
 .idea
 coverage
 *.mp4
-*.tsbuildinfo
+*.tsbuildinfo.wireit
+.wireit

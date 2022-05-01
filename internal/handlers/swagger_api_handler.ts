@@ -41,6 +41,7 @@ export const getSwaggerSpec = (baseURL: string) =>
         ...schema.dockerSchema.definitions,
         ...schema.staticNodeSchema.definitions,
         ...schema.installationTemplateSchema.definitions,
+        ...schema.storageInterfaceSchema.definitions,
         ...queryParameterSchema,
         PendingJob: {
           type: "object",
