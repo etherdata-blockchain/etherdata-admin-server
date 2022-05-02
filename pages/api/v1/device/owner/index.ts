@@ -7,7 +7,7 @@ import {
 } from "@etherdata-blockchain/next-js-handlers";
 import HTTPMethod from "http-method-enum";
 import { StatusCodes } from "http-status-codes";
-import { interfaces } from "@etherdata-blockchain/common";
+import { interfaces, utils } from "@etherdata-blockchain/common";
 
 type Data =
   | {
@@ -101,7 +101,10 @@ async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
         .json({ reason: "Missing required data" });
       return;
     }
-    await service.create(data, { upsert: true });
+    await service.create(
+      { _id: utils.newObjectId(), ...data },
+      { upsert: true }
+    );
     res.status(StatusCodes.CREATED).json({});
   };
 

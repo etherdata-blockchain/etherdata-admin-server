@@ -11,14 +11,14 @@ import { useRouter } from "next/dist/client/router";
 import StaticNodePanel from "../../components/installation/StaticNodePanel";
 import WebhookPanel from "../../components/installation/WebhookPanel";
 import { TabPanel } from "../../components/common/tabs/horizontal";
-import { UIProviderContext } from "../model/UIProvider";
+import { UIProviderContext } from "../../model/UIProvider";
 import { PaddingBox } from "../../components/common/PaddingBox";
 import { configs } from "@etherdata-blockchain/common";
 import { dbServices } from "@etherdata-blockchain/services";
 import { schema } from "@etherdata-blockchain/storage-model";
 import { Routes } from "@etherdata-blockchain/common/src/configs/routes";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { useStickyTabBar } from "../../components/hooks/useStickyTabBar";
+import { useStickyTabBar } from "../../hooks/useStickyTabBar";
 import { StickyTabs } from "../../components/common/stickyTabs";
 
 type Props = {

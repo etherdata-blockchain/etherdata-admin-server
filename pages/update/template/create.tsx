@@ -5,7 +5,7 @@ import PageHeader from "../../../components/common/PageHeader";
 import Spacer from "../../../components/common/Spacer";
 import Form from "@rjsf/bootstrap-4";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { UIProviderContext } from "../../model/UIProvider";
+import { UIProviderContext } from "../../../model/UIProvider";
 import { Backdrop, CircularProgress } from "@mui/material";
 import { useRouter } from "next/dist/client/router";
 import { PaddingBox } from "../../../components/common/PaddingBox";

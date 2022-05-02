@@ -13,7 +13,7 @@ import { realmApp } from "./_app";
 import * as Realm from "realm-web";
 import { useRouter } from "next/dist/client/router";
 import React from "react";
-import { UIProviderContext } from "./model/UIProvider";
+import { UIProviderContext } from "../model/UIProvider";
 
 interface Props {}
 

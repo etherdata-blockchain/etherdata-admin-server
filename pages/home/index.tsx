@@ -10,10 +10,10 @@ import { BlockTimeHistoryDisplay } from "../../components/home/blockTimeHistoryD
 import { BlockMinerDisplay } from "../../components/home/blockMinerDisplay";
 import { TransactionDisplay } from "../../components/home/transactionDisplay";
 import { DifficultyHistoryDisplay } from "../../components/home/difficultyHistoryDisplay";
-import { ETDContext } from "../model/ETDProvider";
+import { ETDContext } from "../../model/ETDProvider";
 import { LargeDataCard } from "../../components/cards/largeDataCard";
 import style from "../../styles/Device.module.css";
-import { DeviceContext } from "../model/DeviceProvider";
+import { DeviceContext } from "../../model/DeviceProvider";
 import { DefaultPaginationResult } from "../../internal/const/defaultValues";
 import { PaddingBox } from "../../components/common/PaddingBox";
 import { GetServerSideProps } from "next";

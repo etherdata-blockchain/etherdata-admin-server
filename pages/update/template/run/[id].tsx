@@ -47,7 +47,7 @@ import {
   UISchema,
 } from "../../../../internal/handlers/update_template_handler";
 import { useRouter } from "next/dist/client/router";
-import { socket } from "../../../model/DeviceProvider";
+import { socket } from "../../../../model/DeviceProvider";
 import { addPendingPlans } from "../../../api/v1/update-template/execution-plan/[id]";
 import { RunDialog } from "../../../../components/update/RunDialog";
 

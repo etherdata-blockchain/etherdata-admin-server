@@ -1,6 +1,6 @@
 // @flow
 import * as React from "react";
-import { DeviceIdsAutoComplete } from "./DeviceIdsAutoComplete";
+import { DeviceIdsAutoComplete } from "../common/fields/DeviceIdsAutoComplete";
 import {
   Button,
   Dialog,

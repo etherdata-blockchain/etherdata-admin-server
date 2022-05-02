@@ -1,7 +1,7 @@
 // @flow
 import * as React from "react";
 import { Autocomplete, TextField } from "@mui/material";
-import { useDeviceAutoComplete } from "../hooks/useDeviceAutoComplete";
+import { useDeviceAutoComplete } from "../../../hooks/useDeviceAutoComplete";
 
 type Props = {
   id: string;

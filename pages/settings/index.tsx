@@ -1,6 +1,6 @@
 // @flow
 import * as React from "react";
-import { UIProviderContext } from "../model/UIProvider";
+import { UIProviderContext } from "../../model/UIProvider";
 import { useRouter } from "next/dist/client/router";
 import qs from "query-string";
 import { Button } from "@mui/material";

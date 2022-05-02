@@ -19,9 +19,7 @@ import {
   Typography,
 } from "@mui/material";
 import { bindMenu } from "material-ui-popup-state";
-import DeviceProvider, {
-  DeviceContext,
-} from "../../../pages/model/DeviceProvider";
+import DeviceProvider, { DeviceContext } from "../../../model/DeviceProvider";
 import { LoadingButton } from "@mui/lab";
 
 /**

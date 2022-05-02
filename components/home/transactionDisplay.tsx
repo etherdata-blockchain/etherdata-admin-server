@@ -8,7 +8,7 @@ import {
   ListItemText,
   Typography,
 } from "@mui/material";
-import { ETDContext } from "../../pages/model/ETDProvider";
+import { ETDContext } from "../../model/ETDProvider";
 
 type Props = {};
 

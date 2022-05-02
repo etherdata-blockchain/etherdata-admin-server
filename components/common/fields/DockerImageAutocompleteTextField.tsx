@@ -2,7 +2,7 @@
 import * as React from "react";
 import { Autocomplete, TextField } from "@mui/material";
 import { throttle } from "lodash";
-import { getAxiosClient } from "../../internal/const/defaultValues";
+import { getAxiosClient } from "../../../internal/const/defaultValues";
 import { configs, interfaces, utils } from "@etherdata-blockchain/common";
 import qs from "query-string";
 import { Routes } from "@etherdata-blockchain/common/src/configs/routes";

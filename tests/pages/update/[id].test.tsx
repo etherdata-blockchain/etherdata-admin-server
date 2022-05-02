@@ -8,7 +8,7 @@ import UpdateTemplatePage, {
   getServerSideProps,
 } from "../../../pages/update/template/edit/[id]";
 import { dbServices } from "@etherdata-blockchain/services";
-import UIProviderProvider from "../../../pages/model/UIProvider";
+import UIProviderProvider from "../../../model/UIProvider";
 import { ParsedUrlQuery } from "querystring";
 import { GetServerSidePropsContext } from "next";
 

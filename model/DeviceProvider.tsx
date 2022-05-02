@@ -2,8 +2,8 @@ import React from "react";
 import io, { Socket } from "socket.io-client";
 import { UIProviderContext } from "./UIProvider";
 import { ObjectId } from "bson";
-import { RealtimeStatus } from "../../internal/const/common_interfaces";
-import { DefaultRealtimeStatus } from "../../internal/const/defaultValues";
+import { RealtimeStatus } from "../internal/const/common_interfaces";
+import { DefaultRealtimeStatus } from "../internal/const/defaultValues";
 import { configs, enums } from "@etherdata-blockchain/common";
 
 interface DeviceInterface {

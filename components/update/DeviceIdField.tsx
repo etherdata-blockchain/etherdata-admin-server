@@ -1,7 +1,7 @@
 import Box from "@mui/material/Box";
 import { Form as BForm } from "react-bootstrap";
 import * as React from "react";
-import { DeviceIdsAutoComplete } from "./DeviceIdsAutoComplete";
+import { DeviceIdsAutoComplete } from "../common/fields/DeviceIdsAutoComplete";
 import { ArrayFieldTemplateProps } from "@rjsf/core";
 import { configs, utils } from "@etherdata-blockchain/common";
 
@@ -50,7 +50,7 @@ export function DeviceIdField(props: ArrayFieldTemplateProps) {
         onDelete={onDelete}
         label={title}
         placeholder={title}
-        readonly={readonly}
+        readonly={true}
         onClear={async () => {
           //TODO: Add clear function
         }}

@@ -2,7 +2,7 @@ import React from "react";
 import UserPage from "../../pages/user/index";
 import "@testing-library/jest-dom";
 import { render, within } from "@testing-library/react";
-import UIProviderProvider from "../../pages/model/UIProvider";
+import UIProviderProvider from "../../model/UIProvider";
 import { createMatchMedia } from "../utils/utils";
 import { configs, interfaces } from "@etherdata-blockchain/common";
 

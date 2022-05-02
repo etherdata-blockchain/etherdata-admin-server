@@ -9,7 +9,7 @@ import AlbumIcon from "@mui/icons-material/Album";
 import { ImageInfo } from "dockerode";
 import moment from "moment";
 import { StyledTreeItem } from "./containerTreeView";
-import { DeviceContext } from "../../../pages/model/DeviceProvider";
+import { DeviceContext } from "../../../model/DeviceProvider";
 import { bindContextMenu, usePopupState } from "material-ui-popup-state/hooks";
 import {
   Button,

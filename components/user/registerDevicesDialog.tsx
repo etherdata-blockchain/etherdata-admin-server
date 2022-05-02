@@ -9,7 +9,7 @@ import {
   DialogTitle,
   LinearProgress,
 } from "@mui/material";
-import { DeviceIdsAutoComplete } from "../update/DeviceIdsAutoComplete";
+import { DeviceIdsAutoComplete } from "../common/fields/DeviceIdsAutoComplete";
 import { getAxiosClient } from "../../internal/const/defaultValues";
 import queryString from "query-string";
 import { Routes } from "@etherdata-blockchain/common/src/configs/routes";

@@ -1,10 +1,10 @@
 // @flow
 import * as React from "react";
 import SearchIcon from "@mui/icons-material/Search";
-import { Autocomplete, Box, InputBase, Stack, TextField } from "@mui/material";
-import { useDeviceAutoComplete } from "../hooks/useDeviceAutoComplete";
+import { Autocomplete, Box, InputBase, Stack } from "@mui/material";
+import { useDeviceAutoComplete } from "../../../hooks/useDeviceAutoComplete";
 import { useRouter } from "next/dist/client/router";
-import { configs, enums } from "@etherdata-blockchain/common";
+import { configs } from "@etherdata-blockchain/common";
 import urlJoin from "@etherdata-blockchain/url-join";
 
 type Props = {};

@@ -4,7 +4,7 @@ import Box from "@mui/material/Box";
 import PageHeader from "../../../../components/common/PageHeader";
 import Spacer from "../../../../components/common/Spacer";
 import Form from "@rjsf/bootstrap-4";
-import { UIProviderContext } from "../../../model/UIProvider";
+import { UIProviderContext } from "../../../../model/UIProvider";
 import {
   DefaultInstallationScriptTag,
   getAxiosClient,

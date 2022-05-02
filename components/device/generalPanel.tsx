@@ -8,7 +8,7 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { UIProviderContext } from "../../pages/model/UIProvider";
+import { UIProviderContext } from "../../model/UIProvider";
 import { useRouter } from "next/dist/client/router";
 import { realmApp } from "../../pages/_app";
 
