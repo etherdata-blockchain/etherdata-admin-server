@@ -9,6 +9,8 @@ import {
   methodAllowedHandler,
 } from "@etherdata-blockchain/next-js-handlers";
 import HTTPMethod from "http-method-enum";
+import requestIp from "request-ip";
+import { interfaces } from "@etherdata-blockchain/common";
 
 type Data = {
   error?: string;
@@ -49,17 +51,20 @@ type Data = {
  *         description: The given user is not authenticated
  */
 async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
-  const { user, data, nodeName, adminVersion, key, docker } = req.body;
+  const { user: nodeId, key, ...data } = req.body;
+  const clientIp = requestIp.getClientIp(req);
 
   const plugin = new dbServices.DeviceRegistrationService();
   const lastSeen = moment().toDate();
-  const deviceData = {
+  const deviceData: interfaces.db.DeviceDBInterface = {
     lastSeen: lastSeen,
-    id: user,
-    name: nodeName,
-    data: data,
-    adminVersion,
-    docker,
+    //@ts-ignore
+    id: nodeId,
+    ...data,
+    networkSettings: {
+      remoteIpAddress: clientIp,
+      ...data.networkSettings,
+    },
   };
 
   const responseData = await plugin.patch(deviceData as schema.IDevice);

@@ -53,12 +53,21 @@ describe("Test sending a user status", () => {
       headers: {
         Authorization: "Bearer " + token,
       },
-      body: mockData.MockDeviceData,
+      body: {
+        ...mockData.MockDeviceData,
+        networkSettings: {
+          localIpAddress: "192.168.0.1",
+        },
+      },
     });
 
     //@ts-ignore
     await handler(req, res);
     expect(res._getStatusCode()).toBe(StatusCodes.OK);
+    const data = await schema.DeviceModel.findOne({}).exec();
+    expect(data.lastSeen).toBeDefined();
+    expect(data.networkSettings.localIpAddress).toBeDefined();
+    expect(data.networkSettings.remoteIpAddress).toBeDefined();
   });
 
   test("Add new user without correct token", async () => {
