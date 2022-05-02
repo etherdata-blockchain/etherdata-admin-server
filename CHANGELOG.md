@@ -1,5 +1,12 @@
 # Changelog
 
+# [4.3.0](https://github.com/etherdata-blockchain/etherdata-admin-server/compare/v4.2.0...v4.3.0) (2022-05-02)
+
+
+### Features
+
+* add /add/delete/edit user info ui ([#117](https://github.com/etherdata-blockchain/etherdata-admin-server/issues/117)) ([223cae8](https://github.com/etherdata-blockchain/etherdata-admin-server/commit/223cae871954e9d6d109398dec93a9c4c6c99017))
+
 # [4.2.0](https://github.com/etherdata-blockchain/etherdata-admin-server/compare/v4.1.0...v4.2.0) (2022-05-01)
 
 
