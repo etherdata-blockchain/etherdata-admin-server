@@ -25,7 +25,7 @@ import {
   MenuItem,
 } from "@mui/material";
 import { interfaces } from "@etherdata-blockchain/common";
-import { DeviceContext } from "../../../pages/model/DeviceProvider";
+import { DeviceContext } from "../../../model/DeviceProvider";
 import { bindContextMenu, usePopupState } from "material-ui-popup-state/hooks";
 import { LoadingButton } from "@mui/lab";
 import { bindMenu } from "material-ui-popup-state";

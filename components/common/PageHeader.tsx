@@ -2,7 +2,7 @@ import { Fab, Fade, Stack, Typography } from "@mui/material";
 import React from "react";
 import Head from "next/head";
 import useScrollTrigger from "@mui/material/useScrollTrigger";
-import { UIProviderContext } from "../../pages/model/UIProvider";
+import { UIProviderContext } from "../../model/UIProvider";
 import { configs } from "@etherdata-blockchain/common";
 
 interface Props {

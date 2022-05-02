@@ -2,7 +2,7 @@ import type { AppProps } from "next/app";
 import Layout from "../components/common/layout";
 import { createTheme, CssBaseline, ThemeProvider } from "@mui/material";
 import "../styles/globals.css";
-import UIProviderProvider from "./model/UIProvider";
+import UIProviderProvider from "../model/UIProvider";
 import React from "react";
 import * as Realm from "realm-web";
 import { Home, Person, PieChart, Settings } from "@mui/icons-material";

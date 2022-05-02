@@ -12,7 +12,8 @@ import { PaddingBox } from "../../components/common/PaddingBox";
 import { interfaces } from "@etherdata-blockchain/common";
 import { dbServices } from "@etherdata-blockchain/services";
 import { schema } from "@etherdata-blockchain/storage-model";
-import { DeviceIdSearchField } from "../../components/user/deviceIdSearchField";
+import { DeviceIdSearchField } from "../../components/common/fields/deviceIdSearchField";
+import UserInfoProvider from "../../model/UserInfoProvider";
 
 type Props = {
   paginationResult: interfaces.PaginationResult<schema.IStorageOwner>;
@@ -29,36 +30,38 @@ export default function User({ paginationResult, currentPage }: Props) {
   }, []);
 
   return (
-    <div>
-      <Spacer height={20} />
-      <PageHeader
-        title={"User"}
-        description={"users"}
-        action={<AddUserBtn />}
-      />
-      <Spacer height={20} />
-      <PaddingBox>
-        <ResponsiveCard title={"tables"} action={<DeviceIdSearchField />}>
-          <Pagination
-            data-testid={"pagination"}
-            color={"primary"}
-            onChange={async (e, cur) => {
-              await handlePageChange(cur);
-            }}
-            count={totalPage}
-            page={currentPage}
-          />
-          <Spacer height={10} />
-          <Divider />
-          <Spacer height={10} />
-          <UserTable
-            storageUser={paginationResult}
-            handlePageChange={handlePageChange}
-            currentPage={currentPage}
-          />
-        </ResponsiveCard>
-      </PaddingBox>
-    </div>
+    <UserInfoProvider>
+      <div>
+        <Spacer height={20} />
+        <PageHeader
+          title={"User"}
+          description={"users"}
+          action={<AddUserBtn />}
+        />
+        <Spacer height={20} />
+        <PaddingBox>
+          <ResponsiveCard title={"tables"} action={<DeviceIdSearchField />}>
+            <Pagination
+              data-testid={"pagination"}
+              color={"primary"}
+              onChange={async (e, cur) => {
+                await handlePageChange(cur);
+              }}
+              count={totalPage}
+              page={currentPage}
+            />
+            <Spacer height={10} />
+            <Divider />
+            <Spacer height={10} />
+            <UserTable
+              storageUser={paginationResult}
+              handlePageChange={handlePageChange}
+              currentPage={currentPage}
+            />
+          </ResponsiveCard>
+        </PaddingBox>
+      </div>
+    </UserInfoProvider>
   );
 }
 

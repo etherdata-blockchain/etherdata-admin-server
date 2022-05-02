@@ -1,9 +1,9 @@
 import DetailPage from "../../../pages/user/devices/detail/[id]";
 import { render, screen } from "@testing-library/react";
 import { schema } from "@etherdata-blockchain/storage-model";
-import UIProviderProvider from "../../../pages/model/UIProvider";
-import ETDProvider from "../../../pages/model/ETDProvider";
-import DeviceProvider from "../../../pages/model/DeviceProvider";
+import UIProviderProvider from "../../../model/UIProvider";
+import ETDProvider from "../../../model/ETDProvider";
+import DeviceProvider from "../../../model/DeviceProvider";
 
 const testData: schema.IDevice = {
   _id: "mock_id",

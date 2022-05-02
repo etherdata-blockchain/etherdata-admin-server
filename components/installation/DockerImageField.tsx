@@ -1,6 +1,6 @@
 import Box from "@mui/material/Box";
 import { Form as BForm } from "react-bootstrap";
-import { DockerImageAutocompleteTextField } from "./DockerImageAutocompleteTextField";
+import { DockerImageAutocompleteTextField } from "../common/fields/DockerImageAutocompleteTextField";
 import * as React from "react";
 import { utils } from "@etherdata-blockchain/common";
 

@@ -28,21 +28,22 @@ import { configs, interfaces, utils } from "@etherdata-blockchain/common";
 import { Routes } from "@etherdata-blockchain/common/src/configs/routes";
 import { schema } from "@etherdata-blockchain/storage-model";
 import { UserAvatar } from "../../components/user/userAvatar";
-import { useStickyTabBar } from "../../components/hooks/useStickyTabBar";
+import { useStickyTabBar } from "../../hooks/useStickyTabBar";
 import { StickyTabs } from "../../components/common/stickyTabs";
 import { TabPanel } from "../../components/common/tabs/horizontal";
 import { Build } from "@mui/icons-material";
+import { dbServices } from "@etherdata-blockchain/services";
+import UserInfoProvider from "../../model/UserInfoProvider";
+import { UpdateUserInfoPanel } from "../../components/user/panels/UpdateUserInfoPanel";
 
 interface Props {
-  coinbase: string | undefined;
   currentPage: number;
-  userID: string;
-  userName: string;
   rewards?: { date: string; reward: number }[];
-  user?: {
+  userMiningData?: {
     balance: string;
     transactions: { from: string; value: string; time: string }[];
   };
+  userInfo: interfaces.db.StorageUserDBInterface;
   page: number;
   tabIndex: number;
 }
@@ -65,18 +66,15 @@ function Placeholder() {
  * coinbase, mining reward and devices
  * @param rewards
  * @param user
- * @param coinbase
  * @param currentPage
- * @param userID
- * @param userName
+ * @param page
+ * @param tabIndex
  */
 export default function ({
   rewards,
-  user,
-  coinbase,
+  userInfo,
+  userMiningData,
   currentPage,
-  userID,
-  userName,
   page,
   tabIndex,
 }: Props) {
@@ -86,7 +84,7 @@ export default function ({
     interfaces.PaginationResult<schema.IStorageItem>
   >(
     {
-      userID,
+      userID: userInfo.user_id,
       page,
     },
     async (key) => {
@@ -107,11 +105,11 @@ export default function ({
       <Spacer height={20} />
       <PaddingBox>
         <UserAvatar
-          username={userName}
-          userId={userID}
-          coinbase={coinbase ?? ""}
+          username={userInfo.user_name}
+          userId={userInfo.user_id}
+          coinbase={userInfo.coinbase ?? ""}
         />
-        {rewards && user && coinbase && (
+        {rewards && userMiningData && userInfo.coinbase && (
           <Grid container spacing={5}>
             <Grid item md={6} xs={12}>
               <LargeDataCard
@@ -119,7 +117,7 @@ export default function ({
                 title={"Balance"}
                 color={"#7ed1e6"}
                 iconColor={"#ffffff"}
-                subtitle={`${utils.weiToETD(user.balance)} ETD`}
+                subtitle={`${utils.weiToETD(userMiningData.balance)} ETD`}
                 subtitleColor={"white"}
               />
               <Spacer height={20} />
@@ -136,13 +134,14 @@ export default function ({
                 title={"Transactions"}
               >
                 <List>
-                  {user?.transactions?.map((t, index) => (
+                  {userMiningData?.transactions?.map((t, index) => (
                     <div key={`tx-${index}`}>
                       <ListItem>
                         <ListItemText
                           primary={t.time}
                           secondary={`${utils.weiToETD(t.value)} ETD - ${
-                            t.from.toLowerCase() === coinbase.toLowerCase()
+                            t.from.toLowerCase() ===
+                            userInfo.coinbase!.toLowerCase()
                               ? "Sent"
                               : "Received"
                           }`}
@@ -161,7 +160,7 @@ export default function ({
         initialIndex={tabIndex}
         labels={["Devices", "Transactions", "Mining reward", "Settings"]}
         top={0}
-        pushTo={`/user/${userID}`}
+        pushTo={`/user/${userInfo.user_id}`}
         urlKeyName={"tabIndex"}
       />
       <Spacer height={10} />
@@ -185,13 +184,17 @@ export default function ({
                 }
                 const query = queryString.stringify({
                   ...router.query,
-                  coinbase: coinbase,
+                  coinbase: userInfo.coinbase,
                   page: page,
                 });
 
-                await router.push(`/user/${userID}?${query}`, undefined, {
-                  scroll: false,
-                });
+                await router.push(
+                  `/user/${userInfo.user_id}?${query}`,
+                  undefined,
+                  {
+                    scroll: false,
+                  }
+                );
               }}
             />
           </ResponsiveCard>
@@ -202,6 +205,11 @@ export default function ({
         <TabPanel index={2} value={value}>
           <Placeholder />
         </TabPanel>
+        <TabPanel index={3} value={value}>
+          <UserInfoProvider>
+            <UpdateUserInfoPanel userInfo={userInfo} />
+          </UserInfoProvider>
+        </TabPanel>
         <Spacer height={20} />
       </PaddingBox>
     </div>
@@ -211,11 +219,25 @@ export default function ({
 export const getServerSideProps: GetServerSideProps<Props> = async (
   context
 ) => {
-  const user = context.params?.id as string;
-  const name = context.query.name as string;
+  const userId = context.params?.id as string;
   const currentPage = parseInt((context.query.page as string) ?? "1");
-  const coinbase = context.query.coinbase as string | undefined;
   const tabIndex = parseInt((context.query.tabIndex as string) ?? "0");
+
+  const ownerService = new dbServices.StorageManagementOwnerService();
+
+  const filteredUserData = await ownerService.filter(
+    { user_id: userId },
+    configs.Configurations.defaultPaginationStartingPage,
+    1
+  );
+
+  if (filteredUserData!.count === 0) {
+    return {
+      notFound: true,
+    };
+  }
+
+  const user = filteredUserData!.results[0];
 
   //TODO: Change this to following line when stats server is rebuilt in the future
   // if (coinbase && coinbase.startsWith("0x")) {
@@ -223,7 +245,7 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
     // mining reward
     const prev = moment().subtract(7, "days");
     const miningUrl = new URL(
-      `api/v2/miningReward/${coinbase}?start=${prev.format(
+      `api/v2/miningReward/${user.coinbase}?start=${prev.format(
         "YYYY-MM-DD"
       )}&end=${moment().format("YYYY-MM-DD")}`,
       configs.Environments.ServerSideEnvironments.STATS_SERVER!
@@ -232,7 +254,7 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
 
     // Get recent transactions
     const txURL = new URL(
-      `/api/v2/transactions/${coinbase}`,
+      `/api/v2/transactions/${user.coinbase}`,
       configs.Environments.ServerSideEnvironments.STATS_SERVER!
     );
     const userResultPromise = axios.get(txURL.toString());
@@ -243,12 +265,10 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
     ]);
 
     const result: Props = {
-      userID: user,
       currentPage,
       rewards: miningRewards.data.rewards,
-      user: userResults.data.user,
-      coinbase,
-      userName: name,
+      userMiningData: userResults.data.user,
+      userInfo: user,
       page: currentPage,
       tabIndex,
     };
@@ -259,12 +279,14 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
   }
 
   const result: Props = {
-    userID: user,
     currentPage,
     rewards: [],
-    user: undefined,
-    coinbase,
-    userName: name,
+    userMiningData: undefined,
+    userInfo: {
+      user_id: user.user_id,
+      user_name: user.user_name,
+      coinbase: user.coinbase,
+    },
     page: currentPage,
     tabIndex,
   };

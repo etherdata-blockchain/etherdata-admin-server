@@ -2,22 +2,29 @@
 import * as React from "react";
 import styles from "../../styles/Transactions.module.css";
 import {
-  Alert,
   Button,
   Dialog,
   DialogActions,
   DialogContent,
   DialogTitle,
-  Stack,
-  TextField,
 } from "@mui/material";
-import { Formik } from "formik";
+import { LoadingButton } from "@mui/lab";
+import { getAxiosClient } from "../../internal/const/defaultValues";
+import { configs } from "@etherdata-blockchain/common";
+import { useRouter } from "next/dist/client/router";
+import useUserInfoPanel, {
+  UserInfoContext,
+} from "../../model/UserInfoProvider";
+import { UserInfoPanel } from "../common/panels/UserInfoPanel";
 
 type Props = {};
 
 // eslint-disable-next-line require-jsdoc
 export function AddUserBtn(props: Props) {
   const [show, setShow] = React.useState(false);
+  const { submit, isLoading } = React.useContext(UserInfoContext);
+  const router = useRouter();
+
   return (
     <div>
       <Button
@@ -30,43 +37,28 @@ export function AddUserBtn(props: Props) {
       </Button>
       <Dialog open={show} fullWidth onClose={() => setShow(false)}>
         <DialogTitle>Add New User</DialogTitle>
-
-        <Formik
-          initialValues={{ id: "0" }}
-          onSubmit={(v) => {}}
-          validate={(values) => {
-            return {
-              to: "Required",
-              amount: ">0",
-            };
-          }}
-        >
-          {({ values, errors, handleChange, handleSubmit, isSubmitting }) => (
-            <form onSubmit={handleSubmit}>
-              <DialogContent>
-                <Stack spacing={2}>
-                  {errors &&
-                    Object.entries(errors).map(([key, value], index) => (
-                      <Alert severity={"error"} key={`${key}`}>
-                        Field {key}: {value}
-                      </Alert>
-                    ))}
-                  <TextField
-                    variant={"filled"}
-                    label={"UserID"}
-                    value={values.id}
-                    name={"id"}
-                    onChange={handleChange}
-                  />
-                </Stack>
-              </DialogContent>
-              <DialogActions>
-                <Button onClick={() => setShow(false)}>Cancel</Button>
-                <Button type={"submit"}>Add</Button>
-              </DialogActions>
-            </form>
-          )}
-        </Formik>
+        <DialogContent>
+          <UserInfoPanel
+            onClose={() => {
+              setShow(false);
+              router.reload();
+            }}
+            onSubmit={async (data) => {
+              await getAxiosClient().post(configs.Routes.addOwner, data);
+            }}
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setShow(false)}>Close</Button>
+          <LoadingButton
+            loading={isLoading}
+            onClick={() => {
+              submit();
+            }}
+          >
+            OK
+          </LoadingButton>
+        </DialogActions>
       </Dialog>
     </div>
   );

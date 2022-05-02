@@ -5,10 +5,10 @@ import { configs } from "@etherdata-blockchain/common";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import { a11yProps } from "./tabs/horizontal";
-import { UIProviderContext } from "../../pages/model/UIProvider";
+import { UIProviderContext } from "../../model/UIProvider";
 import qs from "query-string";
 import { useRouter } from "next/dist/client/router";
-import { useStickyTabBar } from "../hooks/useStickyTabBar";
+import { useStickyTabBar } from "../../hooks/useStickyTabBar";
 
 type Props = {
   labels: string[];

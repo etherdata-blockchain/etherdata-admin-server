@@ -13,7 +13,7 @@ import { configs, interfaces } from "@etherdata-blockchain/common";
 import { dbServices } from "@etherdata-blockchain/services";
 import { schema } from "@etherdata-blockchain/storage-model";
 import { Routes } from "@etherdata-blockchain/common/src/configs/routes";
-import { useStickyTabBar } from "../../components/hooks/useStickyTabBar";
+import { useStickyTabBar } from "../../hooks/useStickyTabBar";
 import { StickyTabs } from "../../components/common/stickyTabs";
 
 type Props = {

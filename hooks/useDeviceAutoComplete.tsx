@@ -3,7 +3,7 @@ import * as React from "react";
 import { throttle } from "lodash";
 import qs from "query-string";
 import { Routes } from "@etherdata-blockchain/common/src/configs/routes";
-import { getAxiosClient } from "../../internal/const/defaultValues";
+import { getAxiosClient } from "../internal/const/defaultValues";
 import { configs, interfaces } from "@etherdata-blockchain/common";
 
 /**
@@ -25,7 +25,6 @@ export function useDeviceAutoComplete() {
           query: { key: newValue },
         });
         const result = await getAxiosClient().get(url);
-        console.log("result", result.data);
         setOptions(result.data);
       } catch (e) {
       } finally {

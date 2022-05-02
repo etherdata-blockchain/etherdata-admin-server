@@ -2,8 +2,8 @@
 import * as React from "react";
 import { Badge, IconButton, Tooltip } from "@mui/material";
 import { Error } from "@mui/icons-material";
-import { DeviceContext } from "../../pages/model/DeviceProvider";
-import { UIProviderContext } from "../../pages/model/UIProvider";
+import { DeviceContext } from "../../model/DeviceProvider";
+import { UIProviderContext } from "../../model/UIProvider";
 import { PendingJobPanel } from "./PendingJobPanel";
 
 /**
