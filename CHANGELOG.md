@@ -1,5 +1,12 @@
 # Changelog
 
+## [4.3.2](https://github.com/etherdata-blockchain/etherdata-admin-server/compare/v4.3.1...v4.3.2) (2022-05-03)
+
+
+### Bug Fixes
+
+* run execution plan won't update device ids error ([#120](https://github.com/etherdata-blockchain/etherdata-admin-server/issues/120)) ([32ddba6](https://github.com/etherdata-blockchain/etherdata-admin-server/commit/32ddba60d2e403923ea931ad1bea0b3cd9de2ec1))
+
 ## [4.3.1](https://github.com/etherdata-blockchain/etherdata-admin-server/compare/v4.3.0...v4.3.1) (2022-05-03)
 
 
