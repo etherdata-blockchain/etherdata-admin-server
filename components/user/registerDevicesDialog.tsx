@@ -50,7 +50,7 @@ export function RegisterDevicesDialog({ open, onClose, userId }: Props) {
   const updateOwner = React.useCallback(async () => {
     try {
       setIsLoading(true);
-      await getAxiosClient(userId).post(Routes.editOwner, {
+      await getAxiosClient(userId).post(Routes.editDeviceOwner, {
         devices: deviceIds,
       });
       onClose();
