@@ -3,8 +3,6 @@ import * as React from "react";
 import Box from "@mui/material/Box";
 import PageHeader from "../../../../components/common/PageHeader";
 import Spacer from "../../../../components/common/Spacer";
-import Form from "@rjsf/bootstrap-4";
-import "bootstrap/dist/css/bootstrap.min.css";
 import { UIProviderContext } from "../../../../model/UIProvider";
 import { getAxiosClient } from "../../../../internal/const/defaultValues";
 import { Backdrop, Button, CircularProgress } from "@mui/material";
@@ -16,6 +14,7 @@ import { Routes } from "@etherdata-blockchain/common/src/configs/routes";
 import { jsonSchema } from "../../../../internal/handlers/docker_image_handler";
 import Logger from "@etherdata-blockchain/logger";
 import { interfaces } from "@etherdata-blockchain/common";
+import { MuiForm5 } from "@rjsf/material-ui";
 
 type Props = {
   dockerImage: interfaces.db.DockerImageDBInterface;
@@ -78,7 +77,7 @@ export default function Index({ dockerImage }: Props) {
             padding: 3,
           }}
         >
-          <Form
+          <MuiForm5
             schema={jsonSchema}
             formData={formData}
             onChange={(v: any) => setFormData(v.formData)}

@@ -3,7 +3,7 @@ import * as React from "react";
 import Box from "@mui/material/Box";
 import PageHeader from "../../../../components/common/PageHeader";
 import Spacer from "../../../../components/common/Spacer";
-import Form from "@rjsf/bootstrap-4";
+import { MuiForm5 } from "@rjsf/material-ui";
 import { UIProviderContext } from "../../../../model/UIProvider";
 import {
   DefaultInstallationScriptTag,
@@ -13,7 +13,6 @@ import { Backdrop, Button, CircularProgress } from "@mui/material";
 import { useRouter } from "next/dist/client/router";
 import { GetServerSideProps } from "next";
 import { ImageField } from "../../../../components/installation/DockerImageField";
-import "bootstrap/dist/css/bootstrap.min.css";
 import { PaddingBox } from "../../../../components/common/PaddingBox";
 
 import { interfaces } from "@etherdata-blockchain/common";
@@ -89,7 +88,7 @@ export default function Index({ updateTemplate }: Props) {
             padding: 3,
           }}
         >
-          <Form
+          <MuiForm5
             schema={jsonSchema}
             formData={formData}
             liveValidate={true}

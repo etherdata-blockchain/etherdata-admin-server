@@ -3,15 +3,14 @@ import * as React from "react";
 import Box from "@mui/material/Box";
 import PageHeader from "../../../components/common/PageHeader";
 import Spacer from "../../../components/common/Spacer";
-import Form from "@rjsf/bootstrap-4";
 import { UIProviderContext } from "../../../model/UIProvider";
 import { getAxiosClient } from "../../../internal/const/defaultValues";
 import { Backdrop, CircularProgress } from "@mui/material";
 import { useRouter } from "next/dist/client/router";
-import "bootstrap/dist/css/bootstrap.min.css";
 import { PaddingBox } from "../../../components/common/PaddingBox";
 import { Routes } from "@etherdata-blockchain/common/src/configs/routes";
 import { jsonSchema } from "../../../internal/handlers/docker_image_handler";
+import { MuiForm5 } from "@rjsf/material-ui";
 
 type Props = {};
 
@@ -54,7 +53,7 @@ export default function Index({}: Props) {
             padding: 3,
           }}
         >
-          <Form
+          <MuiForm5
             schema={jsonSchema}
             formData={formData}
             onChange={(v: any) => setFormData(v.formData)}

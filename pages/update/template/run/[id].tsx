@@ -19,9 +19,8 @@ import { PaddingBox } from "../../../../components/common/PaddingBox";
 import ResponsiveCard from "../../../../components/common/ResponsiveCard";
 import Spacer from "../../../../components/common/Spacer";
 import PageHeader from "../../../../components/common/PageHeader";
-import Form from "@rjsf/bootstrap-4";
+import { MuiForm5 } from "@rjsf/material-ui";
 import { ImageField } from "../../../../components/installation/DockerImageField";
-import "bootstrap/dist/css/bootstrap.min.css";
 import join from "@etherdata-blockchain/url-join";
 import { Clear, Done, PlayCircle } from "@mui/icons-material";
 import {
@@ -114,7 +113,9 @@ export default function Run(props: Props) {
             <ResponsiveCard
               title={"Template overview"}
               style={{
-                maxHeight: `calc(100vh - ${configs.Configurations.appbarHeight}px)`,
+                maxHeight: `calc(100vh - ${
+                  configs.Configurations.appbarHeight + 100
+                }px)`,
                 overflow: "scroll",
               }}
               containerStyle={{
@@ -122,7 +123,7 @@ export default function Run(props: Props) {
                 top: configs.Configurations.appbarHeight + 10,
               }}
             >
-              <Form
+              <MuiForm5
                 schema={jsonSchema}
                 formData={props.updateTemplate}
                 liveValidate={true}

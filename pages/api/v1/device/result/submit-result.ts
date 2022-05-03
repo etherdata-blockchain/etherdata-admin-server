@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { ObjectId } from "mongodb";
+import { ObjectId } from "bson";
 import { StatusCodes } from "http-status-codes";
 import { configs, enums, interfaces } from "@etherdata-blockchain/common";
 import { dbServices } from "@etherdata-blockchain/services";

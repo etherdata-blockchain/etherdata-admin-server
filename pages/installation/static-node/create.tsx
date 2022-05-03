@@ -3,8 +3,7 @@ import * as React from "react";
 import Box from "@mui/material/Box";
 import PageHeader from "../../../components/common/PageHeader";
 import Spacer from "../../../components/common/Spacer";
-import Form from "@rjsf/bootstrap-4";
-import "bootstrap/dist/css/bootstrap.min.css";
+import { MuiForm5 } from "@rjsf/material-ui";
 
 import { UIProviderContext } from "../../../model/UIProvider";
 import {
@@ -61,7 +60,7 @@ export default function Index({}: Props) {
             padding: 3,
           }}
         >
-          <Form
+          <MuiForm5
             schema={jsonSchema}
             formData={formData}
             onChange={(v: any) => setFormData(v.formData)}

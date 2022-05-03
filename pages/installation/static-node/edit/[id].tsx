@@ -2,8 +2,6 @@ import * as React from "react";
 import Box from "@mui/material/Box";
 import PageHeader from "../../../../components/common/PageHeader";
 import Spacer from "../../../../components/common/Spacer";
-import Form from "@rjsf/bootstrap-4";
-import "bootstrap/dist/css/bootstrap.min.css";
 import { UIProviderContext } from "../../../../model/UIProvider";
 import {
   DefaultInstallationScriptTag,
@@ -17,6 +15,7 @@ import { dbServices } from "@etherdata-blockchain/services";
 import { Routes } from "@etherdata-blockchain/common/src/configs/routes";
 import { schema } from "@etherdata-blockchain/storage-model";
 import { jsonSchema } from "../../../../internal/handlers/static_node_handler";
+import { MuiForm5 } from "@rjsf/material-ui";
 
 type Props = {
   staticNode: schema.IStaticNode;
@@ -81,7 +80,7 @@ export default function Index({ staticNode }: Props) {
             padding: 3,
           }}
         >
-          <Form
+          <MuiForm5
             schema={jsonSchema}
             formData={formData}
             onChange={(v: any) => setFormData(v.formData)}

@@ -12,10 +12,9 @@ import Tab from "@mui/material/Tab";
 import { a11yProps } from "../../components/common/tabs/horizontal";
 import { PaddingBox } from "../../components/common/PaddingBox";
 import { GetServerSideProps } from "next";
-import { Form } from "@rjsf/bootstrap-4";
 import { configs } from "@etherdata-blockchain/common";
-import "bootstrap/dist/css/bootstrap.min.css";
 import { Routes } from "@etherdata-blockchain/common/src/configs/routes";
+import { MuiForm5 } from "@rjsf/material-ui";
 
 type Props = {
   tabIndex: number;
@@ -86,7 +85,7 @@ export default function Index(props: Props) {
         </Tabs>
       </Box>
       <PaddingBox>
-        <Form
+        <MuiForm5
           readonly
           schema={configs.Environments.getSchemaForEnvironments(
             props.envs.serverEnvs,

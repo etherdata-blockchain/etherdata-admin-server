@@ -1,10 +1,10 @@
 import React from "react";
 import { Alert, Box } from "@mui/material";
-import Form from "@rjsf/bootstrap-4";
 import { Form as RForm } from "react-bootstrap";
 import join from "@etherdata-blockchain/url-join";
 import Spacer from "../common/Spacer";
 import { configs } from "@etherdata-blockchain/common";
+import { MuiForm5 } from "@rjsf/material-ui";
 
 const { Routes } = configs;
 import {
@@ -41,7 +41,7 @@ export default function WebhookPanel({ host }: Props) {
     <Box style={{ minHeight: "85vh", width: "100%" }}>
       {err && <Alert severity="error">{err}</Alert>}
       <Spacer height={20} />
-      <Form
+      <MuiForm5
         schema={schema}
         formData={formData}
         liveValidate={true}
@@ -61,7 +61,7 @@ export default function WebhookPanel({ host }: Props) {
         }}
       >
         <React.Fragment />
-      </Form>
+      </MuiForm5>
       <RForm.Group>
         <RForm.Label>Webhook URL</RForm.Label>
         <RForm.Control
