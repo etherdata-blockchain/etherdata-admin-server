@@ -37,7 +37,6 @@ export function RunDialog(props: Props) {
   const runPlan = React.useCallback(async () => {
     try {
       setIsLoading(true);
-      await utils.sleep(1000);
       await getAxiosClient().post(
         join(Routes.updateTemplateAPIRun, templateId),
         {
@@ -49,7 +48,7 @@ export function RunDialog(props: Props) {
     } finally {
       setIsLoading(false);
     }
-  }, [templateId]);
+  }, [templateId, selectedDeviceIds]);
 
   return (
     <Dialog open={open} onClose={() => onClose()} fullWidth>

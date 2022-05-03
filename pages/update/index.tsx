@@ -15,6 +15,7 @@ import { schema } from "@etherdata-blockchain/storage-model";
 import { Routes } from "@etherdata-blockchain/common/src/configs/routes";
 import { useStickyTabBar } from "../../hooks/useStickyTabBar";
 import { StickyTabs } from "../../components/common/stickyTabs";
+import ResponsiveCard from "../../components/common/ResponsiveCard";
 
 type Props = {
   updateTemplate: interfaces.PaginationResult<schema.IUpdateTemplate>;
@@ -67,7 +68,9 @@ export default function Index({ tabIndex, updateTemplate }: Props) {
       />
       <PaddingBox>
         <TabPanel index={0} value={value}>
-          <UpdateTemplatePanel updateTemplates={updateTemplate.results} />
+          <ResponsiveCard title={"Update template"}>
+            <UpdateTemplatePanel updateTemplates={updateTemplate.results} />
+          </ResponsiveCard>
         </TabPanel>
       </PaddingBox>
     </div>

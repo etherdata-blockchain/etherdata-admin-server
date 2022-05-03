@@ -66,7 +66,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
   );
   const storageItems = await storagePlugin.getDevicesByUser(
     pageNum,
-    user as string
+    (user === "null" ? null : user) as any
   );
 
   if (storageItems === undefined) {

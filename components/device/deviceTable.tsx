@@ -41,12 +41,12 @@ export function DeviceTable({
   }, [totalPageNumber]);
 
   const columns: GridColDef[] = [
-    { field: "id", headerName: "ID", width: 100 },
-    { field: "name", headerName: "Device Name", width: 200 },
+    { field: "id", headerName: "ID", width: 80 },
+    { field: "name", headerName: "Device Name", width: 300 },
     {
       field: "online",
       headerName: "Is Online",
-      width: 160,
+      width: 100,
       renderCell: (params) => {
         return (
           <div>
@@ -59,10 +59,10 @@ export function DeviceTable({
         );
       },
     },
-    { field: "deviceId", headerName: "Device ID", width: 200 },
+    { field: "deviceId", headerName: "Device ID", width: 500 },
     { field: "nodeInfo", headerName: "Node Info", width: 400 },
     { field: "blockNumber", headerName: "#Blocks", width: 200 },
-    { field: "peerCount", headerName: "Peer Count", width: 200 },
+    { field: "peerCount", headerName: "Peer Count", width: 160 },
     { field: "difficulty", headerName: "Difficulty", width: 200 },
     { field: "adminVersion", headerName: "AdminVersion", width: 200 },
     {

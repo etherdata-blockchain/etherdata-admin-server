@@ -14,7 +14,7 @@ interface Props {
  */
 export default function UpdateTemplatePanel({ updateTemplates }: Props) {
   return (
-    <Box style={{ minHeight: "85vh", width: "100%" }}>
+    <Box style={{ width: "100%" }}>
       <DataGrid
         isRowSelectable={() => false}
         columns={columns}

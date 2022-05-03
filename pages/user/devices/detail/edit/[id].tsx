@@ -19,9 +19,8 @@ import {
   Personal,
   Real_time,
   Txpool,
-} from "etd-react-ui";
+} from "@etherdata-blockchain/etherdata-sdk-react";
 import { UIProviderContext } from "../../../../../model/UIProvider";
-import "bootstrap/dist/css/bootstrap.min.css";
 import { DeviceContext, socket } from "../../../../../model/DeviceProvider";
 import { DockerPanel } from "../../../../../components/device/dockerPanel";
 import { dbServices } from "@etherdata-blockchain/services";

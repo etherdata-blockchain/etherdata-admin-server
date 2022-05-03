@@ -226,7 +226,7 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
   const ownerService = new dbServices.StorageManagementOwnerService();
 
   const filteredUserData = await ownerService.filter(
-    { user_id: userId },
+    { user_id: userId === "null" ? null : userId },
     configs.Configurations.defaultPaginationStartingPage,
     1
   );
