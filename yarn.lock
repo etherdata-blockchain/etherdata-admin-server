@@ -1504,10 +1504,10 @@
     web3 "^1.7.3"
     yaml "^2.0.1"
 
-"@etherdata-blockchain/common@4.2.1":
-  version "4.2.1"
-  resolved "https://registry.yarnpkg.com/@etherdata-blockchain/common/-/common-4.2.1.tgz#0c012ba1a93650ab0ca2c4d89ff022720372ae29"
-  integrity sha512-nTsimJTLu5W4ZVV5u7bpOpRMK6Uh0gFsB42AbieeZxgvDRMYgS3Nk57V7C9AIBFPUjE2gyKaIy+0oS7iHlmT1Q==
+"@etherdata-blockchain/common@4.2.2":
+  version "4.2.2"
+  resolved "https://registry.yarnpkg.com/@etherdata-blockchain/common/-/common-4.2.2.tgz#d6e47314c6e62e656f74831f2550a700546cf8e8"
+  integrity sha512-shkLjLVMpDbAV7w9vEufGeZSoe+4UPDmrzeFgvDQ0CbdK984P5mWQ3vrWBeMR/r4zPQRKVv6LpP7lKE+7QI/dw==
   dependencies:
     "@types/dockerode" "^3.3.8"
     "@types/json-schema" "^7.0.11"
@@ -1535,10 +1535,10 @@
     postcss-normalize "^10.0.1"
     swr "^0.5.6"
 
-"@etherdata-blockchain/history@4.2.1":
-  version "4.2.1"
-  resolved "https://registry.yarnpkg.com/@etherdata-blockchain/history/-/history-4.2.1.tgz#8228b201b48187ac8cb544fbecea81892e4fc8c4"
-  integrity sha512-QkuT27CkreasS3FQrhCoY/3Im1DPhMbSWCgAOMpdjNjrdb9gm0010Hgnm84vJ9Ce6/ShjFHfpsUwQCnj429OBg==
+"@etherdata-blockchain/history@4.2.2":
+  version "4.2.2"
+  resolved "https://registry.yarnpkg.com/@etherdata-blockchain/history/-/history-4.2.2.tgz#58e56f251a16d280503e7db3dc26a4106eca3bbe"
+  integrity sha512-ccctZ/0INJC+4VjhFdaGe0KRCgcPHGbZPMQNdd3zt+PHcHl65B/6Nam3TadAlMX1c5mFF0x0PyNZw0Ic4cwuQQ==
   dependencies:
     moment "^2.29.3"
     typescript "^4.6.3"
@@ -1551,19 +1551,19 @@
     chalk "^5.0.1"
     typescript "^4.6.3"
 
-"@etherdata-blockchain/logger@4.2.1":
-  version "4.2.1"
-  resolved "https://registry.yarnpkg.com/@etherdata-blockchain/logger/-/logger-4.2.1.tgz#a199f8574a6e24c97b5eb6a2f83309325728707a"
-  integrity sha512-wZBL/utOd/lvudtPNWdJVFRAGUsQRVW5hFwvnh83nTGXfBk98WdGUHO0ItfLEvZbJ9Tya4fw2C/NG0yWEJ1JfQ==
+"@etherdata-blockchain/logger@4.2.2":
+  version "4.2.2"
+  resolved "https://registry.yarnpkg.com/@etherdata-blockchain/logger/-/logger-4.2.2.tgz#8c21fe60dc0c18c36120285aa334866606acf57c"
+  integrity sha512-FtNOcWKb6xPGXTynM3WdVNRf33RpDKaKsymE4XdYUJWXd5Pq107kZn/BMi/+FY3Xed/ZCWzqx3gigRbbSV5oag==
   dependencies:
     chalk "^5.0.1"
     moment "^2.29.3"
     typescript "^4.6.3"
 
-"@etherdata-blockchain/next-js-handlers@4.2.1":
-  version "4.2.1"
-  resolved "https://registry.yarnpkg.com/@etherdata-blockchain/next-js-handlers/-/next-js-handlers-4.2.1.tgz#c878047621232ed52a2b3b65a0a9da836f9cdae1"
-  integrity sha512-EMvfvz36vtFRgk9pQQZQfpGkpmNQvmPD9DDIf+1o7mIOdQRhmGFaaruuEXi/OheuGCaJ0sTdLNt13xt//YWRXw==
+"@etherdata-blockchain/next-js-handlers@4.2.2":
+  version "4.2.2"
+  resolved "https://registry.yarnpkg.com/@etherdata-blockchain/next-js-handlers/-/next-js-handlers-4.2.2.tgz#c0b01a9865a30b3a3bd329f7fab32416c4c2dcd3"
+  integrity sha512-hkI+bCs03giWQacsU/saCSKewNiIJsXazuM11j7KRRppncDO8khKWFqxs8YWWqy+DxEHI9+54tOGcOLl9+4LgQ==
   dependencies:
     "@etherdata-blockchain/common" "*"
     "@etherdata-blockchain/services" "*"
@@ -1591,10 +1591,10 @@
     socket.io "^4.5.0"
     typescript "^4.6.3"
 
-"@etherdata-blockchain/services@4.2.1":
-  version "4.2.1"
-  resolved "https://registry.yarnpkg.com/@etherdata-blockchain/services/-/services-4.2.1.tgz#c088b0e50d2264ac966e5fde3f87f66126a75023"
-  integrity sha512-6+dUXoNc6hG6/FJWIgZQ10dmH2Px8pnvzAZ6hMYcJvRq7COsAJNmcFD7q8eWn/feJLDSSyyMfzC7Gz2PBKjN6Q==
+"@etherdata-blockchain/services@4.2.2":
+  version "4.2.2"
+  resolved "https://registry.yarnpkg.com/@etherdata-blockchain/services/-/services-4.2.2.tgz#f8f2155714c170448b4907509671cff77923e469"
+  integrity sha512-r6//ugCeiywD2LsD2bUGeNOoTBR+2NFcvxl6xbXyCa2F/LsxH3VPe3mKcfi79bE4x8ciOZDmmeIXqKHccBK6/g==
   dependencies:
     "@etherdata-blockchain/common" "*"
     "@etherdata-blockchain/logger" "*"
@@ -1617,10 +1617,10 @@
     typescript "4.6.3"
     web3-eth "1.7.3"
 
-"@etherdata-blockchain/storage-model@4.2.1":
-  version "4.2.1"
-  resolved "https://registry.yarnpkg.com/@etherdata-blockchain/storage-model/-/storage-model-4.2.1.tgz#da22b3ae2a4dc628c0551a377c2dcccc65c21f70"
-  integrity sha512-jWePN4ahgBI2DPCYXU7xUdhfUcpXZ/linjFuVHaYjXiE7HJEoM0pHii7z0Rp/Gkl9u9EI2D16hAhP7bklsl/UA==
+"@etherdata-blockchain/storage-model@4.2.2":
+  version "4.2.2"
+  resolved "https://registry.yarnpkg.com/@etherdata-blockchain/storage-model/-/storage-model-4.2.2.tgz#5cb9b05501378dce084640bf60b8f44351b9f00c"
+  integrity sha512-rFwvlkgHm5TUc7qpoxpKsXsxjGaiP9pbkA/J77w8bmg871J2/Yf4RIX1VhacSk79YZCt91RE1b8w/bu2k7owvA==
   dependencies:
     "@etherdata-blockchain/common" "*"
     moment "^2.29.3"
@@ -1628,10 +1628,10 @@
     typescript "4.6.3"
     web3-eth "1.7.3"
 
-"@etherdata-blockchain/string-replacer@4.2.1":
-  version "4.2.1"
-  resolved "https://registry.yarnpkg.com/@etherdata-blockchain/string-replacer/-/string-replacer-4.2.1.tgz#4af95b3515608365a61ca4601c900c6a0797a68a"
-  integrity sha512-0kgADn0D2VROA22C4jeTDiIiP2H1wchYD1PPp+cFkr4E1/d8HMNYuIsLXS3hAcO1D81KgJImgMQ72m6C4n8dMQ==
+"@etherdata-blockchain/string-replacer@4.2.2":
+  version "4.2.2"
+  resolved "https://registry.yarnpkg.com/@etherdata-blockchain/string-replacer/-/string-replacer-4.2.2.tgz#f75c456be689cb2f05120d23fa495ea28af4bcd2"
+  integrity sha512-CNrfZJOQf2oOTdQwrxMXwdb3Hjc2Pv03lnxVUv9c5NUH7xVBq2YFR9gP1bZCyIvbba2o7OVCEWFDKSsC+2HZug==
   dependencies:
     "@types/dockerode" "^3.3.8"
     "@types/json-schema" "^7.0.11"
@@ -1641,10 +1641,10 @@
     web3 "^1.7.3"
     yaml "^2.0.1"
 
-"@etherdata-blockchain/url-join@4.2.1":
-  version "4.2.1"
-  resolved "https://registry.yarnpkg.com/@etherdata-blockchain/url-join/-/url-join-4.2.1.tgz#cc44522feab4c678cdd3ddf886ad28d0bb75c681"
-  integrity sha512-/VyNbutWa7gcbJ9rQHRq0Kfe1dCROIfSjBlEJiZ1WP6ZPU42eqR3ld1blZSpuWFzp7gKZ7fp1OxFSgt6/J44SQ==
+"@etherdata-blockchain/url-join@4.2.2":
+  version "4.2.2"
+  resolved "https://registry.yarnpkg.com/@etherdata-blockchain/url-join/-/url-join-4.2.2.tgz#1ac0130373099dfe4d9c9e9bd5b6bc925bfeab05"
+  integrity sha512-8HrWHHN3lGzqGina+jcJbiOpIHnU+Niv+sHOABBB4JzTGQljcQppdEOSntGWp93sQZCffkcyaqTFNbfxY7SkCQ==
   dependencies:
     "@types/dockerode" "^3.3.8"
     "@types/json-schema" "^7.0.11"
@@ -12006,10 +12006,10 @@ swagger-parser@10.0.2:
   dependencies:
     "@apidevtools/swagger-parser" "10.0.2"
 
-swagger-ui-react@^4.10.3:
-  version "4.10.3"
-  resolved "https://registry.yarnpkg.com/swagger-ui-react/-/swagger-ui-react-4.10.3.tgz#72b7eb432f3e1ad09a81556af75d22ac3a66ae40"
-  integrity sha512-rxLVM8hv6aH+8BEJuyfejt2BweV2TLB8KiifE/8CAk96PoDyQeCTnLgivTdXIuDqdSSSajlzTq0ccw0QMYQbvA==
+swagger-ui-react@^4.11.0:
+  version "4.11.0"
+  resolved "https://registry.yarnpkg.com/swagger-ui-react/-/swagger-ui-react-4.11.0.tgz#995597c050c2c63fafdfd1874661fa3b329008e4"
+  integrity sha512-QAQVoT7a9CfhyxTmy9MrXCL9l4Y2B60QMAthdTsZdHAH3mGsZF0KH18a+gFncGTN4sotuyIDiOgoPRP5idiz6g==
   dependencies:
     "@babel/runtime-corejs3" "^7.16.8"
     "@braintree/sanitize-url" "=6.0.0"
