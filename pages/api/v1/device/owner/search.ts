@@ -9,16 +9,16 @@ import {
 
 /**
  * @swagger
- * /api/v1/device/search:
- *   name: Search devices by key
+ * /api/v1/device/owner/search:
+ *   name: Search owner by key
  *   get:
  *     tags: ["Device"]
- *     description: Returns a list of devices by key
- *     summary: Search devices by key
+ *     description: Returns a list of owners by key
+ *     summary: Search owner by key
  *     parameters:
  *       - name: key
  *         in: query
- *         type: number
+ *         type: string
  *         required: true
  *         description: Search key
  *
@@ -28,14 +28,15 @@ import {
  *         schema:
  *           type: "array"
  *           items:
- *             $ref: "#/definitions/StorageItemDBInterface"
+ *             $ref: "#/definitions/StorageUserDBInterface"
  *       404:
- *         description: No devices with the given key found
+ *         description: No owner with the given key found
  */
 async function handler(req: NextApiRequest, res: NextApiResponse) {
   const { key } = req.query;
-  const storageManagementService = new dbServices.StorageManagementService();
-  const devices = await storageManagementService.search(key as string);
+  const storageManagementOwnerService =
+    new dbServices.StorageManagementOwnerService();
+  const devices = await storageManagementOwnerService.search(key as string);
 
   if (devices) {
     res.status(StatusCodes.OK).json(devices);
