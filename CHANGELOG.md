@@ -1,5 +1,12 @@
 # Changelog
 
+# [4.4.0](https://github.com/etherdata-blockchain/etherdata-admin-server/compare/v4.3.2...v4.4.0) (2022-05-07)
+
+
+### Features
+
+* add search api function ([#124](https://github.com/etherdata-blockchain/etherdata-admin-server/issues/124)) ([a4a0cd8](https://github.com/etherdata-blockchain/etherdata-admin-server/commit/a4a0cd82f208cce89e84ae439ec71ff9b8e7bdf5))
+
 ## [4.3.2](https://github.com/etherdata-blockchain/etherdata-admin-server/compare/v4.3.1...v4.3.2) (2022-05-03)
 
 
