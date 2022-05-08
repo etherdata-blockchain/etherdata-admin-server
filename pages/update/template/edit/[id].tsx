@@ -15,9 +15,9 @@ import { GetServerSideProps } from "next";
 import { ImageField } from "../../../../components/installation/DockerImageField";
 import { PaddingBox } from "../../../../components/common/PaddingBox";
 
-import { interfaces } from "@etherdata-blockchain/common";
+import { configs, interfaces } from "@etherdata-blockchain/common";
 import { dbServices } from "@etherdata-blockchain/services";
-import { Routes } from "@etherdata-blockchain/common/src/configs/routes";
+
 import {
   jsonSchema,
   UISchema,
@@ -37,7 +37,7 @@ export default function Index({ updateTemplate }: Props) {
   const [formData, setFormData] = React.useState(updateTemplate);
   const { showSnackBarMessage } = React.useContext(UIProviderContext);
   const router = useRouter();
-  const url = `${Routes.updateTemplateAPIEdit}/${updateTemplate._id}`;
+  const url = `${configs.Routes.updateTemplateAPIEdit}/${updateTemplate._id}`;
 
   const submitData = async (data: interfaces.db.UpdateTemplateDBInterface) => {
     setIsLoading(true);
@@ -45,7 +45,7 @@ export default function Index({ updateTemplate }: Props) {
       console.log(data);
 
       await getAxiosClient().patch(url, data);
-      await router.push(`${Routes.update}`);
+      await router.push(`${configs.Routes.update}`);
     } catch (e) {
       showSnackBarMessage(`${e}`);
     } finally {
@@ -62,7 +62,7 @@ export default function Index({ updateTemplate }: Props) {
     try {
       await getAxiosClient().delete(url);
       await router.replace(
-        `${Routes.installation}?index=${DefaultInstallationScriptTag.installationTemplate}`
+        `${configs.Routes.installation}?index=${DefaultInstallationScriptTag.installationTemplate}`
       );
     } catch (e) {
       showSnackBarMessage(`${e}`);

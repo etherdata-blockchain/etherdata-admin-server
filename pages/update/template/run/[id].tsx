@@ -216,6 +216,7 @@ export default function Run(props: Props) {
       <RunDialog
         templateId={props.updateTemplate._id}
         defaultTargetDeviceIds={props.updateTemplate.targetDeviceIds}
+        defaultTargetGroupIds={props.updateTemplate.targetGroupIds}
         open={openDialog}
         onClose={() => setOpenDialog(false)}
       />

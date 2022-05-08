@@ -39,7 +39,6 @@ export function generateWebhookURL(
 }
 
 export const schema: JSONSchema7 = {
-  title: "Webhook URL Generator",
   description: "Generate a webhook url",
   required: ["username", "expireIn"],
   properties: {

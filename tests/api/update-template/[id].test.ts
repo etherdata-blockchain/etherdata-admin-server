@@ -6,14 +6,13 @@ import { createMocks } from "node-mocks-http";
 import { interfaces, mockData } from "@etherdata-blockchain/common";
 import { schema } from "@etherdata-blockchain/storage-model";
 import { StatusCodes } from "http-status-codes";
-import { MockUser } from "@etherdata-blockchain/common/src/mockdata/mock_storage_item";
 
 export const MockUpdateScriptDataWithReplacement = {
   name: "Mock_template_1",
   description: "mock_description",
   targetDeviceIds: ["${{ etd_node_id }}"],
   targetGroupIds: ["group_id"],
-  from: MockUser.user_id,
+  from: mockData.MockUser.user_id,
   time: new Date(),
   imageStacks: [
     {

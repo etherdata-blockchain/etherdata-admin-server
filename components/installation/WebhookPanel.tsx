@@ -1,6 +1,5 @@
 import React from "react";
-import { Alert, Box } from "@mui/material";
-import { Form as RForm } from "react-bootstrap";
+import { Alert, Box, TextField } from "@mui/material";
 import join from "@etherdata-blockchain/url-join";
 import Spacer from "../common/Spacer";
 import { configs } from "@etherdata-blockchain/common";
@@ -11,6 +10,7 @@ import {
   generateWebhookURL,
   schema,
 } from "../../internal/handlers/webhook_url_hanlder";
+import ResponsiveCard from "../common/ResponsiveCard";
 
 interface Props {
   host: string;
@@ -38,9 +38,8 @@ export default function WebhookPanel({ host }: Props) {
   }, []);
 
   return (
-    <Box style={{ minHeight: "85vh", width: "100%" }}>
+    <ResponsiveCard title={"Webhook URL Generator"}>
       {err && <Alert severity="error">{err}</Alert>}
-      <Spacer height={20} />
       <MuiForm5
         schema={schema}
         formData={formData}
@@ -62,14 +61,14 @@ export default function WebhookPanel({ host }: Props) {
       >
         <React.Fragment />
       </MuiForm5>
-      <RForm.Group>
-        <RForm.Label>Webhook URL</RForm.Label>
-        <RForm.Control
-          type="url"
-          value={webhookURL}
-          data-testid={"webhook-url"}
-        />
-      </RForm.Group>
-    </Box>
+      <Spacer height={10} />
+      <TextField
+        data-testid={"webhook-url"}
+        fullWidth
+        value={webhookURL}
+        title={"Webhook URL"}
+        label={"Webhook URL"}
+      />
+    </ResponsiveCard>
   );
 }

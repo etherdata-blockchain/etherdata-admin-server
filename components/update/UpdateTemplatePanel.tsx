@@ -3,6 +3,7 @@ import { DataGrid } from "@mui/x-data-grid";
 import { Box } from "@mui/material";
 import { schema } from "@etherdata-blockchain/storage-model";
 import { columns } from "../../internal/handlers/update_template_handler";
+import { StyledDataGrid } from "../common/styledDataGrid";
 
 interface Props {
   updateTemplates: schema.IUpdateTemplate[];
@@ -15,7 +16,7 @@ interface Props {
 export default function UpdateTemplatePanel({ updateTemplates }: Props) {
   return (
     <Box style={{ width: "100%" }}>
-      <DataGrid
+      <StyledDataGrid
         isRowSelectable={() => false}
         columns={columns}
         rows={updateTemplates.map((d, index) => {

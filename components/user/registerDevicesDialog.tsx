@@ -12,8 +12,8 @@ import {
 import { DeviceIdsAutoComplete } from "../common/fields/DeviceIdsAutoComplete";
 import { getAxiosClient } from "../../internal/const/defaultValues";
 import queryString from "query-string";
-import { Routes } from "@etherdata-blockchain/common/src/configs/routes";
 import { LoadingButton } from "@mui/lab";
+import { configs } from "@etherdata-blockchain/common";
 
 type Props = {
   userId: string;
@@ -37,7 +37,7 @@ export function RegisterDevicesDialog({ open, onClose, userId }: Props) {
     getAxiosClient()
       .get(
         queryString.stringifyUrl({
-          url: Routes.devicesIdByUser,
+          url: configs.Routes.devicesIdByUser,
           query: { user: encodeURI(userId) },
         })
       )
@@ -50,7 +50,7 @@ export function RegisterDevicesDialog({ open, onClose, userId }: Props) {
   const updateOwner = React.useCallback(async () => {
     try {
       setIsLoading(true);
-      await getAxiosClient(userId).post(Routes.editDeviceOwner, {
+      await getAxiosClient(userId).post(configs.Routes.editDeviceOwner, {
         devices: deviceIds,
       });
       onClose();
