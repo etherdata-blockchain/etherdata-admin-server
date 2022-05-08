@@ -1,5 +1,12 @@
 # Changelog
 
+# [4.5.0](https://github.com/etherdata-blockchain/etherdata-admin-server/compare/v4.4.0...v4.5.0) (2022-05-08)
+
+
+### Features
+
+* add owner auto complete function ([#126](https://github.com/etherdata-blockchain/etherdata-admin-server/issues/126)) ([b6b99d8](https://github.com/etherdata-blockchain/etherdata-admin-server/commit/b6b99d8befb829e5695042975f48166134ff69f8))
+
 # [4.4.0](https://github.com/etherdata-blockchain/etherdata-admin-server/compare/v4.3.2...v4.4.0) (2022-05-07)
 
 
