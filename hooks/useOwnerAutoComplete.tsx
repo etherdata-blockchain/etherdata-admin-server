@@ -6,11 +6,11 @@ import { getAxiosClient } from "../internal/const/defaultValues";
 import { configs, interfaces } from "@etherdata-blockchain/common";
 
 /**
- * Provide a device auto complete hook. Will return a list of devices with provided search term.
+ * Provide an owner auto complete hook. Will return a list of owners with provided search term.
  */
-export function useDeviceAutoComplete() {
+export function useOwnerAutoComplete() {
   const [options, setOptions] = React.useState<
-    interfaces.db.StorageItemDBInterface[]
+    interfaces.db.StorageUserDBInterface[]
   >([]);
   const [isLoading, setIsLoading] = React.useState(false);
   const [error, setError] = React.useState();
@@ -20,7 +20,7 @@ export function useDeviceAutoComplete() {
       try {
         setIsLoading(true);
         const url = qs.stringifyUrl({
-          url: configs.Routes.itemSearch,
+          url: configs.Routes.ownerSearch,
           query: { key: newValue },
         });
         const result = await getAxiosClient().get(url);

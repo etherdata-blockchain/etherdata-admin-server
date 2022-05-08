@@ -5,7 +5,6 @@ import { throttle } from "lodash";
 import { getAxiosClient } from "../../../internal/const/defaultValues";
 import { configs, interfaces, utils } from "@etherdata-blockchain/common";
 import qs from "query-string";
-import { Routes } from "@etherdata-blockchain/common/src/configs/routes";
 
 type Props = {
   defaultValues?: interfaces.db.DockerImageDBInterface[];
@@ -44,7 +43,7 @@ export function DockerImageAutocompleteTextField(props: Props) {
       try {
         setIsLoading(true);
         const url = qs.stringifyUrl({
-          url: Routes.dockerSearchAPI,
+          url: configs.Routes.dockerSearchAPI,
           query: { key: searchKey },
         });
         const result = await getAxiosClient().get(url);

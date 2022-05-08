@@ -18,5 +18,4 @@ module.exports = {
   transform: { "\\.ts$": ["ts-jest"], "\\.tsx$": ["ts-jest"] },
   testTimeout: 20000,
   testEnvironment: "jsdom",
-  transformIgnorePatterns: ["/node_modules/(?!@etherdata-blockchain)"],
 };

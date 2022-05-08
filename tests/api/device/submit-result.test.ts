@@ -6,8 +6,6 @@ import mongoose from "mongoose";
 import { mockData } from "@etherdata-blockchain/common";
 import { schema } from "@etherdata-blockchain/storage-model";
 import { StatusCodes } from "http-status-codes";
-import { MockPendingUpdateTemplate2Job } from "@etherdata-blockchain/common/src/mockdata/mock_pending_job";
-import { MockDeviceID } from "@etherdata-blockchain/common/src/mockdata/mock_storage_item";
 
 describe("Given a result plugin", () => {
   let dbServer: MongoMemoryServer;
@@ -18,6 +16,8 @@ describe("Given a result plugin", () => {
     };
     dbServer = await MongoMemoryServer.create();
     await mongoose.connect(dbServer.getUri().concat("etd"));
+    const count = await schema.StorageOwnerModel.countDocuments();
+    console.log(count);
   });
 
   beforeEach(async () => {

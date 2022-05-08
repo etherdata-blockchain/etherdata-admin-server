@@ -1,5 +1,4 @@
 import Box from "@mui/material/Box";
-import { Form as BForm } from "react-bootstrap";
 import { DockerImageAutocompleteTextField } from "../common/fields/DockerImageAutocompleteTextField";
 import * as React from "react";
 import { utils } from "@etherdata-blockchain/common";
@@ -25,7 +24,6 @@ export function ImageField(props: any) {
 
   return (
     <Box>
-      <BForm.Label>{title}</BForm.Label>
       <DockerImageAutocompleteTextField
         id={"image"}
         label={title}

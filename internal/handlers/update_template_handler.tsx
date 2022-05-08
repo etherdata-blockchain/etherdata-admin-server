@@ -4,8 +4,8 @@ import React from "react";
 import PlayCircleIcon from "@mui/icons-material/PlayCircle";
 import { Button, IconButton } from "@mui/material";
 import { DeviceIdField } from "../../components/update/DeviceIdField";
-import { Routes } from "@etherdata-blockchain/common/src/configs/routes";
 import { ImageField } from "../../components/installation/DockerImageField";
+import { configs } from "@etherdata-blockchain/common";
 
 const hostConfig: JSONSchema7 = {
   title: "Host Config",
@@ -356,7 +356,7 @@ export const columns: GridColDef[] = [
       return (
         <Button
           onClick={() =>
-            (window.location.pathname = `${Routes.updateTemplateEdit}/${param.value}`)
+            (window.location.pathname = `${configs.Routes.updateTemplateEdit}/${param.value}`)
           }
         >
           Details
@@ -372,7 +372,7 @@ export const columns: GridColDef[] = [
       return (
         <IconButton
           onClick={() =>
-            (window.location.pathname = `${Routes.updateTemplateRun}/${param.value}`)
+            (window.location.pathname = `${configs.Routes.updateTemplateRun}/${param.value}`)
           }
         >
           <PlayCircleIcon />

@@ -81,9 +81,9 @@ export function PendingJobPanel(props: Props) {
                   <Chip label={`${r.task.type}`} color={"success"} />
                   <Chip
                     label={
-                      <div>
+                      <Stack direction={"row"} alignItems={"center"}>
                         {r.from} <ChevronRightIcon /> {r.targetDeviceId}
-                      </div>
+                      </Stack>
                     }
                   />
                 </Stack>

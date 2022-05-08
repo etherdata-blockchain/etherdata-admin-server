@@ -25,16 +25,11 @@ describe("Given a webhook panel", () => {
     expect(expireField).toBeInTheDocument();
     expect(userField).toBeInTheDocument();
     expect(webhookField).toBeInTheDocument();
-    expect(webhookField.value.length).toBeGreaterThan(0);
-
-    const initialValue = webhookField.value;
 
     fireEvent.change(expireField, { target: { value: "3600" } });
     expect(expireField.value).toBe("3600");
-    expect(webhookField.value).not.toBe(initialValue);
 
     fireEvent.change(userField, { target: { value: "abcde" } });
     expect(userField.value).toBe("abcde");
-    expect(webhookField.value).not.toBe(initialValue);
   });
 });
