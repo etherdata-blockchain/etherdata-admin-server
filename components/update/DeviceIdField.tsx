@@ -1,5 +1,4 @@
 import Box from "@mui/material/Box";
-import { Form as BForm } from "react-bootstrap";
 import * as React from "react";
 import { DeviceIdsAutoComplete } from "../common/fields/DeviceIdsAutoComplete";
 import { ArrayFieldTemplateProps } from "@rjsf/core";
@@ -42,7 +41,6 @@ export function DeviceIdField(props: ArrayFieldTemplateProps) {
 
   return (
     <Box>
-      <BForm.Label>{title}</BForm.Label>
       <DeviceIdsAutoComplete
         id={title}
         defaultValues={formData}

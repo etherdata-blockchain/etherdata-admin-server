@@ -8,7 +8,6 @@ import { configs, mockData } from "@etherdata-blockchain/common";
 import YAML from "yaml";
 import { dbServices } from "@etherdata-blockchain/services";
 import { schema } from "@etherdata-blockchain/storage-model";
-import { MockDockerImage } from "@etherdata-blockchain/common/src/mockdata/mock_docker_data";
 import Zip from "adm-zip";
 
 jest.mock("adm-zip");
@@ -19,7 +18,7 @@ export const MockInstallationTemplateDataWithReplacement = {
     {
       name: "worker",
       service: {
-        image: MockDockerImage,
+        image: mockData.MockDockerImage,
         restart: "always",
         environment: [
           "hello=${{ etd_admin_url }}",

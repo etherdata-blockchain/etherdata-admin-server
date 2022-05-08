@@ -59,6 +59,10 @@ describe("Given a update script api handler", () => {
   });
 
   test("When calling post", async () => {
+    await schema.StorageOwnerModel.create(mockData.MockUser);
+    await schema.StorageItemModel.create(mockData.MockStorageItem);
+    await schema.StorageItemModel.create(mockData.MockStorageItem2);
+
     const executionPlanService = new dbServices.ExecutionPlanService();
     const updateScriptData = await schema.UpdateScriptModel.create(
       mockUpdateScriptData
@@ -74,6 +78,7 @@ describe("Given a update script api handler", () => {
       },
       body: {
         targetDeviceIds: updateScriptData.targetDeviceIds,
+        targetGroupIds: [mockData.MockUser.user_id],
       },
     });
     //@ts-ignore
@@ -85,6 +90,7 @@ describe("Given a update script api handler", () => {
     expect(plans?.length).toBe(2);
     expect(plans[0].isDone).toBeTruthy();
     expect(plans[1].isDone).toBeTruthy();
+    expect(await schema.PendingJobModel.countDocuments({})).toBe(3);
   });
 
   test("When calling post", async () => {

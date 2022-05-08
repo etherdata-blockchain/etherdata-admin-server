@@ -1,6 +1,5 @@
 import React from "react";
-import { Alert, Box } from "@mui/material";
-import { Form as RForm } from "react-bootstrap";
+import { Alert, Box, TextField } from "@mui/material";
 import join from "@etherdata-blockchain/url-join";
 import Spacer from "../common/Spacer";
 import { configs } from "@etherdata-blockchain/common";
@@ -62,14 +61,13 @@ export default function WebhookPanel({ host }: Props) {
       >
         <React.Fragment />
       </MuiForm5>
-      <RForm.Group>
-        <RForm.Label>Webhook URL</RForm.Label>
-        <RForm.Control
-          type="url"
-          value={webhookURL}
-          data-testid={"webhook-url"}
-        />
-      </RForm.Group>
+
+      <TextField
+        data-testid={"webhook-url"}
+        value={webhookURL}
+        title={"Webhook URL"}
+        label={"Webhook URL"}
+      />
     </Box>
   );
 }

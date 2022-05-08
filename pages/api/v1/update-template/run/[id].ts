@@ -31,6 +31,10 @@ type Response =
  *               type: array
  *               items:
  *                 type: string
+ *             targetGroupIds:
+ *               type: array
+ *               items:
+ *                 type: string
  *     responses:
  *       200:
  *         description: Ok. Start running execution plan
@@ -62,16 +66,18 @@ type Response =
  */
 async function handler(req: NextApiRequest, res: NextApiResponse<Response>) {
   const id = req.query.id;
-  const { user, targetDeviceIds } = req.body;
+  const { user, targetDeviceIds, targetGroupIds } = req.body;
   const updateTemplateService = new dbServices.UpdateTemplateService();
   const executionPlanService = new dbServices.ExecutionPlanService();
   const pendingJobService = new dbServices.PendingJobService();
+  const storageManagementService =
+    new dbServices.StorageManagementOwnerService();
 
   const template = await updateTemplateService.getUpdateTemplateWithDockerImage(
     id as string
   );
 
-  if (targetDeviceIds === undefined) {
+  if (targetDeviceIds === undefined && targetGroupIds === undefined) {
     res.status(StatusCodes.BAD_REQUEST);
     return;
   }
@@ -109,16 +115,41 @@ async function handler(req: NextApiRequest, res: NextApiResponse<Response>) {
   });
 
   // Create list of update jobs
-  const pendingUpdateJobs: any[] = (targetDeviceIds as string[]).map((d) => ({
-    targetDeviceId: d,
-    from: user,
-    task: {
-      type: enums.JobTaskType.UpdateTemplate,
-      value: {
-        templateId: id,
-      },
-    },
-  }));
+  let pendingUpdateJobs: any[] = [];
+
+  if (targetDeviceIds) {
+    pendingUpdateJobs = pendingUpdateJobs.concat(
+      (targetDeviceIds as string[]).map((d) => ({
+        targetDeviceId: d,
+        from: user,
+        task: {
+          type: enums.JobTaskType.UpdateTemplate,
+          value: {
+            templateId: id,
+          },
+        },
+      }))
+    );
+  }
+
+  if (targetGroupIds) {
+    const deviceIdsInGroups =
+      await storageManagementService.getDeviceIdsByOwnerIds(
+        targetGroupIds as string[]
+      );
+    pendingUpdateJobs = pendingUpdateJobs.concat(
+      (deviceIdsInGroups as string[]).map((d) => ({
+        targetDeviceId: d,
+        from: user,
+        task: {
+          type: enums.JobTaskType.UpdateTemplate,
+          value: {
+            templateId: id,
+          },
+        },
+      }))
+    );
+  }
 
   // start running execution plan
   if (startPlan) {
@@ -131,6 +162,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse<Response>) {
       // update template, add targetDeviceIds to the template
       // to keep the history
       template.targetDeviceIds = targetDeviceIds;
+      template.targetGroupIds = targetGroupIds;
 
       await updateTemplateService.patch(template as any);
       await executionPlanService.patch(startPlan);

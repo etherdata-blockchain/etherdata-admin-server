@@ -7,16 +7,18 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
+  Stack,
 } from "@mui/material";
-import { utils } from "@etherdata-blockchain/common";
 import { getAxiosClient } from "../../internal/const/defaultValues";
 import join from "@etherdata-blockchain/url-join";
-import { Routes } from "@etherdata-blockchain/common/src/configs/routes";
+import { configs } from "@etherdata-blockchain/common";
 import { LoadingButton } from "@mui/lab";
+import { OwnerIdsAutoComplete } from "../common/fields/OnwerIdAutoComplete";
 
 type Props = {
   templateId: string;
   defaultTargetDeviceIds: string[];
+  defaultTargetGroupIds: string[];
   open: boolean;
   onClose(): void;
 };
@@ -28,9 +30,18 @@ type Props = {
  * @constructor
  */
 export function RunDialog(props: Props) {
-  const { defaultTargetDeviceIds, open, onClose, templateId } = props;
+  const {
+    defaultTargetDeviceIds,
+    defaultTargetGroupIds,
+    open,
+    onClose,
+    templateId,
+  } = props;
   const [selectedDeviceIds, setSelectedDeviceIds] = React.useState(
     defaultTargetDeviceIds
+  );
+  const [selectedGroupIds, setSelectedGroupIds] = React.useState(
+    defaultTargetGroupIds
   );
   const [isLoading, setIsLoading] = React.useState(false);
 
@@ -38,9 +49,10 @@ export function RunDialog(props: Props) {
     try {
       setIsLoading(true);
       await getAxiosClient().post(
-        join(Routes.updateTemplateAPIRun, templateId),
+        join(configs.Routes.updateTemplateAPIRun, templateId),
         {
           targetDeviceIds: selectedDeviceIds,
+          targetGroupIds: selectedGroupIds,
         }
       );
     } catch (err) {
@@ -48,31 +60,51 @@ export function RunDialog(props: Props) {
     } finally {
       setIsLoading(false);
     }
-  }, [templateId, selectedDeviceIds]);
+  }, [templateId, selectedDeviceIds, selectedGroupIds]);
 
   return (
     <Dialog open={open} onClose={() => onClose()} fullWidth>
       <DialogTitle>Run Update Template</DialogTitle>
       <DialogContent>
-        <DeviceIdsAutoComplete
-          id={"device-id"}
-          minRows={4}
-          defaultValues={defaultTargetDeviceIds}
-          placeholder={"Device IDs"}
-          label={"Device IDs"}
-          readonly={false}
-          onClear={async () => {
-            setSelectedDeviceIds([]);
-          }}
-          onAdd={async (index, content) => {
-            selectedDeviceIds.push(content);
-            setSelectedDeviceIds(selectedDeviceIds);
-          }}
-          onDelete={async (index) => {
-            selectedDeviceIds.splice(index, 1);
-            setSelectedDeviceIds(selectedDeviceIds);
-          }}
-        />
+        <Stack spacing={3}>
+          <DeviceIdsAutoComplete
+            id={"device-id"}
+            defaultValues={defaultTargetDeviceIds}
+            placeholder={"Device IDs"}
+            label={"Device IDs"}
+            readonly={false}
+            onClear={async () => {
+              setSelectedDeviceIds([]);
+            }}
+            onAdd={async (index, content) => {
+              selectedDeviceIds.push(content);
+              setSelectedDeviceIds(selectedDeviceIds);
+            }}
+            onDelete={async (index) => {
+              selectedDeviceIds.splice(index, 1);
+              setSelectedDeviceIds(selectedDeviceIds);
+            }}
+          />
+
+          <OwnerIdsAutoComplete
+            id={"owner-id"}
+            defaultValues={selectedGroupIds}
+            placeholder={"Target group ids"}
+            label={"Target group ids"}
+            readonly={false}
+            onClear={async () => {
+              setSelectedGroupIds([]);
+            }}
+            onAdd={async (index, content) => {
+              selectedGroupIds.push(content);
+              setSelectedGroupIds(selectedGroupIds);
+            }}
+            onDelete={async (index) => {
+              selectedGroupIds.splice(index, 1);
+              setSelectedGroupIds(selectedGroupIds);
+            }}
+          />
+        </Stack>
       </DialogContent>
       <DialogActions>
         <Button onClick={() => onClose()}>Cancel</Button>

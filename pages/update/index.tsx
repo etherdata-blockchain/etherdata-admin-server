@@ -12,7 +12,6 @@ import UpdateTemplatePanel from "../../components/update/UpdateTemplatePanel";
 import { configs, interfaces } from "@etherdata-blockchain/common";
 import { dbServices } from "@etherdata-blockchain/services";
 import { schema } from "@etherdata-blockchain/storage-model";
-import { Routes } from "@etherdata-blockchain/common/src/configs/routes";
 import { useStickyTabBar } from "../../hooks/useStickyTabBar";
 import { StickyTabs } from "../../components/common/stickyTabs";
 import ResponsiveCard from "../../components/common/ResponsiveCard";
@@ -37,7 +36,10 @@ export default function Index({ tabIndex, updateTemplate }: Props) {
     newValue: number
   ) => {
     await router.push(
-      qs.stringifyUrl({ url: Routes.update, query: { index: newValue } })
+      qs.stringifyUrl({
+        url: configs.Routes.update,
+        query: { index: newValue },
+      })
     );
     setValue(newValue);
   };
@@ -45,7 +47,7 @@ export default function Index({ tabIndex, updateTemplate }: Props) {
   const actions: React.ReactElement[] = [
     <Button
       key={`button-0`}
-      onClick={() => router.push(Routes.updateTemplateCreate)}
+      onClick={() => router.push(configs.Routes.updateTemplateCreate)}
     >
       Add Template
     </Button>,
@@ -63,7 +65,7 @@ export default function Index({ tabIndex, updateTemplate }: Props) {
       <StickyTabs
         initialIndex={tabIndex}
         labels={["Update Template"]}
-        pushTo={Routes.update}
+        pushTo={configs.Routes.update}
         urlKeyName={"index"}
       />
       <PaddingBox>
