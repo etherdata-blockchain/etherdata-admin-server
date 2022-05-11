@@ -171,4 +171,47 @@ describe("Given a update script api handler", () => {
     expect(updatedTemplate!.targetGroupIds).toHaveLength(1);
     expect(updatedTemplate!.targetDeviceIds).toHaveLength(0);
   });
+
+  test("When calling post without group ids", async () => {
+    await schema.StorageOwnerModel.create(mockData.MockUser);
+    await schema.StorageItemModel.create(mockData.MockStorageItem);
+    await schema.StorageItemModel.create({
+      qr_code: null,
+      owner_id: mockData.MockUser.user_id,
+    });
+
+    const executionPlanService = new dbServices.ExecutionPlanService();
+    const updateScriptData = await schema.UpdateScriptModel.create(
+      mockUpdateScriptData
+    );
+
+    const { req, res } = createMocks({
+      method: "POST",
+      headers: {
+        Authorization: "Bearer " + token,
+      },
+      query: {
+        id: updateScriptData._id.toString(),
+      },
+      body: {
+        targetGroupIds: [mockData.MockUser.user_id],
+      },
+    });
+
+    await handler(req as any, res as any);
+    expect(res.statusCode).toBe(StatusCodes.OK);
+
+    await utils.sleep(200);
+    const plans = (await executionPlanService.getPlans(updateScriptData._id))!;
+    expect(plans?.length).toBe(2);
+    expect(plans[0].isDone).toBeTruthy();
+    expect(plans[1].isDone).toBeTruthy();
+    expect(await schema.PendingJobModel.countDocuments({})).toBe(1);
+
+    const updatedTemplate = await schema.UpdateScriptModel.findOne({
+      _id: updateScriptData._id,
+    });
+    expect(updatedTemplate!.targetGroupIds).toHaveLength(1);
+    expect(updatedTemplate!.targetDeviceIds).toHaveLength(0);
+  });
 });
