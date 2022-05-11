@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: admin-server
-          image: sirily11/etd-remote-admin-server:4.5.0
+          image: sirily11/etd-remote-admin-server:4.5.1
           ports:
             - containerPort: 8080
               protocol: TCP
@@ -30,7 +30,7 @@ spec:
               cpu: 1000m
           env:
             - name: NEXT_PUBLIC_VERSION
-              value: 4.5.0
+              value: 4.5.1
             - name: PORT
               value: "8080"
             - name: NEXT_PUBLIC_APP_ID

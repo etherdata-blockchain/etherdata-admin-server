@@ -1,5 +1,12 @@
 # Changelog
 
+## [4.5.1](https://github.com/etherdata-blockchain/etherdata-admin-server/compare/v4.5.0...v4.5.1) (2022-05-11)
+
+
+### Bug Fixes
+
+* cannot search with special characters ([#127](https://github.com/etherdata-blockchain/etherdata-admin-server/issues/127)) ([ac0e2fb](https://github.com/etherdata-blockchain/etherdata-admin-server/commit/ac0e2fb440005fb15f36bc16defb1a08d33437f0))
+
 # [4.5.0](https://github.com/etherdata-blockchain/etherdata-admin-server/compare/v4.4.0...v4.5.0) (2022-05-08)
 
 
