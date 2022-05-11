@@ -70,6 +70,42 @@ describe("Given a device owner search handler", () => {
     expect(data).toHaveLength(3);
   });
 
+  test("When calling search function with symbols", async () => {
+    await schema.StorageOwnerModel.create({
+      user_name: "mock_user_1",
+      user_id: "+852-12345",
+    });
+    await schema.StorageOwnerModel.create({
+      user_name: "mock_user_2",
+      user_id: "+852-67890",
+    });
+
+    await schema.StorageOwnerModel.create({
+      user_name: "mock_user_3",
+      user_id: "+852-12456",
+    });
+
+    const token = jwt.sign(
+      { user: mockData.MockConstant.mockTestingUser },
+      mockData.MockConstant.mockTestingSecret
+    );
+    const { req, res } = createMocks({
+      method: "GET",
+      headers: {
+        Authorization: "Bearer " + token,
+      },
+      query: {
+        key: "+852-12",
+      },
+    });
+
+    //@ts-ignore
+    await handler(req, res);
+    expect(res._getStatusCode()).toBe(StatusCodes.OK);
+    const data: any = res._getJSONData();
+    expect(data).toHaveLength(2);
+  });
+
   test("When calling search function", async () => {
     await schema.StorageOwnerModel.create({
       user_name: "mock_user_1",

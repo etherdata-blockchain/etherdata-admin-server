@@ -161,8 +161,8 @@ async function handler(req: NextApiRequest, res: NextApiResponse<Response>) {
       resultData.isDone = true;
       // update template, add targetDeviceIds to the template
       // to keep the history
-      template.targetDeviceIds = targetDeviceIds;
-      template.targetGroupIds = targetGroupIds;
+      template.targetDeviceIds = targetDeviceIds ?? [];
+      template.targetGroupIds = targetGroupIds ?? [];
 
       await updateTemplateService.patch(template as any);
       await executionPlanService.patch(startPlan);

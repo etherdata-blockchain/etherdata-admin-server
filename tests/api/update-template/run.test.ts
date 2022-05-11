@@ -132,7 +132,7 @@ describe("Given a update script api handler", () => {
     ]);
   });
 
-  test("When calling post", async () => {
+  test("When calling post without group ids", async () => {
     await schema.StorageOwnerModel.create(mockData.MockUser);
     await schema.StorageItemModel.create(mockData.MockStorageItem);
     await schema.StorageItemModel.create(mockData.MockStorageItem2);
@@ -154,8 +154,8 @@ describe("Given a update script api handler", () => {
         targetGroupIds: [mockData.MockUser.user_id],
       },
     });
-    //@ts-ignore
-    await handler(req, res);
+
+    await handler(req as any, res as any);
     expect(res.statusCode).toBe(StatusCodes.OK);
 
     await utils.sleep(200);
@@ -164,5 +164,11 @@ describe("Given a update script api handler", () => {
     expect(plans[0].isDone).toBeTruthy();
     expect(plans[1].isDone).toBeTruthy();
     expect(await schema.PendingJobModel.countDocuments({})).toBe(2);
+
+    const updatedTemplate = await schema.UpdateScriptModel.findOne({
+      _id: updateScriptData._id,
+    });
+    expect(updatedTemplate!.targetGroupIds).toHaveLength(1);
+    expect(updatedTemplate!.targetDeviceIds).toHaveLength(0);
   });
 });
