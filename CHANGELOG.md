@@ -1,5 +1,12 @@
 # Changelog
 
+## [4.5.2](https://github.com/etherdata-blockchain/etherdata-admin-server/compare/v4.5.1...v4.5.2) (2022-05-11)
+
+
+### Bug Fixes
+
+* empty device ids won't be added to pending job list ([#128](https://github.com/etherdata-blockchain/etherdata-admin-server/issues/128)) ([8617ccf](https://github.com/etherdata-blockchain/etherdata-admin-server/commit/8617ccff2b5f3e2250403c2ce09d45711d688d56))
+
 ## [4.5.1](https://github.com/etherdata-blockchain/etherdata-admin-server/compare/v4.5.0...v4.5.1) (2022-05-11)
 
 
