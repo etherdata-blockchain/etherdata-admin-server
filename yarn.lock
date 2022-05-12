@@ -1413,10 +1413,10 @@
     web3-eth "^1.7.3"
     yaml "^2.0.1"
 
-"@etherdata-blockchain/common@4.3.4":
-  version "4.3.4"
-  resolved "https://registry.yarnpkg.com/@etherdata-blockchain/common/-/common-4.3.4.tgz#49b11e1780b7daa8eb9f0792ae2136a18b35d354"
-  integrity sha512-rak5xN3anLud8QLlhMTWfbnmLvuxs7BljK/VOnZCk4cf5GEEb71wz+Ntpl8QC45vqXUBnByVDYqRYdjk3HnM6g==
+"@etherdata-blockchain/common@4.3.5":
+  version "4.3.5"
+  resolved "https://registry.yarnpkg.com/@etherdata-blockchain/common/-/common-4.3.5.tgz#dbb08ce5d9b3bba1e990a96a83f1f52c37f5667b"
+  integrity sha512-qAFrUUVtX2DLjItm5CphUflxYEPMBsnOODpAZmTgxgGTRauhV74XPg6fX+Y9iEdDdjcoYL8VtbwOk7Hil/ky7Q==
   dependencies:
     "@types/dockerode" "^3.3.9"
     "@types/json-schema" "^7.0.11"
@@ -1444,10 +1444,10 @@
     postcss-normalize "^10.0.1"
     swr "^0.5.6"
 
-"@etherdata-blockchain/history@4.3.4":
-  version "4.3.4"
-  resolved "https://registry.yarnpkg.com/@etherdata-blockchain/history/-/history-4.3.4.tgz#fea490f855cdb0e1d4b89b7d7c7366b53c448fc5"
-  integrity sha512-anNXuXu2jOhLInmCWRLuTUu4C9QsdaqPSe6mkFzbMU0J5rIXVrhtqxhuJ/tRthioqgFfxUw0tn+jxBe0ucK4JQ==
+"@etherdata-blockchain/history@4.3.5":
+  version "4.3.5"
+  resolved "https://registry.yarnpkg.com/@etherdata-blockchain/history/-/history-4.3.5.tgz#3c54a957a8fd68125b494dd33c49b71574292a53"
+  integrity sha512-BPE/nNtao0r2EcLzlvjSRPdKH0vR8/wVy9CKgxbeL8Wr2voU284dIJa7RUN5/SXuZdEjJtIL6x/ldMsJC7P2/Q==
   dependencies:
     moment "^2.29.3"
     typescript "^4.6.4"
@@ -1461,19 +1461,19 @@
     moment "^2.29.3"
     typescript "^4.6.4"
 
-"@etherdata-blockchain/logger@4.3.4":
-  version "4.3.4"
-  resolved "https://registry.yarnpkg.com/@etherdata-blockchain/logger/-/logger-4.3.4.tgz#5003bceb3c90f4b6aaa4c2340a8b4cf974669916"
-  integrity sha512-wdW/zC70gCwG+anoyyueWa3KVi4Qrah+OfW4jSXMKAbRDXB2jtP52cH42bPs0RZeOxO+WlNCYdKVbP9ag/mPYg==
+"@etherdata-blockchain/logger@4.3.5":
+  version "4.3.5"
+  resolved "https://registry.yarnpkg.com/@etherdata-blockchain/logger/-/logger-4.3.5.tgz#902fd335804ae6dac53e078d26e036611499ebde"
+  integrity sha512-AoS5WFPPGPnwrcIxogou7di4yv6GYKL3Jsxa9OkQItxFtoA9RsEgcxPTvNk1Ydyr4r3bZ+be5GsMjaMXm0riVg==
   dependencies:
     chalk "^5.0.1"
     moment "^2.29.3"
     typescript "^4.6.4"
 
-"@etherdata-blockchain/next-js-handlers@4.3.4":
-  version "4.3.4"
-  resolved "https://registry.yarnpkg.com/@etherdata-blockchain/next-js-handlers/-/next-js-handlers-4.3.4.tgz#0a665acabe2be7ad6ea44f4945f4ec87f00e0a24"
-  integrity sha512-OM00j64EMTpmjjlrOsxvmZrAiZjXZLDl0y4EbVbUfEYBzfg71Dc7fr2g71FptogDHeE/DU+h4hwFvPdxtkyTYA==
+"@etherdata-blockchain/next-js-handlers@4.3.5":
+  version "4.3.5"
+  resolved "https://registry.yarnpkg.com/@etherdata-blockchain/next-js-handlers/-/next-js-handlers-4.3.5.tgz#e99922eba1b6e3fe2da30f71f2b8dad8425cbe11"
+  integrity sha512-bUz2TCli7lJJQ9cki3nhEN/t2rREVrfrWvjjQzLLBcVGkr9T0+Bu2hyZUVUTG20KfCCzs1I0f3fLNVzRFfOduA==
   dependencies:
     "@etherdata-blockchain/common" "*"
     "@etherdata-blockchain/services" "*"
@@ -1502,10 +1502,10 @@
     socket.io "^4.5.0"
     typescript "^4.6.4"
 
-"@etherdata-blockchain/services@4.3.4":
-  version "4.3.4"
-  resolved "https://registry.yarnpkg.com/@etherdata-blockchain/services/-/services-4.3.4.tgz#457e28099622fa9692962cc44c64cb2892017704"
-  integrity sha512-5duNZo3I+HLxSu5IvHoO0wC8KXUzoo6TAygHCEodk6gAunTu6eX7skuaxhWI2GGWm51yDj7yKiataBExhJpHSw==
+"@etherdata-blockchain/services@4.3.5":
+  version "4.3.5"
+  resolved "https://registry.yarnpkg.com/@etherdata-blockchain/services/-/services-4.3.5.tgz#b80c219ecff244d61729e8a8c528538f76863344"
+  integrity sha512-uDcXUW4lGY6eMUVQZO7Gb0jHmo95JmZVtF6SbVKmwSCow6+eQNkP0KRWJIgN15a2z0jspoOsN7ojlTD+9fcdzQ==
   dependencies:
     "@etherdata-blockchain/common" "*"
     "@etherdata-blockchain/logger" "*"
@@ -1529,10 +1529,10 @@
     typescript "4.6.4"
     web3-eth "1.7.3"
 
-"@etherdata-blockchain/storage-model@4.3.4":
-  version "4.3.4"
-  resolved "https://registry.yarnpkg.com/@etherdata-blockchain/storage-model/-/storage-model-4.3.4.tgz#20cc3160314407fd303d392a7878098916f7e1d8"
-  integrity sha512-VO+mLlhCVef004YM8c0MJex/7QLBo0+Qv1cJXyJqGVZ5ocP8q9lS9OoPADiatYrI8hioZyvh3kv38pVBh+VZNw==
+"@etherdata-blockchain/storage-model@4.3.5":
+  version "4.3.5"
+  resolved "https://registry.yarnpkg.com/@etherdata-blockchain/storage-model/-/storage-model-4.3.5.tgz#56640463ee93a2d1e83af02becf7ec370b27bd71"
+  integrity sha512-gYZqTgno8vOyQeU18cpnaXZ32a9FZRs/uLxFUMV0bo2FzIfLhdrB8SO9mBuOkiEzCrPu8QUHRbfDjJF1wnPpCg==
   dependencies:
     "@etherdata-blockchain/common" "*"
     moment "^2.29.3"
@@ -1540,10 +1540,10 @@
     typescript "4.6.4"
     web3-eth "1.7.3"
 
-"@etherdata-blockchain/string-replacer@4.3.4":
-  version "4.3.4"
-  resolved "https://registry.yarnpkg.com/@etherdata-blockchain/string-replacer/-/string-replacer-4.3.4.tgz#aae0a040c2e1695fdfb2b8baa1c6c8374622b883"
-  integrity sha512-17kzefKWsysozzOXi9ttYunPUT3RM/rR5zFV/DNSFIg8VMCJONwaIwGxlFCzbECm+kf+Zoxd0fpnDAWHRR4LEA==
+"@etherdata-blockchain/string-replacer@4.3.5":
+  version "4.3.5"
+  resolved "https://registry.yarnpkg.com/@etherdata-blockchain/string-replacer/-/string-replacer-4.3.5.tgz#e38f079957e4d0ef97e3c8e354954c7b1346d599"
+  integrity sha512-oPpo43lyRKzNq7/9PhK9T7Mx08wj57erNrcv7oGDV6UBVoy4VLTQ1yGqF5gv/wkzI7S0GO/JFvyVg6FgzkMv6w==
   dependencies:
     "@types/dockerode" "^3.3.9"
     "@types/json-schema" "^7.0.11"
@@ -1553,10 +1553,10 @@
     web3 "^1.7.3"
     yaml "^2.0.1"
 
-"@etherdata-blockchain/url-join@4.3.4":
-  version "4.3.4"
-  resolved "https://registry.yarnpkg.com/@etherdata-blockchain/url-join/-/url-join-4.3.4.tgz#b159ec1b79b03fdcc0ba6c7afed9f2b36ed68ef4"
-  integrity sha512-60Mo/dudlnvKG4YU/g6sv9xcWWN3r5ITUeHLRptVyv+ik6FBfCumsyzcQNMMro5zTyDUJWso/Ez40ibIeYIU+Q==
+"@etherdata-blockchain/url-join@4.3.5":
+  version "4.3.5"
+  resolved "https://registry.yarnpkg.com/@etherdata-blockchain/url-join/-/url-join-4.3.5.tgz#b78b9d8ba0d24df41880d4ebcdcef819ea203074"
+  integrity sha512-S1hFW3zlaW4Lc8V9WaqiRBeuF8spgOPTcLMAPE1swb2o1ieSmyaSV/yR0v53NQr0RfUaDIqomCJNVvWUr+E6Hw==
   dependencies:
     "@types/dockerode" "^3.3.9"
     "@types/json-schema" "^7.0.11"

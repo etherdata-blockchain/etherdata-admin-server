@@ -13,7 +13,7 @@ import { interfaces } from "@etherdata-blockchain/common";
 import { dbServices } from "@etherdata-blockchain/services";
 import { schema } from "@etherdata-blockchain/storage-model";
 import { DeviceIdSearchField } from "../../components/common/fields/deviceIdSearchField";
-import UserInfoProvider from "../../model/UserInfoProvider";
+import ReactJsonFormProvider from "../../model/ReactJsonFormProvider";
 
 type Props = {
   paginationResult: interfaces.PaginationResult<schema.IStorageOwner>;
@@ -30,7 +30,7 @@ export default function User({ paginationResult, currentPage }: Props) {
   }, []);
 
   return (
-    <UserInfoProvider>
+    <ReactJsonFormProvider>
       <div>
         <Spacer height={20} />
         <PageHeader
@@ -61,7 +61,7 @@ export default function User({ paginationResult, currentPage }: Props) {
           </ResponsiveCard>
         </PaddingBox>
       </div>
-    </UserInfoProvider>
+    </ReactJsonFormProvider>
   );
 }
 

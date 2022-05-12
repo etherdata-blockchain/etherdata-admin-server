@@ -1,8 +1,8 @@
 import { fireEvent, render, screen } from "@testing-library/react";
 import { UserInfoPanel } from "../../../components/common/panels/UserInfoPanel";
-import UserInfoProvider, {
-  UserInfoContext,
-} from "../../../model/UserInfoProvider";
+import ReactJsonFormProvider, {
+  ReactJsonFormContext,
+} from "../../../model/ReactJsonFormProvider";
 
 describe("Given a user info panel", () => {
   const close = jest.fn();
@@ -44,7 +44,7 @@ describe("Given a user info panel", () => {
 
   test("Should submit correctly", async () => {
     render(
-      <UserInfoProvider>
+      <ReactJsonFormProvider>
         <div>
           <UserInfoPanel
             onClose={close}
@@ -55,11 +55,11 @@ describe("Given a user info panel", () => {
               coinbase: "0xabcde",
             }}
           />
-          <UserInfoContext.Consumer>
+          <ReactJsonFormContext.Consumer>
             {({ submit }) => <button onClick={submit}>Submit</button>}
-          </UserInfoContext.Consumer>
+          </ReactJsonFormContext.Consumer>
         </div>
-      </UserInfoProvider>
+      </ReactJsonFormProvider>
     );
 
     expect(screen.getByText("user_id")).toBeInTheDocument();

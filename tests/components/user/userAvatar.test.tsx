@@ -30,8 +30,9 @@ describe("Given a userAvatar", () => {
     );
     expect(screen.getByText("mock_username")).toBeInTheDocument();
     expect(screen.getByText("0xmock_coinbase")).toBeInTheDocument();
-    expect(screen.queryByText("Register Devices")).toBeInTheDocument();
+    expect(screen.queryByText("Actions")).toBeInTheDocument();
 
+    fireEvent.click(screen.getByText("Actions"));
     fireEvent.click(screen.getByText("Register Devices"));
 
     expect(screen.getByText("Register devices with user")).toBeInTheDocument();
@@ -45,6 +46,29 @@ describe("Given a userAvatar", () => {
       expect(
         screen.queryByText("Register devices with user")
       ).not.toBeInTheDocument()
+    );
+  });
+
+  test("Should render properly", async () => {
+    render(
+      <UserAvatar
+        username={"mock_username"}
+        userId={"abc"}
+        coinbase={"0xmock_coinbase"}
+      />
+    );
+    expect(screen.getByText("mock_username")).toBeInTheDocument();
+    expect(screen.getByText("0xmock_coinbase")).toBeInTheDocument();
+    expect(screen.queryByText("Actions")).toBeInTheDocument();
+
+    fireEvent.click(screen.getByText("Actions"));
+    fireEvent.click(screen.getByText("Add Device"));
+
+    expect(screen.getByText("Create a new device")).toBeInTheDocument();
+    await waitFor(() => expect(screen.getByText("Close")).toBeInTheDocument());
+    fireEvent.click(screen.getByText("Close"));
+    await waitFor(() =>
+      expect(screen.queryByText("Create a new device")).not.toBeInTheDocument()
     );
   });
 
@@ -65,6 +89,6 @@ describe("Given a userAvatar", () => {
       />
     );
     expect(screen.getByText("None")).toBeInTheDocument();
-    expect(screen.queryByText("Register Devices")).not.toBeInTheDocument();
+    expect(screen.queryByText("Actions")).not.toBeInTheDocument();
   });
 });

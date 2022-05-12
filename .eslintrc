@@ -15,15 +15,17 @@
     "object-curly-spacing": "off",
     "max-len": "off",
     "indent": "off",
-    "valid-jsdoc": "warn",
+    "valid-jsdoc": "off",
     "quote-props": "off",
     "operator-linebreak": "off",
     "space-before-function-paren": "off",
     "spaced-comment": "off",
-    "camelcase": "warn",
+    "camelcase": "off",
     "no-invalid-this": "off",
     "no-unused-vars": "off",
-    "react/jsx-key": "off"
+    "react/jsx-key": "off",
+    "react-hooks/exhaustive-deps": "off",
+    " import/no-anonymous-default-export": "off"
   },
   "ignorePatterns": [
     "cypress"

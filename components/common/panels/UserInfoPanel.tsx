@@ -3,7 +3,7 @@ import * as React from "react";
 import { MuiForm5 } from "@rjsf/material-ui";
 import { schema } from "../../../internal/handlers/add_user_handler";
 import { interfaces } from "@etherdata-blockchain/common";
-import { UserInfoContext } from "../../../model/UserInfoProvider";
+import { ReactJsonFormContext } from "../../../model/ReactJsonFormProvider";
 
 type Props = {
   onClose(data: interfaces.db.StorageUserDBInterface): void;
@@ -17,7 +17,7 @@ type Props = {
  * @constructor
  */
 export function UserInfoPanel(props: Props) {
-  const { setIsLoading, formButton } = React.useContext(UserInfoContext);
+  const { setIsLoading, formButton } = React.useContext(ReactJsonFormContext);
   const [formData, setFormData] = React.useState(props.userInfo);
 
   const onSubmit = React.useCallback(async (data: any) => {

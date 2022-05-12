@@ -2,7 +2,7 @@
 import * as React from "react";
 import { Avatar, Button, Chip, Stack, Typography } from "@mui/material";
 import { deepOrange } from "@mui/material/colors";
-import { RegisterDevicesBtn } from "./registerDevicesBtn";
+import { AddActionMenuButton } from "./addActionMenuButton";
 
 type Props = {
   username?: string;
@@ -40,7 +40,7 @@ export function UserAvatar({ username, userId, coinbase }: Props) {
           </Typography>
         </Stack>
       </Stack>
-      <div>{userId && <RegisterDevicesBtn userId={userId} />}</div>
+      <div>{userId && <AddActionMenuButton userId={userId} />}</div>
     </Stack>
   );
 }
