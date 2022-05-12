@@ -1,6 +1,6 @@
 {
   "name": "etd-admin-ui",
-  "version": "4.5.2",
+  "version": "4.6.0",
   "private": true,
   "scripts": {
     "dev": "ts-node --project tsconfig.server.json server/app.ts",

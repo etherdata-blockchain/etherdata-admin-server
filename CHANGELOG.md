@@ -1,5 +1,12 @@
 # Changelog
 
+# [4.6.0](https://github.com/etherdata-blockchain/etherdata-admin-server/compare/v4.5.2...v4.6.0) (2022-05-12)
+
+
+### Features
+
+* add crud for storage item ([#129](https://github.com/etherdata-blockchain/etherdata-admin-server/issues/129)) ([fbbef75](https://github.com/etherdata-blockchain/etherdata-admin-server/commit/fbbef751584dc0de6cb0710557aa83eff4568e3a))
+
 ## [4.5.2](https://github.com/etherdata-blockchain/etherdata-admin-server/compare/v4.5.1...v4.5.2) (2022-05-11)
 
 
