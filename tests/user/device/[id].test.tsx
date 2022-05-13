@@ -3,6 +3,7 @@ import { render, screen } from "@testing-library/react";
 import { schema } from "@etherdata-blockchain/storage-model";
 import UIProviderProvider from "../../../model/UIProvider";
 import DeviceProvider from "../../../model/DeviceProvider";
+import { beforeUITest } from "../../utils/ui-test";
 
 const testData: schema.IDevice = {
   _id: "mock_id",
@@ -135,7 +136,7 @@ const device: schema.IStorageItem = {
   price: 0,
   column: 0,
   row: 0,
-  qr_code: "",
+  qr_code: "test_device_1",
   created_time: new Date(),
   machine_type_name: null,
   location_name: null,
@@ -147,14 +148,43 @@ const device: schema.IStorageItem = {
 };
 
 describe("Given a device id page", () => {
+  beforeAll(() => {
+    beforeUITest();
+  });
+
   test("Should render without error", () => {
     render(
       <UIProviderProvider>
         <DeviceProvider>
-          <DetailPage device={device} online={true} found={true} />
+          <DetailPage
+            device={device}
+            online={true}
+            found={true}
+            tabIndex={0}
+            deviceId={"abc"}
+          />
         </DeviceProvider>
       </UIProviderProvider>
     );
     expect(screen.getByText("2000000")).toBeInTheDocument();
+  });
+
+  test("Should render without error 1", () => {
+    render(
+      <UIProviderProvider>
+        <DeviceProvider>
+          <DetailPage
+            device={device}
+            online={true}
+            found={true}
+            tabIndex={1}
+            deviceId={"test_device_1"}
+          />
+        </DeviceProvider>
+      </UIProviderProvider>
+    );
+    screen.debug(undefined, 10000000);
+    expect(screen.getByText("Update User Info")).toBeInTheDocument();
+    expect(screen.getByDisplayValue("test_device_1")).toBeInTheDocument();
   });
 });

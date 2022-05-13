@@ -1,6 +1,5 @@
 // @flow
 import * as React from "react";
-import { UserInfoPanel } from "../../common/panels/UserInfoPanel";
 import { configs, interfaces } from "@etherdata-blockchain/common";
 import {
   Button,
@@ -16,28 +15,33 @@ import { ReactJsonFormContext } from "../../../model/ReactJsonFormProvider";
 import { getAxiosClient } from "../../../internal/const/defaultValues";
 import urlJoin from "@etherdata-blockchain/url-join";
 import { useRouter } from "next/dist/client/router";
+import { MuiForm5 } from "@rjsf/material-ui";
+import { schema } from "../../../internal/handlers/add_item_handler";
 
 type Props = {
-  userInfo: interfaces.db.StorageUserDBInterface;
+  itemInfo?: interfaces.db.StorageItemDBInterface;
 };
 
 /**
- * Will perform update operation for user info
+ * Will perform update operation for item info
  * @param props
  * @constructor
  */
-export function UpdateUserInfoPanel(props: Props) {
-  const { isLoading, submit } = React.useContext(ReactJsonFormContext);
+export function UpdateItemInfoPanel(props: Props) {
   const [showConfirmation, setShowConfirmation] = React.useState(false);
   const router = useRouter();
   const [isDeleting, setIsDeleting] = React.useState(false);
+  const { setIsLoading, formButton, submit, isLoading } =
+    React.useContext(ReactJsonFormContext);
+  const [formData, setFormData] = React.useState(props.itemInfo);
 
   const updateData = React.useCallback(
     async (data: interfaces.db.StorageUserDBInterface) => {
       await getAxiosClient().patch(
-        urlJoin(configs.Routes.editOwner, props.userInfo.user_id),
+        urlJoin(configs.Routes.editItem, (props.itemInfo! as any)._id),
         data
       );
+      router.reload();
     },
     []
   );
@@ -46,9 +50,9 @@ export function UpdateUserInfoPanel(props: Props) {
     setIsDeleting(true);
     try {
       await getAxiosClient().delete(
-        urlJoin(configs.Routes.editOwner, props.userInfo.user_id)
+        urlJoin(configs.Routes.editItem, (props.itemInfo! as any)._id)
       );
-      await router.replace("/user");
+      await router.replace(`/user/${props.itemInfo!.owner_id}`);
     } catch (e) {
       window.alert(`${e}`);
     } finally {
@@ -56,25 +60,18 @@ export function UpdateUserInfoPanel(props: Props) {
     }
   }, []);
 
-  const refresh = React.useCallback(
-    async (data: interfaces.db.StorageUserDBInterface) => {
-      await router.replace("user/", data.user_id);
-    },
-    []
-  );
-
   return (
     <div>
-      <ResponsiveCard title={"Update User info"}>
-        <UserInfoPanel
-          onClose={async (data) => {
-            await refresh(data);
-          }}
+      <ResponsiveCard title={"Update User Info"}>
+        <MuiForm5
+          schema={schema}
+          formData={formData}
           onSubmit={async (data) => {
-            await updateData(data);
+            await updateData(data.formData);
           }}
-          userInfo={{ ...props.userInfo }}
-        />
+        >
+          <button ref={formButton} type="submit" style={{ display: "none" }} />
+        </MuiForm5>
         <Stack
           direction={"row"}
           alignItems={"end"}
@@ -99,7 +96,7 @@ export function UpdateUserInfoPanel(props: Props) {
       >
         <DialogTitle>Confirmation on deletion</DialogTitle>
         <DialogContent>
-          Are you sure you want to delete this user?
+          Are you sure you want to delete this item?
         </DialogContent>
         <DialogActions>
           <Button onClick={() => setShowConfirmation(false)}>Close</Button>

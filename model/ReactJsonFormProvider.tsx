@@ -9,14 +9,14 @@ interface UserInfoInterface {
 }
 
 // @ts-ignore
-export const UserInfoContext = React.createContext<UserInfoInterface>({});
+export const ReactJsonFormContext = React.createContext<UserInfoInterface>({});
 
 /**
  * Device provider for using devices
  * @param props
  * @constructor
  */
-export default function UserInfoProvider(props: any) {
+export default function ReactJsonFormProvider(props: any) {
   const { children } = props;
   const [isLoading, setIsLoading] = React.useState(false);
   const formButton = React.useRef<any>();
@@ -34,8 +34,8 @@ export default function UserInfoProvider(props: any) {
   };
 
   return (
-    <UserInfoContext.Provider value={value}>
+    <ReactJsonFormContext.Provider value={value}>
       {children}
-    </UserInfoContext.Provider>
+    </ReactJsonFormContext.Provider>
   );
 }

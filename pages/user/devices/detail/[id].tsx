@@ -31,28 +31,41 @@ import { AccessTime, Computer, LockClock, People } from "@mui/icons-material";
 import ResponsiveCard from "../../../../components/common/ResponsiveCard";
 import ConstructionIcon from "@mui/icons-material/Construction";
 import { VolumeDialog } from "../../../../components/device/dialog/volumeDialog";
+import { useStickyTabBar } from "../../../../hooks/useStickyTabBar";
+import { StickyTabs } from "../../../../components/common/stickyTabs";
+import { TabPanel } from "../../../../components/common/tabs/horizontal";
+import { UpdateItemInfoPanel } from "../../../../components/user/panels/UpdateItemInfoPanel";
+import ReactJsonFormProvider from "../../../../model/ReactJsonFormProvider";
 
 type Props = {
   device: schema.IStorageItem | undefined;
   online: boolean;
   found: boolean;
+  tabIndex: number;
+  deviceId: string;
 };
 
 // eslint-disable-next-line require-jsdoc
-export default function DeviceDetail({ device, found }: Props) {
+export default function DeviceDetail({
+  device,
+  found,
+  tabIndex,
+  deviceId,
+}: Props) {
   const router = useRouter();
   const { joinDetail, leaveDetail } = React.useContext(DeviceContext);
   const {} = React.useContext(UIProviderContext);
   const [showContainerDetails, setShowContainerDetails] = React.useState(false);
   const [showImageDetails, setShowImageDetails] = React.useState(false);
   const [showVolumeDetails, setShowVolumeDetails] = React.useState(false);
+  const [value] = useStickyTabBar(tabIndex);
 
   const [foundDevice, setFoundDevice] = React.useState<
     schema.IStorageItem | undefined
   >(device);
   const online =
     Math.abs(
-      moment(foundDevice?.deviceStatus?.lastSeen).diff(moment(), "seconds")
+      moment(foundDevice?.deviceStatus?.lastSeen ?? 0).diff(moment(), "seconds")
     ) < configs.Configurations.maximumNotSeenDuration;
 
   const storageInfo = {
@@ -77,250 +90,273 @@ export default function DeviceDetail({ device, found }: Props) {
   }, []);
 
   return (
-    <div>
-      <Spacer height={20} />
-      <PageHeader
-        title={"Device"}
-        description={`${device?.qr_code}`}
-        action={
-          <Button
-            onClick={() =>
-              router.push("/user/devices/detail/edit/" + router.query.id)
-            }
-            variant={"outlined"}
-          >
-            Edit
-          </Button>
-        }
-      />
-      <Spacer height={20} />
-      <PaddingBox>
-        <Grid container spacing={5}>
-          <Grid item md={3} xs={6}>
-            <LargeDataCard
-              icon={<Computer />}
-              title={`${utils.abbreviateNumber(
-                foundDevice?.deviceStatus?.data?.difficulty ?? 0
-              )}`}
-              color={"#ba03fc"}
-              subtitleColor={"white"}
-              iconColor={"white"}
-              iconBackgroundColor={"#9704cc"}
-              subtitle={"Current Difficulty"}
-              className={style.detailDataCard}
-            />
-          </Grid>
-          <Grid item md={3} xs={6}>
-            <LargeDataCard
-              icon={<Computer />}
-              title={`${foundDevice?.deviceStatus?.data?.number}`}
-              color={"#ba03fc"}
-              subtitleColor={"white"}
-              iconColor={"white"}
-              iconBackgroundColor={"#9704cc"}
-              subtitle={"Current Block Number"}
-              className={style.detailDataCard}
-            />
-          </Grid>
-
-          <Grid item md={6} xs={12}>
-            <GridDataCard
-              className={style.detailDataCard}
-              backgroundColor={"#3385ff"}
-              titleColor={"white"}
-              subtitleColor={"white"}
-              items={[
-                {
-                  title: `${foundDevice?.deviceStatus?.data?.systemInfo?.peerCount}`,
-                  subtitle: "Peers",
-                  icon: <People />,
-                },
-                {
-                  title: `${utils.abbreviateNumber(
-                    foundDevice?.deviceStatus?.data?.systemInfo?.hashRate ?? 0
-                  )}`,
-                  subtitle: "HashRate",
-                  icon: <ConstructionIcon />,
-                },
-                {
-                  title: `${foundDevice?.deviceStatus?.data?.blockTime}s`,
-                  subtitle: "Block Time",
-                  icon: <LockClock />,
-                },
-                {
-                  title: `${foundDevice?.deviceStatus?.data?.avgBlockTime}s`,
-                  subtitle: "Average Block Time",
-                  icon: <AccessTime />,
-                },
-              ]}
-            />
-          </Grid>
-          <Grid item xs={4}>
-            <LargeDataCard
-              icon={<AllInboxIcon />}
-              title={`${foundDevice?.deviceStatus?.docker?.containers?.length}`}
-              color={"#38d9a3"}
-              subtitleColor={"white"}
-              iconColor={"white"}
-              iconBackgroundColor={"#25bf22"}
-              subtitle={"Docker containers"}
-              className={style.detailDataCard}
-              onClick={() => {
-                setShowContainerDetails(true);
-              }}
-            />
-          </Grid>
-          <Grid item xs={4}>
-            <LargeDataCard
-              icon={<AlbumIcon />}
-              title={`${foundDevice?.deviceStatus?.docker?.images?.length}`}
-              color={"#38d9a3"}
-              subtitleColor={"white"}
-              iconColor={"white"}
-              iconBackgroundColor={"#25bf22"}
-              subtitle={"Docker images"}
-              className={style.detailDataCard}
-              onClick={() => setShowImageDetails(true)}
-            />
-          </Grid>
-          <Grid item xs={4}>
-            <LargeDataCard
-              icon={<AllInboxIcon />}
-              title={`${foundDevice?.deviceStatus?.docker?.volumes?.length}`}
-              color={"#38d9a3"}
-              subtitleColor={"white"}
-              iconColor={"white"}
-              iconBackgroundColor={"#25bf22"}
-              subtitle={"Docker volumes"}
-              className={style.detailDataCard}
-              onClick={() => setShowVolumeDetails(true)}
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <ResponsiveCard title={"Status"}>
-              <List>
-                <ListItem>
-                  <ListItemText
-                    primary={"Online"}
-                    secondary={<Typography noWrap>{`${online}`}</Typography>}
-                  />
-                </ListItem>
-                <ListItem>
-                  <ListItemText
-                    primary={"Last Seen"}
-                    secondary={
-                      <Typography noWrap>
-                        {moment(foundDevice?.deviceStatus?.lastSeen).fromNow()}
-                      </Typography>
-                    }
-                  />
-                </ListItem>
-                <ListItem>
-                  <ListItemText
-                    primary={"Is Mining"}
-                    secondary={
-                      <Typography noWrap>
-                        {`${foundDevice?.deviceStatus?.data?.systemInfo?.isMining}`}
-                      </Typography>
-                    }
-                  />
-                </ListItem>
-
-                <ListItem>
-                  <ListItemText
-                    primary={"Is Syncing"}
-                    secondary={
-                      <Typography noWrap>
-                        {`${JSON.stringify(
-                          foundDevice?.deviceStatus?.data?.systemInfo?.isSyncing
-                        )}`}
-                      </Typography>
-                    }
-                  />
-                </ListItem>
-              </List>
-            </ResponsiveCard>
-            <Spacer height={20} />
-            <ResponsiveCard title={"Storage Info"}>
-              <ListItem>
-                <ListItemText
-                  primary={"Admin Version"}
-                  secondary={
-                    <Typography noWrap>
-                      {storageInfo.adminVersion ?? "None"}
-                    </Typography>
-                  }
+    <ReactJsonFormProvider>
+      <div>
+        <Spacer height={20} />
+        <PageHeader
+          title={"Device"}
+          description={`${device?.qr_code}`}
+          action={
+            <Button
+              onClick={() =>
+                router.push("/user/devices/detail/edit/" + router.query.id)
+              }
+              variant={"outlined"}
+            >
+              Edit
+            </Button>
+          }
+        />
+        <StickyTabs
+          initialIndex={tabIndex}
+          labels={["Info", "Settings"]}
+          top={0}
+          pushTo={`/user/devices/detail/${deviceId}`}
+          urlKeyName={"tabIndex"}
+        />
+        <TabPanel index={0} value={value}>
+          <PaddingBox>
+            <Grid container spacing={5}>
+              <Grid item md={3} xs={6}>
+                <LargeDataCard
+                  icon={<Computer />}
+                  title={`${utils.abbreviateNumber(
+                    foundDevice?.deviceStatus?.data?.difficulty ?? 0
+                  )}`}
+                  color={"#ba03fc"}
+                  subtitleColor={"white"}
+                  iconColor={"white"}
+                  iconBackgroundColor={"#9704cc"}
+                  subtitle={"Current Difficulty"}
+                  className={style.detailDataCard}
                 />
-              </ListItem>
-              <ListItem>
-                <ListItemText
-                  primary={"Owner"}
-                  secondary={
-                    <Typography noWrap>
-                      {storageInfo.owner ?? "None"}
-                    </Typography>
-                  }
+              </Grid>
+              <Grid item md={3} xs={6}>
+                <LargeDataCard
+                  icon={<Computer />}
+                  title={`${foundDevice?.deviceStatus?.data?.number}`}
+                  color={"#ba03fc"}
+                  subtitleColor={"white"}
+                  iconColor={"white"}
+                  iconBackgroundColor={"#9704cc"}
+                  subtitle={"Current Block Number"}
+                  className={style.detailDataCard}
                 />
-              </ListItem>
-            </ResponsiveCard>
+              </Grid>
 
-            <Spacer height={20} />
-            <ResponsiveCard title={"Mining Info"}>
-              {utils
-                .objectExpand(foundDevice?.deviceStatus?.data ?? {}, [
-                  "__v",
-                  "_id",
-                  "miner",
-                  "docker",
-                  "avgBlockTime",
-                  "blockTime",
-                  "timestamp",
-                  "transactionsRoot",
-                  "isMining",
-                  "isSyncing",
-                  "name",
-                  "nodeId",
-                  "number",
-                  "peerCount",
-                  "hashRate",
-                ])
-                .map(({ key, value }, index) => (
-                  <ListItem key={index}>
+              <Grid item md={6} xs={12}>
+                <GridDataCard
+                  className={style.detailDataCard}
+                  backgroundColor={"#3385ff"}
+                  titleColor={"white"}
+                  subtitleColor={"white"}
+                  items={[
+                    {
+                      title: `${foundDevice?.deviceStatus?.data?.systemInfo?.peerCount}`,
+                      subtitle: "Peers",
+                      icon: <People />,
+                    },
+                    {
+                      title: `${utils.abbreviateNumber(
+                        foundDevice?.deviceStatus?.data?.systemInfo?.hashRate ??
+                          0
+                      )}`,
+                      subtitle: "HashRate",
+                      icon: <ConstructionIcon />,
+                    },
+                    {
+                      title: `${foundDevice?.deviceStatus?.data?.blockTime}s`,
+                      subtitle: "Block Time",
+                      icon: <LockClock />,
+                    },
+                    {
+                      title: `${foundDevice?.deviceStatus?.data?.avgBlockTime}s`,
+                      subtitle: "Average Block Time",
+                      icon: <AccessTime />,
+                    },
+                  ]}
+                />
+              </Grid>
+              <Grid item xs={4}>
+                <LargeDataCard
+                  icon={<AllInboxIcon />}
+                  title={`${foundDevice?.deviceStatus?.docker?.containers?.length}`}
+                  color={"#38d9a3"}
+                  subtitleColor={"white"}
+                  iconColor={"white"}
+                  iconBackgroundColor={"#25bf22"}
+                  subtitle={"Docker containers"}
+                  className={style.detailDataCard}
+                  onClick={() => {
+                    setShowContainerDetails(true);
+                  }}
+                />
+              </Grid>
+              <Grid item xs={4}>
+                <LargeDataCard
+                  icon={<AlbumIcon />}
+                  title={`${foundDevice?.deviceStatus?.docker?.images?.length}`}
+                  color={"#38d9a3"}
+                  subtitleColor={"white"}
+                  iconColor={"white"}
+                  iconBackgroundColor={"#25bf22"}
+                  subtitle={"Docker images"}
+                  className={style.detailDataCard}
+                  onClick={() => setShowImageDetails(true)}
+                />
+              </Grid>
+              <Grid item xs={4}>
+                <LargeDataCard
+                  icon={<AllInboxIcon />}
+                  title={`${foundDevice?.deviceStatus?.docker?.volumes?.length}`}
+                  color={"#38d9a3"}
+                  subtitleColor={"white"}
+                  iconColor={"white"}
+                  iconBackgroundColor={"#25bf22"}
+                  subtitle={"Docker volumes"}
+                  className={style.detailDataCard}
+                  onClick={() => setShowVolumeDetails(true)}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <ResponsiveCard title={"Status"}>
+                  <List>
+                    <ListItem>
+                      <ListItemText
+                        primary={"Online"}
+                        secondary={
+                          <Typography noWrap>{`${online}`}</Typography>
+                        }
+                      />
+                    </ListItem>
+                    <ListItem>
+                      <ListItemText
+                        primary={"Last Seen"}
+                        secondary={
+                          <Typography noWrap>
+                            {foundDevice?.deviceStatus?.lastSeen
+                              ? moment(
+                                  foundDevice?.deviceStatus?.lastSeen
+                                ).fromNow()
+                              : "Not online"}
+                          </Typography>
+                        }
+                      />
+                    </ListItem>
+                    <ListItem>
+                      <ListItemText
+                        primary={"Is Mining"}
+                        secondary={
+                          <Typography noWrap>
+                            {`${foundDevice?.deviceStatus?.data?.systemInfo?.isMining}`}
+                          </Typography>
+                        }
+                      />
+                    </ListItem>
+
+                    <ListItem>
+                      <ListItemText
+                        primary={"Is Syncing"}
+                        secondary={
+                          <Typography noWrap>
+                            {`${JSON.stringify(
+                              foundDevice?.deviceStatus?.data?.systemInfo
+                                ?.isSyncing
+                            )}`}
+                          </Typography>
+                        }
+                      />
+                    </ListItem>
+                  </List>
+                </ResponsiveCard>
+                <Spacer height={20} />
+                <ResponsiveCard title={"Storage Info"}>
+                  <ListItem>
                     <ListItemText
-                      primary={key}
-                      secondary={<Typography noWrap>{value}</Typography>}
+                      primary={"Admin Version"}
+                      secondary={
+                        <Typography noWrap>
+                          {storageInfo.adminVersion ?? "None"}
+                        </Typography>
+                      }
                     />
                   </ListItem>
-                ))}
-            </ResponsiveCard>
-          </Grid>
-        </Grid>
+                  <ListItem>
+                    <ListItemText
+                      primary={"Owner"}
+                      secondary={
+                        <Typography noWrap>
+                          {storageInfo.owner ?? "None"}
+                        </Typography>
+                      }
+                    />
+                  </ListItem>
+                </ResponsiveCard>
 
-        {foundDevice?.deviceStatus?.docker?.containers && (
-          <ContainerDialog
-            show={showContainerDetails}
-            onClose={() => setShowContainerDetails(false)}
-            containers={foundDevice?.deviceStatus.docker?.containers}
-          />
-        )}
+                <Spacer height={20} />
+                <ResponsiveCard title={"Mining Info"}>
+                  {utils
+                    .objectExpand(foundDevice?.deviceStatus?.data ?? {}, [
+                      "__v",
+                      "_id",
+                      "miner",
+                      "docker",
+                      "avgBlockTime",
+                      "blockTime",
+                      "timestamp",
+                      "transactionsRoot",
+                      "isMining",
+                      "isSyncing",
+                      "name",
+                      "nodeId",
+                      "number",
+                      "peerCount",
+                      "hashRate",
+                    ])
+                    .map(({ key, value }, index) => (
+                      <ListItem key={index}>
+                        <ListItemText
+                          primary={key}
+                          secondary={<Typography noWrap>{value}</Typography>}
+                        />
+                      </ListItem>
+                    ))}
+                </ResponsiveCard>
+              </Grid>
+            </Grid>
 
-        {foundDevice?.deviceStatus?.docker?.images && (
-          <ImageDialog
-            images={foundDevice.deviceStatus.docker.images}
-            show={showImageDetails}
-            onClose={() => setShowImageDetails(false)}
-          />
-        )}
+            {foundDevice?.deviceStatus?.docker?.containers && (
+              <ContainerDialog
+                show={showContainerDetails}
+                onClose={() => setShowContainerDetails(false)}
+                containers={foundDevice?.deviceStatus.docker?.containers}
+              />
+            )}
 
-        {foundDevice?.deviceStatus?.docker?.volumes && (
-          <VolumeDialog
-            volumes={foundDevice.deviceStatus.docker.volumes}
-            show={showVolumeDetails}
-            onClose={() => setShowVolumeDetails(false)}
-          />
-        )}
-      </PaddingBox>
-    </div>
+            {foundDevice?.deviceStatus?.docker?.images && (
+              <ImageDialog
+                images={foundDevice.deviceStatus.docker.images}
+                show={showImageDetails}
+                onClose={() => setShowImageDetails(false)}
+              />
+            )}
+
+            {foundDevice?.deviceStatus?.docker?.volumes && (
+              <VolumeDialog
+                volumes={foundDevice.deviceStatus.docker.volumes}
+                show={showVolumeDetails}
+                onClose={() => setShowVolumeDetails(false)}
+              />
+            )}
+          </PaddingBox>
+        </TabPanel>
+
+        <TabPanel index={1} value={value}>
+          <UpdateItemInfoPanel itemInfo={device} />
+        </TabPanel>
+        <Spacer height={20} />
+      </div>
+    </ReactJsonFormProvider>
   );
 }
 
@@ -331,6 +367,7 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
   let device: any | null = null;
   const online: boolean = false;
   let found: boolean = false;
+  const tabIndex = parseInt((context.query.tabIndex as string) ?? "0");
 
   try {
     const plugin = new dbServices.StorageManagementService();
@@ -342,12 +379,14 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
   } catch (e) {
     Logger.error("Cannot read details: " + e);
   }
-  console.log(device);
+  console.log(device, online);
 
   const data: Props = {
     device,
     online,
     found,
+    tabIndex,
+    deviceId,
   };
 
   return {

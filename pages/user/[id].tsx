@@ -33,7 +33,7 @@ import { StickyTabs } from "../../components/common/stickyTabs";
 import { TabPanel } from "../../components/common/tabs/horizontal";
 import { Build } from "@mui/icons-material";
 import { dbServices } from "@etherdata-blockchain/services";
-import UserInfoProvider from "../../model/UserInfoProvider";
+import ReactJsonFormProvider from "../../model/ReactJsonFormProvider";
 import { UpdateUserInfoPanel } from "../../components/user/panels/UpdateUserInfoPanel";
 
 interface Props {
@@ -206,9 +206,9 @@ export default function ({
           <Placeholder />
         </TabPanel>
         <TabPanel index={3} value={value}>
-          <UserInfoProvider>
+          <ReactJsonFormProvider>
             <UpdateUserInfoPanel userInfo={userInfo} />
-          </UserInfoProvider>
+          </ReactJsonFormProvider>
         </TabPanel>
         <Spacer height={20} />
       </PaddingBox>

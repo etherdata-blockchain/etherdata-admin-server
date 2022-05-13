@@ -13,8 +13,8 @@ import { getAxiosClient } from "../../internal/const/defaultValues";
 import { configs } from "@etherdata-blockchain/common";
 import { useRouter } from "next/dist/client/router";
 import useUserInfoPanel, {
-  UserInfoContext,
-} from "../../model/UserInfoProvider";
+  ReactJsonFormContext,
+} from "../../model/ReactJsonFormProvider";
 import { UserInfoPanel } from "../common/panels/UserInfoPanel";
 
 type Props = {};
@@ -22,7 +22,7 @@ type Props = {};
 // eslint-disable-next-line require-jsdoc
 export function AddUserBtn(props: Props) {
   const [show, setShow] = React.useState(false);
-  const { submit, isLoading } = React.useContext(UserInfoContext);
+  const { submit, isLoading } = React.useContext(ReactJsonFormContext);
   const router = useRouter();
 
   return (
