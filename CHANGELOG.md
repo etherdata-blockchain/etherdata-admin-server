@@ -1,5 +1,12 @@
 # Changelog
 
+## [4.7.1](https://github.com/etherdata-blockchain/etherdata-admin-server/compare/v4.7.0...v4.7.1) (2022-05-16)
+
+
+### Bug Fixes
+
+* leaving wrong room ([#132](https://github.com/etherdata-blockchain/etherdata-admin-server/issues/132)) ([2be1ee7](https://github.com/etherdata-blockchain/etherdata-admin-server/commit/2be1ee78dd42a53688dffd096da6a222b7420ddb))
+
 # [4.7.0](https://github.com/etherdata-blockchain/etherdata-admin-server/compare/v4.6.0...v4.7.0) (2022-05-13)
 
 
