@@ -85,7 +85,7 @@ export default function DeviceDetail({
     });
 
     return () => {
-      if (found) leaveDetail(device!.id);
+      if (found) leaveDetail(device!.qr_code);
     };
   }, []);
 
