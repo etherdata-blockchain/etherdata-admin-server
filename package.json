@@ -111,7 +111,7 @@
     "@shelf/jest-mongodb": "^2.2.2",
     "@testing-library/dom": "^8.13.0",
     "@testing-library/jest-dom": "^5.16.4",
-    "@testing-library/react": "^13.2.0",
+    "@testing-library/react": "^13.3.0",
     "@types/jest": "^27.5.1",
     "@types/react": "18.0.9",
     "@types/swagger-jsdoc": "^6.0.1",
