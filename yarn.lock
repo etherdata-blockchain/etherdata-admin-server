@@ -4983,10 +4983,10 @@ csstype@^3.1.0:
   resolved "https://registry.yarnpkg.com/csstype/-/csstype-3.1.0.tgz#4ddcac3718d787cf9df0d1b7d15033925c8f29f2"
   integrity sha512-uX1KG+x9h5hIJsaKR9xHUeUraxf8IODOwq9JLNPq6BwB04a/xgpq3rcx47l5BZu5zBPlgD342tdke3Hom/nJRA==
 
-cypress@^10.0.0:
-  version "10.0.0"
-  resolved "https://registry.yarnpkg.com/cypress/-/cypress-10.0.0.tgz#5211052b665af8b2d5323ee2475db088447cd61d"
-  integrity sha512-OdND7TaYZcDD+UYBlL6VCEMZcsclliG9TY/T6zLzeGtwOf5dwi+41nU9XAZzSbByoqturb8HS4G/+XD8PthN5w==
+cypress@^10.0.2:
+  version "10.0.2"
+  resolved "https://registry.yarnpkg.com/cypress/-/cypress-10.0.2.tgz#6aeac1923d534f9850d57dad9496f9ea74034a23"
+  integrity sha512-7+C4KHYBcfZrawss+Gt5PlS35rfc6ySc59JcHDVsIMm1E/J35dqE41UEXpdtwIq3549umCerNWnFADzqib4kcA==
   dependencies:
     "@cypress/request" "^2.88.10"
     "@cypress/xvfb" "^1.2.4"
@@ -10584,10 +10584,10 @@ redent@^3.0.0:
     indent-string "^4.0.0"
     strip-indent "^3.0.0"
 
-redoc@^2.0.0-rc.71:
-  version "2.0.0-rc.71"
-  resolved "https://registry.yarnpkg.com/redoc/-/redoc-2.0.0-rc.71.tgz#571bef3eed5a89876266aad2689c7dc2a56c1e60"
-  integrity sha512-QVZq9irDKh/DqnxTWUrxxUy+kO0LYl3nKePsVxcCDGXsX5GOx8y8SMcQ8qxW8prUmwhcDtq2AGF96r3MsljiJQ==
+redoc@^2.0.0-rc.72:
+  version "2.0.0-rc.72"
+  resolved "https://registry.yarnpkg.com/redoc/-/redoc-2.0.0-rc.72.tgz#9eee22104d652b4a90e19ca50009b0b623a7b5b3"
+  integrity sha512-IX/WvVh4N3zwo4sAjnQFz6ffIUd6G47hcflxPtrpxblJaeOy0MBSzzY8f179WjssWPYcSmmndP5v0hgEXFiimg==
   dependencies:
     "@redocly/openapi-core" "^1.0.0-beta.97"
     classnames "^2.3.1"
