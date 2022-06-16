@@ -9095,10 +9095,10 @@ mongodb-memory-server-core@7.6.3:
     uuid "^8.3.1"
     yauzl "^2.10.0"
 
-mongodb-memory-server-core@8.6.0:
-  version "8.6.0"
-  resolved "https://registry.yarnpkg.com/mongodb-memory-server-core/-/mongodb-memory-server-core-8.6.0.tgz#3c5c656544d4e36fe0e2aa63184f88ff64662782"
-  integrity sha512-vuJfoK1TUPKwmspRxvkMUod34BInHmWF6li3nXlQ9bvaA2Xg4p3GsTkplyuwTBkLgeLL9AwIU0rk3CDwKpym1w==
+mongodb-memory-server-core@8.6.1:
+  version "8.6.1"
+  resolved "https://registry.yarnpkg.com/mongodb-memory-server-core/-/mongodb-memory-server-core-8.6.1.tgz#3b2588c8c2b7f7ee5b0a405536e3221c6b01e76f"
+  integrity sha512-GOe2AOYzqUg9DsSJFA7wbWaqt4pbaulXhM1lgs19s+H0Q/VkFtvB3RpOvnWVLAV5PADg9zTY22ecVI2txTxGow==
   dependencies:
     "@types/tmp" "^0.2.3"
     async-mutex "^0.3.2"
@@ -9125,12 +9125,12 @@ mongodb-memory-server@7.6.3:
     mongodb-memory-server-core "7.6.3"
     tslib "^2.3.0"
 
-mongodb-memory-server@^8.6.0:
-  version "8.6.0"
-  resolved "https://registry.yarnpkg.com/mongodb-memory-server/-/mongodb-memory-server-8.6.0.tgz#18e3637af4c37698be48dc9e4a868ec2c522c37d"
-  integrity sha512-4I3qpIN3Ls5Vs8CPIl7SiT/rQUYmpgP27csDqgkSY7fu09mEqT3ieIC7cRhgx8wuRKr3rTotKMP4G1+Qw7+9Kw==
+mongodb-memory-server@^8.6.1:
+  version "8.6.1"
+  resolved "https://registry.yarnpkg.com/mongodb-memory-server/-/mongodb-memory-server-8.6.1.tgz#513b0bded7f0779e0e383c4c82cd32ccaff37a7a"
+  integrity sha512-X/jlNQnsv1+lTMetg9UAxyOG1soJcfS7bQp0WGQ9bi1J97+OyIWiFR7Tx9wwX3A6eQRBL3B1P+5XFIwLk6XZtg==
   dependencies:
-    mongodb-memory-server-core "8.6.0"
+    mongodb-memory-server-core "8.6.1"
     tslib "^2.4.0"
 
 mongodb@4.5.0, mongodb@^4.5.0:
@@ -9333,10 +9333,10 @@ nextjs-progressbar@^0.0.14:
     nprogress "^0.2.0"
     prop-types "^15.7.2"
 
-nock@^13.2.6:
-  version "13.2.6"
-  resolved "https://registry.yarnpkg.com/nock/-/nock-13.2.6.tgz#35e419cd9d385ffa67e59523d9699e41b29e1a03"
-  integrity sha512-GbyeSwSEP0FYouzETZ0l/XNm5tNcDNcXJKw3LCAb+mx8bZSwg1wEEvdL0FAyg5TkBJYiWSCtw6ag4XfmBy60FA==
+nock@^13.2.7:
+  version "13.2.7"
+  resolved "https://registry.yarnpkg.com/nock/-/nock-13.2.7.tgz#c93933b61df42f4f4b3a07fde946a4e209c0c168"
+  integrity sha512-R6NUw7RIPtKwgK7jskuKoEi4VFMqIHtV2Uu9K/Uegc4TA5cqe+oNMYslZcUmnVNQCTG6wcSqUBaGTDd7sq5srg==
   dependencies:
     debug "^4.1.0"
     json-stringify-safe "^5.0.1"
@@ -12993,10 +12993,10 @@ windows-release@^5.0.1:
   dependencies:
     execa "^5.1.1"
 
-wireit@0.5.0:
-  version "0.5.0"
-  resolved "https://registry.yarnpkg.com/wireit/-/wireit-0.5.0.tgz#89a5c18bef6408a7a6899c124d0ed700ded99f0c"
-  integrity sha512-WaUBjf6Uglipf3q5vNoLsryofZcGq6CxG5vbZsyaqcL2j+/T3+lc/NlEjXMTAWmb8a3MvpVhX3NUk8S04clpRw==
+wireit@0.6.1:
+  version "0.6.1"
+  resolved "https://registry.yarnpkg.com/wireit/-/wireit-0.6.1.tgz#d3f5e0d6765941641376d7760438b1f75d900fae"
+  integrity sha512-UmrAzFd2w6ioyHluPwXr3TxUIo5CIbklTbTTgubN81jQxiPkAHXTjzkfTOjeAdeEzZ5OpsbYCQW5obCrFMlTdw==
   dependencies:
     braces "^3.0.2"
     chokidar "^3.5.3"
