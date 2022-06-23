@@ -125,7 +125,7 @@
     "eslint-plugin-react": "^7.30.0",
     "identity-obj-proxy": "^3.0.0",
     "jest": "^28.1.1",
-    "mongodb-memory-server": "^8.7.0",
+    "mongodb-memory-server": "^8.7.1",
     "nock": "^13.2.7",
     "node-mocks-http": "^1.11.0",
     "prettier": "^2.7.1",
