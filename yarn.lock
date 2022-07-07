@@ -8037,11 +8037,6 @@ is-yarn-global@^0.4.0:
   resolved "https://registry.yarnpkg.com/is-yarn-global/-/is-yarn-global-0.4.0.tgz#714d94453327db9ea98fbf1a0c5f2b88f59ddd5c"
   integrity sha512-HneQBCrXGBy15QnaDfcn6OLoU8AQPAa0Qn0IeJR/QCo4E8dNZaGGwxpCwWyEBQC5QvFonP8d6t60iGpAHVAfNA==
 
-is_js@^0.9.0:
-  version "0.9.0"
-  resolved "https://registry.yarnpkg.com/is_js/-/is_js-0.9.0.tgz#0ab94540502ba7afa24c856aa985561669e9c52d"
-  integrity sha1-CrlFQFArp6+iTIVqqYVWFmnpxS0=
-
 isarray@0.0.1:
   version "0.0.1"
   resolved "https://registry.yarnpkg.com/isarray/-/isarray-0.0.1.tgz#8a18acfca9a8f4177e09abfc6038939b05d1eedf"
@@ -9431,6 +9426,11 @@ moment@^2.29.3:
   version "2.29.3"
   resolved "https://registry.yarnpkg.com/moment/-/moment-2.29.3.tgz#edd47411c322413999f7a5940d526de183c031f3"
   integrity sha512-c6YRvhEo//6T2Jz/vVtYzqBzwvPT95JBQ+smCytzf7c50oMZRsR/a4w88aD34I+/QVSfnoAnSBFPJHItlOMJVw==
+
+moment@^2.29.4:
+  version "2.29.4"
+  resolved "https://registry.yarnpkg.com/moment/-/moment-2.29.4.tgz#3dbe052889fe7c1b2ed966fcb3a77328964ef108"
+  integrity sha512-5LC9SOxjSc2HF6vO2CyuTDNivEdoz2IvyJJGj6X8DJ0eFyfszE0QiEd+iXmBvUP3WHxSjFH/vIsA0EN00cgr8w==
 
 mongodb-connection-string-url@^2.5.2:
   version "2.5.2"
@@ -11302,12 +11302,10 @@ repeat-string@^1.5.2:
   resolved "https://registry.yarnpkg.com/repeat-string/-/repeat-string-1.6.1.tgz#8dcae470e1c88abc2d600fff4a776286da75e637"
   integrity sha1-jcrkcOHIirwtYA//Sndihtp15jc=
 
-request-ip@^3.0.2:
-  version "3.0.2"
-  resolved "https://registry.yarnpkg.com/request-ip/-/request-ip-3.0.2.tgz#d99e759e79ad4b6cac6bc80674ddbdcdd4e8b39e"
-  integrity sha512-uH2rCq8yug89KD1r59obP6n2PySNmXKtqzUgYlR+7b3njx9QM2e7mG+P5PMWp3ipUH4XjidUjZbjPnQRY+QdpA==
-  dependencies:
-    is_js "^0.9.0"
+request-ip@^3.2.0:
+  version "3.2.0"
+  resolved "https://registry.yarnpkg.com/request-ip/-/request-ip-3.2.0.tgz#1f81b9bcec879f18eed515408e466811757effdf"
+  integrity sha512-ex5seRbPL5UW9H6EsPuEeo3fhTb6huQzyBn3Rr75n51eJMWxQH6hEfHRJZwy8aSL7Hkas5dENVR85yqQKJL41A==
 
 request-progress@^3.0.0:
   version "3.0.0"
