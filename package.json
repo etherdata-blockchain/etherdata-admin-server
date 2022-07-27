@@ -89,7 +89,7 @@
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "realm-web": "^1.7.1",
-    "recharts": "^2.1.12",
+    "recharts": "^2.1.13",
     "redoc": "^2.0.0-rc.72",
     "request-ip": "^3.3.0",
     "socket.io": "^4.5.1",
@@ -129,7 +129,7 @@
     "nock": "^13.2.9",
     "node-mocks-http": "^1.11.0",
     "prettier": "^2.7.1",
-    "release-it": "^15.1.4",
+    "release-it": "^15.2.0",
     "ts-node-dev": "^2.0.0",
     "typescript": "4.7.4",
     "wireit": "0.7.1"
