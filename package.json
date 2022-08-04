@@ -81,7 +81,7 @@
     "mobx": "^6.6.1",
     "moment": "^2.29.4",
     "next": "12.2.3",
-    "next-swagger-doc": "^0.3.4",
+    "next-swagger-doc": "^0.3.5",
     "nextjs-progressbar": "^0.0.14",
     "openapi-types": "^12.0.0",
     "query-string": "^7.1.1",
