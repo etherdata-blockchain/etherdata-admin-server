@@ -3163,14 +3163,15 @@
     pluralize "^8.0.0"
     yaml-ast-parser "0.0.43"
 
-"@release-it/conventional-changelog@^5.0.0":
-  version "5.0.0"
-  resolved "https://registry.yarnpkg.com/@release-it/conventional-changelog/-/conventional-changelog-5.0.0.tgz#2359e19f7d609c60c31a680faaaeead6efc752d7"
-  integrity sha512-YAvGgxA8cIQSbmyHmAmLMwzCkNP74upLST8jFuDJTI+AVfK2Grp2HbZu0/NeV3sHYD20sT8YMzNVUeRxNlyHeg==
+"@release-it/conventional-changelog@^5.1.0":
+  version "5.1.0"
+  resolved "https://registry.yarnpkg.com/@release-it/conventional-changelog/-/conventional-changelog-5.1.0.tgz#94ed149775468a08035c6102014f6e8496472a76"
+  integrity sha512-o55D822tVIoldUDj1Fp1KvenVREcEEjYOyuVNwRVnTcExFN6nWUPrH05q7Y8opT23N5snuCwPJ5bzLPEcpBvRg==
   dependencies:
     concat-stream "^2.0.0"
     conventional-changelog "^3.1.25"
     conventional-recommended-bump "^6.1.0"
+    semver "^7.3.7"
 
 "@rjsf/core@^4.1.0":
   version "4.2.0"
@@ -12714,10 +12715,10 @@ swagger-parser@10.0.2:
   dependencies:
     "@apidevtools/swagger-parser" "10.0.2"
 
-swagger-ui-react@^4.13.2:
-  version "4.13.2"
-  resolved "https://registry.yarnpkg.com/swagger-ui-react/-/swagger-ui-react-4.13.2.tgz#dee4f42dae9ca8b9ac85e64a46fc12c694100a80"
-  integrity sha512-U3IarPb0Vyi5/bHb45Q8uWf/7fowPp3B+LeYF0VKB4xhgKNiaPypPHoSJW9oCse/lkFGd4ZKyqBOpYXCsWMcgA==
+swagger-ui-react@^4.14.0:
+  version "4.14.0"
+  resolved "https://registry.yarnpkg.com/swagger-ui-react/-/swagger-ui-react-4.14.0.tgz#c1a26955d8481ad024eada6e1d59c44d0b061ab1"
+  integrity sha512-Yz3E5a5ujj2jqI4V+OELUjgs04uGNkJxbFLTe9KyrSs37yeMsyoDwLRGWuAAP6BRLhonJzLeZRTbnD2cK+iVew==
   dependencies:
     "@babel/runtime-corejs3" "^7.18.9"
     "@braintree/sanitize-url" "=6.0.0"
