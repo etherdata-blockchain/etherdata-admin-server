@@ -2903,24 +2903,13 @@
     prop-types "^15.8.1"
     react-is "^17.0.2"
 
-"@mui/utils@^5.9.3":
-  version "5.9.3"
-  resolved "https://registry.yarnpkg.com/@mui/utils/-/utils-5.9.3.tgz#a11e0824f00b7ea40257b390060ce167fe861d02"
-  integrity sha512-l0N5bcrenE9hnwZ/jPecpIRqsDFHkPXoFUcmkgysaJwVZzJ3yQkGXB47eqmXX5yyGrSc6HksbbqXEaUya+siew==
-  dependencies:
-    "@babel/runtime" "^7.17.2"
-    "@types/prop-types" "^15.7.5"
-    "@types/react-is" "^16.7.1 || ^17.0.0"
-    prop-types "^15.8.1"
-    react-is "^18.2.0"
-
-"@mui/x-data-grid@^5.17.2":
-  version "5.17.2"
-  resolved "https://registry.yarnpkg.com/@mui/x-data-grid/-/x-data-grid-5.17.2.tgz#50b6b130c8a6c59c57ceb73d8e53e71cc3cc1ed1"
-  integrity sha512-zAwX57HHAanmPem1UrfsYNUX4cazrVpXZvgbfkrjDFjsmCuWz9vTuk67YgEx5VuDG1U/suFB1E9UO/LpYb7n4A==
+"@mui/x-data-grid@^5.17.3":
+  version "5.17.3"
+  resolved "https://registry.yarnpkg.com/@mui/x-data-grid/-/x-data-grid-5.17.3.tgz#3a2802c71bb99d30953ae1d6a6d6107e60300c68"
+  integrity sha512-EBTD7nfV3b6Zz7X8IS0BR4x3ihzHqGAemP6Ah22N/oHTIz+HWsCMtsYWRs5SjQewVjY8JXJ3fcJJEgldOcaqqg==
   dependencies:
     "@babel/runtime" "^7.18.9"
-    "@mui/utils" "^5.9.3"
+    "@mui/utils" "^5.10.3"
     clsx "^1.2.1"
     prop-types "^15.8.1"
     reselect "^4.1.6"
