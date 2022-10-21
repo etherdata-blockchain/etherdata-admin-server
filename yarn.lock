@@ -2940,10 +2940,10 @@
     prop-types "^15.8.1"
     react-is "^17.0.2"
 
-"@mui/x-data-grid@^5.17.7":
-  version "5.17.7"
-  resolved "https://registry.yarnpkg.com/@mui/x-data-grid/-/x-data-grid-5.17.7.tgz#e338eb715e2bab77f7a191c9f2d212dbe08ae946"
-  integrity sha512-AwvmXcpqPCJAgakYa7BL+PZcFAwD2ulY9UJf1Bo2G0bDim8rJ5M46ewO0C70oOn5NiZwO/90/bo9/sbb5wwtKQ==
+"@mui/x-data-grid@^5.17.8":
+  version "5.17.8"
+  resolved "https://registry.yarnpkg.com/@mui/x-data-grid/-/x-data-grid-5.17.8.tgz#7d03dc4b4d89af420942bdf4ac05ffbd048efa22"
+  integrity sha512-Rkm6v6JxvoCBWhcbinKXc6dyPo+2vgxfous1C6qlmtm9DktTjUNSqF4OkeM1vEEPSfJW3MDn1diN0hLLeYM1FA==
   dependencies:
     "@babel/runtime" "^7.18.9"
     "@mui/utils" "^5.10.3"
@@ -13124,10 +13124,10 @@ swagger-parser@10.0.2:
   dependencies:
     "@apidevtools/swagger-parser" "10.0.2"
 
-swagger-ui-react@^4.14.3:
-  version "4.14.3"
-  resolved "https://registry.yarnpkg.com/swagger-ui-react/-/swagger-ui-react-4.14.3.tgz#0ab6f835941ba230abb06e9cf76edf7d9a99a109"
-  integrity sha512-dUQUK0IeN/NpWbNTUGCfwdQpFXQhKKaaUkQr0bK8xzK3OPFky8mkkwkjZQk9PGPsU7AZUtZ3KGFil56nmDuBQQ==
+swagger-ui-react@^4.15.0:
+  version "4.15.0"
+  resolved "https://registry.yarnpkg.com/swagger-ui-react/-/swagger-ui-react-4.15.0.tgz#4b80e03a727e765267cdf1a3163c4d591d6535f7"
+  integrity sha512-StD7tZOwlXyLeVU8BaQ48KzoyuSEr8fOFF27vQ248w6k7yfbfgZZI/uNsYJXyOhpNtdF+o3gEWX4WJhAyVRobA==
   dependencies:
     "@babel/runtime-corejs3" "^7.18.9"
     "@braintree/sanitize-url" "=6.0.0"
