@@ -2945,10 +2945,10 @@
     prop-types "^15.8.1"
     react-is "^17.0.2"
 
-"@mui/x-data-grid@^5.17.8":
-  version "5.17.8"
-  resolved "https://registry.yarnpkg.com/@mui/x-data-grid/-/x-data-grid-5.17.8.tgz#7d03dc4b4d89af420942bdf4ac05ffbd048efa22"
-  integrity sha512-Rkm6v6JxvoCBWhcbinKXc6dyPo+2vgxfous1C6qlmtm9DktTjUNSqF4OkeM1vEEPSfJW3MDn1diN0hLLeYM1FA==
+"@mui/x-data-grid@^5.17.9":
+  version "5.17.9"
+  resolved "https://registry.yarnpkg.com/@mui/x-data-grid/-/x-data-grid-5.17.9.tgz#6016ba37745793e382eca428d3928bef294c6d16"
+  integrity sha512-D87M4BVmbSR0ZRJoev7JS01YUVk2NQPCwseVb/Su0/UScpCfUpKlukmMXx0jJnd3066pjYSKIIdvVit3nQU/UA==
   dependencies:
     "@babel/runtime" "^7.18.9"
     "@mui/utils" "^5.10.3"
@@ -10220,12 +10220,42 @@ mongodb-memory-server-core@8.9.3:
     uuid "^8.3.1"
     yauzl "^2.10.0"
 
-mongodb-memory-server@8.9.3, mongodb-memory-server@^8.9.3:
+mongodb-memory-server-core@8.9.4:
+  version "8.9.4"
+  resolved "https://registry.yarnpkg.com/mongodb-memory-server-core/-/mongodb-memory-server-core-8.9.4.tgz#84d800ca280334aab5f69e9003e9f4f749d38769"
+  integrity sha512-qsJITBeu7KFFp31RejbK/Xm1KlwEi8I7VQQU+zzpo23fxxaJJN2j0idG016TIOpHOhngdTqLISp70bhsIRCHkg==
+  dependencies:
+    "@types/tmp" "^0.2.3"
+    async-mutex "^0.3.2"
+    camelcase "^6.3.0"
+    debug "^4.3.4"
+    find-cache-dir "^3.3.2"
+    get-port "^5.1.1"
+    https-proxy-agent "^5.0.1"
+    md5-file "^5.0.0"
+    mongodb "~4.9.0"
+    new-find-package-json "^2.0.0"
+    semver "^7.3.7"
+    tar-stream "^2.1.4"
+    tmp "^0.2.1"
+    tslib "^2.4.0"
+    uuid "^8.3.1"
+    yauzl "^2.10.0"
+
+mongodb-memory-server@8.9.3:
   version "8.9.3"
   resolved "https://registry.yarnpkg.com/mongodb-memory-server/-/mongodb-memory-server-8.9.3.tgz#18c23110e0a806ffffcff18e729b35879cd294bb"
   integrity sha512-k/1tbGmN6Xegj/XoSA4F/PpKpdRHyT/3HMldhGyiOXx8RNAkJdc/Q9N4+1pCK+HKHMk7BInbo42Bn4OUeAT+hw==
   dependencies:
     mongodb-memory-server-core "8.9.3"
+    tslib "^2.4.0"
+
+mongodb-memory-server@^8.9.4:
+  version "8.9.4"
+  resolved "https://registry.yarnpkg.com/mongodb-memory-server/-/mongodb-memory-server-8.9.4.tgz#599ce2584da70fb9701cac2d0255be68ee1e9f80"
+  integrity sha512-EWrctvLuXQAKEyBQl8c8uVbIXn6GpcapY0c7sdM0ABcsgqftBmU0v0MpI65csuivalWzCsKjAuiugj88+xxUJQ==
+  dependencies:
+    mongodb-memory-server-core "8.9.4"
     tslib "^2.4.0"
 
 mongodb@4.5.0:
