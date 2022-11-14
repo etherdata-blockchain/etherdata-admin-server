@@ -32,7 +32,7 @@ export function DeviceIdsAutoComplete(props: Props) {
       multiple
       id={props.id}
       loading={isLoading}
-      defaultValue={props.defaultValues}
+      defaultValue={props.defaultValues as any}
       renderInput={(p) => (
         <TextField
           {...p}

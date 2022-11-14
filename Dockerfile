@@ -15,8 +15,10 @@ RUN apk add --no-cache python3 py3-pip
 RUN apk update && apk add make g++ && rm -rf /var/cache/apk/*
 
 WORKDIR /app/
-COPY . .
+COPY package.json .
+COPY yarn.lock .
 RUN yarn
+COPY . .
 RUN yarn build
 
 
