@@ -38,6 +38,8 @@ async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
   const items = storageItems.results.map((item) => ({
     ...item.toJSON(),
     deviceStatus: undefined,
+    lastSeen: item.deviceStatus.lastSeen,
+    isOnline: item.deviceStatus.isOnline,
   }));
 
   res.status(StatusCodes.OK).json({ ...storageItems, results: items });
