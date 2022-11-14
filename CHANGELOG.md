@@ -1,5 +1,12 @@
 # Changelog
 
+# [4.8.0](https://github.com/etherdata-blockchain/etherdata-admin-server/compare/v4.7.1...v4.8.0) (2022-11-14)
+
+
+### Features
+
+* add api v2 ([#137](https://github.com/etherdata-blockchain/etherdata-admin-server/issues/137)) ([8e778e7](https://github.com/etherdata-blockchain/etherdata-admin-server/commit/8e778e739a07e1f8e6db2d8921195e650773a69f))
+
 ## [4.7.1](https://github.com/etherdata-blockchain/etherdata-admin-server/compare/v4.7.0...v4.7.1) (2022-05-16)
 
 
