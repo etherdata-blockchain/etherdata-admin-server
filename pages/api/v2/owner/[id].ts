@@ -1,4 +1,3 @@
-import { configs } from "@etherdata-blockchain/common";
 import {
   jwtVerificationHandler,
   methodAllowedHandler,
@@ -28,7 +27,6 @@ interface Data {}
  */
 async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
   const { page, id } = req.query;
-  console.log(id);
 
   const currentPage = parseInt((page as string) ?? "1");
   const storagePlugin = new dbServices.StorageManagementService();
@@ -37,7 +35,12 @@ async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
     (id === "null" ? null : id) as any
   );
 
-  res.status(StatusCodes.OK).send(storageItems);
+  const items = storageItems.results.map((item) => ({
+    ...item.toJSON(),
+    deviceStatus: undefined,
+  }));
+
+  res.status(StatusCodes.OK).json({ ...storageItems, results: items });
 }
 
 export default methodAllowedHandler(jwtVerificationHandler(handler), [
