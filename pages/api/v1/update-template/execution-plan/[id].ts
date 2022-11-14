@@ -80,7 +80,11 @@ async function handler(req: NextApiRequest, res: NextApiResponse<Response>) {
       updateTemplateId as string
     )) as unknown as interfaces.db.ExecutionPlanDBInterface[] | undefined;
     // Add remaining counter
-    await addPendingPlans(executionPlans, pendingJobService, updateTemplateId);
+    await addPendingPlans(
+      executionPlans,
+      pendingJobService,
+      updateTemplateId as any
+    );
 
     res.status(StatusCodes.OK).json(executionPlans);
   }

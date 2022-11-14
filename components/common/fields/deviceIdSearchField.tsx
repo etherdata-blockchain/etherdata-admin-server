@@ -30,7 +30,7 @@ export function DeviceIdSearchField(props: Props) {
         <SearchIcon />
         <Autocomplete
           options={options}
-          getOptionLabel={(o) => `${o.qr_code}`}
+          getOptionLabel={(o: any) => `${o.qr_code}`}
           loading={isLoading}
           onInputChange={(e, value) => search(value)}
           onChange={async (e, newValue) => {
