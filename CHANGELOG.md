@@ -1,5 +1,12 @@
 # Changelog
 
+## [4.8.2](https://github.com/etherdata-blockchain/etherdata-admin-server/compare/v4.8.1...v4.8.2) (2022-11-14)
+
+
+### Bug Fixes
+
+* update api including last seen in api ([#140](https://github.com/etherdata-blockchain/etherdata-admin-server/issues/140)) ([e23ca03](https://github.com/etherdata-blockchain/etherdata-admin-server/commit/e23ca03ed5562985a86f2198f5418aae33d1a9f1))
+
 ## [4.8.1](https://github.com/etherdata-blockchain/etherdata-admin-server/compare/v4.8.0...v4.8.1) (2022-11-14)
 
 
