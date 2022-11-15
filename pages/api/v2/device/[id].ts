@@ -28,11 +28,13 @@ interface Data {}
  */
 async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
   const { id } = req.query;
-  console.log(id);
   const service = new dbServices.StorageManagementService();
   const client = await service.getDeviceByID(id as string);
 
-  res.status(StatusCodes.OK).send(client);
+  res.status(StatusCodes.OK).json({
+    ...client.toJSON(),
+    isOnline: client.deviceStatus.isOnline,
+  });
 }
 
 export default methodAllowedHandler(jwtVerificationHandler(handler), [
