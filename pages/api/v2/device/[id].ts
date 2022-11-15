@@ -30,11 +30,10 @@ async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
   const { id } = req.query;
   const service = new dbServices.StorageManagementService();
   const client = await service.getDeviceByID(id as string);
+  const data = client.toJSON();
+  data.deviceStatus.isOnline = client.deviceStatus.isOnline;
 
-  res.status(StatusCodes.OK).json({
-    ...client.toJSON(),
-    isOnline: client.deviceStatus.isOnline,
-  });
+  res.status(StatusCodes.OK).json(data);
 }
 
 export default methodAllowedHandler(jwtVerificationHandler(handler), [
