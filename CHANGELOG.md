@@ -1,5 +1,14 @@
 # Changelog
 
+## [4.8.3](https://github.com/etherdata-blockchain/etherdata-admin-server/compare/v4.8.2...v4.8.3) (2022-11-15)
+
+
+### Bug Fixes
+
+* add isOnline field ([c31ca03](https://github.com/etherdata-blockchain/etherdata-admin-server/commit/c31ca031d3e0cf9175662ae9d2cb0e3ff90b6556))
+* isOnline pos ([3c6e2ee](https://github.com/etherdata-blockchain/etherdata-admin-server/commit/3c6e2eeeb40d0fc9c2cd5e491e454244dabe78db))
+* undefined issue ([8b49e41](https://github.com/etherdata-blockchain/etherdata-admin-server/commit/8b49e41de775338c9dfb31f9b7d267df4c033e2c))
+
 ## [4.8.2](https://github.com/etherdata-blockchain/etherdata-admin-server/compare/v4.8.1...v4.8.2) (2022-11-14)
 
 
