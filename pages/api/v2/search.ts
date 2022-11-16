@@ -25,7 +25,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
   const devices = await storageManagementService.search(key as string);
 
   if (devices) {
-    res.status(StatusCodes.OK).json(devices);
+    res.status(StatusCodes.OK).json(devices.slice(0, 20));
     return;
   } else {
     res.status(StatusCodes.OK).json([]);
