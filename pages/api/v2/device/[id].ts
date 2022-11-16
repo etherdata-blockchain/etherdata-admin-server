@@ -31,7 +31,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
   const service = new dbServices.StorageManagementService();
   const client = await service.getDeviceByID(id as string);
   const data = client.toJSON();
-  data.deviceStatus.isOnline = client.deviceStatus.isOnline;
+  data.deviceStatus.isOnline = client.deviceStatus?.isOnline ?? false;
 
   res.status(StatusCodes.OK).json(data);
 }
