@@ -10836,10 +10836,10 @@ mongodb-connection-string-url@^2.5.3, mongodb-connection-string-url@^2.5.4:
     "@types/whatwg-url" "^8.2.1"
     whatwg-url "^11.0.0"
 
-mongodb-memory-server-core@8.11.0:
-  version "8.11.0"
-  resolved "https://registry.yarnpkg.com/mongodb-memory-server-core/-/mongodb-memory-server-core-8.11.0.tgz#554c5916a87347528f2524b037e827b0d50f9283"
-  integrity sha512-67nj0U6k7fzx6fPys5n6kVkWYm4iiz/yqdMjVr2sgwqajnrdZ/HzBFO+eQImUVyvjOEZ08IKRZe1JO9q8GTMJA==
+mongodb-memory-server-core@8.11.1:
+  version "8.11.1"
+  resolved "https://registry.yarnpkg.com/mongodb-memory-server-core/-/mongodb-memory-server-core-8.11.1.tgz#42fec99d28af125710539ab5723da98205b55b56"
+  integrity sha512-Qh0xtjRU2XyX7kpTGkl8AMcE29h3IWRQ2yErYBjNj6wr9eVd7riYYOg/KWMEk+nmQrSrfJrOQbymSOnFCbl1DA==
   dependencies:
     "@types/tmp" "^0.2.3"
     async-mutex "^0.3.2"
@@ -10888,12 +10888,12 @@ mongodb-memory-server@8.9.3:
     mongodb-memory-server-core "8.9.3"
     tslib "^2.4.0"
 
-mongodb-memory-server@^8.11.0:
-  version "8.11.0"
-  resolved "https://registry.yarnpkg.com/mongodb-memory-server/-/mongodb-memory-server-8.11.0.tgz#96ef32dc1baddb8e7e0ac89cecdf96ba45ab8af2"
-  integrity sha512-PH+3h28FNMfw4cHJmMHOG+o+Fy2eWCW7wnpdHI1+ub8NLc1g+nhJZL/Xu97uLHBAx8xNjjpLKBJf00BZ0YFheQ==
+mongodb-memory-server@^8.11.1:
+  version "8.11.1"
+  resolved "https://registry.yarnpkg.com/mongodb-memory-server/-/mongodb-memory-server-8.11.1.tgz#3d8003238cc5f3734c8d17073cd19a3ab1f810b1"
+  integrity sha512-H7vzLw8ohqglh0/NKe6TGO8cugoX6amJUkzwkRVIt4ND4hjFXR+EyH8SkF6weqGTPbzvhlLDzUO0hZumF0AEZA==
   dependencies:
-    mongodb-memory-server-core "8.11.0"
+    mongodb-memory-server-core "8.11.1"
     tslib "^2.4.1"
 
 mongodb@4.5.0:
@@ -14204,10 +14204,10 @@ trim-newlines@^3.0.0:
   resolved "https://registry.yarnpkg.com/trim-newlines/-/trim-newlines-3.0.1.tgz#260a5d962d8b752425b32f3a7db0dcacd176c144"
   integrity sha512-c1PTsA3tYrIsLGkJkzHF+w9F2EyxfXGo4UyJc4pFL++FMjnq0HJS69T3M7d//gKrFKwy429bouPescbjecU+Zw==
 
-ts-jest@^29.0.4:
-  version "29.0.4"
-  resolved "https://registry.yarnpkg.com/ts-jest/-/ts-jest-29.0.4.tgz#9bc1fd0ec4d863f001af6c5c630e3a807df90f6d"
-  integrity sha512-YdNofkoyzeinwjIqLSYQeAM+GTmFQ7xFNtWcR5OyitY5VLzzNINrNmfhP5H3daA/V+RGQR7O3g1K6ysRgu5xIQ==
+ts-jest@^29.0.5:
+  version "29.0.5"
+  resolved "https://registry.yarnpkg.com/ts-jest/-/ts-jest-29.0.5.tgz#c5557dcec8fe434fcb8b70c3e21c6b143bfce066"
+  integrity sha512-PL3UciSgIpQ7f6XjVOmbi96vmDHUqAyqDr8YxzopDqX3kfgYtX1cuNeBjP+L9sFXi6nzsGGA6R3fP3DDDJyrxA==
   dependencies:
     bs-logger "0.x"
     fast-json-stable-stringify "2.x"
