@@ -3418,10 +3418,10 @@
     prop-types "^15.8.1"
     react-is "^17.0.2"
 
-"@mui/x-data-grid@^5.17.21":
-  version "5.17.21"
-  resolved "https://registry.yarnpkg.com/@mui/x-data-grid/-/x-data-grid-5.17.21.tgz#43ffdf8d64d8ea998a5ee17c9a9529dcbcf79a20"
-  integrity sha512-dgYYk1H3BEyGg7/RDet+ZBiTZQ9ZEIHE5QhVZ1glopVDRgWJmtcqPUQakkHQzxerEsKVwZ5QEEfueKuoX8oebg==
+"@mui/x-data-grid@^5.17.22":
+  version "5.17.22"
+  resolved "https://registry.yarnpkg.com/@mui/x-data-grid/-/x-data-grid-5.17.22.tgz#db0eae1448631c3fb0168d05bf7111a6a3f5e1d2"
+  integrity sha512-75nc+BL5G8/KzMOBl7NQ622D9n6mLx3tsRnF0HmccGYLMrZ7jlBMz50M9thrDee7b27CsrZolay7tq+cPFrq4Q==
   dependencies:
     "@babel/runtime" "^7.18.9"
     "@mui/utils" "^5.10.3"
@@ -6538,10 +6538,10 @@ csstype@^3.1.1:
   resolved "https://registry.yarnpkg.com/csstype/-/csstype-3.1.1.tgz#841b532c45c758ee546a11d5bd7b7b473c8c30b9"
   integrity sha512-DJR/VvkAvSZW9bTouZue2sSxDwdTN92uHjqeKVm+0dAqdfNykRzQ95tay8aXMBAAPpUiq4Qcug2L7neoRh2Egw==
 
-cypress@^12.5.0:
-  version "12.5.0"
-  resolved "https://registry.yarnpkg.com/cypress/-/cypress-12.5.0.tgz#e2070d9351944f79fd8688fc7ec0bfdf91c30e1e"
-  integrity sha512-CRo1DIr0LoCE3SNb/kJ0TZM9dIdiy7fNlRp/YoPfAv+XOKZV27LQ7zZUi4lMmHIEo3K0dAN5+tJ/8eZc/Jmbyg==
+cypress@^12.5.1:
+  version "12.5.1"
+  resolved "https://registry.yarnpkg.com/cypress/-/cypress-12.5.1.tgz#effdcccdd5a6187d61d497300903d4f3b5b21b6e"
+  integrity sha512-ZmCmJ3lsyeOpBfh410m5+AO2CO1AxAzFBt7k6/uVbNcrNZje1vdiwYTpj2ksPKg9mjr9lR6V8tmlDNMvr4H/YQ==
   dependencies:
     "@cypress/request" "^2.88.10"
     "@cypress/xvfb" "^1.2.4"
