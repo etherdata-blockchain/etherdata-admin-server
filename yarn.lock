@@ -3801,10 +3801,10 @@
     prop-types "^15.7.2"
     react-is "^16.9.0"
 
-"@rjsf/core@^5.0.1":
-  version "5.0.1"
-  resolved "https://registry.yarnpkg.com/@rjsf/core/-/core-5.0.1.tgz#f6d9c3d604c493a986e84efdcabe416616ab9a64"
-  integrity sha512-OlRK/KRlwsIfYcrxx90lgGA6iCqb9W3hPDDHJRcHtbl+cMT1z3Fz+vS1NseNngv1tIogkDOhsaCrMy6SxZiBWw==
+"@rjsf/core@^5.0.2":
+  version "5.0.2"
+  resolved "https://registry.yarnpkg.com/@rjsf/core/-/core-5.0.2.tgz#1283cbdcfa8ed5ab2fb77609056e759d80fee7bc"
+  integrity sha512-uSb8PI08m2vFDlO86yuxdQd54MeTkgZUPzAFarL08j0QlAqiYLrTPqTkzbsldZ+pAPu+IRdOcQlBQ24gxztmsg==
   dependencies:
     lodash "^4.17.15"
     lodash-es "^4.17.15"
@@ -3816,10 +3816,10 @@
   resolved "https://registry.yarnpkg.com/@rjsf/material-ui/-/material-ui-4.2.0.tgz#324a450834efd9ca71e0c94d794009780c902587"
   integrity sha512-WQ1dMX1tlMjG5jPbRbFPFkuy5zSb+rDb7HRE2Zx/JgYndBRdxiqAbGB8DcaJKaGUJ+1eURk3MWClU5pWfoN3qg==
 
-"@rjsf/material-ui@^5.0.1":
-  version "5.0.1"
-  resolved "https://registry.yarnpkg.com/@rjsf/material-ui/-/material-ui-5.0.1.tgz#cc57f95c0938e4d90235ca8c52d6f8552d68fe08"
-  integrity sha512-1HczqVWSnUuv4pVJTthHy79CxJq5Jh1LWnxgN6sgRTgODu8uLxT6XBM+wqywgV/KrDhCnryRMooBJeSb0D8DYA==
+"@rjsf/material-ui@^5.0.2":
+  version "5.0.2"
+  resolved "https://registry.yarnpkg.com/@rjsf/material-ui/-/material-ui-5.0.2.tgz#df90279bc9538db63f5d6038b78363c83a2a0e5a"
+  integrity sha512-46km7AbUwjH10LCSXLr4O00Jrm/Tq8p3GDwMQ2B+o0dk6RwNL951qYXsX5h8m7QWafYA/PaZOa5falW4ZMySYA==
 
 "@rushstack/eslint-patch@^1.1.3":
   version "1.1.3"
@@ -4191,22 +4191,22 @@
     "@types/docker-modem" "*"
     "@types/node" "*"
 
-"@types/express-serve-static-core@^4.17.31":
-  version "4.17.31"
-  resolved "https://registry.yarnpkg.com/@types/express-serve-static-core/-/express-serve-static-core-4.17.31.tgz#a1139efeab4e7323834bb0226e62ac019f474b2f"
-  integrity sha512-DxMhY+NAsTwMMFHBTtJFNp5qiHKJ7TeqOo23zVEM9alT1Ml27Q3xcTH0xwxn7Q0BbMcVEJOs/7aQtUWupUQN3Q==
+"@types/express-serve-static-core@^4.17.33":
+  version "4.17.33"
+  resolved "https://registry.yarnpkg.com/@types/express-serve-static-core/-/express-serve-static-core-4.17.33.tgz#de35d30a9d637dc1450ad18dd583d75d5733d543"
+  integrity sha512-TPBqmR/HRYI3eC2E5hmiivIzv+bidAfXofM+sbonAGvyDhySGw9/PQZFt2BLOrjUUR++4eJVpx6KnLQK1Fk9tA==
   dependencies:
     "@types/node" "*"
     "@types/qs" "*"
     "@types/range-parser" "*"
 
-"@types/express@^4.17.16":
-  version "4.17.16"
-  resolved "https://registry.yarnpkg.com/@types/express/-/express-4.17.16.tgz#986caf0b4b850611254505355daa24e1b8323de8"
-  integrity sha512-LkKpqRZ7zqXJuvoELakaFYuETHjZkSol8EV6cNnyishutDBCCdv6+dsKPbKkCcIk57qRphOLY5sEgClw1bO3gA==
+"@types/express@^4.17.17":
+  version "4.17.17"
+  resolved "https://registry.yarnpkg.com/@types/express/-/express-4.17.17.tgz#01d5437f6ef9cfa8668e616e13c2f2ac9a491ae4"
+  integrity sha512-Q4FmmuLGBG58btUnfS1c1r/NQdlp3DMfGDGig8WhfpA2YRUtEkxAjkZb0yvplJGYdF1fsQ81iMDcH24sSCNC/Q==
   dependencies:
     "@types/body-parser" "*"
-    "@types/express-serve-static-core" "^4.17.31"
+    "@types/express-serve-static-core" "^4.17.33"
     "@types/qs" "*"
     "@types/serve-static" "*"
 
@@ -5122,10 +5122,10 @@ axios@^0.27.2:
     follow-redirects "^1.14.9"
     form-data "^4.0.0"
 
-axios@^1.3.1:
-  version "1.3.1"
-  resolved "https://registry.yarnpkg.com/axios/-/axios-1.3.1.tgz#80bf6c8dbb46e6db1fa8fe9ab114c1ca7405c2ee"
-  integrity sha512-78pWJsQTceInlyaeBQeYZ/QgZeWS8hGeKiIJiDKQe3hEyBb7sEMq0K4gjx+Va6WHTYO4zI/RRl8qGRzn0YMadA==
+axios@^1.3.2:
+  version "1.3.2"
+  resolved "https://registry.yarnpkg.com/axios/-/axios-1.3.2.tgz#7ac517f0fa3ec46e0e636223fd973713a09c72b3"
+  integrity sha512-1M3O703bYqYuPhbHeya5bnhpYVsDDRyQSabNja04mZtboLNSuZ4YrltestrLXfHgmzua4TpUqRiVKbiQuo2epw==
   dependencies:
     follow-redirects "^1.15.0"
     form-data "^4.0.0"
