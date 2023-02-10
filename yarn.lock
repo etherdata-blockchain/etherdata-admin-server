@@ -3418,10 +3418,10 @@
     prop-types "^15.8.1"
     react-is "^17.0.2"
 
-"@mui/x-data-grid@^5.17.22":
-  version "5.17.22"
-  resolved "https://registry.yarnpkg.com/@mui/x-data-grid/-/x-data-grid-5.17.22.tgz#db0eae1448631c3fb0168d05bf7111a6a3f5e1d2"
-  integrity sha512-75nc+BL5G8/KzMOBl7NQ622D9n6mLx3tsRnF0HmccGYLMrZ7jlBMz50M9thrDee7b27CsrZolay7tq+cPFrq4Q==
+"@mui/x-data-grid@^5.17.23":
+  version "5.17.23"
+  resolved "https://registry.yarnpkg.com/@mui/x-data-grid/-/x-data-grid-5.17.23.tgz#93d20b2206f0bc69b11cb83ac415672c3d9727c9"
+  integrity sha512-vCGHiwUp479S/5Le+8zpeJ6hBRVYcP/F0Wbai2rk0VoP6q5ZKPcJ08jdlax62QsIAkmGY67jhXMEQeq43lobqw==
   dependencies:
     "@babel/runtime" "^7.18.9"
     "@mui/utils" "^5.10.3"
@@ -10881,10 +10881,10 @@ mobx-react@^7.2.0:
   dependencies:
     mobx-react-lite "^3.4.0"
 
-mobx@^6.7.0:
-  version "6.7.0"
-  resolved "https://registry.yarnpkg.com/mobx/-/mobx-6.7.0.tgz#2d805610fee1801fd015c54fd5400d2601aa3768"
-  integrity sha512-1kBLBdSNG2bA522HQdbsTvwAwYf9hq9FWxmlhX7wTsJUAI54907J+ozfGW+LoYUo06vjit748g6QH1AAGLNebw==
+mobx@^6.8.0:
+  version "6.8.0"
+  resolved "https://registry.yarnpkg.com/mobx/-/mobx-6.8.0.tgz#59051755fdb5c8a9f3f2e0a9b6abaf86bab7f843"
+  integrity sha512-+o/DrHa4zykFMSKfS8Z+CPSEg5LW9tSNGTuN8o6MF1GKxlfkSHSeJn5UtgxvPkGgaouplnrLXCF+duAsmm6FHQ==
 
 mock-fs@^4.1.0:
   version "4.14.0"
@@ -12664,10 +12664,10 @@ recharts-scale@^0.4.4:
   dependencies:
     decimal.js-light "^2.4.1"
 
-recharts@^2.3.2:
-  version "2.3.2"
-  resolved "https://registry.yarnpkg.com/recharts/-/recharts-2.3.2.tgz#6e9498533dd93314e1d7f08e6496fc422e2e991f"
-  integrity sha512-2II30fGzKaypHfHNQNUhCfiLMxrOS/gF0WFahDIEFgXtJkVEe2DpZWFfEfAn+RU3B7/h2V/B05Bwmqq3rTXwLw==
+recharts@^2.4.0:
+  version "2.4.0"
+  resolved "https://registry.yarnpkg.com/recharts/-/recharts-2.4.0.tgz#1b851cf01c85e44de5520e4b559c2d90a7bf6e3b"
+  integrity sha512-Aukj4jWPfkHNXQ9qdL15XWNACd/t6mK0UdkSmgEyeajMerzdq7UGteK48DhZ44qu+YA2tT7wBp8xVravTK6m5Q==
   dependencies:
     classnames "^2.2.5"
     eventemitter3 "^4.0.1"
