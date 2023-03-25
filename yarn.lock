@@ -3826,14 +3826,14 @@
     prop-types "^15.7.2"
     react-is "^16.9.0"
 
-"@rjsf/core@^5.3.1":
-  version "5.3.1"
-  resolved "https://registry.yarnpkg.com/@rjsf/core/-/core-5.3.1.tgz#a85d57d5b065d0b03a4e4146b33b6d192cec0dd7"
-  integrity sha512-AejBNI5XBmfirubZ2L/f7Hx9hga4E3w777UB4ZvzAPwNygxKS3p/4nUKuP4Ho53aktsArdva0mdmgdBNn8phCw==
+"@rjsf/core@^5.4.0":
+  version "5.4.0"
+  resolved "https://registry.yarnpkg.com/@rjsf/core/-/core-5.4.0.tgz#d75e42a5b8fe9af7b62b04fd8b93629f4e1fa5a7"
+  integrity sha512-0DmEmTCkpnGYju3HycEJb0MoYCp7Swd/R1abllmUg0sqCeffdtYSI4pWL3M1gwyMFT+JWgZWDYQ2CqJUZ9n0NA==
   dependencies:
     lodash "^4.17.15"
     lodash-es "^4.17.15"
-    markdown-to-jsx "^7.1.9"
+    markdown-to-jsx "^7.2.0"
     nanoid "^3.3.4"
     prop-types "^15.7.2"
 
@@ -3842,10 +3842,10 @@
   resolved "https://registry.yarnpkg.com/@rjsf/material-ui/-/material-ui-4.2.0.tgz#324a450834efd9ca71e0c94d794009780c902587"
   integrity sha512-WQ1dMX1tlMjG5jPbRbFPFkuy5zSb+rDb7HRE2Zx/JgYndBRdxiqAbGB8DcaJKaGUJ+1eURk3MWClU5pWfoN3qg==
 
-"@rjsf/material-ui@^5.3.1":
-  version "5.3.1"
-  resolved "https://registry.yarnpkg.com/@rjsf/material-ui/-/material-ui-5.3.1.tgz#5a881d36889a11d61a3dc0b0bcbbda94d7f43a52"
-  integrity sha512-Grnp8v/qtG9pJ8um1fxk3IpNwMaAMbKNopAhT7U4BfEaaAMt1wpYSB1uRxI73/hQczaQ3Aut4NUqdrPh/zHIYQ==
+"@rjsf/material-ui@^5.4.0":
+  version "5.4.0"
+  resolved "https://registry.yarnpkg.com/@rjsf/material-ui/-/material-ui-5.4.0.tgz#e59f8bc3477cecb8e91b37c5b6e3323f7058aee4"
+  integrity sha512-E0SGHSVLYH43djY4GHSaHgf8Jrz1llihiEvklsRbm4Yp1oaATWl1rqd3OJSG9yDXXHILcbp+ATF5lSxC3J5Qdw==
 
 "@rushstack/eslint-patch@^1.1.3":
   version "1.1.3"
@@ -4256,10 +4256,10 @@
     lz-string "^1.4.4"
     pretty-format "^27.0.2"
 
-"@testing-library/dom@^9.0.1":
-  version "9.0.1"
-  resolved "https://registry.yarnpkg.com/@testing-library/dom/-/dom-9.0.1.tgz#fb9e3837fe2a662965df1536988f0863f01dbf51"
-  integrity sha512-fTOVsMY9QLFCCXRHG3Ese6cMH5qIWwSbgxZsgeF5TNsy81HKaZ4kgehnSF8FsR3OF+numlIV2YcU79MzbnhSig==
+"@testing-library/dom@^9.2.0":
+  version "9.2.0"
+  resolved "https://registry.yarnpkg.com/@testing-library/dom/-/dom-9.2.0.tgz#0e1f45e956f2a16f471559c06edd8827c4832f04"
+  integrity sha512-xTEnpUKiV/bMyEsE5bT4oYA0x0Z/colMtxzUY8bKyPXBNLn/e0V4ZjBZkEhms0xE4pv9QsPfSRu9AWS4y5wGvA==
   dependencies:
     "@babel/code-frame" "^7.10.4"
     "@babel/runtime" "^7.12.5"
@@ -4762,10 +4762,10 @@
     "@types/scheduler" "*"
     csstype "^3.0.2"
 
-"@types/react@18.0.28":
-  version "18.0.28"
-  resolved "https://registry.yarnpkg.com/@types/react/-/react-18.0.28.tgz#accaeb8b86f4908057ad629a26635fe641480065"
-  integrity sha512-RD0ivG1kEztNBdoAK7lekI9M+azSnitIn85h4iOiaLjaTrMjzslhaqCGaI4IyCJ1RljWiLCEu4jyrLLgqxBTew==
+"@types/react@18.0.29":
+  version "18.0.29"
+  resolved "https://registry.yarnpkg.com/@types/react/-/react-18.0.29.tgz#4cead505172c0020c5b51940199e31fc6ff2f63a"
+  integrity sha512-wXHktgUABxplw1+UnljseDq4+uztQyp2tlWZRIxHlpchsCFqiYkvaDS8JR7eKOQm8wziTH/el5qL7D6gYNkYcw==
   dependencies:
     "@types/prop-types" "*"
     "@types/scheduler" "*"
@@ -11175,10 +11175,10 @@ mark.js@^8.11.1:
   resolved "https://registry.yarnpkg.com/mark.js/-/mark.js-8.11.1.tgz#180f1f9ebef8b0e638e4166ad52db879beb2ffc5"
   integrity sha1-GA8fnr74sOY45BZq1S24eb6y/8U=
 
-markdown-to-jsx@^7.1.9:
-  version "7.1.9"
-  resolved "https://registry.yarnpkg.com/markdown-to-jsx/-/markdown-to-jsx-7.1.9.tgz#1ffae0cda07c189163d273bd57a5b8f8f8745586"
-  integrity sha512-x4STVIKIJR0mGgZIZ5RyAeQD7FEZd5tS8m/htbcVGlex32J+hlSLj+ExrHCxP6nRKF1EKbcO7i6WhC1GtOpBlA==
+markdown-to-jsx@^7.2.0:
+  version "7.2.0"
+  resolved "https://registry.yarnpkg.com/markdown-to-jsx/-/markdown-to-jsx-7.2.0.tgz#e7b46b65955f6a04d48a753acd55874a14bdda4b"
+  integrity sha512-3l4/Bigjm4bEqjCR6Xr+d4DtM1X6vvtGsMGSjJYyep8RjjIvcWtrXBS8Wbfe1/P+atKNMccpsraESIaWVplzVg==
 
 marked@^4.0.15:
   version "4.0.15"
@@ -12261,10 +12261,10 @@ optionator@^0.9.1:
     type-check "^0.4.0"
     word-wrap "^1.2.3"
 
-ora@6.2.0:
-  version "6.2.0"
-  resolved "https://registry.yarnpkg.com/ora/-/ora-6.2.0.tgz#6d727902151d5b1badc599ace4df45a34d53f556"
-  integrity sha512-c1qb/1rdE+EFDYiLXh10VY459uMh7DN9zlgd8mZJLoeiPpYllN8eAOiih2Rkah5ywxRm5tHN5C9zPheDq8d1MA==
+ora@6.3.0:
+  version "6.3.0"
+  resolved "https://registry.yarnpkg.com/ora/-/ora-6.3.0.tgz#a314600999f514a989a0904f5c17c8b7c1f7c878"
+  integrity sha512-1/D8uRFY0ay2kgBpmAwmSA404w4OoPVhHMqRqtjvrcK/dnzcEZxMJ+V4DUbyICu8IIVRclHcOf5wlD1tMY4GUQ==
   dependencies:
     chalk "^5.0.0"
     cli-cursor "^4.0.0"
@@ -12732,10 +12732,10 @@ prepend-http@^2.0.0:
   resolved "https://registry.yarnpkg.com/prepend-http/-/prepend-http-2.0.0.tgz#e92434bfa5ea8c19f41cdfd401d741a3c819d897"
   integrity sha1-6SQ0v6XqjBn0HN/UAddBo8gZ2Jc=
 
-prettier@^2.8.6:
-  version "2.8.6"
-  resolved "https://registry.yarnpkg.com/prettier/-/prettier-2.8.6.tgz#5c174b29befd507f14b83e3c19f83fdc0e974b71"
-  integrity sha512-mtuzdiBbHwPEgl7NxWlqOkithPyp4VN93V7VeHVWBF+ad3I5avc0RVDT4oImXQy9H/AqxA2NSQH8pSxHW6FYbQ==
+prettier@^2.8.7:
+  version "2.8.7"
+  resolved "https://registry.yarnpkg.com/prettier/-/prettier-2.8.7.tgz#bb79fc8729308549d28fe3a98fce73d2c0656450"
+  integrity sha512-yPngTo3aXUUmyuTjeTUT75txrf+aMh9FiD7q9ZE/i6r0bPb22g4FsE6Y338PQX1bmfy08i9QQCB7/rcUAVntfw==
 
 pretty-bytes@^5.6.0:
   version "5.6.0"
@@ -13555,10 +13555,10 @@ regjsparser@^0.9.1:
   dependencies:
     jsesc "~0.5.0"
 
-release-it@^15.9.1:
-  version "15.9.1"
-  resolved "https://registry.yarnpkg.com/release-it/-/release-it-15.9.1.tgz#32a49d28f4ce5e26952aca84573944d60967d640"
-  integrity sha512-qTAjTkaBZDRJM0j/je2MzNASuwhBXFn0GTqHB7MfLEe9rIdVk+xEwUphbhNemp+wuC7PuZucBulUbH2m3EokHg==
+release-it@^15.9.3:
+  version "15.9.3"
+  resolved "https://registry.yarnpkg.com/release-it/-/release-it-15.9.3.tgz#c4534c59391721024497b798a2ee1c77ef611ea2"
+  integrity sha512-yFZTGJ9lH075zEAiVB4w58GgQ+bFR4by+eNClN3sdLtTLwbEm9VXrISt+8vO1fHDH83557Fns5ub1FuhAY/a3A==
   dependencies:
     "@iarna/toml" "2.2.5"
     "@octokit/rest" "19.0.7"
@@ -13576,7 +13576,7 @@ release-it@^15.9.1:
     new-github-release-url "2.0.0"
     node-fetch "3.3.1"
     open "9.0.0"
-    ora "6.2.0"
+    ora "6.3.0"
     os-name "5.1.0"
     promise.allsettled "1.0.6"
     proxy-agent "5.0.0"
