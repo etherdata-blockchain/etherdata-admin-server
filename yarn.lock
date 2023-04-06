@@ -3979,10 +3979,10 @@
     prop-types "^15.7.2"
     react-is "^16.9.0"
 
-"@rjsf/core@^5.5.0":
-  version "5.5.0"
-  resolved "https://registry.yarnpkg.com/@rjsf/core/-/core-5.5.0.tgz#2aeb00c5580743bb895680bb7993d350446d1862"
-  integrity sha512-qER41ueOEkuiZVrkAuykfE3GfKu849bQtwKiimZamyjkXoAZhPLDjbwYmobc9jeve8uUUxCqZNgeYV3sLO0VtA==
+"@rjsf/core@^5.5.2":
+  version "5.5.2"
+  resolved "https://registry.yarnpkg.com/@rjsf/core/-/core-5.5.2.tgz#6d3660254e3fbf7eda2dc63281e1eba997a25454"
+  integrity sha512-TsJrYD8wUf6K2y9YBwKGPJzFcZYiaD6RpahWO3z4hlJqgfT4yTa3Ux4cadU6KLG8ox9PRiApSpu702GqykSPJA==
   dependencies:
     lodash "^4.17.15"
     lodash-es "^4.17.15"
@@ -3995,10 +3995,10 @@
   resolved "https://registry.yarnpkg.com/@rjsf/material-ui/-/material-ui-4.2.0.tgz#324a450834efd9ca71e0c94d794009780c902587"
   integrity sha512-WQ1dMX1tlMjG5jPbRbFPFkuy5zSb+rDb7HRE2Zx/JgYndBRdxiqAbGB8DcaJKaGUJ+1eURk3MWClU5pWfoN3qg==
 
-"@rjsf/material-ui@^5.5.0":
-  version "5.5.0"
-  resolved "https://registry.yarnpkg.com/@rjsf/material-ui/-/material-ui-5.5.0.tgz#d4f242f60f5e3e7305f9f28917f521038797df42"
-  integrity sha512-kLOSfYzeOskg3dJXzESBhjRPdZj1cgE7yUc9OGE3YIcdxjsRjlrLPT4RI79Bgs4Jv3ZXVuDhPKl4NKiuLvF3aQ==
+"@rjsf/material-ui@^5.5.2":
+  version "5.5.2"
+  resolved "https://registry.yarnpkg.com/@rjsf/material-ui/-/material-ui-5.5.2.tgz#f1810608ee2bd226825625806483edd51f6cfb0f"
+  integrity sha512-yMzgnLiKP9BXai0YUwKiKWkvO2DIfDNd/84TsoZ1Zn2xnXncejckFg+Me7wvTfhqdv8HjzqRTderkWezmZJ+Eg==
 
 "@rushstack/eslint-patch@^1.1.3":
   version "1.1.3"
@@ -5608,7 +5608,7 @@ axe-core@^4.3.5:
   resolved "https://registry.yarnpkg.com/axe-core/-/axe-core-4.4.1.tgz#7dbdc25989298f9ad006645cd396782443757413"
   integrity sha512-gd1kmb21kwNuWr6BQz8fv6GNECPBnUasepcoLbekws23NVBLODdsClRZ+bQ8+9Uomf3Sm3+Vwn0oYG9NvwnJCw==
 
-axios@=1.3.4, axios@^1.3.4:
+axios@=1.3.4:
   version "1.3.4"
   resolved "https://registry.yarnpkg.com/axios/-/axios-1.3.4.tgz#f5760cefd9cfb51fd2481acf88c05f67c4523024"
   integrity sha512-toYm+Bsyl6VC5wSkfkbbNB6ROv7KY93PEBBL6xyDczaIHasAiv4wPqQ/c4RjoQzipxRD2W5g21cOqQulZ7rHwQ==
@@ -5624,6 +5624,15 @@ axios@^0.27.2:
   dependencies:
     follow-redirects "^1.14.9"
     form-data "^4.0.0"
+
+axios@^1.3.5:
+  version "1.3.5"
+  resolved "https://registry.yarnpkg.com/axios/-/axios-1.3.5.tgz#e07209b39a0d11848e3e341fa087acd71dadc542"
+  integrity sha512-glL/PvG/E+xCWwV8S6nCHcrfg1exGx7vxyUIivIA1iL7BIh6bePylCfVHwp6k13ao7SATxB6imau2kqY+I67kw==
+  dependencies:
+    follow-redirects "^1.15.0"
+    form-data "^4.0.0"
+    proxy-from-env "^1.1.0"
 
 axobject-query@^2.2.0:
   version "2.2.0"
