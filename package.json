@@ -129,7 +129,7 @@
     "nock": "^13.3.1",
     "node-mocks-http": "^1.12.2",
     "prettier": "^2.8.8",
-    "release-it": "^15.10.1",
+    "release-it": "^15.10.2",
     "ts-node-dev": "^2.0.0",
     "typescript": "5.0.4",
     "wireit": "0.9.5"
