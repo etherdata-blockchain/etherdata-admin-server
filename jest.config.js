@@ -16,6 +16,6 @@ module.exports = {
   },
   preset: "@shelf/jest-mongodb",
   transform: { "\\.ts$": ["ts-jest"], "\\.tsx$": ["ts-jest"] },
-  testTimeout: 20000,
+  testTimeout: 500000,
   testEnvironment: "jsdom",
 };

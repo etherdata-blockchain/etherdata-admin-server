@@ -11,7 +11,7 @@ describe("Given a Update template component", () => {
 
   beforeAll(async () => {
     beforeUITest();
-    dbServer = await MongoMemoryServer.create();
+    dbServer = await MongoMemoryServer.create({ binary: { version: "6.0.5" } });
     await mongoose.connect(dbServer.getUri().concat("etd"));
   });
 

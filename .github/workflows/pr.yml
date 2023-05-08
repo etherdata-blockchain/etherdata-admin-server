@@ -20,6 +20,6 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Dependencies Outdater
-        uses: action-runner/dependencies-outdater@1.4.0
+        uses: action-runner/dependencies-outdater@master
         with:
           access_token: ${{ secrets.GITHUB_TOKEN }}

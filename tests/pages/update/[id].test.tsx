@@ -20,7 +20,7 @@ describe("Given a update template page with a created update template", () => {
   let dbServer: MongoMemoryServer;
 
   beforeAll(async () => {
-    dbServer = await MongoMemoryServer.create();
+    dbServer = await MongoMemoryServer.create({ binary: { version: "6.0.5" } });
     await mongoose.connect(dbServer.getUri().concat("etd"));
     mockDockerImage1 = (await schema.DockerImageModel.create(
       mockData.MockDockerImage

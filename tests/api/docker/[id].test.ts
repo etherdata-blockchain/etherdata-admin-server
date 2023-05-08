@@ -22,7 +22,7 @@ describe("Given a docker image handler with index", () => {
       ...oldEnv,
       PUBLIC_SECRET: mockData.MockConstant.mockTestingSecret,
     };
-    dbServer = await MongoMemoryServer.create();
+    dbServer = await MongoMemoryServer.create({ binary: { version: "6.0.5" } });
     await mongoose.connect(
       dbServer.getUri().concat(mockData.MockConstant.mockDatabaseName)
     );
