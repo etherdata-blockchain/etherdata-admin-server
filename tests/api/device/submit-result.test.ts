@@ -14,7 +14,7 @@ describe("Given a result plugin", () => {
       ...process.env,
       PUBLIC_SECRET: mockData.MockConstant.mockTestingSecret,
     };
-    dbServer = await MongoMemoryServer.create();
+    dbServer = await MongoMemoryServer.create({ binary: { version: "6.0.5" } });
     await mongoose.connect(dbServer.getUri().concat("etd"));
     const count = await schema.StorageOwnerModel.countDocuments();
     console.log(count);

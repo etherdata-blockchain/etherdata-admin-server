@@ -5,7 +5,7 @@ import { initApp } from "../server/server";
 describe("Given a app", () => {
   let dbServer: MongoMemoryServer;
   beforeAll(async () => {
-    dbServer = await MongoMemoryServer.create();
+    dbServer = await MongoMemoryServer.create({ binary: { version: "6.0.5" } });
     process.env = {
       ...process.env,
       MONGODB_URL: dbServer.getUri(),

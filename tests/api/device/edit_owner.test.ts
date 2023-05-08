@@ -18,7 +18,7 @@ describe("Given a edit owner handler", () => {
       ...oldEnv,
       PUBLIC_SECRET: "test",
     };
-    dbServer = await MongoMemoryServer.create();
+    dbServer = await MongoMemoryServer.create({ binary: { version: "6.0.5" } });
     await mongoose.connect(dbServer.getUri().concat("etd"));
   });
 

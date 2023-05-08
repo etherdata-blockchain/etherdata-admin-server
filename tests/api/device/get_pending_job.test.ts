@@ -16,7 +16,7 @@ describe("Given a pending job", () => {
       ...oldEnv,
       PUBLIC_SECRET: mockData.MockConstant.mockTestingSecret,
     };
-    dbServer = await MongoMemoryServer.create();
+    dbServer = await MongoMemoryServer.create({ binary: { version: "6.0.5" } });
     await mongoose.connect(dbServer.getUri().concat("etd"));
   });
 
