@@ -3769,10 +3769,10 @@
     prop-types "^15.7.2"
     react-is "^16.9.0"
 
-"@rjsf/core@^5.6.2":
-  version "5.6.2"
-  resolved "https://registry.yarnpkg.com/@rjsf/core/-/core-5.6.2.tgz#2b3b0a22a3c4d934ee2e8504d57df120f55a7eac"
-  integrity sha512-3N3NZ1ax2XmeJU0Bf6bBIRFawyIukN1bgA5Y5B1vFZ2GwZ9Gn1eiQedAhdgR8+qSlghVxNmC942c9oPR0GzE0A==
+"@rjsf/core@^5.7.0":
+  version "5.7.0"
+  resolved "https://registry.yarnpkg.com/@rjsf/core/-/core-5.7.0.tgz#7a496b9c6008890d0f31c7427ebdf048994369ce"
+  integrity sha512-vHs+aqNViZbXaQqf9VlAcIomg5/Wj8HtpyPwJHDOgcOf5D3Nzwkb5CUJcV0dyHnQGtRRrMw+8hMRsmni9DD81Q==
   dependencies:
     lodash "^4.17.21"
     lodash-es "^4.17.21"
@@ -3785,10 +3785,10 @@
   resolved "https://registry.yarnpkg.com/@rjsf/material-ui/-/material-ui-4.2.0.tgz#324a450834efd9ca71e0c94d794009780c902587"
   integrity sha512-WQ1dMX1tlMjG5jPbRbFPFkuy5zSb+rDb7HRE2Zx/JgYndBRdxiqAbGB8DcaJKaGUJ+1eURk3MWClU5pWfoN3qg==
 
-"@rjsf/material-ui@^5.6.2":
-  version "5.6.2"
-  resolved "https://registry.yarnpkg.com/@rjsf/material-ui/-/material-ui-5.6.2.tgz#4930849b7be78f6b7808433f15e7f3766a71b2ba"
-  integrity sha512-nQc4LU4cOn70LZ51VC75n2lHAOnw3PrLyparNLgZZ9GPh0h61REs7/1yVEve0bj8UMdLmrO4Io9vjjcHDIhLTg==
+"@rjsf/material-ui@^5.7.0":
+  version "5.7.0"
+  resolved "https://registry.yarnpkg.com/@rjsf/material-ui/-/material-ui-5.7.0.tgz#688aed2c5a0627947353e41f4ae3472f5003199a"
+  integrity sha512-16mAMmWK502QBIz82IWwsPyeHstHlMcAbh+vbB/bM6MuvV15qsGto6LIvNf0kjTBW7/GVpSndmNSyz+4eEq+qA==
 
 "@rushstack/eslint-patch@^1.1.3":
   version "1.1.3"
