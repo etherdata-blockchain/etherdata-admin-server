@@ -8583,7 +8583,6 @@ jest-docblock@^27.5.1:
 
 "jest-dom@link:@types/@testing-library/jest-dom":
   version "0.0.0"
-  uid ""
 
 jest-each@^27.5.1:
   version "27.5.1"
@@ -13490,9 +13489,9 @@ verror@1.10.0:
     extsprintf "^1.2.0"
 
 vm2@^3.9.8:
-  version "3.9.9"
-  resolved "https://registry.yarnpkg.com/vm2/-/vm2-3.9.9.tgz#c0507bc5fbb99388fad837d228badaaeb499ddc5"
-  integrity sha512-xwTm7NLh/uOjARRBs8/95H0e8fT3Ukw5D/JJWhxMbhKzNh1Nu981jQKvkep9iKYNxzlVrdzD0mlBGkDKZWprlw==
+  version "3.9.18"
+  resolved "https://registry.yarnpkg.com/vm2/-/vm2-3.9.18.tgz#d919848bee191a0410c5cc1c5aac58adfd03ce9a"
+  integrity sha512-iM7PchOElv6Uv6Q+0Hq7dcgDtWWT6SizYqVcvol+1WQc+E9HlgTCnPozbQNSP3yDV9oXHQOEQu530w2q/BCVZg==
   dependencies:
     acorn "^8.7.0"
     acorn-walk "^8.2.0"
