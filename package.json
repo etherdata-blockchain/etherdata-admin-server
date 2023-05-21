@@ -83,7 +83,7 @@
     "next": "13.4.3",
     "next-swagger-doc": "^0.3.6",
     "nextjs-progressbar": "^0.0.16",
-    "openapi-types": "^12.1.0",
+    "openapi-types": "^12.1.1",
     "query-string": "^8.1.0",
     "randomcolor": "^0.6.2",
     "react": "18.2.0",
