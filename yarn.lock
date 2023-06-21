@@ -3908,10 +3908,10 @@
     prop-types "^15.7.2"
     react-is "^16.9.0"
 
-"@rjsf/core@^5.8.1":
-  version "5.8.1"
-  resolved "https://registry.yarnpkg.com/@rjsf/core/-/core-5.8.1.tgz#9071ba570cb748658148ed1f5f02a9d5611f0bae"
-  integrity sha512-+lJKK/fdVO+DqKhSzSY8bjyAv5weoLw44d/DnCn2U8/l9qY0nqfNSvG6gyZIC9kCNnzLS/76XFAltWXgtjjzFQ==
+"@rjsf/core@^5.8.2":
+  version "5.8.2"
+  resolved "https://registry.yarnpkg.com/@rjsf/core/-/core-5.8.2.tgz#4d04ce099e793ac1ca311cd13b32084f266b96a4"
+  integrity sha512-DwFPYHFGRR3xzmFa5EpffcmDoW/tKcLaDRU8t15Uv8mbr7OBhLavwTceGGgO/TYCTjNUDwofcnwquPzKRw39Cg==
   dependencies:
     lodash "^4.17.21"
     lodash-es "^4.17.21"
@@ -3924,10 +3924,10 @@
   resolved "https://registry.yarnpkg.com/@rjsf/material-ui/-/material-ui-4.2.0.tgz#324a450834efd9ca71e0c94d794009780c902587"
   integrity sha512-WQ1dMX1tlMjG5jPbRbFPFkuy5zSb+rDb7HRE2Zx/JgYndBRdxiqAbGB8DcaJKaGUJ+1eURk3MWClU5pWfoN3qg==
 
-"@rjsf/material-ui@^5.8.1":
-  version "5.8.1"
-  resolved "https://registry.yarnpkg.com/@rjsf/material-ui/-/material-ui-5.8.1.tgz#95759e4b36d181243ee572ac28819d579410c9a2"
-  integrity sha512-VxykXMFHxnFOy5mNS7TafS0cG9GXsZp70t4QZ88Wir+tbyMvOQHY6i1Wit/kh/n2rbMZ1kBVdViLe9N/L9+njg==
+"@rjsf/material-ui@^5.8.2":
+  version "5.8.2"
+  resolved "https://registry.yarnpkg.com/@rjsf/material-ui/-/material-ui-5.8.2.tgz#804082fb5fcbac6ef61ae7ca7a544519e193f781"
+  integrity sha512-VXtNULIL9HAsObhbBZahY+7/Y+F4MP5CgQ/ihfNmHSlbK01S68ifvjiCzPaHNyT8kHd5pKhRbR2UobNTAolRxQ==
 
 "@rushstack/eslint-patch@^1.1.3":
   version "1.1.3"
@@ -7049,10 +7049,10 @@ csstype@^3.1.2:
   resolved "https://registry.yarnpkg.com/csstype/-/csstype-3.1.2.tgz#1d4bf9d572f11c14031f0436e1c10bc1f571f50b"
   integrity sha512-I7K1Uu0MBPzaFKg4nI5Q7Vs2t+3gWWW648spaF+Rg7pI9ds18Ugn+lvg4SHczUdKlHI5LWBXyqfS8+DufyBsgQ==
 
-cypress@^12.14.0:
-  version "12.14.0"
-  resolved "https://registry.yarnpkg.com/cypress/-/cypress-12.14.0.tgz#37a19b85f5e9d881995e9fee1ddf41b3d3a623dd"
-  integrity sha512-HiLIXKXZaIT1RT7sw1sVPt+qKtis3uYNm6KwC4qoYjabwLKaqZlyS/P+uVvvlBNcHIwL/BC6nQZajpbUd7hOgQ==
+cypress@^12.15.0:
+  version "12.15.0"
+  resolved "https://registry.yarnpkg.com/cypress/-/cypress-12.15.0.tgz#06103529583c41f39712c6cfa6d9d09a01731760"
+  integrity sha512-FqGbxsH+QgjStuTO9onXMIeF44eOrgVwPvlcvuzLIaePQMkl72YgBvpuHlBGRcrw3Q4SvqKfajN8iV5XWShAiQ==
   dependencies:
     "@cypress/request" "^2.88.10"
     "@cypress/xvfb" "^1.2.4"
