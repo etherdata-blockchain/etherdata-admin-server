@@ -95,7 +95,7 @@
     "socket.io": "^4.7.1",
     "socket.io-client": "^4.7.1",
     "start-server-and-test": "^2.0.0",
-    "styled-components": "^6.0.2",
+    "styled-components": "^6.0.3",
     "swagger-ui-react": "^5.1.0",
     "swr": "^2.2.0",
     "throttle-debounce": "^5.0.0",
