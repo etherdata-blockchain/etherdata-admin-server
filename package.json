@@ -42,10 +42,10 @@
     "@etherdata-blockchain/storage-model": "5.0.3",
     "@etherdata-blockchain/string-replacer": "5.0.3",
     "@etherdata-blockchain/url-join": "5.0.3",
-    "@mui/icons-material": "^5.13.7",
-    "@mui/lab": "^5.0.0-alpha.135",
-    "@mui/material": "^5.13.7",
-    "@mui/styles": "^5.13.7",
+    "@mui/icons-material": "^5.14.0",
+    "@mui/lab": "^5.0.0-alpha.136",
+    "@mui/material": "^5.14.0",
+    "@mui/styles": "^5.14.0",
     "@mui/x-data-grid": "^6.9.2",
     "@rjsf/core": "^5.9.0",
     "@rjsf/material-ui": "^5.9.0",
@@ -101,7 +101,7 @@
     "throttle-debounce": "^5.0.0",
     "ts-jest": "^29.1.1",
     "ts-node": "^10.9.1",
-    "web3": "^4.0.2"
+    "web3": "^4.0.3"
   },
   "devDependencies": {
     "@babel/plugin-syntax-jsx": "^7.22.5",
