@@ -78,7 +78,7 @@
     "jsonwebtoken": "^9.0.1",
     "lodash": "^4.17.21",
     "material-ui-popup-state": "^5.0.9",
-    "mobx": "^6.9.0",
+    "mobx": "^6.9.1",
     "moment": "^2.29.4",
     "next": "13.4.9",
     "next-swagger-doc": "^0.4.0",
@@ -105,7 +105,7 @@
   },
   "devDependencies": {
     "@babel/plugin-syntax-jsx": "^7.22.5",
-    "@babel/preset-env": "^7.22.7",
+    "@babel/preset-env": "^7.22.9",
     "@babel/preset-react": "^7.22.5",
     "@release-it/conventional-changelog": "^7.0.0",
     "@shelf/jest-mongodb": "^4.1.7",
