@@ -3826,10 +3826,10 @@
     prop-types "^15.8.1"
     react-is "^17.0.2"
 
-"@mui/x-data-grid@^6.9.2":
-  version "6.9.2"
-  resolved "https://registry.yarnpkg.com/@mui/x-data-grid/-/x-data-grid-6.9.2.tgz#530497b7592bc8242d591fbdedea771eb130d1c3"
-  integrity sha512-hrjVq3FrbUpioi2GYSWJtU4NR3V4bPwLbXngw07+I21TGOWV1TKeTslkPI+FGVYU3gMjGSSJRFN8gehPlh5Evw==
+"@mui/x-data-grid@^6.10.0":
+  version "6.10.0"
+  resolved "https://registry.yarnpkg.com/@mui/x-data-grid/-/x-data-grid-6.10.0.tgz#0eb49e98d1ba79c46cd559b5cf8f8637f15bca11"
+  integrity sha512-x9h+Z4B2vu+ZKKwClBVs30Y9eZYdhqyV3toHH2E0zat7FIZxwiVfk6qz4Q98V1fV0Fe1nczPj9i0siUmduMEXg==
   dependencies:
     "@babel/runtime" "^7.22.5"
     "@mui/utils" "^5.13.6"
@@ -4240,10 +4240,10 @@
     prop-types "^15.7.2"
     react-is "^16.9.0"
 
-"@rjsf/core@^5.9.0":
-  version "5.9.0"
-  resolved "https://registry.yarnpkg.com/@rjsf/core/-/core-5.9.0.tgz#eb8268f593b843cc8f58b347b54d6af808252ab6"
-  integrity sha512-HYgnWKTGVfbj6bs1O9SYyw4VgBfoISZeQti259aiKK08XDVH+tgThxBMX4CyMjC/K9I4ralRV9KRlGO1un0DzQ==
+"@rjsf/core@^5.10.0":
+  version "5.10.0"
+  resolved "https://registry.yarnpkg.com/@rjsf/core/-/core-5.10.0.tgz#d69634b5f296d346febe9c84767e391544023284"
+  integrity sha512-G9KapNurCpP9l/CK4rR3/pQ1rKuaD1BxdzHjaWUWrpUbEqbDTeNu+5630ymUf0y8A04JuSN1guQRVyYl0Dlfxw==
   dependencies:
     lodash "^4.17.21"
     lodash-es "^4.17.21"
@@ -4256,10 +4256,10 @@
   resolved "https://registry.yarnpkg.com/@rjsf/material-ui/-/material-ui-4.2.0.tgz#324a450834efd9ca71e0c94d794009780c902587"
   integrity sha512-WQ1dMX1tlMjG5jPbRbFPFkuy5zSb+rDb7HRE2Zx/JgYndBRdxiqAbGB8DcaJKaGUJ+1eURk3MWClU5pWfoN3qg==
 
-"@rjsf/material-ui@^5.9.0":
-  version "5.9.0"
-  resolved "https://registry.yarnpkg.com/@rjsf/material-ui/-/material-ui-5.9.0.tgz#3f159c822fb5e4fd729e857505adde5e16fbe810"
-  integrity sha512-0ntcHNziscA4dFvFLzGagptutHqIlsCnQIt+pscG4o+XgDpdr660oLE68Z/Du6XtuyY23nTrT1QimBH9QtpF0g==
+"@rjsf/material-ui@^5.10.0":
+  version "5.10.0"
+  resolved "https://registry.yarnpkg.com/@rjsf/material-ui/-/material-ui-5.10.0.tgz#d80ac578a88e25aa6b90d68361a01490544ac6b1"
+  integrity sha512-Eh4H3awiQO076LgknkW9IJ3y7Lw7LonjXqCPRJiGDA7/O54EXIV7i/ZPp5+eb5H4aFAYZSySY5exuDX4qsrSEA==
 
 "@rushstack/eslint-patch@^1.1.3":
   version "1.1.3"
@@ -5213,10 +5213,10 @@
     "@types/scheduler" "*"
     csstype "^3.0.2"
 
-"@types/react@18.2.14":
-  version "18.2.14"
-  resolved "https://registry.yarnpkg.com/@types/react/-/react-18.2.14.tgz#fa7a6fecf1ce35ca94e74874f70c56ce88f7a127"
-  integrity sha512-A0zjq+QN/O0Kpe30hA1GidzyFjatVvrpIvWLxD+xv67Vt91TWWgco9IvrJBkeyHm1trGaFS/FSGqPlhyeZRm0g==
+"@types/react@18.2.15":
+  version "18.2.15"
+  resolved "https://registry.yarnpkg.com/@types/react/-/react-18.2.15.tgz#14792b35df676c20ec3cf595b262f8c615a73066"
+  integrity sha512-oEjE7TQt1fFTFSbf8kkNuc798ahTUzn3Le67/PWjE8MAfYAD/qB7O8hSTcromLFqHCt9bcdOg5GXMokzTjJ5SA==
   dependencies:
     "@types/prop-types" "*"
     "@types/scheduler" "*"
@@ -12526,10 +12526,10 @@ nextjs-progressbar@^0.0.16:
     nprogress "^0.2.0"
     prop-types "^15.8.1"
 
-nock@^13.3.1:
-  version "13.3.1"
-  resolved "https://registry.yarnpkg.com/nock/-/nock-13.3.1.tgz#f22d4d661f7a05ebd9368edae1b5dc0a62d758fc"
-  integrity sha512-vHnopocZuI93p2ccivFyGuUfzjq2fxNyNurp7816mlT5V5HF4SzXu8lvLrVzBbNqzs+ODooZ6OksuSUNM7Njkw==
+nock@^13.3.2:
+  version "13.3.2"
+  resolved "https://registry.yarnpkg.com/nock/-/nock-13.3.2.tgz#bfa6be92d37f744b1b758ea89b1105cdaf5c8b3f"
+  integrity sha512-CwbljitiWJhF1gL83NbanhoKs1l23TDlRioNraPTZrzZIEooPemrHRj5m0FZCPkB1ecdYCSWWGcHysJgX/ngnQ==
   dependencies:
     debug "^4.1.0"
     json-stringify-safe "^5.0.1"
@@ -15340,10 +15340,10 @@ style-loader@^3.3.1:
   resolved "https://registry.yarnpkg.com/style-loader/-/style-loader-3.3.1.tgz#057dfa6b3d4d7c7064462830f9113ed417d38575"
   integrity sha512-GPcQ+LDJbrcxHORTRes6Jy2sfvK2kS6hpSfI/fXhPt+spVzxF6LJ1dHLN9zIGmVaaP044YKaIatFaufENRiDoQ==
 
-styled-components@^6.0.3:
-  version "6.0.3"
-  resolved "https://registry.yarnpkg.com/styled-components/-/styled-components-6.0.3.tgz#03863133b8340912f52be623e3262ba9eb87ccc0"
-  integrity sha512-qEyWvDK4CYCyDckNIruRJIcQSvcUR3dVEw/fwxu1v0LFzUMPr2uf5PhXHp17FkGK+S4TkglOS+XIealo1MssQA==
+styled-components@^6.0.4:
+  version "6.0.4"
+  resolved "https://registry.yarnpkg.com/styled-components/-/styled-components-6.0.4.tgz#55bb3a1197daf8075ae8b345b57eb03f2570d51e"
+  integrity sha512-lRJt4vg8hKJhlVG+VKz8QEqPCXKyTryZZ59odyK0UC0HHV3u/mshWTfSay8NpkN0Xijw1iN9r0Leld3dcCcp/w==
   dependencies:
     "@babel/cli" "^7.21.0"
     "@babel/core" "^7.21.0"
