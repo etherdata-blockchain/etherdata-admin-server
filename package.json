@@ -132,7 +132,7 @@
     "release-it": "^16.1.5",
     "ts-node-dev": "^2.0.0",
     "typescript": "5.2.2",
-    "wireit": "0.11.0"
+    "wireit": "0.13.0"
   },
   "config": {
     "mongodbMemoryServer": {
