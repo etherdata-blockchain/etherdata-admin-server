@@ -105,7 +105,7 @@
   },
   "devDependencies": {
     "@babel/plugin-syntax-jsx": "^7.22.5",
-    "@babel/preset-env": "^7.22.15",
+    "@babel/preset-env": "^7.22.20",
     "@babel/preset-react": "^7.22.15",
     "@release-it/conventional-changelog": "^7.0.1",
     "@shelf/jest-mongodb": "^4.1.7",
