@@ -53,7 +53,7 @@
     "@types/bson": "^4.2.0",
     "@types/css-mediaquery": "^0.1.2",
     "@types/dockerode": "^3.3.20",
-    "@types/express": "^4.17.17",
+    "@types/express": "^4.17.18",
     "@types/file-saver": "^2.0.5",
     "@types/json-schema": "^7.0.13",
     "@types/jsonwebtoken": "^9.0.3",
@@ -129,7 +129,7 @@
     "nock": "^13.3.3",
     "node-mocks-http": "^1.13.0",
     "prettier": "^3.0.3",
-    "release-it": "^16.1.5",
+    "release-it": "^16.2.0",
     "ts-node-dev": "^2.0.0",
     "typescript": "5.2.2",
     "wireit": "0.14.0"
