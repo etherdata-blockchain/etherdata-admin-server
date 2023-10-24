@@ -80,7 +80,7 @@
     "material-ui-popup-state": "^2.0.1",
     "mobx": "^6.5.0",
     "moment": "^2.29.3",
-    "next": "12.1.6",
+    "next": "13.5.0",
     "next-swagger-doc": "^0.3.4",
     "nextjs-progressbar": "^0.0.14",
     "openapi-types": "^11.0.0",
