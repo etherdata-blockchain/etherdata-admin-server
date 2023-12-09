@@ -2927,10 +2927,10 @@
     prop-types "^15.8.1"
     react-is "^17.0.2"
 
-"@mui/x-data-grid@^6.18.3":
-  version "6.18.3"
-  resolved "https://registry.yarnpkg.com/@mui/x-data-grid/-/x-data-grid-6.18.3.tgz#f3b1620449a45eaa1faa986458b4626fdc735738"
-  integrity sha512-0XTLW6e7cB3QBQKoAgdZN2M4WKxbmy0pJHRA9RrSUn91nInqZgwtxpI5fi7aTpX9vffRaUfKi7epr/zNyvxPOQ==
+"@mui/x-data-grid@^6.18.4":
+  version "6.18.4"
+  resolved "https://registry.yarnpkg.com/@mui/x-data-grid/-/x-data-grid-6.18.4.tgz#5066d3b6f017ea6fe524ed57059365f684f2cc43"
+  integrity sha512-uiinfqioCRoesUlJF3gvh67Ja3TrJJvPRTu4Gkf/RQBjr0BDNQ8BJrnuffqD8D/0SVUiqRZvcrjtgG1BIyjKRw==
   dependencies:
     "@babel/runtime" "^7.23.2"
     "@mui/utils" "^5.14.16"
@@ -3312,10 +3312,10 @@
     prop-types "^15.7.2"
     react-is "^16.9.0"
 
-"@rjsf/core@^5.15.0":
-  version "5.15.0"
-  resolved "https://registry.yarnpkg.com/@rjsf/core/-/core-5.15.0.tgz#8faa26cc016b99fd4b69cea81e14ea55fbb80514"
-  integrity sha512-tD+S0Sx6TtiW1Wp2E8fLArlKcPDXaOS0MBnM6FNWZuum1bbQFoavjm/wf0PpKQ2AohsKGvWXjIAajC+HX4Anww==
+"@rjsf/core@^5.15.1":
+  version "5.15.1"
+  resolved "https://registry.yarnpkg.com/@rjsf/core/-/core-5.15.1.tgz#bbc412eb764252ec0f217c3668341be9e0dc7d61"
+  integrity sha512-Ysn9G7sAS9A/fY4tCXv0LUUM8rNgXpVUkkoeOg3Yx6Y0vTctLVM7eorfmKuRKOrUZFCVe/MY0RjJfP3n2v1Fbg==
   dependencies:
     lodash "^4.17.21"
     lodash-es "^4.17.21"
@@ -3328,10 +3328,10 @@
   resolved "https://registry.yarnpkg.com/@rjsf/material-ui/-/material-ui-4.2.0.tgz#324a450834efd9ca71e0c94d794009780c902587"
   integrity sha512-WQ1dMX1tlMjG5jPbRbFPFkuy5zSb+rDb7HRE2Zx/JgYndBRdxiqAbGB8DcaJKaGUJ+1eURk3MWClU5pWfoN3qg==
 
-"@rjsf/material-ui@^5.15.0":
-  version "5.15.0"
-  resolved "https://registry.yarnpkg.com/@rjsf/material-ui/-/material-ui-5.15.0.tgz#eaf231e38c5b4645a232085c0389733a1d448c8f"
-  integrity sha512-Q+P/96JY8vQ1V6015fhD4LCoX+f/DxbdKzu8bJtIAUv9cNu9fr49tCgRBY6EvAdv3dgF7AMIO5SFI7Sf8r0XWA==
+"@rjsf/material-ui@^5.15.1":
+  version "5.15.1"
+  resolved "https://registry.yarnpkg.com/@rjsf/material-ui/-/material-ui-5.15.1.tgz#3e03fc2ae55f3bb3c3774734aab52453d5ea45e3"
+  integrity sha512-lbvz0tHOP09PUlqXAU4mfNHgfFH2SmL27D8kYsE+q1EHOWtBG9E98tOr+F0Kou5gti0ETBEajtQ8eKo0VlibFg==
 
 "@rushstack/eslint-patch@^1.3.3":
   version "1.4.0"
@@ -13221,10 +13221,10 @@ regjsparser@^0.9.1:
   dependencies:
     jsesc "~0.5.0"
 
-release-it@^17.0.0:
-  version "17.0.0"
-  resolved "https://registry.yarnpkg.com/release-it/-/release-it-17.0.0.tgz#881ed7c02f88f7c0d69eb1a3a9190f86364a209f"
-  integrity sha512-1A1sSQy8VXuAJcslZGhKtOD/LVBuf1sH4XqhKsQuh+2EIksC2STx/MdKmVE86jFd/zorHTXOpl7Lr/isD0dDrg==
+release-it@^17.0.1:
+  version "17.0.1"
+  resolved "https://registry.yarnpkg.com/release-it/-/release-it-17.0.1.tgz#fe276e3ed6408e1ae45e7ba958847613d94f8b64"
+  integrity sha512-XHeirIW8ptkkrH1+uCg+ditclZJbSKeovrtIb42v3s2S/icF2xCTwFHpbvAKQGqBVJ5Zm49If8bwsryi247KdQ==
   dependencies:
     "@iarna/toml" "2.2.5"
     "@octokit/rest" "20.0.2"
@@ -14842,10 +14842,29 @@ ts-node-dev@^2.0.0:
     ts-node "^10.4.0"
     tsconfig "^7.0.0"
 
-ts-node@^10.4.0, ts-node@^10.9.1:
+ts-node@^10.4.0:
   version "10.9.1"
   resolved "https://registry.yarnpkg.com/ts-node/-/ts-node-10.9.1.tgz#e73de9102958af9e1f0b168a6ff320e25adcff4b"
   integrity sha512-NtVysVPkxxrwFGUUxGYhfux8k78pQB3JqYBXlLRZgdGUqTO5wU/UyHop5p70iEbGhB7q5KmiZiU0Y3KlJrScEw==
+  dependencies:
+    "@cspotcode/source-map-support" "^0.8.0"
+    "@tsconfig/node10" "^1.0.7"
+    "@tsconfig/node12" "^1.0.7"
+    "@tsconfig/node14" "^1.0.0"
+    "@tsconfig/node16" "^1.0.2"
+    acorn "^8.4.1"
+    acorn-walk "^8.1.1"
+    arg "^4.1.0"
+    create-require "^1.1.0"
+    diff "^4.0.1"
+    make-error "^1.1.1"
+    v8-compile-cache-lib "^3.0.1"
+    yn "3.1.1"
+
+ts-node@^10.9.2:
+  version "10.9.2"
+  resolved "https://registry.yarnpkg.com/ts-node/-/ts-node-10.9.2.tgz#70f021c9e185bccdca820e26dc413805c101c71f"
+  integrity sha512-f0FFpIdcHgn8zcPSbf1dRevwt047YMnaiJM3u2w2RewrB+fob/zePZcrOyQoLMMO7aBIddLcQIEK5dYjkLnGrQ==
   dependencies:
     "@cspotcode/source-map-support" "^0.8.0"
     "@tsconfig/node10" "^1.0.7"

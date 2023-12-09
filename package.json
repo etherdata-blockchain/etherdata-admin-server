@@ -46,9 +46,9 @@
     "@mui/lab": "^5.0.0-alpha.155",
     "@mui/material": "^5.14.20",
     "@mui/styles": "^5.14.20",
-    "@mui/x-data-grid": "^6.18.3",
-    "@rjsf/core": "^5.15.0",
-    "@rjsf/material-ui": "^5.15.0",
+    "@mui/x-data-grid": "^6.18.4",
+    "@rjsf/core": "^5.15.1",
+    "@rjsf/material-ui": "^5.15.1",
     "@types/adm-zip": "^0.5.5",
     "@types/bson": "^4.2.0",
     "@types/css-mediaquery": "^0.1.4",
@@ -100,7 +100,7 @@
     "swr": "^2.2.4",
     "throttle-debounce": "^5.0.0",
     "ts-jest": "^29.1.1",
-    "ts-node": "^10.9.1",
+    "ts-node": "^10.9.2",
     "web3": "^4.3.0"
   },
   "devDependencies": {
@@ -129,7 +129,7 @@
     "nock": "^13.4.0",
     "node-mocks-http": "^1.13.0",
     "prettier": "^3.1.0",
-    "release-it": "^17.0.0",
+    "release-it": "^17.0.1",
     "ts-node-dev": "^2.0.0",
     "typescript": "5.3.3",
     "wireit": "0.14.1"
