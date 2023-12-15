@@ -1343,10 +1343,10 @@
     core-js-pure "^3.30.2"
     regenerator-runtime "^0.14.0"
 
-"@babel/runtime-corejs3@^7.23.2":
-  version "7.23.5"
-  resolved "https://registry.yarnpkg.com/@babel/runtime-corejs3/-/runtime-corejs3-7.23.5.tgz#818778beea4f23d40b77b5ad213894404c14f3f3"
-  integrity sha512-7+ziVclejQTLYhXl+Oi1f6gTGD1XDCeLa4R472TNGQxb08zbEJ0OdNoh5Piz+57Ltmui6xR88BXR4gS3/Toslw==
+"@babel/runtime-corejs3@^7.23.5":
+  version "7.23.6"
+  resolved "https://registry.yarnpkg.com/@babel/runtime-corejs3/-/runtime-corejs3-7.23.6.tgz#c25dd662fc205a03fdaefd122066eb9d4533ccf9"
+  integrity sha512-Djs/ZTAnpyj0nyg7p1J6oiE/tZ9G2stqAFlLGZynrW+F3k2w2jGK2mLOBxzYIOcZYA89+c3d3wXKpYLcpwcU6w==
   dependencies:
     core-js-pure "^3.30.2"
     regenerator-runtime "^0.14.0"
@@ -2956,10 +2956,10 @@
     prop-types "^15.8.1"
     react-is "^17.0.2"
 
-"@mui/x-data-grid@^6.18.4":
-  version "6.18.4"
-  resolved "https://registry.yarnpkg.com/@mui/x-data-grid/-/x-data-grid-6.18.4.tgz#5066d3b6f017ea6fe524ed57059365f684f2cc43"
-  integrity sha512-uiinfqioCRoesUlJF3gvh67Ja3TrJJvPRTu4Gkf/RQBjr0BDNQ8BJrnuffqD8D/0SVUiqRZvcrjtgG1BIyjKRw==
+"@mui/x-data-grid@^6.18.5":
+  version "6.18.5"
+  resolved "https://registry.yarnpkg.com/@mui/x-data-grid/-/x-data-grid-6.18.5.tgz#b8d866cb9eebb379148b90f4acea7b4095573ae7"
+  integrity sha512-EEVJfQGXNmfLMVgj30ZpUSwx9Q8CZ/qGAYzLoARpLFOvrkGtbG8q5t4/WClkQ8MoDi7kO7TWOQ0AZz1C9/sh5g==
   dependencies:
     "@babel/runtime" "^7.23.2"
     "@mui/utils" "^5.14.16"
@@ -6336,7 +6336,7 @@ cookie-signature@1.0.6:
   resolved "https://registry.yarnpkg.com/cookie-signature/-/cookie-signature-1.0.6.tgz#e303a882b342cc3ee8ca513a79999734dab3ae2c"
   integrity sha1-4wOogrNCzD7oylE6eZmXNNqzriw=
 
-cookie@0.5.0, cookie@~0.5.0:
+cookie@0.5.0:
   version "0.5.0"
   resolved "https://registry.yarnpkg.com/cookie/-/cookie-0.5.0.tgz#d1f5d71adec6558c58f389987c366aa47e994f8b"
   integrity sha512-YZ3GUyn/o8gfKJlnlX7g7xq4gyO6OSuhGPKaaGssGB2qgDUS0gPgtTvoyZLTt9Ab6dC4hfc9dV5arkvc/OCmrw==
@@ -6345,6 +6345,11 @@ cookie@~0.4.1:
   version "0.4.2"
   resolved "https://registry.yarnpkg.com/cookie/-/cookie-0.4.2.tgz#0e41f24de5ecf317947c82fc789e06a884824432"
   integrity sha512-aSWTXFzaKWkvHO1Ny/s+ePFpvKsPnjc551iI41v3ny/ow6tBG5Vd+FuqGNhh1LxOmVzOlGUriIlOaokOvhaStA==
+
+cookie@~0.6.0:
+  version "0.6.0"
+  resolved "https://registry.yarnpkg.com/cookie/-/cookie-0.6.0.tgz#2798b04b071b0ecbff0dbb62a505a8efa4e19051"
+  integrity sha512-U71cyTamuh1CRNCfpGY6to28lxvNwPG4Guz/EVjgf3Jmzv0vlDp1atT9eS5dDjMYHucpHbWns6Lwf3BKz6svdw==
 
 cookiejar@^2.1.1:
   version "2.1.3"
@@ -14509,10 +14514,10 @@ supports-preserve-symlinks-flag@^1.0.0:
   resolved "https://registry.yarnpkg.com/supports-preserve-symlinks-flag/-/supports-preserve-symlinks-flag-1.0.0.tgz#6eda4bd344a3c94aea376d4cc31bc77311039e09"
   integrity sha512-ot0WnXS9fgdkgIcePe6RHNk1WA8+muPa6cSjeR3V8K27q9BB1rTE3R1p7Hv0z1ZyAc8s6Vvv8DIyWf681MAt0w==
 
-swagger-client@^3.24.5:
-  version "3.24.5"
-  resolved "https://registry.yarnpkg.com/swagger-client/-/swagger-client-3.24.5.tgz#a43f866bdcfdb2584032a865b7fe36e3483cbe14"
-  integrity sha512-qb4Rr9LpWs7o2AO4KdiIK+dz0GbrRLyD+UyN24h6AcNcDUnwfkb6LgFE4e6bXwVXWJzMp27w1QvSQ4hQNMPnoQ==
+swagger-client@^3.24.6:
+  version "3.24.6"
+  resolved "https://registry.yarnpkg.com/swagger-client/-/swagger-client-3.24.6.tgz#7e255bb802b694e53e966406918be47f75a1c559"
+  integrity sha512-vgolnwLjsLCLe3mA9yOuXqmslVzxRpjz0fTBWwPtDGvYSU8FMVra0FGevw+N2OQ80UE1rOqgv4Te0AfvzMyR8g==
   dependencies:
     "@babel/runtime-corejs3" "^7.22.15"
     "@swagger-api/apidom-core" ">=0.83.0 <1.0.0"
@@ -14520,7 +14525,7 @@ swagger-client@^3.24.5:
     "@swagger-api/apidom-json-pointer" ">=0.83.0 <1.0.0"
     "@swagger-api/apidom-ns-openapi-3-1" ">=0.83.0 <1.0.0"
     "@swagger-api/apidom-reference" ">=0.83.0 <1.0.0"
-    cookie "~0.5.0"
+    cookie "~0.6.0"
     deepmerge "~4.3.0"
     fast-json-patch "^3.0.0-1"
     is-plain-object "^5.0.0"
@@ -14550,12 +14555,12 @@ swagger-parser@^10.0.3:
   dependencies:
     "@apidevtools/swagger-parser" "10.0.3"
 
-swagger-ui-react@^5.10.3:
-  version "5.10.3"
-  resolved "https://registry.yarnpkg.com/swagger-ui-react/-/swagger-ui-react-5.10.3.tgz#35db9855d18c36674d585837ba0c653db8cd0eb0"
-  integrity sha512-AB/ko3xD76wyCFbfb5zihy8Gacg7Lz62umzcmBLC/+VN8twib4ayWNZ48lTRh6Kb9vitvEQCDM/4VS2uTwwy0w==
+swagger-ui-react@^5.10.5:
+  version "5.10.5"
+  resolved "https://registry.yarnpkg.com/swagger-ui-react/-/swagger-ui-react-5.10.5.tgz#a9da3c452599530b1df4e1c7860c2888f683c617"
+  integrity sha512-uBQLku4j3L1NC4/xE3HTgz1EcFisBphh8AnGqbj9LMxeGGcpKOlx/ZDigRAeVXWr9jOnZZbeGBzMe4NVHxPZrQ==
   dependencies:
-    "@babel/runtime-corejs3" "^7.23.2"
+    "@babel/runtime-corejs3" "^7.23.5"
     "@braintree/sanitize-url" "=6.0.4"
     base64-js "^1.5.1"
     classnames "^2.3.1"
@@ -14584,7 +14589,7 @@ swagger-ui-react@^5.10.3:
     reselect "^4.1.8"
     serialize-error "^8.1.0"
     sha.js "^2.4.11"
-    swagger-client "^3.24.5"
+    swagger-client "^3.24.6"
     url-parse "^1.5.10"
     xml "=1.0.1"
     xml-but-prettier "^1.0.1"
