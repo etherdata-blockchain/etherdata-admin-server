@@ -113,7 +113,7 @@
     "@testing-library/jest-dom": "^6.1.6",
     "@testing-library/react": "^14.1.2",
     "@types/jest": "^29.5.11",
-    "@types/react": "18.2.45",
+    "@types/react": "18.2.46",
     "@types/swagger-jsdoc": "^6.0.4",
     "@typescript-eslint/eslint-plugin": "^6.16.0",
     "@typescript-eslint/parser": "^6.16.0",
