@@ -42,10 +42,10 @@
     "@etherdata-blockchain/storage-model": "5.0.3",
     "@etherdata-blockchain/string-replacer": "5.0.3",
     "@etherdata-blockchain/url-join": "5.0.3",
-    "@mui/icons-material": "^5.15.3",
-    "@mui/lab": "^5.0.0-alpha.159",
-    "@mui/material": "^5.15.3",
-    "@mui/styles": "^5.15.3",
+    "@mui/icons-material": "^5.15.4",
+    "@mui/lab": "^5.0.0-alpha.160",
+    "@mui/material": "^5.15.4",
+    "@mui/styles": "^5.15.4",
     "@mui/x-data-grid": "^6.18.7",
     "@rjsf/core": "^5.15.1",
     "@rjsf/material-ui": "^5.15.1",
@@ -132,7 +132,7 @@
     "release-it": "^17.0.1",
     "ts-node-dev": "^2.0.0",
     "typescript": "5.3.3",
-    "wireit": "0.14.1"
+    "wireit": "0.14.3"
   },
   "config": {
     "mongodbMemoryServer": {
