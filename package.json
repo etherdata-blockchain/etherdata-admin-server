@@ -30,7 +30,7 @@
     }
   },
   "dependencies": {
-    "@ant-design/icons": "^5.2.6",
+    "@ant-design/icons": "^5.3.0",
     "@emotion/react": "^11.11.3",
     "@emotion/styled": "^11.11.0",
     "@etherdata-blockchain/common": "5.0.3",
@@ -42,10 +42,10 @@
     "@etherdata-blockchain/storage-model": "5.0.3",
     "@etherdata-blockchain/string-replacer": "5.0.3",
     "@etherdata-blockchain/url-join": "5.0.3",
-    "@mui/icons-material": "^5.15.6",
-    "@mui/lab": "^5.0.0-alpha.162",
-    "@mui/material": "^5.15.6",
-    "@mui/styles": "^5.15.6",
+    "@mui/icons-material": "^5.15.7",
+    "@mui/lab": "^5.0.0-alpha.163",
+    "@mui/material": "^5.15.7",
+    "@mui/styles": "^5.15.7",
     "@mui/x-data-grid": "^6.19.2",
     "@rjsf/core": "^5.16.1",
     "@rjsf/material-ui": "^5.16.1",
