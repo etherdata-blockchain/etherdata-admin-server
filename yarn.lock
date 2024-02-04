@@ -4444,10 +4444,10 @@
     "@types/scheduler" "*"
     csstype "^3.0.2"
 
-"@types/react@18.2.51":
-  version "18.2.51"
-  resolved "https://registry.yarnpkg.com/@types/react/-/react-18.2.51.tgz#01ede6dfc712796257a3443bf8d613149e5c322a"
-  integrity sha512-XeoMaU4CzyjdRr3c4IQQtiH7Rpo18V07rYZUucEZQwOUEtGgTXv7e6igQiQ+xnV6MbMe1qjEmKdgMNnfppnXfg==
+"@types/react@18.2.52":
+  version "18.2.52"
+  resolved "https://registry.yarnpkg.com/@types/react/-/react-18.2.52.tgz#83ca0c62bd1ff31464dac4cf1937e55c78f77aa2"
+  integrity sha512-E/YjWh3tH+qsLKaUzgpZb5AY0ChVa+ZJzF7ogehVILrFpdQk6nC/WXOv0bfFEABbXbgNxLBGU7IIZByPKb6eBw==
   dependencies:
     "@types/prop-types" "*"
     "@types/scheduler" "*"
@@ -12969,10 +12969,10 @@ query-string@^7.1.1:
     split-on-first "^1.0.0"
     strict-uri-encode "^2.0.0"
 
-query-string@^8.1.0:
-  version "8.1.0"
-  resolved "https://registry.yarnpkg.com/query-string/-/query-string-8.1.0.tgz#e7f95367737219544cd360a11a4f4ca03836e115"
-  integrity sha512-BFQeWxJOZxZGix7y+SByG3F36dA0AbTy9o6pSmKFcFz7DAj0re9Frkty3saBn3nHo3D0oZJ/+rx3r8H8r8Jbpw==
+query-string@^8.2.0:
+  version "8.2.0"
+  resolved "https://registry.yarnpkg.com/query-string/-/query-string-8.2.0.tgz#f0b0ef6caa85f525dbdb745a67d3f8c08d71cc6b"
+  integrity sha512-tUZIw8J0CawM5wyGBiDOAp7ObdRQh4uBor/fUR9ZjmbZVvw95OD9If4w3MQxr99rg0DJZ/9CIORcpEqU5hQG7g==
   dependencies:
     decode-uri-component "^0.4.1"
     filter-obj "^5.1.0"
