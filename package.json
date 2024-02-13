@@ -42,10 +42,10 @@
     "@etherdata-blockchain/storage-model": "5.0.3",
     "@etherdata-blockchain/string-replacer": "5.0.3",
     "@etherdata-blockchain/url-join": "5.0.3",
-    "@mui/icons-material": "^5.15.9",
+    "@mui/icons-material": "^5.15.10",
     "@mui/lab": "^5.0.0-alpha.165",
-    "@mui/material": "^5.15.9",
-    "@mui/styles": "^5.15.9",
+    "@mui/material": "^5.15.10",
+    "@mui/styles": "^5.15.10",
     "@mui/x-data-grid": "^6.19.4",
     "@rjsf/core": "^5.17.0",
     "@rjsf/material-ui": "^5.17.0",
@@ -101,7 +101,7 @@
     "throttle-debounce": "^5.0.0",
     "ts-jest": "^29.1.2",
     "ts-node": "^10.9.2",
-    "web3": "^4.4.0"
+    "web3": "^4.5.0"
   },
   "devDependencies": {
     "@babel/plugin-syntax-jsx": "^7.23.3",
@@ -115,8 +115,8 @@
     "@types/jest": "^29.5.12",
     "@types/react": "18.2.55",
     "@types/swagger-jsdoc": "^6.0.4",
-    "@typescript-eslint/eslint-plugin": "^6.21.0",
-    "@typescript-eslint/parser": "^6.21.0",
+    "@typescript-eslint/eslint-plugin": "^7.0.1",
+    "@typescript-eslint/parser": "^7.0.1",
     "babel-jest": "^29.7.0",
     "cypress": "^13.6.4",
     "eslint": "^8.56.0",
