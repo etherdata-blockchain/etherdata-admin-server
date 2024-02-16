@@ -14803,10 +14803,10 @@ swagger-parser@^10.0.3:
   dependencies:
     "@apidevtools/swagger-parser" "10.0.3"
 
-swagger-ui-react@^5.11.4:
-  version "5.11.4"
-  resolved "https://registry.yarnpkg.com/swagger-ui-react/-/swagger-ui-react-5.11.4.tgz#f7b5fb778ad9c0d60187a8eac8690550e81cb0b0"
-  integrity sha512-bB+VxSJX+vwtMWM4jiYnwnCarOcnWPAI7Laf8dwoPglJjpt3qBVhGmaCBMCTVbcZCRJlZhOnRlEDQfOk10Gp0g==
+swagger-ui-react@^5.11.6:
+  version "5.11.6"
+  resolved "https://registry.yarnpkg.com/swagger-ui-react/-/swagger-ui-react-5.11.6.tgz#4e47a635127e66797548e8ce651cb4ab3893f395"
+  integrity sha512-OhmvOQ+k1ndl4fC7at0d1dS4Wr9XnmhE05ViwsYNt5+j2OgqTDNLIOi/5SDm6QMgxwjFiLjchXw5lQPXGF4k7g==
   dependencies:
     "@babel/runtime-corejs3" "^7.23.9"
     "@braintree/sanitize-url" "=7.0.0"
@@ -14884,10 +14884,10 @@ swr@^0.5.6:
   dependencies:
     dequal "2.0.2"
 
-swr@^2.2.4:
-  version "2.2.4"
-  resolved "https://registry.yarnpkg.com/swr/-/swr-2.2.4.tgz#03ec4c56019902fbdc904d78544bd7a9a6fa3f07"
-  integrity sha512-njiZ/4RiIhoOlAaLYDqwz5qH/KZXVilRLvomrx83HjzCWTfa+InyfAjv05PSFxnmLzZkNO9ZfvgoqzAaEI4sGQ==
+swr@^2.2.5:
+  version "2.2.5"
+  resolved "https://registry.yarnpkg.com/swr/-/swr-2.2.5.tgz#063eea0e9939f947227d5ca760cc53696f46446b"
+  integrity sha512-QtxqyclFeAsxEUeZIYmsaQ0UjimSq1RZ9Un7I68/0ClKK/U3LoyQunwkQfJZr2fc22DfIXLNDc2wFyTEikCUpg==
   dependencies:
     client-only "^0.0.1"
     use-sync-external-store "^1.2.0"
