@@ -30,7 +30,7 @@
     }
   },
   "dependencies": {
-    "@ant-design/icons": "^5.3.4",
+    "@ant-design/icons": "^5.3.5",
     "@emotion/react": "^11.11.4",
     "@emotion/styled": "^11.11.0",
     "@etherdata-blockchain/common": "5.0.3",
@@ -96,12 +96,12 @@
     "socket.io-client": "^4.7.5",
     "start-server-and-test": "^2.0.3",
     "styled-components": "^6.1.8",
-    "swagger-ui-react": "^5.12.0",
+    "swagger-ui-react": "^5.12.2",
     "swr": "^2.2.5",
     "throttle-debounce": "^5.0.0",
     "ts-jest": "^29.1.2",
     "ts-node": "^10.9.2",
-    "web3": "^4.6.0"
+    "web3": "^4.7.0"
   },
   "devDependencies": {
     "@babel/plugin-syntax-jsx": "^7.24.1",
@@ -113,7 +113,7 @@
     "@testing-library/jest-dom": "^6.4.2",
     "@testing-library/react": "^14.2.2",
     "@types/jest": "^29.5.12",
-    "@types/react": "18.2.70",
+    "@types/react": "18.2.72",
     "@types/swagger-jsdoc": "^6.0.4",
     "@typescript-eslint/eslint-plugin": "^7.4.0",
     "@typescript-eslint/parser": "^7.4.0",
