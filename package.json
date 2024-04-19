@@ -46,7 +46,7 @@
     "@mui/lab": "^5.0.0-alpha.170",
     "@mui/material": "^5.15.15",
     "@mui/styles": "^5.15.15",
-    "@mui/x-data-grid": "^7.2.0",
+    "@mui/x-data-grid": "^7.3.0",
     "@rjsf/core": "^5.18.2",
     "@rjsf/material-ui": "^5.18.2",
     "@types/adm-zip": "^0.5.5",
@@ -96,12 +96,12 @@
     "socket.io-client": "^4.7.5",
     "start-server-and-test": "^2.0.3",
     "styled-components": "^6.1.8",
-    "swagger-ui-react": "^5.15.2",
+    "swagger-ui-react": "^5.16.1",
     "swr": "^2.2.5",
     "throttle-debounce": "^5.0.0",
     "ts-jest": "^29.1.2",
     "ts-node": "^10.9.2",
-    "web3": "^4.7.0"
+    "web3": "^4.8.0"
   },
   "devDependencies": {
     "@babel/plugin-syntax-jsx": "^7.24.1",
@@ -118,7 +118,7 @@
     "@typescript-eslint/eslint-plugin": "^7.7.0",
     "@typescript-eslint/parser": "^7.7.0",
     "babel-jest": "^29.7.0",
-    "cypress": "^13.7.3",
+    "cypress": "^13.8.0",
     "eslint": "^9.0.0",
     "eslint-config-google": "^0.14.0",
     "eslint-config-next": "14.2.2",
