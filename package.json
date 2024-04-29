@@ -67,7 +67,7 @@
     "axios": "^1.6.8",
     "bson": "^6.6.0",
     "css-mediaquery": "^0.1.2",
-    "dayjs": "^1.11.10",
+    "dayjs": "^1.11.11",
     "express": "^4.19.2",
     "file-saver": "^2.0.5",
     "formik": "^2.4.6",
