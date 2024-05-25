@@ -104,9 +104,9 @@
     "web3": "^4.9.0"
   },
   "devDependencies": {
-    "@babel/plugin-syntax-jsx": "^7.24.1",
-    "@babel/preset-env": "^7.24.5",
-    "@babel/preset-react": "^7.24.1",
+    "@babel/plugin-syntax-jsx": "^7.24.6",
+    "@babel/preset-env": "^7.24.6",
+    "@babel/preset-react": "^7.24.6",
     "@release-it/conventional-changelog": "^8.0.1",
     "@shelf/jest-mongodb": "^4.3.2",
     "@testing-library/dom": "^10.1.0",
