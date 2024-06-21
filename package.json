@@ -62,7 +62,7 @@
     "@types/request-ip": "^0.0.41",
     "@types/throttle-debounce": "^5.0.2",
     "@types/url-join": "^4.0.3",
-    "@types/uuid": "^9.0.8",
+    "@types/uuid": "^10.0.0",
     "adm-zip": "^0.5.14",
     "axios": "^1.7.2",
     "bson": "^6.7.0",
@@ -131,7 +131,7 @@
     "prettier": "^3.3.2",
     "release-it": "^17.3.0",
     "ts-node-dev": "^2.0.0",
-    "typescript": "5.4.5",
+    "typescript": "5.5.2",
     "wireit": "0.14.4"
   },
   "config": {
