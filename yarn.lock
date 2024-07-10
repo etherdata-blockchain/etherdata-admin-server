@@ -3370,10 +3370,10 @@
     prop-types "^15.7.2"
     react-is "^16.9.0"
 
-"@rjsf/core@^5.19.2":
-  version "5.19.2"
-  resolved "https://registry.yarnpkg.com/@rjsf/core/-/core-5.19.2.tgz#35fc42fd41139200217adc8e56f1a86e937e5046"
-  integrity sha512-wGajeHs6wyX56JoiMuUxOZd/U9XkAhioRHGkf+w+Jg5tj6tzeP0uw87qGncUBFupKzw8/vv2+/VCOBvMbdpYzg==
+"@rjsf/core@^5.19.3":
+  version "5.19.3"
+  resolved "https://registry.yarnpkg.com/@rjsf/core/-/core-5.19.3.tgz#34d476f0ec9d25fd838e374c861acb9ee9860c25"
+  integrity sha512-AAzolj+fcFlwk0/5THA7T2JkmYTIUa+fLPM5prFqPw55FwWOa0qC5zIOfkhPS95Z9bfwJv3BubOAiKZ7MOGe8Q==
   dependencies:
     lodash "^4.17.21"
     lodash-es "^4.17.21"
@@ -3386,10 +3386,10 @@
   resolved "https://registry.yarnpkg.com/@rjsf/material-ui/-/material-ui-4.2.0.tgz#324a450834efd9ca71e0c94d794009780c902587"
   integrity sha512-WQ1dMX1tlMjG5jPbRbFPFkuy5zSb+rDb7HRE2Zx/JgYndBRdxiqAbGB8DcaJKaGUJ+1eURk3MWClU5pWfoN3qg==
 
-"@rjsf/material-ui@^5.19.2":
-  version "5.19.2"
-  resolved "https://registry.yarnpkg.com/@rjsf/material-ui/-/material-ui-5.19.2.tgz#0b8cc79c46d0284ea8e3bef798cc7dcf96ba23a3"
-  integrity sha512-a4Baw/oWuEgxaZlQMKCFgcsV3mcMcpuw7y8bxK3xolUsKBsuSG+z0lStl4/9QyRXFWcpfHF5hPUMeHLCpIWuNQ==
+"@rjsf/material-ui@^5.19.3":
+  version "5.19.3"
+  resolved "https://registry.yarnpkg.com/@rjsf/material-ui/-/material-ui-5.19.3.tgz#b7e0cf017c967b203d9142a9e5e2fe9bd428f738"
+  integrity sha512-13TonkDEHsDDW3GNdpxU2hNmqbGhiB01PRwWSPUeSGe8329g7Z/O63JPBj8IZA8Ls9esc687TyWxmHJplYK9Rg==
 
 "@rushstack/eslint-patch@^1.3.3":
   version "1.4.0"
@@ -5376,6 +5376,11 @@ balanced-match@^1.0.0:
   resolved "https://registry.yarnpkg.com/balanced-match/-/balanced-match-1.0.2.tgz#e83e3a7e3f300b34cb9d87f615fa0cbf357690ee"
   integrity sha512-3oSeUO0TMV67hN1AmbXsK4yaqU7tjiHlbxRDZOpH0KW9+CeX4bRAaX0Anxt0tx2MrpRpWwQaPwIlISEJhYU5Pw==
 
+balanced-match@^3.0.0:
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/balanced-match/-/balanced-match-3.0.1.tgz#e854b098724b15076384266497392a271f4a26a0"
+  integrity sha512-vjtV3hiLqYDNRoiAv0zC4QaGAMPomEoq83PRmYIofPswwZurCeWR5LByXm7SyoL0Zh5+2z0+HC7jG8gSZJUh0w==
+
 base-x@^3.0.2, base-x@^3.0.8:
   version "3.0.9"
   resolved "https://registry.yarnpkg.com/base-x/-/base-x-3.0.9.tgz#6349aaabb58526332de9f60995e548a53fe21320"
@@ -5540,6 +5545,13 @@ brace-expansion@^2.0.1:
   integrity sha512-XnAIvQ8eM+kC6aULx6wuQiwVsnzsi9d3WxzV3FpWTGA19F621kwdbsAcFKXgKUHZWsy+mY6iL1sHTxWEFCytDA==
   dependencies:
     balanced-match "^1.0.0"
+
+brace-expansion@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/brace-expansion/-/brace-expansion-4.0.0.tgz#bb24b89bf4d4b37d742acac89b65d1a32b379a81"
+  integrity sha512-l/mOwLWs7BQIgOKrL46dIAbyCKvPV7YJPDspkuc88rHsZRlg3hptUGdU7Trv0VFP4d3xnSGBQrKu5ZvGB7UeIw==
+  dependencies:
+    balanced-match "^3.0.0"
 
 braces@^3.0.2, braces@~3.0.2:
   version "3.0.2"
@@ -17542,12 +17554,12 @@ windows-release@^5.0.1:
   dependencies:
     execa "^5.1.1"
 
-wireit@0.14.4:
-  version "0.14.4"
-  resolved "https://registry.yarnpkg.com/wireit/-/wireit-0.14.4.tgz#4c8913a4a74cb15b5381c4b8276c5d71c27f54c5"
-  integrity sha512-WNAXEw2cJs1nSRNJNRcPypARZNumgtsRTJFTNpd6turCA6JZ6cEwl4ZU3C1IHc/3IaXoPu9LdxcI5TBTdD6/pg==
+wireit@0.14.5:
+  version "0.14.5"
+  resolved "https://registry.yarnpkg.com/wireit/-/wireit-0.14.5.tgz#cd1c4136444c8dbe655f34f60fe2454a9e69d430"
+  integrity sha512-K4ka9YBpSyD6pmFZYTJd4VpPsAiPT6j/fOtLzYgnKWlPIMM7lAZjQQ30H7urO+Lqx1Wvrw88tQHBz4njy+lglg==
   dependencies:
-    braces "^3.0.2"
+    brace-expansion "^4.0.0"
     chokidar "^3.5.3"
     fast-glob "^3.2.11"
     jsonc-parser "^3.0.0"
