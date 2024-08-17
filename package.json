@@ -46,7 +46,7 @@
     "@mui/lab": "^5.0.0-alpha.173",
     "@mui/material": "^5.16.7",
     "@mui/styles": "^5.16.7",
-    "@mui/x-data-grid": "^7.12.1",
+    "@mui/x-data-grid": "^7.13.0",
     "@rjsf/core": "^5.20.0",
     "@rjsf/material-ui": "^5.20.0",
     "@types/adm-zip": "^0.5.5",
