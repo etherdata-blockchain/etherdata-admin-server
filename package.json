@@ -46,7 +46,7 @@
     "@mui/lab": "^5.0.0-alpha.173",
     "@mui/material": "^5.16.7",
     "@mui/styles": "^5.16.7",
-    "@mui/x-data-grid": "^7.13.0",
+    "@mui/x-data-grid": "^7.14.0",
     "@rjsf/core": "^5.20.0",
     "@rjsf/material-ui": "^5.20.0",
     "@types/adm-zip": "^0.5.5",
@@ -64,7 +64,7 @@
     "@types/url-join": "^4.0.3",
     "@types/uuid": "^10.0.0",
     "adm-zip": "^0.5.15",
-    "axios": "^1.7.4",
+    "axios": "^1.7.5",
     "bson": "^6.8.0",
     "css-mediaquery": "^0.1.2",
     "dayjs": "^1.11.13",
@@ -99,9 +99,9 @@
     "swagger-ui-react": "^5.17.14",
     "swr": "^2.2.5",
     "throttle-debounce": "^5.0.2",
-    "ts-jest": "^29.2.4",
+    "ts-jest": "^29.2.5",
     "ts-node": "^10.9.2",
-    "web3": "^4.12.0"
+    "web3": "^4.12.1"
   },
   "devDependencies": {
     "@babel/plugin-syntax-jsx": "^7.24.7",
@@ -110,7 +110,7 @@
     "@release-it/conventional-changelog": "^8.0.1",
     "@shelf/jest-mongodb": "^4.3.2",
     "@testing-library/dom": "^10.4.0",
-    "@testing-library/jest-dom": "^6.4.8",
+    "@testing-library/jest-dom": "^6.5.0",
     "@testing-library/react": "^16.0.0",
     "@types/jest": "^29.5.12",
     "@types/react": "18.3.4",
@@ -119,7 +119,7 @@
     "@typescript-eslint/parser": "^8.2.0",
     "babel-jest": "^29.7.0",
     "cypress": "^13.13.3",
-    "eslint": "^9.9.0",
+    "eslint": "^9.9.1",
     "eslint-config-google": "^0.14.0",
     "eslint-config-next": "14.2.6",
     "eslint-plugin-react": "^7.35.0",
@@ -132,7 +132,7 @@
     "release-it": "^17.6.0",
     "ts-node-dev": "^2.0.0",
     "typescript": "5.5.4",
-    "wireit": "0.14.7"
+    "wireit": "0.14.8"
   },
   "config": {
     "mongodbMemoryServer": {
