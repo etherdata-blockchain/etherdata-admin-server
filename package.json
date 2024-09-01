@@ -64,7 +64,7 @@
     "@types/url-join": "^4.0.3",
     "@types/uuid": "^10.0.0",
     "adm-zip": "^0.5.16",
-    "axios": "^1.7.6",
+    "axios": "^1.7.7",
     "bson": "^6.8.0",
     "css-mediaquery": "^0.1.2",
     "dayjs": "^1.11.13",
