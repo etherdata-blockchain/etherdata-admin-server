@@ -3405,22 +3405,22 @@
     prop-types "^15.8.1"
     react-is "^18.3.1"
 
-"@mui/x-data-grid@^7.16.0":
-  version "7.16.0"
-  resolved "https://registry.yarnpkg.com/@mui/x-data-grid/-/x-data-grid-7.16.0.tgz#ee44bdf34ce2624d6c6005991a2abc61f2df4f96"
-  integrity sha512-71ZyffTeF8RPa399UkMlUbQ8T70kOrUK3fBXfinnal4mwgISlKwBN8EHNZZhyxSQ4vpWs3wHrHZ6MGQeXNUhJQ==
+"@mui/x-data-grid@^7.17.0":
+  version "7.17.0"
+  resolved "https://registry.yarnpkg.com/@mui/x-data-grid/-/x-data-grid-7.17.0.tgz#26cb4b0b978e44e4488e2a0f2a4dd6810c147b74"
+  integrity sha512-d3pFdrQlNR+8waol7iM6LlNIpvqo9SgYeKcMIOSQ3etpue9iRFNy8s1HCHd9Nxnhzgr+fqMy/v3bXZnd196qig==
   dependencies:
     "@babel/runtime" "^7.25.6"
     "@mui/utils" "^5.16.6"
-    "@mui/x-internals" "7.16.0"
+    "@mui/x-internals" "7.17.0"
     clsx "^2.1.1"
     prop-types "^15.8.1"
     reselect "^5.1.1"
 
-"@mui/x-internals@7.16.0":
-  version "7.16.0"
-  resolved "https://registry.yarnpkg.com/@mui/x-internals/-/x-internals-7.16.0.tgz#a019df121d2ab08516346dd7db74bb1d797b258c"
-  integrity sha512-ijer5XYmWlJqWaTmF6TGH1odG7EAupv8iDWYmDm2yVR9IQ+L2nQSuhiFClI+wmGx40KS2VKOlzDMPpF0t7/HCg==
+"@mui/x-internals@7.17.0":
+  version "7.17.0"
+  resolved "https://registry.yarnpkg.com/@mui/x-internals/-/x-internals-7.17.0.tgz#c5731b8deb07107fbc406e62277aaa5c3f0db0a7"
+  integrity sha512-FLlAGSJl/vsuaA/8hPGazXFppyzIzxApJJDZMoTS0geUmHd0hyooISV2ltllLmrZ/DGtHhI08m8GGnHL6/vVeg==
   dependencies:
     "@babel/runtime" "^7.25.6"
     "@mui/utils" "^5.16.6"
@@ -3822,10 +3822,10 @@
     prop-types "^15.7.2"
     react-is "^16.9.0"
 
-"@rjsf/core@^5.21.0":
-  version "5.21.0"
-  resolved "https://registry.yarnpkg.com/@rjsf/core/-/core-5.21.0.tgz#35c3b2303345dc5e616d18061e5797e8b9ff1b31"
-  integrity sha512-G8eROGeHVerBRcXyHKSrNeY0C3YeeLINLwZOl4XeDPA0hHxrrM6/kRhZ2l07t96LX/vZmqrNqrMCbWokvxQ/uw==
+"@rjsf/core@^5.21.1":
+  version "5.21.1"
+  resolved "https://registry.yarnpkg.com/@rjsf/core/-/core-5.21.1.tgz#1bc9952a2e2259414dde779afa121c398854af24"
+  integrity sha512-qURYyhL5RO8S8mkBKFL506mzc20ywJiIQbByozUYudAc25TL7ebxskwscdwhMnuzqQbMjBBimvHJGjcwzfIVxQ==
   dependencies:
     lodash "^4.17.21"
     lodash-es "^4.17.21"
@@ -3838,10 +3838,10 @@
   resolved "https://registry.yarnpkg.com/@rjsf/material-ui/-/material-ui-4.2.0.tgz#324a450834efd9ca71e0c94d794009780c902587"
   integrity sha512-WQ1dMX1tlMjG5jPbRbFPFkuy5zSb+rDb7HRE2Zx/JgYndBRdxiqAbGB8DcaJKaGUJ+1eURk3MWClU5pWfoN3qg==
 
-"@rjsf/material-ui@^5.21.0":
-  version "5.21.0"
-  resolved "https://registry.yarnpkg.com/@rjsf/material-ui/-/material-ui-5.21.0.tgz#563012407d2a99ae67a70d7fe1879411af96fd3b"
-  integrity sha512-dRtIPPZLg+Q4NBZAAkAZFULq9+aJt6sYoWXmMw7aTuHsT50x7JkfbdZKeMF+0MGcMNWru6EsfAutHEu3mM7vZw==
+"@rjsf/material-ui@^5.21.1":
+  version "5.21.1"
+  resolved "https://registry.yarnpkg.com/@rjsf/material-ui/-/material-ui-5.21.1.tgz#be470f15d09197d8772a81eddbdf3602593aad8e"
+  integrity sha512-E4We7bETnvQQeo5d2e7po8SipTLzRBxLylC4043/Dsogx1AEy4zyfne6GmtTFAFoVmBZeTQuH6NPuXd25h8SlQ==
 
 "@rushstack/eslint-patch@^1.3.3":
   version "1.4.0"
