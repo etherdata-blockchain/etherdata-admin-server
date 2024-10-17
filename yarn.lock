@@ -3979,10 +3979,10 @@
     lz-string "^1.5.0"
     pretty-format "^27.0.2"
 
-"@testing-library/jest-dom@^6.5.0":
-  version "6.5.0"
-  resolved "https://registry.yarnpkg.com/@testing-library/jest-dom/-/jest-dom-6.5.0.tgz#50484da3f80fb222a853479f618a9ce5c47bfe54"
-  integrity sha512-xGGHpBXYSHUUr6XsKBfs85TWlYKpTc37cSBBVrXcib2MkHLboWlkClhWF37JKlDb9KEq3dHs+f2xR7XJEWGBxA==
+"@testing-library/jest-dom@^6.6.1":
+  version "6.6.1"
+  resolved "https://registry.yarnpkg.com/@testing-library/jest-dom/-/jest-dom-6.6.1.tgz#835612c9d8c529c835b15bbc1d1a924310c6c73c"
+  integrity sha512-mNYIiAuP4yJwV2zBRQCV7PHoQwbb6/8TfMpPcwSUzcSVDJHWOXt6hjNtIN1v5knDmimYnjJxKhsoVd4LVGIO+w==
   dependencies:
     "@adobe/css-tools" "^4.4.0"
     aria-query "^5.0.0"
@@ -11834,10 +11834,10 @@ mobx-react@^9.1.1:
   dependencies:
     mobx-react-lite "^4.0.7"
 
-mobx@^6.13.4:
-  version "6.13.4"
-  resolved "https://registry.yarnpkg.com/mobx/-/mobx-6.13.4.tgz#e0ca580f5489a495387d1f7512c94d304bd83f67"
-  integrity sha512-jPIeHnOw1zZNBEmpO6Ls5MvowWbpe460I0nShOarK7WJRpSwRFKzY77rHf4VhNe/eiCIEfKp+UdJa6jqDtTnaQ==
+mobx@^6.13.5:
+  version "6.13.5"
+  resolved "https://registry.yarnpkg.com/mobx/-/mobx-6.13.5.tgz#957d9df88c7f8b4baa7c6f8bdcb6d68b432a6ed5"
+  integrity sha512-/HTWzW2s8J1Gqt+WmUj5Y0mddZk+LInejADc79NJadrWla3rHzmRHki/mnEUH1AvOmbNTZ1BRbKxr8DSgfdjMA==
 
 mock-fs@^4.1.0:
   version "4.14.0"
@@ -13690,10 +13690,10 @@ redent@^3.0.0:
     indent-string "^4.0.0"
     strip-indent "^3.0.0"
 
-redoc@^2.1.5:
-  version "2.1.5"
-  resolved "https://registry.yarnpkg.com/redoc/-/redoc-2.1.5.tgz#421307b22036b244171095bfc7ea3cfd419563c8"
-  integrity sha512-POSbVg+7WLf+/5/c6GWLxL7+9t2D+1WlZdLN0a6qaCQc+ih3XYzteRBkXEN5kjrYrRNjdspfxTZkDLN5WV3Tzg==
+redoc@^2.2.0:
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/redoc/-/redoc-2.2.0.tgz#1043812696683f23e4b0fbe66fb50236fbe8b5bb"
+  integrity sha512-52rz/xJtpUBc3Y/GAkaX03czKhQXTxoU7WnkXNzRLuGwiGb/iEO4OgwcgQqtwHWrYNaZXTyqZ4MAVXpi/e1gAg==
   dependencies:
     "@cfaester/enzyme-adapter-react-18" "^0.8.0"
     "@redocly/openapi-core" "^1.4.0"
@@ -13902,10 +13902,10 @@ regjsparser@^0.9.1:
   dependencies:
     jsesc "~0.5.0"
 
-release-it@^17.9.0:
-  version "17.9.0"
-  resolved "https://registry.yarnpkg.com/release-it/-/release-it-17.9.0.tgz#4478fd3d80de7cd658a24c8f983f47457f182dbe"
-  integrity sha512-KAZqvYcfYI/Rva8yr7vzVruM3mN8kuUR1WeQfOtGrc4ub7bGYf8eN91NOXC73LJE1uNpVlppF5xB8KOvKtQosg==
+release-it@^17.10.0:
+  version "17.10.0"
+  resolved "https://registry.yarnpkg.com/release-it/-/release-it-17.10.0.tgz#be44422de7b8d752a97e96da898fc6f2ad7d45d5"
+  integrity sha512-00cXYEl7RFD5NnjXpwaH9JFjpwe8w3NcfUd4XPxrKQkszp1xppPo42zK9eSbxStKyPA5CVk2KmKPDPDiAKVJTA==
   dependencies:
     "@iarna/toml" "2.2.5"
     "@octokit/rest" "20.1.1"
