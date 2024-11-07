@@ -101,7 +101,7 @@
     "throttle-debounce": "^5.0.2",
     "ts-jest": "^29.2.5",
     "ts-node": "^10.9.2",
-    "web3": "^4.14.0"
+    "web3": "^4.15.0"
   },
   "devDependencies": {
     "@babel/plugin-syntax-jsx": "^7.25.9",
