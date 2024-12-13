@@ -3091,10 +3091,10 @@
     prop-types "^15.8.1"
     react-is "^19.0.0"
 
-"@mui/x-data-grid@^7.23.1":
-  version "7.23.1"
-  resolved "https://registry.yarnpkg.com/@mui/x-data-grid/-/x-data-grid-7.23.1.tgz#14889f4fc9dff3ba1d05389a0c9c057df93dcbb0"
-  integrity sha512-1CumfhjGA+WgNtnN3ZD3gCOw6RVf/cEy2X2gS0iyXtVsFNaE+qtyMz9KesQsIzi9u13Wj3RNuhBdH0C5qXtAhQ==
+"@mui/x-data-grid@^7.23.2":
+  version "7.23.2"
+  resolved "https://registry.yarnpkg.com/@mui/x-data-grid/-/x-data-grid-7.23.2.tgz#3cc82c609a56b02dfe0317d74ab21d0e69dbe964"
+  integrity sha512-Xhm4Bh+WiU5MSLFIZ8mE1egHoS0xPEVlwvjYvairPIkxNPubB7f+gtLkuAJ2+m+BYbgO7yDte+Pp7dfjkU+vOA==
   dependencies:
     "@babel/runtime" "^7.25.7"
     "@mui/utils" "^5.16.6 || ^6.0.0"
@@ -13614,10 +13614,10 @@ recharts-scale@^0.4.4:
   dependencies:
     decimal.js-light "^2.4.1"
 
-recharts@^2.14.1:
-  version "2.14.1"
-  resolved "https://registry.yarnpkg.com/recharts/-/recharts-2.14.1.tgz#8b91bd1e53915b9bc03a262a3d8969663d3195b5"
-  integrity sha512-xtWulflkA+/xu4/QClBdtZYN30dbvTHjxjkh5XTMrH/CQ3WGDDPHHa/LLKCbgoqz0z3UaSH2/blV1i6VNMeh1g==
+recharts@^2.15.0:
+  version "2.15.0"
+  resolved "https://registry.yarnpkg.com/recharts/-/recharts-2.15.0.tgz#0b77bff57a43885df9769ae649a14cb1a7fe19aa"
+  integrity sha512-cIvMxDfpAmqAmVgc4yb7pgm/O1tmmkl/CjrvXuW+62/+7jj/iF9Ykm+hb/UJt42TREHMyd3gb+pkgoa2MxgDIw==
   dependencies:
     clsx "^2.0.0"
     eventemitter3 "^4.0.1"
